@@ -1,0 +1,23 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    title Admin Interface
+    link(rel="stylesheet" href="/public/css/bootstrap.min.css")
+    link(rel="stylesheet" href="/public/css/admin.css")
+  body    
+    div(class="container col-md-6 center-block big-top-space")
+      h1(class="text-center") Admin Section
+      form(action="/admin/uservalidation" method="POST")
+        div(class="form-group")
+          label(for="username" class="form-label") Usuario
+          input(type="text" class="form-control" name="username" required id="username")
+
+          label(for="password" class="form-label") Contraseña
+          input(type="password" class="form-control" name="password" required id="password")
+
+          div(class="top-space flex-container")
+            input(type="submit" value="Iniciar sesion" class="btn btn-info")
+
