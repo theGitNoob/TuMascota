@@ -1,0 +1,25 @@
+extends ./admin-layout.pug
+block contenido
+  div(class="container col-md-4 top-space")
+    if accesorio.imgExtension != undefined
+      .d-flex.justify-content-center
+        img(src=`/public/img/accesories/${accesorio._id}.${accesorio.imgExtension}` class="img-fluid img-thumbnail")
+    form(action=`/admin/accesorios/${accesorio._id}?_method=PUT` method='POST' class="form-group" enctype="multipart/form-data")
+
+
+      input(type="text" class="form-control" name="type"  placeholder="Tipo de accesorios" required value=accesorio.type)
+
+      input(type="text" class="form-control" name="price" placeholder="Precio" value=accesorio.price)
+
+      input(type="text" class="form-control" name="cnt"  placeholder="Cantidad de articulos" value=accesorio.cnt)
+
+      input(type="text" class="form-control" name="owner_name" placeholder="Nombre del dueño" required value=accesorio.ownerName)
+
+      input(type="text" class="form-control" name="owner_phone" placeholder="Télefono" required value=accesorio.ownerPhone)
+
+      input(type="text" class="form-control" name="owner_account" placeholder="Cuenta bancaria" value=accesorio.ownerAccount)
+
+      input(type="file" class="form-control" name="file" /*multiple me permite enviar varios archivos*/)
+
+      div(class="d-flex justify-content-sm-start justify-content-center")
+        input(type="submit" class="btn btn-info" value="Guardar")

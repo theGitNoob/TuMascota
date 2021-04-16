@@ -1,0 +1,15 @@
+extends ./admin-layout.pug
+block contenido
+  div(class="container top-space")
+    for accesorio in accesorios
+      .border.tr
+        .row
+          .col-md-10
+            h3 Tipo: #{accesorio.type}
+            h3 Cantidad: #{accesorio.cnt}
+            h3 Nombre del dueño: #{accesorio.ownerName}
+            h3 Télefono del dueño: #{accesorio.ownerPhone}
+          .col-md-2.container.flex-container
+            a(href="/admin/accesorios/"+accesorio._id class="right-space") Editar
+            form(action=`/admin/accesorios/${accesorio._id}?_method=DELETE` method="POST" class="link-container" enctype="multipart/form-data")
+              input(type="submit" value="Eliminar") 

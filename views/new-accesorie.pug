@@ -1,0 +1,24 @@
+extends ./admin-layout.pug
+block contenido
+  div(class="container col-md-4 top-space")
+    form(action="/admin/accesorios/" method='POST' class="form-group" enctype="multipart/form-data")
+
+      input(type="text" class="form-control" name="type"  placeholder="Tipo de accesorio" required)
+
+      input(type="text" class="form-control" name="price" placeholder="Precio" required)
+
+      input(type="text" class="form-control" name="cnt"  placeholder="Cantidad de articulos")
+
+      input(type="text" class="form-control" name="owner_name" placeholder="Nombre del dueño" required)
+
+      input(type="text" class="form-control" name="owner_phone" placeholder="Télefono" required)
+
+      input(type="text" class="form-control" name="owner_account" placeholder="Cuenta bancaria")
+
+      input(type="file" class="form-control" name="file")
+
+      div(class="d-flex")
+        input(type="submit" class="btn btn-info " value="Guardar")
+
+
+

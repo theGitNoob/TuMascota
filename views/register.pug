@@ -1,0 +1,19 @@
+extends ./admin-layout.pug
+block contenido
+  body    
+    div(class="container col-md-4 center-block big-top-space")
+      h1(class="text-center") Crear Administrador
+      form(action="/admin/new" method="POST")
+        div(class="form-group")
+          label(for="username" class="form-label") Usuario
+          input(type="text" class="form-control" name="username" required id="username"  placeholder="Nombre de usuario")
+
+          label(for="password" class="form-label") Contraseña
+          input(type="password" class="form-control" name="password" required id="password" placeholder="Contraseña")
+
+          label(for="confirm-password" class="form-label") Confirmar contraseña
+          input(type="password" class="form-control" name="password_confirmation" id="confirm-password" placeholder="Confirmar contraseña")
+
+          div(class="top-space flex-container")
+            input(type="submit" value="Iniciar sesion" class="btn btn-info")
+

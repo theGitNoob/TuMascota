@@ -4,3 +4,45 @@
 .top-space {
   margin-top: 1.5em;
 }
+
+a {
+  text-decoration: none;
+  color: black;
+}
+a:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+body {
+  background-image: url("/public/img/res/ptron.png");
+}
+.form-control {
+  margin-bottom: 10px;
+}
+.link-container {
+  display: inline-block;
+}
+form.link-container input[type="submit"] {
+  background-color: transparent;
+  border: none;
+  color: rgb(200, 50, 50);
+  text-decoration: underline;
+  padding: 0;
+}
+.right-space {
+  padding-right: 1rem;
+}
+.flex-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: right;
+}
+
+.container .tr:nth-child(n + 2) {
+  margin-top: 10px;
+}
+
+.row .container .tr:nth-child(odd) {
+  background-color: #eee;
+}

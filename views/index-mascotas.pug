@@ -1,0 +1,16 @@
+extends ./admin-layout.pug
+block contenido
+	div(class="container top-space")
+		for mascota in mascotas
+			.border.tr
+				.row
+					.col-md-10
+						h3 Tipo: #{mascota.type}
+						if mascota.breed != ''
+							h3 Raza: #{mascota.breed}
+						h3 Nombre del dueño: #{mascota.ownerName}
+						h3 Télefono del dueño: #{mascota.ownerPhone}
+					.col-md-2.container.flex-container
+						a(href="/admin/mascotas/"+mascota._id class="right-space") Editar
+						form(action=`/admin/mascotas/${mascota._id}?_method=DELETE` method="POST" class="link-container" enctype="multipart/form-data")
+							input(type="submit" value="Eliminar") 

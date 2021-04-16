@@ -1,0 +1,26 @@
+extends ./admin-layout.pug
+block contenido
+  div(class="container col-md-4 top-space")
+    form(action="/admin/mascotas/" method='POST' class="form-group" enctype="multipart/form-data")
+
+      input(type="text" class="form-control" id="animal-type" name="animal_type"  placeholder="Tipo de animal" required)
+
+      input(type="text" class="form-control" id="age" name="age" placeholder="Edad de las mascota")
+
+      input(type="text" class="form-control" id="price" name="price" placeholder="Precio" required)
+
+      input(type="text" class="form-control" id="breed" name="breed" placeholder="Raza")
+
+      input(type="text" class="form-control" id="owner-name" name="owner_name" placeholder="Nombre del dueño" required)
+
+      input(type="text" class="form-control" id="owner-phone" name="owner_phone" placeholder="Télefono" required)
+
+      input(type="text" class="form-control" id="owner-account" name="owner_account" placeholder="Cuenta bancaria")
+
+      input(type="file" class="form-control" name="file")
+
+      div(class="d-flex")
+        input(type="submit" class="btn btn-info " value="Guardar")
+
+
+
