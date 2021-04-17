@@ -3,7 +3,7 @@ block contenido
   div(class="container col-md-4 top-space")
     if mascota.imgExtension != undefined
       .d-flex.justify-content-center
-        img(src=`/public/img/pets/${mascota._id}.${mascota.imgExtension}` class="img-fluid img-thumbnail")
+        img(src=`/public/img/mascotas/${mascota._id}.${mascota.imgExtension}` class="img-fluid img-thumbnail")
     form(action=`/admin/mascotas/${mascota._id}?_method=PUT` method='POST' class="form-group" enctype="multipart/form-data")
 
 

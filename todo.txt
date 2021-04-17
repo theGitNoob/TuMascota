@@ -1,3 +1,6 @@
 refactorizar codigo
 crear modelo de veterinarios
 crear un middleware para el manejo de errores
+
+
+cambiar la ruta de subida de archivos con formidable

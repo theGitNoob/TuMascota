@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+let fs = require("fs/promises");
 
 let petSchema = new mongoose.Schema({
   type: { type: String, required: true },
@@ -21,6 +22,14 @@ let petSchema = new mongoose.Schema({
     },
   },
   imgExtension: String,
+});
+
+petSchema.post("findOneAndDelete", function (doc) {
+  fs.unlink(`./public/img/mascotas/${doc._id}.${doc.imgExtension}`).catch(
+    (err) => {
+      if (err && err.code != "ENOENT") console.error(err);
+    }
+  );
 });
 
 let petModel = new mongoose.model("pet", petSchema);

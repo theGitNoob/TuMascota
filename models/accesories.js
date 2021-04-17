@@ -1,4 +1,5 @@
 let mongoose = require("mongoose");
+let fs = require("fs/promises");
 
 let accesoriesSchema = new mongoose.Schema({
   type: { type: String, required: true },
@@ -22,5 +23,16 @@ let accesoriesSchema = new mongoose.Schema({
   imgExtension: String,
 });
 
+// accesoriesSchema.virtual("prevImgExtension").get(fuc)
+
+accesoriesSchema.post("findOneAndDelete", function (doc) {
+  fs.unlink(`./public/img/accesorios/${doc._id}.${doc.imgExtension}`).catch(
+    (err) => {
+      if (err && err.code != "ENOENT") console.error(err);
+    }
+  );
+});
+
 let accesoriesModel = new mongoose.model("accesorie", accesoriesSchema);
+
 module.exports.accesoriesModel = accesoriesModel;
