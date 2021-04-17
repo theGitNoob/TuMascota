@@ -15,18 +15,16 @@ router.get("/", (req, res) => {
 router
   .route("/login")
   .get((req, res) => {
-    adminModel.countDocuments({}, (err, count) => {
-      if (err) {
+    adminModel
+      .countDocuments({})
+      .then((count) => {
+        if (!count) res.redirect("/admin/new");
+        res.render("login", { ruta: req.path });
+      })
+      .catch((err) => {
         console.error(err);
-        res.redirect("/admin/login");
-      } else {
-        if (!count) {
-          res.redirect("/admin/new");
-        } else {
-          res.render("login", { ruta: req.path });
-        }
-      }
-    });
+        res.redirect("/admin/new");
+      });
   })
   .post((req, res) => {
     adminModel.countDocuments({}, (err, count) => {
@@ -58,6 +56,7 @@ router
       }
     });
   });
+
 router
   .route("/new")
   .get((req, res) => {
@@ -148,11 +147,7 @@ router
         newPet
           .save()
           .then(() => {
-            if (wasFileSend) {
-              fs.rename(fileName, newFileName).catch((err) => {
-                throw err;
-              });
-            }
+            if (wasFileSend) return fs.rename(fileName, newFileName);
           })
           .then(() => res.redirect("/admin/mascotas/"))
           .catch((err) => {
@@ -215,35 +210,28 @@ router
           data.imgExtension = extension;
         }
         petModel
-          .findOneAndUpdate({ _id: req.params.id }, data, {
+          .findByIdAndUpdate(req.params.id, data, {
             useFindAndModify: false,
             runValidators: true,
           })
-          .then((doc) => {
+          .then(async (doc) => {
             if (wasFileSend) {
-              fs.rename(
-                fileName,
-                `./public/img/mascotas/${doc._id}.${data.imgExtension}`
-              )
-                .then(() => {
-                  if (
-                    doc.imgExtension != undefined &&
-                    doc.imgExtension != data.imgExtension
-                  ) {
-                    fs.unlink(
-                      `./public/img/mascotas/${doc._id}.${doc.imgExtension}`
-                    ).catch((err) => {
-                      if (err.code != "ENOENT") {
-                        throw err;
-                      }
-                    });
-                  }
-                })
-                .catch((err) => {
-                  if (err.code != "ENOENT") {
-                    throw err;
-                  }
-                });
+              try {
+                await fs.rename(
+                  fileName,
+                  `./public/img/mascotas/${doc._id}.${data.imgExtension}`
+                );
+                if (
+                  doc.imgExtension != undefined &&
+                  doc.imgExtension != data.imgExtension
+                ) {
+                  await fs.unlink(
+                    `./public/img/mascotas/${doc._id}.${doc.imgExtension}`
+                  );
+                }
+              } catch (err) {
+                if (err.code != "ENOENT") throw err;
+              }
             }
           })
           .then(() => {
@@ -304,11 +292,7 @@ router
         newAccesorie
           .save()
           .then(() => {
-            if (wasFileSend) {
-              fs.rename(fileName, newFileName).catch((err) => {
-                throw err;
-              });
-            }
+            if (wasFileSend) return fs.rename(fileName, newFileName);
           })
           .then(() => res.redirect("/admin/accesorios/"))
           .catch((err) => {
@@ -374,35 +358,28 @@ router
         }
 
         accesoriesModel
-          .findOneAndUpdate({ _id: req.params.id }, data, {
+          .findByIdAndUpdate(req.params.id, data, {
             useFindAndModify: false,
             runValidators: true,
           })
-          .then((doc) => {
+          .then(async (doc) => {
             if (wasFileSend) {
-              fs.rename(
-                fileName,
-                `./public/img/accesorios/${doc._id}.${data.imgExtension}`
-              )
-                .then(() => {
-                  if (
-                    doc.imgExtension != undefined &&
-                    doc.imgExtension != data.imgExtension
-                  ) {
-                    fs.unlink(
-                      `./public/img/accesorios/${doc._id}.${doc.imgExtension}`
-                    ).catch((err) => {
-                      if (err.code != "ENOENT") {
-                        throw err;
-                      }
-                    });
-                  }
-                })
-                .catch((err) => {
-                  if (err.code != "ENOENT") {
-                    throw err;
-                  }
-                });
+              try {
+                await fs.rename(
+                  fileName,
+                  `./public/img/accesorios/${doc._id}.${data.imgExtension}`
+                );
+                if (
+                  doc.imgExtension != undefined &&
+                  doc.imgExtension != data.imgExtension
+                ) {
+                  await fs.unlink(
+                    `./public/img/accesorios/${doc._id}.${doc.imgExtension}`
+                  );
+                }
+              } catch (err) {
+                if (err.code != "ENOENT") throw err;
+              }
             }
           })
           .then(() => {
