@@ -1,7 +1,7 @@
 let mongoose = require("mongoose");
 let fs = require("fs/promises");
 
-let accesoriesSchema = new mongoose.Schema({
+let accesoriesSchema = mongoose.Schema({
   type: { type: String, required: true },
   price: { type: Number, required: true },
   ownerName: { type: String, require: true },
@@ -20,7 +20,9 @@ let accesoriesSchema = new mongoose.Schema({
     },
   },
   cnt: { type: Number, default: 1 },
+  order: { type: mongoose.Schema.Types.ObjectId, ref: "Order" },
   imgExtension: String,
+  status: { type: Boolean, default: true },
 });
 
 // accesoriesSchema.virtual("prevImgExtension").get(fuc)
@@ -33,6 +35,6 @@ accesoriesSchema.post("findOneAndDelete", function (doc) {
   );
 });
 
-let accesoriesModel = new mongoose.model("accesorie", accesoriesSchema);
+let accesoriesModel = new mongoose.model("Accesorie", accesoriesSchema);
 
 module.exports.accesoriesModel = accesoriesModel;

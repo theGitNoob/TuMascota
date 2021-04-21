@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 let fs = require("fs/promises");
 
-let petSchema = new mongoose.Schema({
+let petSchema = mongoose.Schema({
   type: { type: String, required: true },
   age: { type: Number, max: [100, "La edad es demasiado grande"] },
   price: { type: Number, required: true },
@@ -21,7 +21,10 @@ let petSchema = new mongoose.Schema({
       message: "La cuenta es invalida",
     },
   },
+  cnt: { type: Number, default: 1 },
+  order: { type: mongoose.Schema.Types.ObjectId, ref: "Order" },
   imgExtension: String,
+  status: { type: Boolean, default: true },
 });
 
 petSchema.post("findOneAndDelete", function (doc) {
@@ -32,6 +35,6 @@ petSchema.post("findOneAndDelete", function (doc) {
   );
 });
 
-let petModel = new mongoose.model("pet", petSchema);
+let petModel = new mongoose.model("Pet", petSchema);
 
 module.exports.petModel = petModel;

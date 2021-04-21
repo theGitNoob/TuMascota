@@ -3,10 +3,12 @@ let express = require("express");
 let adminModel = require("./models/admin-user.js").adminModel;
 let router = express.Router();
 let petModel = require("./models/pet").petModel;
-let accesoriesModel = require("./models/accesories").accesoriesModel;
+let accesoriesModel = require("./models/accesorie").accesoriesModel;
 let formidable = require("formidable");
 let fs = require("fs/promises");
 let mongoose = require("mongoose");
+let userModel = require("./models/user").userModel;
+let orderModel = require("./models/order").orderModel;
 
 router.get("/", (req, res) => {
   res.render("admin");
