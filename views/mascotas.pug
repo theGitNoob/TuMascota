@@ -1,0 +1,45 @@
+extends ./layout
+block contenido
+  main
+    section(class="main-section")
+      div(class="main-section-title")
+        h3 MASCOTAS
+        p(id="span").
+          Estas son todas las mascotas disponibles en nuestras instalaciones.
+          Ante cualquier pregunta puede contactarnos al
+          <span> 58156518</span> .
+      for mascota in mascotas
+        .container-pet
+          .container-pet-img
+            img(src=`/public/img/mascotas/${mascota._id}.${mascota.imgExtension}`)
+          .pet-info-container
+            .pet-info-list-container
+              ul.pet-info-list
+                li.pet-info-element
+                  <span class="pet-info-element-title"> Tipo de animal:</span> #{mascota.type}
+                if mascota.breed != undefined
+                  li.pet-info-element
+                    <span class="pet-info-element-title"> Raza:</span> #{mascota.breed}
+                if mascota.sex != undefined
+                  li.pet-info-element
+                    <span class="pet-info-element-title"> Sexo:</span> #{mascota.sex}
+                if mascota.birthDay != undefined
+                  li(class="pet-info-element")
+                    <span class="pet-info-element-title"> Fecha de Nacimiento:</span> #{mascota.birthDay}
+              if mascota.description != undefined
+                .pet-description
+                  span.pet-info-element-title Descripción:
+                  p.
+                    #{mascota.description}
+            form(action=`/mascotas/orders/new/${mascota._id}` method="POST")
+              .container-btn-buy
+                .container-price
+                  span.price=mascota.price
+                .btn-buy
+                  button(type="submit" class="hidden")
+                    span Me Interesa
+                      input(type="hidden" name="cnt" value="1")
+                      img(src="/public/img/res/basket.svg" class="btn-buy-img" onclick="console.log('dasadsads')")
+block footer
+
+
