@@ -1,0 +1,17 @@
+extends ./admin-layout.pug
+block contenido
+  div(class="container top-space")
+    for orden in ordenes
+      .border.tr
+        .row
+          .col-md-10
+            h3 Tipo: #{orden.articleType}
+            h3 Nombre del dueño: #{orden.owner.name}
+            h3 Télefono del dueño: #{orden.owner.phone}
+          .col-md-2.container.flex-container
+            a(href=`/admin/${orden.articleType}s/${orden.articleId._id}` class="link-primary right-space") Ver Artículo
+            form(action=`/admin/orders/${orden._id}?_method=PUT` method="POST" class="link-container right-space")
+              input(type="submit" value="Marcar como vendido" class="link-success") 
+            form(action=`/admin/orders/${orden._id}?_method=DELETE` method="POST" class="link-container")
+              input(type="submit" value="Eliminar" class="link-danger") 
+

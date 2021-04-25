@@ -2,14 +2,14 @@ extends ./admin-layout.pug
 block contenido
   body    
     div(class="container col-md-4 center-block big-top-space")
-      h1(class="text-center") Admin Login
-      form(action="/admin/login" method="POST")
+      h1(class="text-center") Login
+      form(action="/users/sign_in" method="POST")
         div(class="form-group")
-          label(for="username" class="form-label" placeholder="Nombre de Usuario") Usuario
-          input(type="text" class="form-control" name="username" required id="username")
+          label(for="phone" class="form-label" ) Usuario
+          input(type="text" class="form-control" name="phone" required id="phone" placeholder="Numero de telefono")
 
-          label(for="password" class="form-label" placeholder="Contraseña") Contraseña
-          input(type="password" class="form-control" name="password" required id="password")
+          label(for="password" class="form-label") Contraseña
+          input(type="password" class="form-control" name="password" required id="password"  placeholder="Contraseña")
 
           div(class="top-space flex-container")
             input(type="submit" value="Iniciar sesion" class="btn btn-info")

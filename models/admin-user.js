@@ -1,6 +1,7 @@
 let mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
+//"mongodb://localhost/TuMascota"
 mongoose.connect("mongodb://localhost/users", {
   useNewUrlParser: true,
   useUnifiedTopology: true,

@@ -1,11 +1,10 @@
 let mongoose = require("mongoose");
 
 let orderSchema = mongoose.Schema({
-  userName: { type: String, required: true },
-  userPhone: { type: String, required: true },
-  articleId: mongoose.Schema.Types.ObjectId,
+  articleId: { type: mongoose.Schema.Types.ObjectId, require: true },
   articleType: { type: String, required: true },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  cnt: { type: Number, required: true },
 });
 let orderModel = new mongoose.model("Order", orderSchema);
 

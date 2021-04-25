@@ -21,7 +21,7 @@ router
       .countDocuments({})
       .then((count) => {
         if (!count) res.redirect("/admin/new");
-        res.render("login", { ruta: req.path });
+        res.render("admin-login", { ruta: req.path });
       })
       .catch((err) => {
         console.error(err);
@@ -70,7 +70,7 @@ router
         if (count) {
           res.redirect("/admin/login");
         } else {
-          res.render("register");
+          res.render("admin-register");
         }
       }
     });
@@ -132,12 +132,15 @@ router
         let wasFileSend = files.file.size != 0;
         let data = {
           type: fields.animal_type,
-          age: fields.age,
+          breed: fields.breed ? fields.breed : undefined,
+          sex: fields.sex ? fields.sex : undefined,
           price: fields.price,
+          cnt: fields.cnt ? fields.cnt : undefined,
+          birthDay: fields.birth_day ? fields.birth_day : undefined,
+          description: fields.description ? fields.description : undefined,
           ownerPhone: fields.owner_phone,
           ownerName: fields.owner_name,
-          breed: fields.breed,
-          ownerAccount: fields.owner_account,
+          ownerAccount: fields.owner_account ? fields.owner_account : undefined,
         };
 
         if (wasFileSend) {
@@ -199,12 +202,15 @@ router
 
         let data = {
           type: fields.animal_type,
-          age: fields.age,
+          breed: fields.breed ? fields.breed : undefined,
+          sex: fields.sex ? fields.sex : undefined,
           price: fields.price,
+          cnt: fields.cnt ? fields.cnt : undefined,
+          birthDay: fields.birth_day ? fields.birth_day : undefined,
+          description: fields.description ? fields.description : undefined,
           ownerPhone: fields.owner_phone,
           ownerName: fields.owner_name,
-          breed: fields.breed,
-          ownerAccount: fields.owner_account,
+          ownerAccount: fields.owner_account ? fields.owner_account : undefined,
         };
 
         if (wasFileSend) {
@@ -279,10 +285,11 @@ router
         let data = {
           type: fields.type,
           price: fields.price,
+          description: fields.description ? fields.description : undefined,
           ownerPhone: fields.owner_phone,
           ownerName: fields.owner_name,
-          ownerAccount: fields.owner_account,
-          cnt: fields.cnt ? fields.cnt : 1,
+          ownerAccount: fields.owner_account ? fields.owner_account : undefined,
+          cnt: fields.cnt ? fields.cnt : undefined,
         };
 
         if (wasFileSend) {
@@ -348,10 +355,11 @@ router
         let data = {
           type: fields.type,
           price: fields.price,
+          description: fields.description ? fields.description : undefined,
           ownerPhone: fields.owner_phone,
           ownerName: fields.owner_name,
-          ownerAccount: fields.owner_account,
-          cnt: fields.cnt ? fields.cnt : 1,
+          ownerAccount: fields.owner_account ? fields.owner_account : undefined,
+          cnt: fields.cnt ? fields.cnt : undefined,
         };
 
         if (wasFileSend) {
@@ -401,4 +409,38 @@ router
       .then(() => res.redirect("/admin/accesorios/"));
   });
 
+router.get("/ordenes", async (req, res) => {
+  try {
+    let orders = await orderModel.find().populate("owner");
+    res.render("index-ordenes", { ordenes: orders });
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+router
+  .route("/orders/:id")
+  .get(async (req, res) => {})
+  .put(async (req, res) => {
+    res.send("Vendido");
+  })
+  .delete(async (req, res) => {
+    try {
+      let order = await orderModel.findById(req.params.id);
+      let article =
+        order.articleType == "mascota"
+          ? await petModel.findById(order.articleId)
+          : await accesoriesModel.findById(order.articleId);
+
+      article.cnt += order.cnt;
+      article.available = article.cnt === 0 ? false : true;
+
+      await article.save({ validateModifiedOnly: true });
+      await order.delete();
+
+      res.redirect("/admin/ordenes");
+    } catch (err) {
+      console.error(err);
+    }
+  });
 module.exports = router;

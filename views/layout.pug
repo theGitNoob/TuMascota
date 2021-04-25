@@ -1,9 +1,136 @@
 doctype html
 html(lang="es")
   head
-    meta(charset="utf-8")
+    meta(charset="UTF-8")
     meta(http-equiv="X-UA-Compatible" content="IE=edge")
-    meta(name="viewport" content="width=device-width, initial-scale=1")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
     title Venta de Mascotas
     link(rel="stylesheet" href="/public/css/style.css")
+    link(rel="stylesheet" href="/public/css/mascotas-style.css")
+    link(rel="icon" href="/public/img/res/shop.png")
+
+  body
+    header(id="header" class="header")
+      div(class="container-header")
+        img(class="logo" src="/public/img/res/shop.svg" alt="")
+        h1(class="title") Tu<span>Mascota</span>
+
+    nav(class="nav-menu show-menu")
+      div(class="container-menu-element")
+        a(href="/" class="menu-element")
+          img(src="/public/img/res/dog-home.svg" alt="")
+          span Inicio
+        if(path === "/")
+          .line-element
+
+      div(class="container-menu-element")
+        a(href="/mascotas" class="menu-element")
+          img(src="/public/img/res/dog.png" alt="")
+          span Mascotas
+        if(path.startsWith("/mascotas"))
+          .line-element
+
+      div(class="container-menu-element")
+        a(href="/accesorios.html" class="menu-element")
+          img(src="/public/img/res/accesorios.png" alt="")
+          span Accesorios
+        if(path.startsWith("/accesorios"))
+          .line-element
+
+      div(class="container-menu-element")
+        a(href="/servicios.html" class="menu-element")
+          img(src="/public/img/res/doctor.png" alt="")
+          span Servicios
+        if(path.startsWith("/servicios"))
+          .line-element
   block contenido
+
+  footer
+    div(class="container-footer")
+      div(class="thanks-for")
+        h3 &iexclGracias por visitar nuestra tienda!
+
+      div(class="container-footer-content")
+        div(class="content-footer")
+          span(class="footer-content-title") Contenido
+          a(class="btn-footer" href="") Ver Mascotas
+
+        div(class="contact")
+          span(class="footer-content-title") Contacto
+
+          div(class="container-contact")
+            div(class="modal-back")
+              div(id="modal-contact" class="modal")
+                div(class="modal-header") Contactános
+                div(class="modal-body")
+                  h4(class="modal-body-header") Tienes alguna pregunta? Contáctanos:
+
+                  div(class="modal-contact-us-container")
+                    div(class="contact-us-elements")
+                      img(src="/public/img/res/mail.svg" alt="")
+                      span  mascotunas@gmail.com
+
+                    div(class="contact-us-elements")
+                      img(src="/public/img/res/whatsapp.png" alt="")
+
+                      span  55436543
+
+                    div(class="contact-us-elements")
+                      a(href="") 
+                        img(src="/public/img/res/facebook.png" alt="")
+
+                      span  Venta de Mascotas en Las Tunas
+
+            div(id="first-element-contact-us" class="contact-us")
+              span(class="element-contact-us") Contáctanos
+              img(class="contact-icon" src="/public/img/res/complain.png" alt="")
+
+            div(class="modal-back")
+              div(id="modal-about" class="modal")
+                div(class="modal-header") Acerca de
+                div(class="modal-body")
+                  h4(class="modal-body-header") Creado y Desarrollado en Las Tunas por:
+
+                  div(class="container-us")
+                    div(class="avatar-rafa")
+                      img(src="/public/img/res/avatar-rafa.png" alt="")
+                      span(class="name") Rafael Acosta Márquez
+
+                    div(class="avatar-jesus")
+                      img(src="/public/img/res/avatar-jesus.png" alt="")
+                      span(class="name") Jesús Manuel López Ponce
+
+
+                  div(class="avatar-abraham")
+                    h4(class="modal-body-header") Con una idea original de:
+
+                    span(class="name") Sadan Jiskly Fernández Ávila
+                    span(class="name") José Abraham Oduardo Ávila
+
+
+
+
+            div(id="second-element-contact-us" class="about-us")
+              span(class="element-contact-us") Acerca de
+              img(class="contact-icon" src="/public/img/res/info.svg" alt="")
+
+
+
+        div(class="social-media")
+          span(class="footer-content-title") Redes Sociales
+          a(class="social-media-icon" href="")
+            img(src="/public/img/res/facebook.png" alt="")
+
+        div(class="go-top")
+          a(href="#header")
+            img(class="go-top-icon" src="/public/img/res/next.png" alt="")
+
+
+
+    div(class="line")
+
+  script(src="/public/js/menu.js")
+  script(src="/public/js/index.js")
+  script(src="/public/js/modal.js")
+
+  block footer

@@ -5,6 +5,8 @@
   "main": "app.js",
   "dependencies": {
     "compression": "^1.7.4",
+    "cookie-session": "^1.4.0",
+    "dom-parser": "^0.1.6",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "formidable": "^1.2.2",

@@ -2,10 +2,14 @@ const mongoose = require("mongoose");
 let fs = require("fs/promises");
 
 let petSchema = mongoose.Schema({
+  articleType: { type: String, required: true },
   type: { type: String, required: true },
-  age: { type: Number, max: [100, "La edad es demasiado grande"] },
-  price: { type: Number, required: true },
   breed: { type: String },
+  sex: String,
+  price: { type: Number, required: true },
+  cnt: { type: Number, default: 1, min: 0 },
+  birthDay: Date,
+  description: String,
   ownerName: { type: String, require: true },
   ownerPhone: { type: Number, required: true },
   ownerAccount: {
@@ -21,10 +25,9 @@ let petSchema = mongoose.Schema({
       message: "La cuenta es invalida",
     },
   },
-  cnt: { type: Number, default: 1 },
   order: { type: mongoose.Schema.Types.ObjectId, ref: "Order" },
   imgExtension: String,
-  status: { type: Boolean, default: true },
+  available: { type: Boolean, default: true },
 });
 
 petSchema.post("findOneAndDelete", function (doc) {

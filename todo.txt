@@ -4,3 +4,6 @@ crear un middleware para el manejo de errores
 
 
 cambiar la ruta de subida de archivos con formidable
+
+una vez q implemente toda la logica basica del manejo de rutas de las ordenes integrar las base de datos de ordenes es decir
+fusionar los modelos de accesorios y mascotas

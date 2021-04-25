@@ -1,47 +1,12 @@
 extends ./layout.pug
 block contenido
-  body
-    header(class="header")
-      div(class="container-header")
-        h1(class="title") ¡ Bienvenidos a la Tienda de Mascotas !
-
-      img(class="menu-icon" src="/public/img/res/bx-menu.svg")
-      nav(class="nav-menu")
-        div(class="menu-element")
-          img(src="public/img/res/dog-house.png")
-          a(href="#/Home") Inicio
-        div(class="line-element")
-
-        div(class="menu-element")
-          img(src="public/img/res/dog.png")
-          a(href="/Mascotas") Mascotas
-        div(class="line-element")
-
-        div(class="menu-element")
-          img(src="public/img/res/accesorios.png")
-          a(href="/Accesorios") Accesorios
-        div(class="line-element")
-
-        div(class="menu-element")
-          img(src="public/img/res/doctor.png")
-          a(href="/Servicios") Servicios
-    main
-      section(class="container-section")
-        div(class="main-title")
-          h2(class="subtitle") TIENDA DE MASCOTAS
-          p(class="subtitle-p") Bienvenidos a nuestra tienda online en Las Tunas, donde podrás encontrar tus mascotas preferidas
-        img(class="back-image" src="public/img/res/portada.png")
-        div(class="container-button")
-          p(class="button-p") Accede a nuestras mascotas
-          a(class="btn" href="") CONTINUAR
-    footer
-      div(class="container-footer")
-        div(class="contact-us")
-          h3 ¡Gracias por Visitarnos!
-          p Tienes alguna pregunta? Escríbenos a: example@gmail.com
-        div(class="social-media")
-          a(href="" class="social-media-icon")
-            img(src="/public/img/res/bxl-facebook.svg")
-      div(class="line")
-    script(src="/public/js/menu.js")
-    script(src="/public/js/index.js")
+  main
+    section(class="container-section")
+      div(class="main-title")
+        h2(class="subtitle") TIENDA DE MASCOTAS
+        p(class="subtitle-p") Bienvenidos a nuestra tienda online en Las Tunas, donde podrás encontrar tus mascotas preferidas          
+      img(class="back-image" src="public/img/res/portada-transparente.png" alt="" )
+      div(class="container-button")
+        p(class="button-p") Accede a nuestras mascotas
+        a(class="btn" href="/mascotas") CONTINUAR
+block footer

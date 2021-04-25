@@ -26,7 +26,6 @@ body {
 form.link-container input[type="submit"] {
   background-color: transparent;
   border: none;
-  color: rgb(200, 50, 50);
   text-decoration: underline;
   padding: 0;
 }

@@ -6,14 +6,19 @@ block contenido
         img(src=`/public/img/mascotas/${mascota._id}.${mascota.imgExtension}` class="img-fluid img-thumbnail")
     form(action=`/admin/mascotas/${mascota._id}?_method=PUT` method='POST' class="form-group" enctype="multipart/form-data")
 
-
       input(type="text" class="form-control" name="animal_type"  placeholder="Tipo de animal" required value=mascota.type)
 
-      input(type="text" class="form-control" name="age" placeholder="Edad de las mascota" value=mascota.age)
+      input(type="text" class="form-control" name="breed" placeholder="Raza" value=mascota.breed)
+
+      input(type="text" class="form-control" name="sex" placeholder="Sexo" value=mascota.sex)
 
       input(type="text" class="form-control" name="price" placeholder="Precio" value=mascota.price)
 
-      input(type="text" class="form-control" name="breed" placeholder="Raza" value=mascota.breed)
+      input(type="text" class="form-control" name="cnt" placeholder="Cantidad" value=mascota.cnt)
+
+      input(type="datetime-local " class="form-control" name="birth_day" placeholder="Año-Mes-Dia" value=mascota.birthDay)
+
+      input(type="text" class="form-control" name="description" placeholder="Descripción" value=mascota.description)
 
       input(type="text" class="form-control" name="owner_name" placeholder="Nombre del dueño" required value=mascota.ownerName)
 

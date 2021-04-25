@@ -3,21 +3,27 @@ block contenido
   div(class="container col-md-4 top-space")
     form(action="/admin/mascotas/" method='POST' class="form-group" enctype="multipart/form-data")
 
-      input(type="text" class="form-control" id="animal-type" name="animal_type"  placeholder="Tipo de animal" required)
+      input(type="text" class="form-control"  name="animal_type"  placeholder="Tipo de animal" required)
 
-      input(type="text" class="form-control" id="age" name="age" placeholder="Edad de las mascota")
+      input(type="text" class="form-control" name="breed" placeholder="Raza")
 
-      input(type="text" class="form-control" id="price" name="price" placeholder="Precio" required)
+      input(type="text" class="form-control" name="sex" placeholder="Sexo")
 
-      input(type="text" class="form-control" id="breed" name="breed" placeholder="Raza")
+      input(type="text" class="form-control" name="price" placeholder="Precio" required)
 
-      input(type="text" class="form-control" id="owner-name" name="owner_name" placeholder="Nombre del dueño" required)
+      input(type="text" class="form-control" name="cnt" placeholder="Cantidad" )
 
-      input(type="text" class="form-control" id="owner-phone" name="owner_phone" placeholder="Télefono" required)
+      input(type="datetime-local " class="form-control" name="birth_day" placeholder="Año-Mes-Dia")
 
-      input(type="text" class="form-control" id="owner-account" name="owner_account" placeholder="Cuenta bancaria")
+      input(type="text" class="form-control" name="description" placeholder="Descripción")
 
-      input(type="file" class="form-control" name="file")
+      input(type="text" class="form-control" name="owner_name" placeholder="Nombre del dueño" required)
+
+      input(type="tel" class="form-control" name="owner_phone" placeholder="Télefono del dueño" required)
+
+      input(type="text" class="form-control " name="owner_account" placeholder="Cuenta bancaria")
+
+      input(type="file" class="form-control" name="file" accept="image/jpeg,image/png")
 
       div(class="d-flex")
         input(type="submit" class="btn btn-info " value="Guardar")

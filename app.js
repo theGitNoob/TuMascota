@@ -3,20 +3,26 @@ let express = require("express");
 let bodyParser = require("body-parser"); // Parse incoming request bodies in a middleware, available as req.body
 let compression = require("compression");
 let session = require("express-session");
+let cookieSession = require("cookie-session");
 let methodOverride = require("method-override");
 let sessionMiddleware = require("./middlewares/session-middleware");
-let router = require("./admin-routes");
+let adminRouter = require("./admin-routes");
+let router = require("./routes");
+let petModel = require("./models/pet").petModel;
+
 const { Mongoose } = require("mongoose");
 
 let app = express();
 
-app.use(
-  session({
-    secret: "123the cat is falling in love",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+// app.use(
+//   session({
+//     secret: "123the cat is falling in love",
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
+
+app.use(cookieSession({ name: "session", keys: ["rafa01", "dsadasadsfdg"] }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false })); //
@@ -34,18 +40,28 @@ app.use(
 
 // let compiledIndex = pug.compileFile("./views/index.pug");
 //Tengo q recompilar cada vez q realizo un cambio a la pagina
-
+app.use((req, res, next) => {
+  res.locals.path = req.path;
+  next();
+});
 app.get("/", (req, res) => {
   //   res.send(compiledIndex());
   res.render("index");
 });
-
-app.use("/admin", sessionMiddleware);
-app.use("/admin", router);
-app.use("/admin", (err, req, res, next) => {
-  res.status(500).send({ error: err });
-
-  // console.error(err);
-  console.log(req.params.id);
+app.get("/mascotas", async (req, res) => {
+  try {
+    let mascotas = await petModel.find({ available: true });
+    res.render("mascotas", { mascotas: mascotas });
+  } catch (err) {
+    console.error(err);
+    res.redirect("/");
+  }
 });
-app.listen(8080);
+
+app.use(sessionMiddleware);
+app.use("/", router);
+app.use("/admin", adminRouter);
+
+app.listen(8080, (err) => {
+  console.log("Servidor corriendo en el puerto 8080");
+});

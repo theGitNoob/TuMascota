@@ -1,13 +1,17 @@
-let mongoose = require("mongoose");
+const mongoose = require("mongoose");
 let fs = require("fs/promises");
 
-let accesoriesSchema = mongoose.Schema({
+let articleSchema = mongoose.Schema({
+  articleType: { type: String, required: true },
   type: { type: String, required: true },
+  breed: { type: String },
+  sex: String,
   price: { type: Number, required: true },
+  cnt: { type: Number, default: 1, min: 0 },
+  birthDay: Date,
   description: String,
   ownerName: { type: String, require: true },
   ownerPhone: { type: Number, required: true },
-  cnt: { type: Number, default: 1 },
   ownerAccount: {
     type: String,
     validate: {
@@ -23,19 +27,18 @@ let accesoriesSchema = mongoose.Schema({
   },
   order: { type: mongoose.Schema.Types.ObjectId, ref: "Order" },
   imgExtension: String,
-  status: { type: Boolean, default: true },
+  available: { type: Boolean, default: true },
+  stagedCnt: { type: Number, deafult: true },
 });
 
-// accesoriesSchema.virtual("prevImgExtension").get(fuc)
-
-accesoriesSchema.post("findOneAndDelete", function (doc) {
-  fs.unlink(`./public/img/accesorios/${doc._id}.${doc.imgExtension}`).catch(
+articleSchema.post("findOneAndDelete", function (doc) {
+  fs.unlink(`./public/img/articulos/${doc._id}.${doc.imgExtension}`).catch(
     (err) => {
       if (err && err.code != "ENOENT") console.error(err);
     }
   );
 });
 
-let accesoriesModel = new mongoose.model("Accesorie", accesoriesSchema);
+let articleModel = new mongoose.model("Pet", articleSchema);
 
-module.exports.accesoriesModel = accesoriesModel;
+module.exports.petModel = articleModel;

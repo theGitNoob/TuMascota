@@ -1,0 +1,16 @@
+extends ./admin-layout.pug
+block contenido
+  body    
+    div(class="container col-md-4 center-block big-top-space")
+      h1(class="text-center") Admin Login
+      form(action="/admin/login" method="POST")
+        div(class="form-group")
+          label(for="username" class="form-label") Usuario
+          input(type="text" class="form-control" name="username" required id="username" placeholder="Nombre de Usuario")
+
+          label(for="password" class="form-label") Contraseña
+          input(type="password" class="form-control" name="password" required id="password" placeholder="Contraseña")
+
+          div(class="top-space flex-container")
+            input(type="submit" value="Iniciar sesion" class="btn btn-info")
+
