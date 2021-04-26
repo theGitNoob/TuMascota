@@ -83,19 +83,18 @@ router.get("/mascotas/order/:id", (req, res) => {
   res.send("No jodas mas");
 });
 
-router.post("/mascotas/orders/new/:id", async (req, res) => {
+router.post("/mascotas/ordenes/:id", async (req, res) => {
   try {
     let pet = await petModel.findById(req.params.id);
     if (pet == null) {
       res.redirect("/mascotas");
     }
+
     let user = await userModel.findById(req.session.user_id);
     if (user == null) {
       res.redirect("/mascotas");
     }
-    // console.log(user);
-    // console.log(pet);
-    // res.end();
+
     if (pet.available) {
       let cnt = req.body.cnt > pet.cnt ? pet.cnt : req.body.cnt;
 
@@ -107,13 +106,14 @@ router.post("/mascotas/orders/new/:id", async (req, res) => {
       });
 
       await newOrder.save();
+
       pet.cnt -= cnt;
+      pet.stagedCnt += cnt;
       pet.available = pet.cnt == 0 ? false : true;
+
       await pet.save({ validateModifiedOnly: true });
+
       res.redirect("/mascotas");
-      // if()
-      // la mascota esta disponible restarle  a la cantidad disponible la cantidad de mascotas q hay
-      // y marcarla como no disponible en caso de q ya no lo este
     } else {
       // la mascota no esta disponible ya notificar de esto
       res.send("Lo sentimoas la mascota no s eencuentra disponible");
@@ -122,5 +122,39 @@ router.post("/mascotas/orders/new/:id", async (req, res) => {
     console.error(err);
   }
 });
+
+router
+  .route("/mascotas")
+  .get(async (req, res) => {
+    try {
+      let mascotas = await petModel.find({ available: true });
+      res.render("mascotas2", { mascotas: mascotas });
+    } catch (err) {
+      console.error(err);
+      res.redirect("/");
+    }
+  })
+  .post(async (req, res) => {
+    try {
+      let json = JSON.parse(JSON.stringify(req.body));
+      let filters = Object.keys(json);
+
+      let findOpts = { available: true };
+      if (filters.length) {
+        findOpts.type = { $in: filters };
+      }
+      let mascotas = await petModel.find(findOpts);
+
+      let opts = { mascotas: mascotas };
+
+      filters.forEach((element) => {
+        opts[element] = true;
+      });
+
+      res.render("mascotas2", opts);
+    } catch (err) {
+      console.error(err);
+    }
+  });
 
 module.exports = router;
