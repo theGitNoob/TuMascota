@@ -1,45 +1,80 @@
 extends ./layout
 block contenido
   main
-    section(class="main-section")
-      div(class="main-section-title")
+    section.main-section
+      .main-section-title
         h3 MASCOTAS
-        p(id="span").
-          Estas son todas las mascotas disponibles en nuestras instalaciones.
-          Ante cualquier pregunta puede contactarnos al
-          <span> 58156518</span> .
+        p
+          |Estas son todas las mascotas disponibles en nuestras instalaciones. Ante cualquier pregunta puede contactarnos al 
+          span 58156518
+      .filter
+        span Aqui puede filtrar las mascotas:
+        form.filter-form(action="/mascotas/" method="POST")
+          .filter-elements-container
+            label.filter-element(for='perro')
+              img(src='/public/img/res/shiba.svg', alt)
+              |  Perro
+            input.filter-checkbox#perro(type='checkbox' name="perro" checked=perro)
+          .filter-elements-container
+            label.filter-element(for='gato')
+              img(src='/public/img/res/cat.svg', alt)
+              |  Gato
+            input.filter-checkbox#gato(type='checkbox' name="gato" checked=gato)
+          .filter-elements-container
+            label.filter-element(for='ave')
+              img(src='/public/img/res/macaw.svg', alt)
+              |  Aves
+            input.filter-checkbox#ave(type='checkbox' name="ave" checked=ave)
+          .filter-elements-container
+            label.filter-element(for='roedor')
+              img(src='/public/img/res/roedor.svg', alt)
+              |  Roedor
+            input.filter-checkbox#roedor(type='checkbox' name="roedor" checked=roedor)
+          .filter-elements-container
+            label.filter-element(for='pez')
+              img(src='/public/img/res/fish.svg', alt)
+              |  Peces
+            input.filter-checkbox#pez(type='checkbox' name="pez" checked=pez)
+          .filter-elements-container
+            label.filter-element(for='otros')
+              img(src='/public/img/res/tortoise.svg', alt)
+              |  Otros
+            input.filter-checkbox#otros(type='checkbox' name="otro" checked=otro)
+          input(type="submit" value="Filtrar")
       for mascota in mascotas
-        .container-pet
-          .container-pet-img
-            img(src=`/public/img/mascotas/${mascota._id}.${mascota.imgExtension}`)
-          .pet-info-container
-            .pet-info-list-container
-              ul.pet-info-list
-                li.pet-info-element
-                  <span class="pet-info-element-title"> Tipo de animal:</span> #{mascota.type}
-                if mascota.breed != undefined
+        article.container-pet-article
+          .container-pet-header
+            h4.pet-title=mascota.type
+          .container-pet
+            .container-pet-img
+              img(src=`/public/img/mascotas/${mascota._id}.${mascota.imgExtension}` alt='Mascota')
+            .pet-info-container
+              .pet-info-list-container
+                ul.pet-info-list
                   li.pet-info-element
-                    <span class="pet-info-element-title"> Raza:</span> #{mascota.breed}
-                if mascota.sex != undefined
+                    span.pet-info-element-title Raza:
+                    | #{mascota.breed}
+
                   li.pet-info-element
-                    <span class="pet-info-element-title"> Sexo:</span> #{mascota.sex}
-                if mascota.birthDay != undefined
-                  li(class="pet-info-element")
-                    <span class="pet-info-element-title"> Fecha de Nacimiento:</span> #{mascota.birthDay}
-              if mascota.description != undefined
+                    span.pet-info-element-title Sexo:
+                    | #{mascota.sex}
+
+                  li.pet-info-element
+                    span.pet-info-element-title Fecha de Nacimiento:
+                    | #{mascota.birthDay}
+
                 .pet-description
                   span.pet-info-element-title Descripción:
-                  p.
-                    #{mascota.description}
-            form(action=`/mascotas/orders/new/${mascota._id}` method="POST")
-              .container-btn-buy
-                .container-price
-                  span.price=mascota.price
-                .btn-buy
-                  button(type="submit" class="hidden")
-                    span Me Interesa
-                      input(type="hidden" name="cnt" value="1")
-                      img(src="/public/img/res/basket.svg" class="btn-buy-img")
-block footer
+                  p=mascota.description 
 
-
+              .container-price
+                span.pet-info-element-title Precio:
+                span.pet-info-element.price=mascota.price  
+              form(action=`/mascotas/ordenes/${mascota._id}` method="POST")
+                .container-btn-buy
+                  .btn-buy
+                    button(type="submit" class="hidden")
+                      span Me Interesa
+                        input(type="hidden" name="cnt" value="2")
+                      img(src='/public/img/res/basket.svg', alt)
+block  footer
