@@ -14,6 +14,7 @@ const { Mongoose } = require("mongoose");
 
 let app = express();
 
+app.disable("x-powered-by");
 // app.use(
 //   session({
 //     secret: "123the cat is falling in love",
@@ -22,10 +23,20 @@ let app = express();
 //   })
 // );
 
-app.use(cookieSession({ name: "session", keys: ["rafa01", "dsadasadsfdg"] }));
+app.use(
+  cookieSession({
+    name: "idSession",
+    keys: ["rafa01", "dsadasadsfdg"],
+    cookie: {
+      secure: true,
+      httpOnly: true,
+    },
+  })
+);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false })); //
+// bodyParser.
 
 app.use(methodOverride("_method"));
 
@@ -47,15 +58,6 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   //   res.send(compiledIndex());
   res.render("index");
-});
-app.get("/mascotas", async (req, res) => {
-  try {
-    let mascotas = await petModel.find({ available: true });
-    res.render("mascotas", { mascotas: mascotas });
-  } catch (err) {
-    console.error(err);
-    res.redirect("/");
-  }
 });
 
 app.use(sessionMiddleware);

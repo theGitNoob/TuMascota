@@ -131,7 +131,7 @@ router
         let fileName = files.file.path;
         let wasFileSend = files.file.size != 0;
         let data = {
-          type: fields.animal_type,
+          type: fields.animal_type.toLowerCase(),
           breed: fields.breed ? fields.breed : undefined,
           sex: fields.sex ? fields.sex : undefined,
           price: fields.price,
@@ -201,7 +201,7 @@ router
         let fileName = files.file.path;
 
         let data = {
-          type: fields.animal_type,
+          type: fields.animal_type.toLowerCase(),
           breed: fields.breed ? fields.breed : undefined,
           sex: fields.sex ? fields.sex : undefined,
           price: fields.price,
@@ -211,12 +211,14 @@ router
           ownerPhone: fields.owner_phone,
           ownerName: fields.owner_name,
           ownerAccount: fields.owner_account ? fields.owner_account : undefined,
+          available: fields.cnt != undefined && fields.cnt != 0 ? true : false,
         };
 
         if (wasFileSend) {
           let extension = fileName.substring(fileName.lastIndexOf(".") + 1);
           data.imgExtension = extension;
         }
+
         petModel
           .findByIdAndUpdate(req.params.id, data, {
             useFindAndModify: false,
@@ -283,7 +285,7 @@ router
         let wasFileSend = files.file.size != 0;
 
         let data = {
-          type: fields.type,
+          type: fields.type.toLowerCase(),
           price: fields.price,
           description: fields.description ? fields.description : undefined,
           ownerPhone: fields.owner_phone,
@@ -353,13 +355,14 @@ router
         let wasFileSend = files.file.size != 0;
 
         let data = {
-          type: fields.type,
+          type: fields.type.toLowerCase(),
           price: fields.price,
           description: fields.description ? fields.description : undefined,
           ownerPhone: fields.owner_phone,
           ownerName: fields.owner_name,
           ownerAccount: fields.owner_account ? fields.owner_account : undefined,
           cnt: fields.cnt ? fields.cnt : undefined,
+          available: fields.cnt != undefined && fields.cnt != 0 ? true : false,
         };
 
         if (wasFileSend) {
@@ -419,10 +422,26 @@ router.get("/ordenes", async (req, res) => {
 });
 
 router
-  .route("/orders/:id")
+  .route("/ordenes/:id")
   .get(async (req, res) => {})
   .put(async (req, res) => {
-    res.send("Vendido");
+    try {
+      let order = await orderModel.findById(req.params.id);
+      let article =
+        order.articleType == "mascota"
+          ? await petModel.findById(order.articleId)
+          : await accesoriesModel.findById(order.articleId);
+      article.stagedCnt -= order.cnt;
+
+      //Actualizar el modelo de productos vendidos
+
+      await order.deleteOne();
+      if (article.cnt == 0 && article.stagedCnt == 0) {
+        await article.remove();
+        console.log("was deleted");
+      }
+      res.send("Vendido");
+    } catch (error) {}
   })
   .delete(async (req, res) => {
     try {
@@ -433,10 +452,11 @@ router
           : await accesoriesModel.findById(order.articleId);
 
       article.cnt += order.cnt;
+      article.stagedCnt -= order.cnt;
       article.available = article.cnt === 0 ? false : true;
 
       await article.save({ validateModifiedOnly: true });
-      await order.delete();
+      await order.deleteOne();
 
       res.redirect("/admin/ordenes");
     } catch (err) {

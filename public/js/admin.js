@@ -1,6 +1,5 @@
 "use strict";
 window.addEventListener("DOMContentLoaded", (e) => {
-  console.log("dsadasadsasd");
   let forms = document.getElementsByClassName("delete-form");
 
   for (let form of forms) {

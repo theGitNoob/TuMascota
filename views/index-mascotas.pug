@@ -11,6 +11,6 @@ block contenido
             h3 Nombre del dueño: #{mascota.ownerName}
             h3 Télefono del dueño: #{mascota.ownerPhone}
           .col-md-2.container.flex-container
-            a(href="/admin/mascotas/"+mascota._id class="right-space") Editar
-            form(action=`/admin/mascotas/${mascota._id}?_method=DELETE` method="POST" class="link-container" )
-              input(type="submit" value="Eliminar") 
+            a(href="/admin/mascotas/"+mascota._id class="right-space link-info") Editar
+            form(action=`/admin/mascotas/${mascota._id}?_method=DELETE` method="POST" class="link-container delete-form" )
+              input(type="submit" value="Eliminar" class="link-danger") 

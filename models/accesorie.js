@@ -23,12 +23,21 @@ let accesoriesSchema = mongoose.Schema({
   },
   order: { type: mongoose.Schema.Types.ObjectId, ref: "Order" },
   imgExtension: String,
-  status: { type: Boolean, default: true },
+  available: { type: Boolean, default: true },
+  stagedCnt: { type: Number, deafult: true },
 });
 
 // accesoriesSchema.virtual("prevImgExtension").get(fuc)
 
 accesoriesSchema.post("findOneAndDelete", function (doc) {
+  fs.unlink(`./public/img/accesorios/${doc._id}.${doc.imgExtension}`).catch(
+    (err) => {
+      if (err && err.code != "ENOENT") console.error(err);
+    }
+  );
+});
+
+accesoriesSchema.post("remove", function (doc) {
   fs.unlink(`./public/img/accesorios/${doc._id}.${doc.imgExtension}`).catch(
     (err) => {
       if (err && err.code != "ENOENT") console.error(err);

@@ -11,6 +11,6 @@ block contenido
             h3 Nombre del dueño: #{accesorio.ownerName}
             h3 Télefono del dueño: #{accesorio.ownerPhone}
           .col-md-2.container.flex-container
-            a(href="/admin/accesorios/"+accesorio._id class="right-space") Editar
+            a(href="/admin/accesorios/"+accesorio._id class="right-space link-info") Editar
             form(action=`/admin/accesorios/${accesorio._id}?_method=DELETE` method="POST" class="link-container delete-form")
-              input(type="submit" value="Eliminar") 
+              input(type="submit" value="Eliminar" class="link-danger") 

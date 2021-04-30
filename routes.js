@@ -5,6 +5,7 @@ let orderModel = require("./models/order").orderModel;
 let petModel = require("./models/pet").petModel;
 let parsePhone = require("./utils").parsePhone;
 let validator = require("validator");
+let accesoriesModel = require("./models/accesorie").accesoriesModel;
 
 router
   .route("/users/sign_in")
@@ -103,6 +104,7 @@ router.post("/mascotas/ordenes/:id", async (req, res) => {
         articleType: "mascota",
         owner: user._id,
         cnt: cnt,
+        price: cnt * pet.price,
       });
 
       await newOrder.save();
@@ -127,22 +129,20 @@ router
   .route("/mascotas")
   .get(async (req, res) => {
     try {
-      let mascotas = await petModel.find({ available: true });
-      res.render("mascotas2", { mascotas: mascotas });
-    } catch (err) {
-      console.error(err);
-      res.redirect("/");
-    }
-  })
-  .post(async (req, res) => {
-    try {
-      let json = JSON.parse(JSON.stringify(req.body));
-      let filters = Object.keys(json);
+      let obj = Object.keys(req.query);
+      let filters = [];
+
+      obj.forEach((elem) => {
+        if (req.query[elem] === "on") {
+          filters.push(elem);
+        }
+      });
 
       let findOpts = { available: true };
       if (filters.length) {
         findOpts.type = { $in: filters };
       }
+
       let mascotas = await petModel.find(findOpts);
 
       let opts = { mascotas: mascotas };
@@ -154,7 +154,79 @@ router
       res.render("mascotas2", opts);
     } catch (err) {
       console.error(err);
+      res.redirect("/");
     }
+  })
+  .post(async (req, res) => {
+    // try {
+    //   let json = JSON.parse(JSON.stringify(req.body));
+    //   let filters = Object.keys(json);
+    //   let findOpts = { available: true };
+    //   if (filters.length) {
+    //     findOpts.type = { $in: filters };
+    //   }
+    //   let mascotas = await petModel.find(findOpts);
+    //   let opts = { mascotas: mascotas };
+    //   filters.forEach((element) => {
+    //     opts[element] = true;
+    //   });
+    //   res.render("mascotas2", opts);
+    // } catch (err) {
+    //   console.error(err);
+    // }
   });
 
+router.get("/accesorios", async (req, res) => {
+  try {
+    let accesorios = await accesoriesModel.find({ available: true });
+    res.render("accesorios", { accesorios: accesorios });
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+router.post("/accesorios/ordenes/:id", async (req, res) => {
+  try {
+    let accesorie = await accesoriesModel.findById(req.params.id);
+    if (accesorie == null) {
+      res.redirect("/accesorios");
+    }
+
+    let user = await userModel.findById(req.session.user_id);
+    if (user == null) {
+      res.redirect("/accesorios");
+    }
+
+    if (accesorie.available) {
+      let cnt = req.body.cnt > accesorie.cnt ? accesorie.cnt : req.body.cnt;
+
+      let newOrder = new orderModel({
+        articleId: accesorie._id,
+        articleType: "accesorio",
+        owner: user._id,
+        cnt: cnt,
+        price: cnt * accesorie.price,
+      });
+
+      await newOrder.save();
+
+      accesorie.cnt -= cnt;
+      accesorie.stagedCnt += cnt;
+      accesorie.available = accesorie.cnt == 0 ? false : true;
+
+      await accesorie.save({ validateModifiedOnly: true });
+
+      res.redirect("/accesorios");
+    } else {
+      // la mascota no esta disponible ya notificar de esto
+      res.send("Lo sentimoas la mascota no s eencuentra disponible");
+    }
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+router.get("/servicios", (req, res) => {
+  res.render("servicios");
+});
 module.exports = router;

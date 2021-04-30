@@ -4,7 +4,7 @@ module.exports = (req, res, next) => {
   if (req.session.user_id != undefined) {
     if (
       req.path.startsWith("/users/sign_in") ||
-      req.path.startsWith("users/sign_up")
+      req.path.startsWith("/users/sign_up")
     ) {
       res.redirect("/");
       return;

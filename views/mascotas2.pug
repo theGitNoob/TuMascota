@@ -1,0 +1,108 @@
+
+extends ./layout
+block contenido
+  main
+    section.main-section
+      .main-section-title
+        h3 MASCOTAS
+        p
+          |Estas son todas las mascotas disponibles en nuestras instalaciones. Ante cualquier pregunta puede contactarnos al 
+          span 58156518
+      .filter
+        span Aqui puede filtrar las mascotas: 
+        button.filter-btn(form="filter-form").
+
+          Filtrar
+
+        form#filter-form.filter-form(action="/mascotas" method="get")
+          .group-filter
+            .filter-elements-container
+              label.filter-element(for="perro")
+                img(src="/public/img/res/shiba.svg" alt)
+                |  Perro 
+              input.filter-checkbox#perro(type="checkbox" checked=perro name="perro")
+            .filter-elements-container
+              label.filter-element(for="gato")
+                img(src="/public/img/res/cat.svg" alt)
+                |  Gato 
+              input.filter-checkbox#gato(type="checkbox" checked=gato name="gato")
+            .filter-elements-container
+              label.filter-element(for="ave")
+                img(src="/public/img/res/macaw.svg" alt)
+                |  Aves 
+              input.filter-checkbox#ave(type="checkbox" checked=ave name="ave")
+          .group-filter
+            .filter-elements-container
+              label.filter-element(for="roedor")
+                img(src="/public/img/res/roedor.svg" alt)
+                |  Roedor 
+              input.filter-checkbox#roedor(type="checkbox" checked=roedor name="roedor")
+            .filter-elements-container
+              label.filter-element(for="pez")
+                img(src="/public/img/res/fish.svg" alt)
+                |  Peces 
+              input.filter-checkbox#pez(type="checkbox" checked=pez name="pez")
+            .filter-elements-container
+              label.filter-element(for="otros")
+                img(src="/public/img/res/tortoise.svg" alt)
+                |  Otros 
+              input.filter-checkbox#otros(type="checkbox" checked=otro name="otro")
+      for mascota in mascotas
+        article.container-pet-article
+          .container-pet-header
+            h4.pet-title=mascota.type
+          .container-pet
+            .container-pet-img
+              img(alt='Mascota' id=`${mascota._id}` extension=`.${mascota.imgExtension}` src="/public/img/mascotas/")
+            .pet-info-container
+              .pet-info-list-container
+                ul.pet-info-list
+                  li.pet-info-element
+                    span.pet-info-element-title Raza:
+                    | #{mascota.breed}
+
+                  li.pet-info-element
+                    span.pet-info-element-title Sexo:
+                    | #{mascota.sex}
+
+                  li.pet-info-element
+                    span.pet-info-element-title Fecha de Nacimiento:
+                    | #{mascota.birthDay}
+
+                .pet-description
+                  span.pet-info-element-title Descripción:
+                  p=mascota.description 
+
+              .container-price
+                span.pet-info-element-title Precio: 
+                span.pet-info-element.price=mascota.price+'$'
+              .container-btn-buy
+                .btn-buy
+                  input(type="hidden" value=mascota.cnt)
+                  input(type="hidden" value=mascota._id)
+                  span Me Interesa     
+                  img(src='/public/img/res/basket.svg', alt)
+      .modal-back.modal-back-buy-this
+        .modal.modal-buy-this
+          .modal-header Me Interesa
+          .modal-body.modal-body-buy
+            | Introduzca la cantidad q le gustaria nos pondremos en contacto con usted para
+            | confirmar
+
+            br
+            |
+            | Indique la cantidad q le interesa: Max 
+            span#cnt
+            form#buy-form(method="post" action="/mascotas/ordenes/")
+              input.spin-box-buy(type="number" min="1" value ="1" name="cnt")
+            .btns-buy-container
+
+              button#accept-btn-buy.accept-btn(type="button") Comprar
+              button#cancel-btn-buy.cancel-btn(type="button") Cancelar
+      #modal-back-completed.modal-back
+        #modal-completed.modal.modal-completed
+          .modal-body.modal-body-completed
+            .circle
+              img.circle-ok(src="/public/img/res/checked.svg" alt)
+            span.completed Completado
+//- block  footer

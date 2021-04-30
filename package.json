@@ -10,6 +10,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "formidable": "^1.2.2",
+    "html2pug": "^4.0.0",
     "method-override": "^3.0.0",
     "mongoose": "^5.12.3",
     "pug": "^3.0.2",

@@ -2,13 +2,12 @@ const mongoose = require("mongoose");
 let fs = require("fs/promises");
 
 let petSchema = mongoose.Schema({
-  articleType: { type: String, required: true },
   type: { type: String, required: true },
   breed: { type: String },
   sex: String,
   price: { type: Number, required: true },
   cnt: { type: Number, default: 1, min: 0 },
-  birthDay: Date,
+  birthDay: String,
   description: String,
   ownerName: { type: String, require: true },
   ownerPhone: { type: Number, required: true },
@@ -16,9 +15,7 @@ let petSchema = mongoose.Schema({
     type: String,
     validate: {
       validator: function (account) {
-        if (account === "") return true;
         for (const i of account) {
-          if (i < "0" || i > "9") return false;
         }
         return account.length == 16;
       },
@@ -28,14 +25,19 @@ let petSchema = mongoose.Schema({
   order: { type: mongoose.Schema.Types.ObjectId, ref: "Order" },
   imgExtension: String,
   available: { type: Boolean, default: true },
+  stagedCnt: { type: Number, default: 0 },
 });
 
 petSchema.post("findOneAndDelete", function (doc) {
-  fs.unlink(`./public/img/mascotas/${doc._id}.${doc.imgExtension}`).catch(
-    (err) => {
-      if (err && err.code != "ENOENT") console.error(err);
-    }
-  );
+  fs.unlink(
+    `./public/img/mascotas/${doc._id}.${doc.imgExtension}`
+  ).catch((err) => {});
+});
+
+petSchema.post("remove", function (doc) {
+  fs.unlink(
+    `./public/img/mascotas/${doc._id}.${doc.imgExtension}`
+  ).catch((err) => {});
 });
 
 let petModel = new mongoose.model("Pet", petSchema);
