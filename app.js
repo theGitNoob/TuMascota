@@ -1,6 +1,5 @@
 "use strict";
 let express = require("express");
-let bodyParser = require("body-parser"); // Parse incoming request bodies in a middleware, available as req.body
 let compression = require("compression");
 let session = require("express-session");
 let cookieSession = require("cookie-session");
@@ -15,28 +14,27 @@ const { Mongoose } = require("mongoose");
 let app = express();
 
 app.disable("x-powered-by");
-// app.use(
-//   session({
-//     secret: "123the cat is falling in love",
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// );
-
 app.use(
-  cookieSession({
-    name: "idSession",
-    keys: ["rafa01", "dsadasadsfdg"],
-    cookie: {
-      secure: true,
-      httpOnly: true,
-    },
+  session({
+    secret: "123the cat is falling in love",
+    resave: false,
+    saveUninitialized: false,
   })
 );
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false })); //
-// bodyParser.
+// app.use(
+//   cookieSession({
+//     name: "idSession",
+//     keys: ["rafa01", "dsadasadsfdg"],
+//     cookie: {
+//       secure: true,
+//       httpOnly: true,
+//     },
+//   })
+// );
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false })); //
 
 app.use(methodOverride("_method"));
 
