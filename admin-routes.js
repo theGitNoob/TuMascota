@@ -4,12 +4,12 @@ let adminModel = require("./models/admin-user.js").adminModel;
 let router = express.Router();
 let petModel = require("./models/pet").petModel;
 let accesoriesModel = require("./models/accesorie").accesoriesModel;
-let formidable = require("formidable");
 let fs = require("fs/promises");
 let mongoose = require("mongoose");
 let userModel = require("./models/user").userModel;
 let orderModel = require("./models/order").orderModel;
-
+let multer = require("multer");
+var upload = multer({ dest: "./uploads/" });
 router.get("/", (req, res) => {
   res.render("admin");
 });
@@ -121,46 +121,42 @@ router
       )
       .catch((err) => res.json(err));
   })
-  .post((req, res) => {
-    console.log("POST");
-    const form = formidable({ uploadDir: "./temp", keepExtensions: true });
-    form.parse(req, (err, fields, files) => {
-      if (err) {
+  .post(upload.single("file"), (req, res) => {
+    let wasFileSend = req.file !== undefined;
+    let fileName = wasFileSend ? req.file.path : undefined;
+    console.log(req.file);
+
+    let data = {
+      type: req.body.animal_type.toLowerCase(),
+      breed: req.body.breed ? req.body.breed : undefined,
+      sex: req.body.sex ? req.body.sex : undefined,
+      price: req.body.price,
+      cnt: req.body.cnt ? req.body.cnt : undefined,
+      birthDay: req.body.birth_day ? req.body.birth_day : undefined,
+      description: req.body.description ? req.body.description : undefined,
+      ownerPhone: req.body.owner_phone,
+      ownerName: req.body.owner_name,
+      ownerAccount: req.body.owner_account ? req.body.owner_account : undefined,
+    };
+
+    if (wasFileSend) {
+      data.imgExtension = data.imgExtension = req.file.originalname.substring(
+        req.file.originalname.lastIndexOf(".") + 1
+      );
+    }
+
+    let newPet = new petModel(data);
+    let newFileName = `./public/img/mascotas/${newPet._id}.${data.imgExtension}`;
+    newPet
+      .save()
+      .then(() => {
+        if (wasFileSend) return fs.rename(req.file.path, newFileName);
+      })
+      .then(() => res.redirect("/admin/mascotas/"))
+      .catch((err) => {
         console.error(err);
-      } else {
-        let fileName = files.file.path;
-        let wasFileSend = files.file.size != 0;
-        let data = {
-          type: fields.animal_type.toLowerCase(),
-          breed: fields.breed ? fields.breed : undefined,
-          sex: fields.sex ? fields.sex : undefined,
-          price: fields.price,
-          cnt: fields.cnt ? fields.cnt : undefined,
-          birthDay: fields.birth_day ? fields.birth_day : undefined,
-          description: fields.description ? fields.description : undefined,
-          ownerPhone: fields.owner_phone,
-          ownerName: fields.owner_name,
-          ownerAccount: fields.owner_account ? fields.owner_account : undefined,
-        };
-
-        if (wasFileSend) {
-          data.imgExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
-        }
-
-        let newPet = new petModel(data);
-        let newFileName = `./public/img/mascotas/${newPet._id}.${data.imgExtension}`;
-        newPet
-          .save()
-          .then(() => {
-            if (wasFileSend) return fs.rename(fileName, newFileName);
-          })
-          .then(() => res.redirect("/admin/mascotas/"))
-          .catch((err) => {
-            console.error(err);
-            res.redirect("/admin/mascotas/new");
-          });
-      }
-    });
+        res.redirect("/admin/mascotas/new");
+      });
   });
 
 router.get("/mascotas/new", (req, res) => {
@@ -189,70 +185,63 @@ router
       res.send("La página q esta intentando acceder no existe");
     }
   })
-  .put((req, res) => {
-    const form = formidable({ uploadDir: "./temp", keepExtensions: true });
-    form.parse(req, (err, fields, files) => {
-      if (err) {
+  .put(upload.single("file"), (req, res) => {
+    let wasFileSend = req.file !== undefined;
+    let fileName = wasFileSend ? req.file.path : undefined;
+
+    let data = {
+      type: req.body.animal_type.toLowerCase(),
+      breed: req.body.breed ? req.body.breed : undefined,
+      sex: req.body.sex ? req.body.sex : undefined,
+      price: req.body.price,
+      cnt: req.body.cnt ? req.body.cnt : undefined,
+      birthDay: req.body.birth_day ? req.body.birth_day : undefined,
+      description: req.body.description ? req.body.description : undefined,
+      ownerPhone: req.body.owner_phone,
+      ownerName: req.body.owner_name,
+      ownerAccount: req.body.owner_account ? req.body.owner_account : undefined,
+      available: req.body.cnt != undefined && req.body.cnt != 0 ? true : false,
+    };
+
+    if (wasFileSend) {
+      let extension = (data.imgExtension = req.file.originalname.substring(
+        req.file.originalname.lastIndexOf(".") + 1
+      ));
+      data.imgExtension = extension;
+    }
+
+    petModel
+      .findByIdAndUpdate(req.params.id, data, {
+        useFindAndModify: false,
+        runValidators: true,
+      })
+      .then(async (doc) => {
+        if (wasFileSend) {
+          try {
+            await fs.rename(
+              fileName,
+              `./public/img/mascotas/${doc._id}.${data.imgExtension}`
+            );
+            if (
+              doc.imgExtension != undefined &&
+              doc.imgExtension != data.imgExtension
+            ) {
+              await fs.unlink(
+                `./public/img/mascotas/${doc._id}.${doc.imgExtension}`
+              );
+            }
+          } catch (err) {
+            if (err.code != "ENOENT") throw err;
+          }
+        }
+      })
+      .then(() => {
+        res.redirect("/admin/mascotas/");
+      })
+      .catch((err) => {
         console.error(err);
         res.redirect(`/admin/mascotas/${req.params.id}`);
-        return;
-      } else {
-        let wasFileSend = files.file.size != 0;
-        let fileName = files.file.path;
-
-        let data = {
-          type: fields.animal_type.toLowerCase(),
-          breed: fields.breed ? fields.breed : undefined,
-          sex: fields.sex ? fields.sex : undefined,
-          price: fields.price,
-          cnt: fields.cnt ? fields.cnt : undefined,
-          birthDay: fields.birth_day ? fields.birth_day : undefined,
-          description: fields.description ? fields.description : undefined,
-          ownerPhone: fields.owner_phone,
-          ownerName: fields.owner_name,
-          ownerAccount: fields.owner_account ? fields.owner_account : undefined,
-          available: fields.cnt != undefined && fields.cnt != 0 ? true : false,
-        };
-
-        if (wasFileSend) {
-          let extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-          data.imgExtension = extension;
-        }
-
-        petModel
-          .findByIdAndUpdate(req.params.id, data, {
-            useFindAndModify: false,
-            runValidators: true,
-          })
-          .then(async (doc) => {
-            if (wasFileSend) {
-              try {
-                await fs.rename(
-                  fileName,
-                  `./public/img/mascotas/${doc._id}.${data.imgExtension}`
-                );
-                if (
-                  doc.imgExtension != undefined &&
-                  doc.imgExtension != data.imgExtension
-                ) {
-                  await fs.unlink(
-                    `./public/img/mascotas/${doc._id}.${doc.imgExtension}`
-                  );
-                }
-              } catch (err) {
-                if (err.code != "ENOENT") throw err;
-              }
-            }
-          })
-          .then(() => {
-            res.redirect("/admin/mascotas/");
-          })
-          .catch((err) => {
-            console.error(err);
-            res.redirect(`/admin/mascotas/${req.params.id}`);
-          });
-      }
-    });
+      });
   })
   .delete((req, res) => {
     petModel
@@ -274,44 +263,38 @@ router
       )
       .catch((err) => res.json(err));
   })
-  .post((req, res) => {
-    const form = formidable({ uploadDir: "./temp", keepExtensions: true });
-    form.parse(req, (err, fields, files) => {
-      if (err) {
+  .post(upload.single("file"), (req, res) => {
+    let wasFileSend = req.file !== undefined;
+    let fileName = wasFileSend ? req.file.path : undefined;
+
+    let data = {
+      type: req.body.type.toLowerCase(),
+      price: req.body.price,
+      description: req.body.description ? req.body.description : undefined,
+      ownerPhone: req.body.owner_phone,
+      ownerName: req.body.owner_name,
+      ownerAccount: req.body.owner_account ? req.body.owner_account : undefined,
+      cnt: req.body.cnt ? req.body.cnt : undefined,
+    };
+
+    if (wasFileSend) {
+      let extension = (data.imgExtension = req.file.originalname.substring(
+        req.file.originalname.lastIndexOf(".") + 1
+      ));
+      data.imgExtension = extension;
+    }
+    let newAccesorie = new accesoriesModel(data);
+    let newFileName = `./public/img/accesorios/${newAccesorie._id}.${newAccesorie.imgExtension}`;
+    newAccesorie
+      .save()
+      .then(() => {
+        if (wasFileSend) return fs.rename(fileName, newFileName);
+      })
+      .then(() => res.redirect("/admin/accesorios/"))
+      .catch((err) => {
         console.error(err);
         res.redirect("/admin/accesorios/new");
-      } else {
-        let fileName = files.file.path;
-        let wasFileSend = files.file.size != 0;
-
-        let data = {
-          type: fields.type.toLowerCase(),
-          price: fields.price,
-          description: fields.description ? fields.description : undefined,
-          ownerPhone: fields.owner_phone,
-          ownerName: fields.owner_name,
-          ownerAccount: fields.owner_account ? fields.owner_account : undefined,
-          cnt: fields.cnt ? fields.cnt : undefined,
-        };
-
-        if (wasFileSend) {
-          let extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-          data.imgExtension = extension;
-        }
-        let newAccesorie = new accesoriesModel(data);
-        let newFileName = `./public/img/accesorios/${newAccesorie._id}.${newAccesorie.imgExtension}`;
-        newAccesorie
-          .save()
-          .then(() => {
-            if (wasFileSend) return fs.rename(fileName, newFileName);
-          })
-          .then(() => res.redirect("/admin/accesorios/"))
-          .catch((err) => {
-            console.error(err);
-            res.redirect("/admin/accesorios/new");
-          });
-      }
-    });
+      });
   });
 
 router.get("/accesorios/new", (req, res) => {
@@ -344,66 +327,61 @@ router
       res.send("La página q esta intentando acceder no existe");
     }
   })
-  .put((req, res) => {
-    const form = formidable({ uploadDir: "./temp", keepExtensions: true });
-    form.parse(req, (err, fields, files) => {
-      if (err) {
+  .put(upload.single("file"), (req, res) => {
+    let wasFileSend = req.file !== undefined;
+    let fileName = wasFileSend ? req.file.path : undefined;
+
+    let data = {
+      type: req.body.type.toLowerCase(),
+      price: req.body.price,
+      description: req.body.description ? req.body.description : undefined,
+      ownerPhone: req.body.owner_phone,
+      ownerName: req.body.owner_name,
+      ownerAccount: req.body.owner_account ? req.body.owner_account : undefined,
+      cnt: req.body.cnt ? req.body.cnt : undefined,
+      available: req.body.cnt != undefined && req.body.cnt != 0 ? true : false,
+    };
+
+    if (wasFileSend) {
+      let extension = (data.imgExtension = req.file.originalname.substring(
+        req.file.originalname.lastIndexOf(".") + 1
+      ));
+      data.imgExtension = extension;
+    }
+
+    accesoriesModel
+      .findByIdAndUpdate(req.params.id, data, {
+        useFindAndModify: false,
+        runValidators: true,
+      })
+      .then(async (doc) => {
+        if (wasFileSend) {
+          try {
+            console.log(fileName);
+            await fs.rename(
+              fileName,
+              `./public/img/accesorios/${doc._id}.${data.imgExtension}`
+            );
+            if (
+              doc.imgExtension != undefined &&
+              doc.imgExtension != data.imgExtension
+            ) {
+              await fs.unlink(
+                `./public/img/accesorios/${doc._id}.${doc.imgExtension}`
+              );
+            }
+          } catch (err) {
+            if (err.code != "ENOENT") throw err;
+          }
+        }
+      })
+      .then(() => {
+        res.redirect("/admin/accesorios/");
+      })
+      .catch((err) => {
         console.error(err);
         res.redirect(`/admin/accesorios/${req.params.id}`);
-      } else {
-        let fileName = files.file.path;
-        let wasFileSend = files.file.size != 0;
-
-        let data = {
-          type: fields.type.toLowerCase(),
-          price: fields.price,
-          description: fields.description ? fields.description : undefined,
-          ownerPhone: fields.owner_phone,
-          ownerName: fields.owner_name,
-          ownerAccount: fields.owner_account ? fields.owner_account : undefined,
-          cnt: fields.cnt ? fields.cnt : undefined,
-          available: fields.cnt != undefined && fields.cnt != 0 ? true : false,
-        };
-
-        if (wasFileSend) {
-          let extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-          data.imgExtension = extension;
-        }
-
-        accesoriesModel
-          .findByIdAndUpdate(req.params.id, data, {
-            useFindAndModify: false,
-            runValidators: true,
-          })
-          .then(async (doc) => {
-            if (wasFileSend) {
-              try {
-                await fs.rename(
-                  fileName,
-                  `./public/img/accesorios/${doc._id}.${data.imgExtension}`
-                );
-                if (
-                  doc.imgExtension != undefined &&
-                  doc.imgExtension != data.imgExtension
-                ) {
-                  await fs.unlink(
-                    `./public/img/accesorios/${doc._id}.${doc.imgExtension}`
-                  );
-                }
-              } catch (err) {
-                if (err.code != "ENOENT") throw err;
-              }
-            }
-          })
-          .then(() => {
-            res.redirect("/admin/accesorios/");
-          })
-          .catch((err) => {
-            console.error(err);
-            res.redirect(`/admin/accesorios/${req.params.id}`);
-          });
-      }
-    });
+      });
   })
   .delete((req, res) => {
     accesoriesModel

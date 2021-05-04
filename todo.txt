@@ -3,7 +3,30 @@ crear modelo de veterinarios
 crear un middleware para el manejo de errores
 
 
-cambiar la ruta de subida de archivos con formidable
+cambiar formidable por multer
 
 una vez q implemente toda la logica basica del manejo de rutas de las ordenes integrar las base de datos de ordenes es decir
 fusionar los modelos de accesorios y mascotas
+cambiar bcryptjs por bcrypt
+
+revisar en los promises q para q un evento suba el q lo genera debe ser return
+poner un usuario y contraseña en mongo db
+eje:
+asi sube hasta q el error es atrapado
+    let fs = require("fs/promises");
+
+    p.then((res) => {
+    console.log(res);
+    return fs.access("D:/xxx.xxx");
+    }).catch((err) => {
+    //   console.log(err);
+    });
+asi no lo hace
+    let fs = require("fs/promises");
+
+    p.then((res) => {
+    console.log(res);
+    fs.access("D:/xxx.xxx");
+    }).catch((err) => {
+    //   console.log(err);
+    });

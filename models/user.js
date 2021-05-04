@@ -4,40 +4,20 @@ let parsePhone = require("../utils").parsePhone;
 
 let userSchema = mongoose.Schema({
   name: { type: String, required: true },
-  email: {
-    type: String,
-    validate: [validator.isEmail, "El email es inválido"],
-  },
-  phone: {
-    type: String,
-    validate: {
-      validator: function (phone) {
-        phone = parsePhone(phone);
-        if (phone.length != 8 || !validator.isNumeric(phone)) return false;
-
-        //validar q el # exista
-        return true;
-      },
-      message: "El número de télefono introducido no es correcto",
-    },
-  },
+  email: String,
+  addres: String,
+  phone: String,
+  username: { type: String, required: true },
   orders: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Order",
     },
   ],
-  password: {
-    type: String,
-    required: true,
-    validate: {
-      validator: function (p) {
-        return this.password_confirmation == p;
-      },
-      message: "Las contraseñas no coinciden",
-    },
-  },
-  receiverNotification: { type: Boolean, default: false },
+  password: String,
+  salt: String,
+  isAdmin: Boolean,
+  receiveNotification: { type: Boolean, default: false },
 });
 
 userSchema

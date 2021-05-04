@@ -1,40 +1,46 @@
 "use strict";
 let express = require("express");
-let compression = require("compression");
+// let compression = require("compression");
 let session = require("express-session");
-let cookieSession = require("cookie-session");
 let methodOverride = require("method-override");
-let sessionMiddleware = require("./middlewares/session-middleware");
+// let sessionMiddleware = require("./middlewares/session-middleware");
 let adminRouter = require("./admin-routes");
-let router = require("./routes");
-let petModel = require("./models/pet").petModel;
-
-const { Mongoose } = require("mongoose");
+let user = require("./routes/users");
+let pets = require("./routes/pets");
+let accesories = require("./routes/accesories");
+let services = require("./routes/services");
+let passport = require("passport");
+let flash = require("connect-flash");
+const MongoStore = require("connect-mongo");
 
 let app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false })); //
+
 app.disable("x-powered-by");
+
 app.use(
   session({
     secret: "123the cat is falling in love",
     resave: false,
+    name: "sessionID",
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: "mongodb://localhost/users",
+      collectionName: "sessions",
+    }),
   })
 );
 
-// app.use(
-//   cookieSession({
-//     name: "idSession",
-//     keys: ["rafa01", "dsadasadsfdg"],
-//     cookie: {
-//       secure: true,
-//       httpOnly: true,
-//     },
-//   })
-// );
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false })); //
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.messages = require("express-messages")(req, res);
+  next();
+});
 
 app.use(methodOverride("_method"));
 
@@ -49,18 +55,37 @@ app.use(
 
 // let compiledIndex = pug.compileFile("./views/index.pug");
 //Tengo q recompilar cada vez q realizo un cambio a la pagina
+
 app.use((req, res, next) => {
   res.locals.path = req.path;
   next();
 });
+
 app.get("/", (req, res) => {
   //   res.send(compiledIndex());
   res.render("index");
 });
 
-app.use(sessionMiddleware);
-app.use("/", router);
-app.use("/admin", adminRouter);
+app.use("/users", user);
+app.use("/mascotas", pets);
+app.use("/accesorios", accesories);
+// app.use("/servicios", services);
+
+app.use(
+  "/admin",
+  (req, res, next) => {
+    if (req.isAuthenticated()) {
+      next();
+    } else {
+      res.status(404).send("La pagina q esta buscando no existe");
+    }
+  },
+  adminRouter
+);
+
+app.use((req, res) => {
+  res.status(404).send("La pagina q esta buscando no existe");
+});
 
 app.listen(8080, (err) => {
   console.log("Servidor corriendo en el puerto 8080");

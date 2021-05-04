@@ -1,18 +1,27 @@
 extends ./admin-layout.pug
 block contenido
   body    
+    .d-flex.justify-center
+      != messages()
+
     div(class="container col-md-4 center-block big-top-space")
       h1(class="text-center") Registrarse
-      form(action="/users/sign_up" method="POST")
+      form(action="/users/register" method="POST")
         div(class="form-group")
-          label(for="name" class="form-label") Nombre
-          input(type="text" class="form-control" name="name" required id="name"  placeholder="Nombre")
+          label(for="name" class="form-label") Nombre y Apellidos
+          input(type="text" class="form-control" name="name" required id="name" placeholder="Nombre")
+
+          label(for="username" class="form-label") Nombre de Usuario
+          input(type="text" class="form-control" name="username" required id="username" placeholder="Nombre de Usuario")
+
+          label(for="address" class="form-label") Dirección
+          input(type="text" class="form-control" name="address" id="address" placeholder="Dirección")
 
           label(for="phone" class="form-label") Numero de telefono
-          input(type="phone" class="form-control" name="phone" required id="phone"  placeholder="Numero de telefono")
+          input(type="phone" class="form-control" name="phone" required id="phone" placeholder="Numero de telefono")
 
           label(for="email" class="form-label") Correo Electronico
-          input(type="email" class="form-control" name="email" id="email"  placeholder="Correo Electronico")
+          input(type="email" class="form-control" name="email" id="email" placeholder="Correo Electronico")
 
           label(for="password" class="form-label") Contraseña
           input(type="password" class="form-control" name="password" required id="password" placeholder="Contraseña")
