@@ -4,11 +4,11 @@ let express = require("express");
 let session = require("express-session");
 let methodOverride = require("method-override");
 // let sessionMiddleware = require("./middlewares/session-middleware");
-let adminRouter = require("./admin-routes");
-let user = require("./routes/users");
-let pets = require("./routes/pets");
-let accesories = require("./routes/accesories");
-let services = require("./routes/services");
+let adminRouter = require("./routes/admin/admin-routes");
+let user = require("./routes/usuarios");
+let pets = require("./routes/mascotas");
+let accesories = require("./routes/accesorios");
+let services = require("./routes/servicios");
 let passport = require("passport");
 let flash = require("connect-flash");
 const MongoStore = require("connect-mongo");
@@ -86,6 +86,21 @@ app.use(
 app.use((req, res) => {
   res.status(404).send("La pagina q esta buscando no existe");
 });
+
+// error handler
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render("error");
+});
+app.listen(3000, () => {
+  console.log("Servidor iniciado correctamente");
+});
+module.exports = app;
 
 app.listen(8080, (err) => {
   console.log("Servidor corriendo en el puerto 8080");

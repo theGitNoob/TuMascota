@@ -5,9 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (idx >= petImages.length) return;
     let imgNode = petImages[idx];
     imgNode.src += imgNode.id + imgNode.getAttribute("extension");
-    // imgNode.src = `/public/img/mascotas/${imgNode.id}${imgNode.getAttribute(
-    //   "extension"
-    // )}`;
+    let url = imgNode.getAttribute("url");
+    imgNode.src = `${url}${imgNode.id}${imgNode.getAttribute("extension")}`;
     imgNode.onload = () => {
       loadImg(idx + 1);
     };

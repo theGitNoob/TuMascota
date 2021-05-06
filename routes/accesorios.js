@@ -28,7 +28,7 @@ router.post("/ordenes/:id", async (req, res) => {
     }
 
     let user = await userModel.findById(req.user.id);
-    console.log();
+    console.log(user);
     if (user == null) {
       res.redirect("/accesorios");
     }

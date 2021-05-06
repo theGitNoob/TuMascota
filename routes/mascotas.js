@@ -9,16 +9,22 @@ router.get("/order/:id", (req, res) => {
 });
 
 router.post("/ordenes/:id", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    req.flash(
+      "alert alert-danger",
+      "Debe iniciar sesion antes de realizar un pedido"
+    );
+    res.redirect("/users/login");
+    return;
+  }
   try {
     let pet = await petModel.findById(req.params.id);
     if (pet == null) {
       res.redirect("/mascotas");
     }
 
-    let user = await userModel.findById(req.session.user_id);
-    if (user == null) {
-      res.redirect("/mascotas");
-    }
+    let user = await userModel.findById(req.user.id);
+    console.log(user);
 
     if (pet.available) {
       let cnt = req.body.cnt > pet.cnt ? pet.cnt : req.body.cnt;
@@ -41,7 +47,6 @@ router.post("/ordenes/:id", async (req, res) => {
 
       res.redirect("/mascotas");
     } else {
-      // la mascota no esta disponible ya notificar de esto
       res.send("Lo sentimoas la mascota no s eencuentra disponible");
     }
   } catch (err) {
@@ -75,7 +80,7 @@ router
         opts[element] = true;
       });
 
-      res.render("mascotas2", opts);
+      res.render("mascotas", opts);
     } catch (err) {
       console.error(err);
       res.redirect("/");
