@@ -5,6 +5,7 @@ let Schema = mongoose.Schema;
 mongoose.connect("mongodb://localhost/users", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 });
 
 let adminUserSchema = new Schema({

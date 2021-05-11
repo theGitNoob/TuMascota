@@ -6,6 +6,7 @@ let validateUserRegistration = require("../utils").validateUserRegistration;
 let passport = require("passport");
 let LocalStrategy = require("passport-local").Strategy;
 let bcrypt = require("bcryptjs");
+let crypto = require("crypto");
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -28,7 +29,7 @@ passport.use(
       } else {
         return done(null, false);
       }
-    } catch (error) {
+    } catch (err) {
       return done(err);
     }
   })
@@ -37,6 +38,7 @@ passport.use(
 router
   .route("/login")
   .get((req, res) => {
+    console.log(req.user);
     if (req.isAuthenticated()) res.redirect("/");
     else res.render("login");
   })
@@ -46,8 +48,15 @@ router
       failureRedirect: "/users/login",
     }),
     (req, res) => {
-      req.flash("success", "Usted ha iniciado session correctamente");
-      res.redirect("/mascotas");
+      // new Promise(resolve,rejec)
+      req.flash(
+        "alert alert-success",
+        "Usted ha iniciado session correctamente"
+      );
+      console.log("das");
+      let pattern = "8080/";
+      let path = req.headers.referer.split(pattern)[1];
+      res.redirect(`/${path}`);
     }
   );
 
@@ -91,9 +100,10 @@ router
           }
           newUser.password = hash;
           await newUser.save();
-          console.log(newUser);
-          req.flash("alert alert-success", "Se ha registrado correctamente");
-          res.redirect("/");
+          let pattern = "8080/";
+          let path = req.headers.referer.split(pattern)[1];
+          console.log(path);
+          res.redirect(`/${path}`);
         });
       }
     } catch (err) {
@@ -114,9 +124,11 @@ router
 router.get("/logout", (req, res, next) => {
   if (req.isAuthenticated()) {
     req.logout();
-    req.flash("success", "You are now logged out");
-    res.redirect("/users/login");
-    res.end();
+    req.flash("alert alert-success", "Su sessión ha sido cerrada");
+    // nombre de dominio
+    let pattern = "8080/";
+    let path = req.headers.referer.split(pattern)[1];
+    res.redirect(`/${path}`);
   } else {
     next();
   }

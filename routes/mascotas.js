@@ -10,21 +10,21 @@ router.get("/order/:id", (req, res) => {
 
 router.post("/ordenes/:id", async (req, res) => {
   if (!req.isAuthenticated()) {
-    req.flash(
-      "alert alert-danger",
-      "Debe iniciar sesion antes de realizar un pedido"
-    );
-    res.redirect("/users/login");
+    // req.flash(
+    //   "alert alert-danger",
+    //   "Debe iniciar sesion antes de realizar un pedido"
+    // );
+    res.status(401).end();
     return;
   }
   try {
     let pet = await petModel.findById(req.params.id);
+
     if (pet == null) {
       res.redirect("/mascotas");
     }
 
     let user = await userModel.findById(req.user.id);
-    console.log(user);
 
     if (pet.available) {
       let cnt = req.body.cnt > pet.cnt ? pet.cnt : req.body.cnt;
@@ -38,7 +38,8 @@ router.post("/ordenes/:id", async (req, res) => {
       });
 
       await newOrder.save();
-
+      user.orders.push(newOrder._id);
+      await user.save();
       pet.cnt -= cnt;
       pet.stagedCnt += cnt;
       pet.available = pet.cnt == 0 ? false : true;

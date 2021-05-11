@@ -1,79 +1,87 @@
-const firstElement = document.querySelector("#first-element-contact-us");
-const secondElement = document.querySelector("#second-element-contact-us");
 const btnBuyArr = document.querySelectorAll(".btn-buy");
-const modalBackContact = document.querySelector("#modal-back-contact");
-const modalBackAbout = document.querySelector("#modal-back-about");
+
 const modalBackBuyThis = document.querySelector(".modal-back-buy-this");
-let buyForm = document.querySelector("#buy-form");
-let modalBackBuyThisCnt = modalBackBuyThis.querySelector(".spin-box-buy");
+
 const modalBackCompleted = document.querySelector("#modal-back-completed");
-const modalContact = document.querySelector("#modal-contact");
-const modalAbout = document.querySelector("#modal-about");
+
 const modalBuyThis = document.querySelector(".modal-buy-this");
 const modalCompleted = document.querySelector("#modal-completed");
 //Indique la cantidad que le interesaria Max(x) nos pondremos en contacto
 //con usted a traves del telefono
-const modalCompletedCircle = document.querySelector(".circle");
-const modalCompletedCircleOk = document.querySelector(".circle-ok");
+const buyForm = document.querySelector("#buy-form");
+const spanCnt = document.querySelector("#cnt");
 
+const succesCheckMark = document.querySelector(".success-checkmark");
 const acceptBtnBuy = document.querySelector("#accept-btn-buy");
 const cancelBtnBuy = document.querySelector("#cancel-btn-buy");
 
-acceptBtnBuy.addEventListener("click", () => {
-  function animarModal() {
-    mostrarModal(modalBackCompleted, modalCompleted);
-    modalCompletedCircle.classList.toggle("show-circle");
-    modalCompletedCircleOk.classList.toggle("show-completed");
+let modalBackBuyThisCnt = modalBackBuyThis.querySelector(".spin-box-buy");
+const plusBtn = document.querySelector(".plus-btn");
+const lessBtn = document.querySelector(".less-btn");
+
+modalBackBuyThisCnt.addEventListener("change", () => {
+  let parseValue = parseInt(modalBackBuyThisCnt.value);
+  let parseValueMax = parseInt(modalBackBuyThisCnt.getAttribute("max"));
+  if (parseValue >= parseValueMax) {
+    modalBackBuyThisCnt.value = modalBackBuyThisCnt.max;
   }
-  animarModal();
-  setTimeout(() => {
-    animarModal();
-    // mostrarModal(modalBackCompleted, modalCompleted);
-    modalBackBuyThis.style.display = "none";
-    buyForm.submit();
-  }, 2000);
 });
 
-function mostrarModal(modalback, modal) {
-  modalback.classList.toggle("show-modal-back");
-  modal.classList.toggle("show-modal");
-}
+plusBtn.addEventListener("click", () => {
+  let parseValue = parseInt(modalBackBuyThisCnt.value);
+  let parseValueMax = parseInt(modalBackBuyThisCnt.getAttribute("max"));
 
-firstElement.addEventListener("click", () => {
-  mostrarModal(modalBackContact, modalContact);
+  if (parseValue + 1 <= parseValueMax)
+    modalBackBuyThisCnt.value = parseInt(modalBackBuyThisCnt.value) + 1;
 });
 
-secondElement.addEventListener("click", () => {
-  mostrarModal(modalBackAbout, modalAbout);
+lessBtn.addEventListener("click", () => {
+  let parseValue = parseInt(modalBackBuyThisCnt.value);
+  // let parseValueMax = parseInt(modalBackBuyThisCnt.getAttribute("max"));
+  // console.log(parseValue);
+
+  // modalBackBuyThisCnt.value = parseInt(modalBackBuyThisCnt.value) - 1;
+  if (parseValue > 1) {
+    modalBackBuyThisCnt.value = parseInt(modalBackBuyThisCnt.value) - 1;
+  }
 });
+
+// acceptBtnBuy.addEventListener("click", () => {
+//   modalBackBuyThis.click();
+//   succesCheckMark.style.display = "none";
+
+//   function animarModal() {
+//     mostrarModal(modalBackCompleted, modalCompleted);
+//   }
+//   setTimeout(() => {
+//     animarModal();
+//   }, 650);
+
+//   setTimeout(() => {
+//     succesCheckMark.style.display = "block";
+//   }, 1050);
+//   setTimeout(() => {
+//     animarModal();
+//   }, 2300);
+// });
 
 btnBuyArr.forEach((btnBuy) => {
   btnBuy.addEventListener("click", (e) => {
-    let cnt;
-    let parentNode =
+    let node =
       e.target.getAttribute("class") == "btn-buy"
-        ? e.target
-        : e.target.parentNode;
-    let values = parentNode.querySelectorAll("input");
-
-    cnt = values[0].value;
-
-    buyForm.action += values[1].value;
-    modalBackBuyThisCnt.max = cnt;
-    document.querySelector("#cnt").textContent = `(${cnt})`;
-
+        ? e.target.firstElementChild
+        : e.target.parentNode.firstElementChild;
+    let cnt = node.value;
+    modalBackBuyThisCnt.setAttribute("max", cnt);
+    spanCnt.textContent = ` (${cnt})`;
+    buyForm.action += node.id;
     mostrarModal(modalBackBuyThis, modalBuyThis);
+    modalBackBuyThisCnt.value = 1;
   });
 });
 
 document.addEventListener("click", (e) => {
   switch (e.target) {
-    case modalBackContact:
-      mostrarModal(modalBackContact, modalContact);
-      break;
-    case modalBackAbout:
-      mostrarModal(modalBackAbout, modalAbout);
-      break;
     case modalBackBuyThis:
       mostrarModal(modalBackBuyThis, modalBuyThis);
       break;
@@ -83,6 +91,52 @@ document.addEventListener("click", (e) => {
     // break;
     case cancelBtnBuy:
       mostrarModal(modalBackBuyThis, modalBuyThis);
+
       break;
   }
+});
+buyForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  let body = new URLSearchParams();
+  let inputNode = buyForm.querySelector("input");
+  body.append(inputNode.name, inputNode.value);
+  fetch(buyForm.action, {
+    method: "post",
+    mode: "same-origin",
+    cache: "default",
+    credentials: "same-origin",
+    headers: {
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+    },
+    body: body,
+  })
+    .then((response) => {
+      if (!response.ok) throw 401;
+    })
+    .then(() => {
+      modalBackBuyThis.click();
+      succesCheckMark.style.display = "none";
+
+      function animarModal() {
+        mostrarModal(modalBackCompleted, modalCompleted);
+      }
+      setTimeout(() => {
+        animarModal();
+      }, 650);
+
+      setTimeout(() => {
+        succesCheckMark.style.display = "block";
+      }, 1050);
+      setTimeout(() => {
+        animarModal();
+      }, 2300);
+      setTimeout(() => {
+        document.location.reload();
+      }, 2500);
+    })
+    .catch((err) => {
+      if (err == 401) {
+      }
+    });
 });

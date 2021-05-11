@@ -14,9 +14,15 @@ let userSchema = mongoose.Schema({
       ref: "Order",
     },
   ],
+  messages: [
+    {
+      type: String,
+    },
+  ],
   password: String,
-  salt: String,
   isAdmin: Boolean,
+  hashedURL: String,
+  confirmed: { type: Boolean, default: false },
   receiveNotification: { type: Boolean, default: false },
 });
 

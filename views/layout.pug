@@ -1,28 +1,86 @@
 doctype html
-html(lang='es')
+html(lang='en')
   head
     meta(charset='UTF-8')
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
     meta(name='viewport' content='width=device-width,initial-scale=1')
     title Venta de Mascotas
     link(rel='stylesheet' href='/public/css/style.css')
-    link(rel='stylesheet' href='/public/css/mascotas-style.css')
+    link(rel='stylesheet' href='/public/css/log-in.css')
+    if path.startsWith("/mascotas")
+      link(rel='stylesheet' href='/public/css/mascotas-style.css')
+    if path.startsWith("/accesorios")
+      link(rel='stylesheet' href='/public/css/accesorios-style.css')
+    link(rel='stylesheet' href='/public/css/alert-style.css')
+    link(rel='stylesheet' href='/public/css/buy-style.css')
     link(rel='icon' href='/public/img/res/shop.png')
   body
     header#header.header
       .container-header
         img.logo(src='/public/img/res/shop.svg', alt)
-        h1.title 
+        h1.title
           span Tu
           | Mascota
-      img.menu-icon(src='/public/img/res/bx-menu.svg', alt)
+
+        .container-header-login
+          if user
+            .login-option.orders-login
+              img#orders-login(src='/public/img/res/shopping-cart(3).svg', alt)
+              span.login-count-msj.orders-msj=user.orders.length
+          if user
+            .login-option.bell-login
+              img#bell-login(src='/public/img/res/campana-de-notificacion(1).svg', alt)
+              span.login-count-msj.bell-msj=user.messages.length
+          img#avatar-login(src='/public/img/res/logo_avatar_circle_blue_color.png', alt)
+
+    section.sticky-hidden-menu
+      if !user
+        article#account-section.login-section
+          .container-login
+            .container-span-login
+              span#access
+                | Acceder
+
+                .line-element.span-line.anim-line
+              span#register
+                | Registrarse
+
+                .line-element.span-line.hide-line
+            form.login-form.access-form.show-form(action="/users/login" method="post" )
+              input(autofocus type='text' placeholder='Nombre de Usuario' name='username', required)
+              input(type='password' name='password' placeholder='Contraseña', required)
+              input(type='submit' value='Acceder')
+
+            form.login-form.register-form(action="/users/register" method="post")
+              input#name(type='text' placeholder='Nombre y Apellido' name='name', required)
+              input(type='text' placeholder='Nombre de Usuario' name='username', required)
+              input(type='tel' placeholder='Número de teléfono' name='phone' maxlength='8', required)
+              input(type='email' placeholder='Correo Electrónico' name='email')
+              input(type='text' placeholder='Dirección' name='address')
+              input(type='password' name='password' placeholder='Contraseña', required)
+              input(type='password' name='password_confirmation' placeholder='Contraseña', required)
+              input(type='checkbox' name='check-for-new')
+              label(for='check-for-new') Notificarme productos nuevos
+              input(type='submit' value='Registarse')
+      if user
+        article#account-section.account-section
+          ul.account-section-submenu.container-login
+            li.account-section-submenu-element
+              | Cuenta
+              .line-element.account-line
+            li.account-section-submenu-element 
+              a Configurar Cuenta
+            li.account-section-submenu-element 
+              a(href="/users/logout") Salir
+    img.menu-icon(src='/public/img/res/bx-menu-alt-left.svg', alt)
+
     nav.nav-menu
       .container-menu-element
         a.menu-element(href='/')
           img(src='/public/img/res/dog-home.svg', alt)
           span Inicio
-        -if(path == "/")
-          .line-element
+        if path == '/'
+          .line-element 
       .container-menu-element
         #pet-submenu.menu-element
           img(src='/public/img/res/dog.png', alt)
@@ -31,50 +89,51 @@ html(lang='es')
             img.show-submenu-img(src='/public/img/res/next.png', alt)
           .submenu
             ul.submenu-list
-              a.submenu-element(href='mascotas?perro=on')
+              a.submenu-element(href='mascotas')
                 img(src='/public/img/res/shiba.svg', alt)
                 |  Perros
 
-              a.submenu-element(href='mascotas?gato=on')
+              a.submenu-element(href='mascotas')
                 img(src='/public/img/res/cat.svg', alt)
                 |  Gatos
 
-              a.submenu-element(href='mascotas?ave=on')
+              a.submenu-element(href='mascotas')
                 img(src='/public/img/res/macaw.svg', alt)
                 |  Aves
 
-              a.submenu-element(href='mascotas?roedor=on')
+              a.submenu-element(href='mascotas')
                 img(src='/public/img/res/roedor.svg', alt)
                 |  Roedor
 
-              a.submenu-element(href='mascotas?pez=on')
+              a.submenu-element(href='mascotas')
                 img(src='/public/img/res/fish.svg', alt)
                 |  Peces
 
-              a.submenu-element(href='mascotas?otro=on')
+              a.submenu-element(href='mascotas')
                 img(src='/public/img/res/tortoise.svg', alt)
                 |  Otros
-        -if(path.startsWith("/mascotas"))
-          .line-element
+          if path.startsWith("/mascotas")
+            .line-element 
+
       .container-menu-element
         a.menu-element(href='/accesorios')
           img(src='/public/img/res/accesorios.png', alt)
           span Accesorios
-        -if(path.startsWith("/servicios"))
-          .line-element
+          if path.startsWith("/accesorios")
+            .line-element 
       .container-menu-element
         #services-menu.menu-element
           img(src='/public/img/res/doctor.png', alt)
           span Servicios
+          if path.startsWith("/servicios")
+            .line-element 
           .show-submenu-container
             img.show-submenu-img(src='/public/img/res/next.png', alt)
           .submenu
             ul.submenu-list
               li.submenu-element
                 img(src='/public/img/res/stethoscope.png', alt)
-                span Veterinario
-        -if(path.startsWith("/servicios"))
-          .line-element
+                | Veterinario
   != messages()
   block contenido
 
@@ -87,21 +146,13 @@ html(lang='es')
           //  <a class="btn-footer" href="">Ver Mascotas</a> 
           ul.content-footer-list
             span.footer-content-title Contenido
-            a.content-footer-element(href="/index.html").
+            a.content-footer-element(href='/') Inicio
 
-              Inicio
+            a.content-footer-element(href='/mascotas')  Mascotas
 
-            a.content-footer-element(href="/mascotas.html").
+            a.content-footer-element(href='/accesorios') Accesorios
 
-              Mascotas
-
-            a.content-footer-element(href="/accesorios.html").
-
-              Accesorios
-
-            a.content-footer-element(href="/servicios.html").
-
-              Servicios
+            a.content-footer-element(href='/servicios') Servicios
 
         .contact
           span.footer-content-title Contacto
@@ -116,23 +167,23 @@ html(lang='es')
 
                   .modal-contact-us-container
                     .contact-us-elements
-                      img(src="/public/img/res/mail.svg" alt)
+                      img(src='/public/img/res/mail.svg', alt)
                       span.
 
                         mascotunas@gmail.com
                     .contact-us-elements
-                      img(src="/public/img/res/whatsapp.png" alt)
+                      img(src='/public/img/res/whatsapp.png', alt)
                       span 58156518
                     .contact-us-elements
                       a(href)
-                        img(src="/public/img/res/facebook.png" alt)
+                        img(src='/public/img/res/facebook.png', alt)
                       span.
 
                         Venta de Mascotas en Las Tunas
             // Fin Modal Contact 
             #first-element-contact-us.contact-us
               span.element-contact-us Contáctanos
-              img.contact-icon(src="/public/img/res/complain.png" alt)
+              img.contact-icon(src='/public/img/res/complain.png', alt)
             //  Modal About 
             #modal-back-about.modal-back
               #modal-about.modal
@@ -144,10 +195,10 @@ html(lang='es')
 
                   .container-us
                     .avatar-rafa
-                      img(src="/public/img/res/avatar-rafa.png" alt)
+                      img(src='/public/img/res/avatar-rafa.png', alt)
                       span.name Rafael Acosta Márquez
                     .avatar-jesus
-                      img(src="/public/img/res/avatar-jesus.png" alt)
+                      img(src='/public/img/res/avatar-jesus.png', alt)
                       span.name Jesús Manuel López Ponce
                   .avatar-abraham
                     h4.modal-body-header.
@@ -159,18 +210,24 @@ html(lang='es')
             //  Fin Modal About 
             #second-element-contact-us.about-us
               span.element-contact-us Acerca de
-              img.contact-icon(src="/public/img/res/info.svg" alt)
+              img.contact-icon(src='/public/img/res/info.svg', alt)
         .social-media
           span.footer-content-title.center-title Redes Sociales
           a.social-media-icon(href)
-            img(src="/public/img/res/facebook.png" alt)
+            img(src='/public/img/res/facebook.png', alt)
         .go-top
-          a(href="#header")
-            img.go-top-icon(src="/public/img/res/next.png" alt)
+          a(href='#header')
+            img.go-top-icon(src='/public/img/res/next.png', alt)
     .line
 
+  block footer
   script(src="/public/js/menu.js")
   script(src="/public/js/index.js")
-  script(src="/public/js/modal.js")
-
-  block footer
+  -if (path.startsWith("/mascotas") || path.startsWith("/accesorios"))
+    script(src="/public/js/lazy-load.js")
+  script(src="/public/js/login.js")
+  -if (path.startsWith("/mascotas") || path.startsWith("/accesorios"))
+    script(src="/public/js/modal.js")
+  -if (path.startsWith("/mascotas"))
+    script(src="/public/js/mascotas.js")
+  script(src="/public/js/alert.js")

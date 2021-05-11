@@ -3,7 +3,7 @@ block contenido
   div(class="container col-md-4 top-space")
     form(action="/admin/mascotas/" method='POST' class="form-group" enctype="multipart/form-data")
 
-      input(type="text" class="form-control"  name="animal_type"  placeholder="Tipo de animal" required)
+      input(type="text" class="form-control" name="animal_type" placeholder="Tipo de animal" required)
 
       input(type="text" class="form-control" name="breed" placeholder="Raza")
 
@@ -23,7 +23,7 @@ block contenido
 
       input(type="text" class="form-control " name="owner_account" placeholder="Cuenta bancaria")
 
-      input(type="file" class="form-control" name="file" accept="image/jpeg,image/png")
+      input(type="file" class="form-control" name="file" accept="image/jpeg,image/png" multiple)
 
       div(class="d-flex")
         input(type="submit" class="btn btn-info " value="Guardar")

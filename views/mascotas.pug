@@ -9,45 +9,50 @@ block contenido
           span 58156518
       .filter
         span Aqui puede filtrar las mascotas:
-        form.filter-form(action="/mascotas/" method="POST")
-          .filter-elements-container
-            label.filter-element(for='perro')
-              img(src='/public/img/res/shiba.svg', alt)
-              |  Perro
-            input.filter-checkbox#perro(type='checkbox' name="perro" checked=perro)
-          .filter-elements-container
-            label.filter-element(for='gato')
-              img(src='/public/img/res/cat.svg', alt)
-              |  Gato
-            input.filter-checkbox#gato(type='checkbox' name="gato" checked=gato)
-          .filter-elements-container
-            label.filter-element(for='ave')
-              img(src='/public/img/res/macaw.svg', alt)
-              |  Aves
-            input.filter-checkbox#ave(type='checkbox' name="ave" checked=ave)
-          .filter-elements-container
-            label.filter-element(for='roedor')
-              img(src='/public/img/res/roedor.svg', alt)
-              |  Roedor
-            input.filter-checkbox#roedor(type='checkbox' name="roedor" checked=roedor)
-          .filter-elements-container
-            label.filter-element(for='pez')
-              img(src='/public/img/res/fish.svg', alt)
-              |  Peces
-            input.filter-checkbox#pez(type='checkbox' name="pez" checked=pez)
-          .filter-elements-container
-            label.filter-element(for='otros')
-              img(src='/public/img/res/tortoise.svg', alt)
-              |  Otros
-            input.filter-checkbox#otros(type='checkbox' name="otro" checked=otro)
-          input(type="submit" value="Filtrar")
+        button.filter-btn Filtrar por:
+        form.filter-form(action="/mascotas" method='get')
+          .group-filter
+            .filter-elements-container
+              label.filter-element(for='perro')
+                img(src='/public/img/res/shiba.svg', alt)
+                | Perro
+              input.filter-checkbox#perro(type='checkbox' name="perro" checked=perro)
+            .filter-elements-container
+              label.filter-element(for='gato')
+                img(src='/public/img/res/cat.svg', alt)
+                | Gato
+              input.filter-checkbox#gato(type='checkbox' name="gato" checked=gato)
+            .filter-elements-container
+              label.filter-element(for='ave')
+                img(src='/public/img/res/macaw.svg', alt)
+                | Aves
+              input.filter-checkbox#ave(type='checkbox' name="ave" checked=ave)
+          .group-filter
+            .filter-elements-container
+              label.filter-element(for='roedor' )
+                img(src='/public/img/res/roedor.svg', alt)
+                | Roedor
+              input.filter-checkbox#roedor(type='checkbox' name="roedor" checked=roedor)
+            .filter-elements-container
+              label.filter-element(for='pez')
+                img(src='/public/img/res/fish.svg', alt)
+                | Peces
+              input.filter-checkbox#pez(type='checkbox' name="pez" checked=pez)
+            .filter-elements-container
+              label.filter-element(for='otros')
+                img(src='/public/img/res/tortoise.svg', alt)
+                | Otros
+              input.filter-checkbox#otros(type='checkbox' name="otro" checked=otro)
+          input.filter-btn.filter-btn-sub(type='submit' value='Filtrar')
       for mascota in mascotas
         article.container-pet-article
           .container-pet-header
             h4.pet-title=mascota.type
           .container-pet
             .container-pet-img
-              img(src=`/public/img/mascotas/${mascota._id}.${mascota.imgExtension}` alt='Mascota')
+              img.pet-img(alt='Mascota' url="/public/img/mascotas/" id=mascota._id extension=mascota.imgExtension)
+              img.prev-img(src='/public/img/res/next.png', alt)
+              img.next-img(src='/public/img/res/next.png', alt)
             .pet-info-container
               .pet-info-list-container
                 ul.pet-info-list
@@ -70,11 +75,44 @@ block contenido
               .container-price
                 span.pet-info-element-title Precio:
                 span.pet-info-element.price=mascota.price  
-              form(action=`/mascotas/ordenes/${mascota._id}` method="POST")
-                .container-btn-buy
-                  .btn-buy
-                    button(type="submit" class="hidden")
-                      span Me Interesa
-                        input(type="hidden" name="cnt" value="2")
-                      img(src='/public/img/res/basket.svg', alt)
+              .container-btn-buy
+                .btn-buy
+                  input(type='hidden' value=mascota.cnt id=mascota._id)
+                  span Me Interesa
+                  img(src='/public/img/res/basket.svg', alt)
+
+      .modal-back.modal-back-buy-this
+        .modal.modal-buy-this
+          .modal-header Me Interesa
+          .modal-body.modal-body-buy
+            | Ha seleccionado
+
+            span un Perro
+            | de la raza 
+            span Chaw Chaw
+            br
+            | Indique la cantidad que le Interesa: Max
+            span#cnt 
+            form#buy-form(method="post" action="/mascotas/ordenes/")
+              button.less-btn(type='button')
+              input.spin-box-buy(type='text' value='1' max='8' name='cnt')
+              button.plus-btn(type='button')
+            | Nos pondremos en contacto con usted a través de los datos de su cuenta
+
+            .btns-buy-container
+              button#accept-btn-buy.accept-btn(type='submit' form="buy-form") Confirmar
+
+              button#cancel-btn-buy.cancel-btn(type='submit') Cancelar
+
+      #modal-back-completed.modal-back
+        #modal-completed.modal.modal-completed
+          .modal-body.modal-body-completed
+            .success-checkmark
+              .check-icon
+                span.icon-line.line-tip
+                span.icon-line.line-long
+                .icon-circle
+                .icon-fix
+            span.completed Completado
+
 block  footer

@@ -45,7 +45,8 @@ router.post("/ordenes/:id", async (req, res) => {
       });
 
       await newOrder.save();
-
+      user.orders.push(newOrder._id);
+      await user.save();
       accesorie.cnt -= cnt;
       accesorie.stagedCnt += cnt;
       accesorie.available = accesorie.cnt == 0 ? false : true;

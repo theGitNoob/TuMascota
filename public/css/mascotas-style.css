@@ -1,479 +1,480 @@
 .main-section {
-    margin: 10px;
+  margin: 10px;
 }
 
 .main-section-title h3 {
-    text-align: center;
-    color: #fc5626;
-    margin: 0 10px;
-    font-size: 22px;
-    background-color: #eee;
+  text-align: center;
+  color: #fc5626;
+  margin: 0 10px;
+  font-size: 22px;
+  background-color: #eee;
 }
 
 .main-section-title p {
-    margin: 10px;
-    text-align: justify;
+  margin: 10px;
+  text-align: justify;
 }
 
 .main-section-title span {
-    color: #1681da;
-    font-weight: bold;
+  color: #1681da;
+  font-weight: bold;
 }
 
 .filter {
-    margin: 10px;
+  margin: 10px;
 }
 .filter > span {
-    color: #fc5626;
-    font-weight: bold;
+  color: #fc5626;
+  font-weight: bold;
 }
 
 .filter-btn {
-    padding: 2px 7px;
-    font-family: "Open Sans", sans-serif;
-    font-size: 16px;
-    background-color: #26bffc;
-    color: white;
-    /* outline: none; */
-    border: 2px solid #26bffc;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.6s ease;
+  padding: 2px 7px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  background-color: #26bffc;
+  color: white;
+  /* outline: none; */
+  border: 2px solid #26bffc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.6s ease;
 }
 
 .filter-btn-sub {
-    display: block;
-    margin: auto;
-    background-color: rgb(46, 221, 46);
-    font-weight: bold;
+  display: block;
+  margin: auto;
+  background-color: rgb(46, 221, 46);
+  font-weight: bold;
 }
 
 .filter-btn:hover {
-    background-color: #fff;
-    color: #26bffc;
+  background-color: #fff;
+  color: #26bffc;
 }
 
 .filter-form {
-    background-color: #26bffc;
-    border-radius: 6px;
-    /* margin-top: 10px; */
-    margin: auto;
-    /* width: auto; */
-    width: 270px;
-    transform: scale(0);
-    /* opacity: 0; */
-    /* visibility: hidden; */
-    transition: all 0.6s ease;
-    transform-origin: 50% 0;
-    height: 0;
+  background-color: #26bffc;
+  border-radius: 6px;
+  /* margin-top: 10px; */
+  margin: auto;
+  /* width: auto; */
+  width: 270px;
+  transform: scale(0);
+  /* opacity: 0; */
+  /* visibility: hidden; */
+  transition: all 0.6s ease;
+  transform-origin: 50% 0;
+  height: 0;
 
-    /* display: none; */
+  /* display: none; */
 }
 
 .show-filter-form {
-    transform: scale(1);
-    /* opacity: 100%; */
-    /* visibility: visible; */
-    height: 180px;
+  transform: scale(1);
+  /* opacity: 100%; */
+  /* visibility: visible; */
+  height: 180px;
 }
 
 .group-filter {
-    display: inline-block;
-    /* margin-right: 10px; */
-    padding: 10px;
-    padding-bottom: 0;
+  display: inline-block;
+  /* margin-right: 10px; */
+  padding: 10px;
+  padding-bottom: 0;
 }
 
 .filter-elements-container {
-    padding: 5px 10px;
-    display: table-row;
+  padding: 5px 10px;
+  display: table-row;
 }
 .filter-element {
-    display: table-cell;
-    color: white;
+  display: table-cell;
+  color: white;
 }
 .filter-checkbox {
-    margin-left: 10px;
-    width: 16px;
-    height: 16px;
+  margin-left: 10px;
+  width: 16px;
+  height: 16px;
 }
 .filter-element > img {
-    width: 30px;
-    height: 30px;
-    vertical-align: middle;
-    margin: 5px 0;
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+  margin: 5px 0;
 }
 .container-pet-article {
-    box-shadow: 0 0 6px #000;
-    border-radius: 5px;
-    margin: 30px 10px;
+  box-shadow: 0 0 6px #000;
+  border-radius: 5px;
+  margin: 30px 10px;
 }
 .container-pet {
-    margin-bottom: 30px;
-    display: flex;
+  margin-bottom: 30px;
+  display: flex;
 }
 .container-pet-header {
-    background-color: #26bffc;
+  background-color: #26bffc;
 }
 .pet-title {
-    color: white;
-    font-weight: bold;
-    margin-left: 10px;
-    padding: 5px;
-    font-size: 20px;
-    text-transform: uppercase;
+  color: white;
+  font-weight: bold;
+  margin-left: 10px;
+  padding: 5px;
+  font-size: 20px;
+  text-transform: uppercase;
 }
 
 .container-pet-img {
-    position: relative;
+  position: relative;
 
-    /* z-index: -1; */
+  /* z-index: -1; */
 }
 
 .pet-img {
-    width: 42vw;
-    height: 100%;
-    padding: 5px;
-    border-radius: 12px;
+  width: 42vw;
+  max-width: 100%;
+  height: 100%;
+  padding: 5px;
+  border-radius: 12px;
 }
 
 .next-img,
 .prev-img {
-    width: 30px;
-    height: 30px;
-    display: inline-block;
-    /* position: absolute; */
-    /* margin: auto; */
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
-    transform: rotate(90deg);
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  /* position: absolute; */
+  /* margin: auto; */
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  transform: rotate(90deg);
 }
 
 .next-img:hover,
 .prev-img:hover {
-    opacity: 70%;
+  opacity: 70%;
 }
 
 .prev-img {
-    transform: rotate(-90deg);
-    bottom: 5px;
-    left: 5px;
+  transform: rotate(-90deg);
+  bottom: 5px;
+  left: 5px;
 }
 
 .pet-info-container {
-    margin: 5px;
-    background-color: #eee;
-    width: 100%;
-    margin-right: 10px;
+  margin: 5px;
+  background-color: #eee;
+  width: 100%;
+  margin-right: 10px;
 }
 
 .pet-info-list-container {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .pet-info-list {
-    list-style: none;
-    margin: 5px 0 0 20px;
+  list-style: none;
+  margin: 5px 0 0 20px;
 }
 
 .pet-info-element {
-    margin: 10px;
-    margin-bottom: 0;
-    padding: 5px 0;
-    background-color: #fff;
-    border-radius: 5px;
-    /* color: #26bffc; */
-    font-weight: bold;
+  margin: 10px;
+  margin-bottom: 0;
+  padding: 5px 0;
+  background-color: #fff;
+  border-radius: 5px;
+  /* color: #26bffc; */
+  font-weight: bold;
 }
 
 .pet-info-element-title {
-    padding: 2px 6px;
-    border-radius: 0 12px 12px 0;
-    color: #fc5626;
-    font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 0 12px 12px 0;
+  color: #fc5626;
+  font-weight: bold;
 }
 
 .pet-description {
-    margin: 5px 0 15px 20px;
-    padding: 5px 10px;
+  margin: 5px 0 15px 20px;
+  padding: 5px 10px;
 
-    border-radius: 8px;
-    text-align: justify;
+  border-radius: 8px;
+  text-align: justify;
 }
 .pet-description > p {
-    margin-top: 10px;
-    padding: 5px;
-    border-radius: 5px;
-    background-color: #fff;
+  margin-top: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #fff;
 }
 
 .container-price {
-    background-color: #fff;
-    text-align: left;
-    display: inline-block;
-    border-radius: 5px;
-    margin: 5px 0 10px 30px;
-    padding: 5px;
+  background-color: #fff;
+  text-align: left;
+  display: inline-block;
+  border-radius: 5px;
+  margin: 5px 0 10px 30px;
+  padding: 5px;
 }
 
 .price {
-    background: none;
-    font-weight: bold;
+  background: none;
+  font-weight: bold;
 }
 
 .container-btn-buy {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 .btn-buy {
-    cursor: pointer;
-    text-align: center;
-    background: #26bffc;
-    width: 35%;
-    max-width: 185px;
-    border-radius: 12px;
-    border: 2px solid #26bffc;
-    transition: all 0.8s ease;
-    box-shadow: 2px 2px 6px black;
+  cursor: pointer;
+  text-align: center;
+  background: #26bffc;
+  width: 35%;
+  max-width: 185px;
+  border-radius: 12px;
+  border: 2px solid #26bffc;
+  transition: all 0.8s ease;
+  box-shadow: 2px 2px 6px black;
 }
 
 .btn-buy:hover img {
-    animation: anim-buy 1.5s ease infinite;
+  animation: anim-buy 1.5s ease infinite;
 }
 
 @keyframes anim-buy {
-    0% {
-        transform: rotate(0deg);
-    }
-    35% {
-        transform: rotate(60deg);
-    }
-    70% {
-        transform: rotate(-60deg);
-    }
-    100% {
-        transform: rotate(0deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  35% {
+    transform: rotate(60deg);
+  }
+  70% {
+    transform: rotate(-60deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 .btn-buy > span {
-    transition: all 0.8s ease;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    display: inline-block;
-    margin-right: 5px;
-    vertical-align: middle;
+  transition: all 0.8s ease;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 5px;
+  vertical-align: middle;
 }
 
 .btn-buy > img {
-    width: 36px;
-    height: 36px;
-    vertical-align: middle;
+  width: 36px;
+  height: 36px;
+  vertical-align: middle;
 }
 
 /*Fin Modal Completado*/
 
 @media screen and (max-width: 768px) {
-    .filter-elements-container {
-        width: 30%;
-    }
-    .container-pet {
-        flex-direction: column;
-    }
-    .next-img,
-    .prev-img {
-        /* width: 20px;
+  .filter-elements-container {
+    width: 30%;
+  }
+  .container-pet {
+    flex-direction: column;
+  }
+  .next-img,
+  .prev-img {
+    /* width: 20px;
         height: 20px; */
-        bottom: 10px;
-    }
-    .pet-img {
-        width: 100%;
-        height: 100%;
-    }
-    .pet-info-container {
-        width: 98%;
-    }
-    .pet-info-element-title {
-        font-size: 14px;
-    }
+    bottom: 10px;
+  }
+  /* .pet-img {
+    width: 100%;
+    height: 100%;
+  } */
+  .pet-info-container {
+    width: 98%;
+  }
+  .pet-info-element-title {
+    font-size: 14px;
+  }
 
-    .pet-info-list,
-    .pet-description {
-        margin-left: 10px;
-    }
-    .container-price {
-        margin-left: 20px;
-    }
+  .pet-info-list,
+  .pet-description {
+    margin-left: 10px;
+  }
+  .container-price {
+    margin-left: 20px;
+  }
 
-    .pet-info-element {
-        font-size: 14px;
-    }
-    /* .pet-description {
+  .pet-info-element {
+    font-size: 14px;
+  }
+  /* .pet-description {
         margin-left: 10px;
     } */
-    .pet-description > p {
-        font-size: 14px;
-    }
-    .price {
-        font-size: 14px;
-    }
-    .container-btn-buy {
-        margin-bottom: 10px;
-    }
-    .btn-buy {
-        width: 40%;
-    }
-    .btn-buy > span {
-        font-size: 14px;
-    }
-    .need-account {
-        font-size: 16px;
-    }
+  .pet-description > p {
+    font-size: 14px;
+  }
+  .price {
+    font-size: 14px;
+  }
+  .container-btn-buy {
+    margin-bottom: 10px;
+  }
+  .btn-buy {
+    width: 40%;
+  }
+  .btn-buy > span {
+    font-size: 14px;
+  }
+  .need-account {
+    font-size: 16px;
+  }
 }
 
 @media screen and (max-width: 700px) {
-    .btn-buy {
-        width: 30%;
-    }
-    .btn-buy > span {
-        font-size: 16px;
-    }
+  .btn-buy {
+    width: 30%;
+  }
+  .btn-buy > span {
+    font-size: 16px;
+  }
 }
 @media screen and (max-width: 650px) {
-    .btn-need-account {
-        font-size: 14px;
-    }
-    .main-section-title > h3 {
-        font-size: 18px;
-    }
+  .btn-need-account {
+    font-size: 14px;
+  }
+  .main-section-title > h3 {
+    font-size: 18px;
+  }
 }
 @media screen and (max-width: 550px) {
-    .next-img,
-    .prev-img {
-        width: 20px;
-        height: 20px;
-    }
+  .next-img,
+  .prev-img {
+    width: 20px;
+    height: 20px;
+  }
 
-    .btn-buy {
-        width: 35%;
-    }
-    .btn-buy > img {
-        width: 30px;
-        height: 30px;
-    }
-    .btn-buy > span {
-        font-size: 14px;
-    }
-    .need-account {
-        font-size: 14px;
-    }
-    .circle {
-        width: 130px;
-        height: 130px;
-    }
+  .btn-buy {
+    width: 35%;
+  }
+  .btn-buy > img {
+    width: 30px;
+    height: 30px;
+  }
+  .btn-buy > span {
+    font-size: 14px;
+  }
+  .need-account {
+    font-size: 14px;
+  }
+  .circle {
+    width: 130px;
+    height: 130px;
+  }
 }
 @media screen and (max-width: 450px) {
-    .filter > span,
-    .filter-btn {
-        font-size: 14px;
-    }
+  .filter > span,
+  .filter-btn {
+    font-size: 14px;
+  }
 
-    .filter-element > img {
-        width: 20px;
-        height: 20px;
-    }
-    .show-filter-form {
-        height: 138px;
-        width: 230px;
-    }
-    .filter-element,
-    .main-section-title > p {
-        font-size: 14px;
-    }
-    .pet-title {
-        font-size: 16px;
-    }
-    .btn-buy {
-        width: 40%;
-    }
-    .btn-buy > span {
-        font-size: 14px;
-    }
-    .need-account {
-        font-size: 13px;
-    }
-    .modal-body-buy {
-        padding: 5px;
-        font-size: 13px;
-    }
-    .btns-buy-container {
-        margin: 10px 0;
-    }
-    .modal-completed {
-        width: 60%;
-    }
+  .filter-element > img {
+    width: 20px;
+    height: 20px;
+  }
+  .show-filter-form {
+    height: 138px;
+    width: 230px;
+  }
+  .filter-element,
+  .main-section-title > p {
+    font-size: 14px;
+  }
+  .pet-title {
+    font-size: 16px;
+  }
+  .btn-buy {
+    width: 40%;
+  }
+  .btn-buy > span {
+    font-size: 14px;
+  }
+  .need-account {
+    font-size: 13px;
+  }
+  .modal-body-buy {
+    padding: 5px;
+    font-size: 13px;
+  }
+  .btns-buy-container {
+    margin: 10px 0;
+  }
+  .modal-completed {
+    width: 60%;
+  }
 }
 @media screen and (max-width: 400px) {
-    .filter > span,
-    .filter-btn {
-        font-size: 12px;
-    }
-    .filter-elements-container {
-        width: 45%;
-    }
-    .main-section-title > h3 {
-        font-size: 16px;
-    }
-    .filter-element,
-    .pet-info-element {
-        font-size: 12px;
-    }
-    .main-section-title > p {
-        font-size: 12px;
-    }
-    .pet-info-element-title {
-        font-size: 12px;
-    }
-    .pet-description > p {
-        font-size: 12px;
-    }
-    .price {
-        font-size: 12px;
-    }
-    .btn-buy > span {
-        font-size: 12px;
-    }
-    .btn-buy {
-        width: 45%;
-        border-radius: 8px;
-    }
-    .need-account {
-        font-size: 12px;
-    }
-    .btn-need-account {
-        font-size: 10px;
-    }
-    .accept-btn,
-    .cancel-btn {
-        display: inline-block;
-    }
+  .filter > span,
+  .filter-btn {
+    font-size: 12px;
+  }
+  .filter-elements-container {
+    width: 45%;
+  }
+  .main-section-title > h3 {
+    font-size: 16px;
+  }
+  .filter-element,
+  .pet-info-element {
+    font-size: 12px;
+  }
+  .main-section-title > p {
+    font-size: 12px;
+  }
+  .pet-info-element-title {
+    font-size: 12px;
+  }
+  .pet-description > p {
+    font-size: 12px;
+  }
+  .price {
+    font-size: 12px;
+  }
+  .btn-buy > span {
+    font-size: 12px;
+  }
+  .btn-buy {
+    width: 45%;
+    border-radius: 8px;
+  }
+  .need-account {
+    font-size: 12px;
+  }
+  .btn-need-account {
+    font-size: 10px;
+  }
+  .accept-btn,
+  .cancel-btn {
+    display: inline-block;
+  }
 
-    .circle {
-        width: 100px;
-        height: 100px;
-    }
+  .circle {
+    width: 100px;
+    height: 100px;
+  }
 }
 
 @media screen and (max-width: 350px) {
-    .filter-form {
-        /* display: inline-block; */
-        width: 220px;
-    }
+  .filter-form {
+    /* display: inline-block; */
+    width: 220px;
+  }
 }

@@ -7,7 +7,7 @@ let multer = require("multer");
 var upload = multer({ dest: "./uploads/" });
 let petModel = require("../../models/pet").petModel;
 let accesoriesModel = require("../../models/accesorie").accesoriesModel;
-
+let userModel = require("../../models/user").userModel;
 router.get("/", async (req, res) => {
   try {
     let orders = await orderModel.find().populate("owner");
@@ -36,6 +36,11 @@ router
         await article.remove();
         console.log("was deleted");
       }
+      let user = await userModel.findById(order.owner);
+
+      user.orders.splice(user.orders.indexOf(order._id), 1);
+      await user.save();
+
       res.send("Vendido");
     } catch (error) {
       console.error(error);
@@ -56,6 +61,11 @@ router
 
       await article.save({ validateModifiedOnly: true });
       await order.deleteOne();
+
+      let user = await userModel.findById(order.owner);
+
+      user.orders.splice(user.orders.indexOf(order._id), 1);
+      await user.save();
       res.redirect("/admin/ordenes");
     } catch (err) {
       console.error(err);
