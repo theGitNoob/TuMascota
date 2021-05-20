@@ -6,6 +6,8 @@ let orderSchema = mongoose.Schema({
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   cnt: { type: Number, required: true },
   price: { type: Number, required: true },
+  state: { type: String, default: "pendient" },
+  requestDate: { type: Date },
 });
 let orderModel = new mongoose.model("Order", orderSchema);
 
