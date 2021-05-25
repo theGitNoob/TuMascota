@@ -23,25 +23,40 @@ router
   .put(async (req, res) => {
     try {
       let order = await orderModel.findById(req.params.id);
+      if (order === null) {
+        req.flash("alert alert-danger", "El articulo ya no existe");
+        res.redirect("/admin/ordenes/");
+        return;
+      }
       let article =
         order.articleType == "mascota"
           ? await petModel.findById(order.articleId)
           : await accesoriesModel.findById(order.articleId);
-      article.stagedCnt -= order.cnt;
 
-      //Actualizar el modelo de productos vendidos
-
-      await order.deleteOne();
-      if (article.cnt == 0 && article.stagedCnt == 0) {
-        await article.remove();
-        console.log("was deleted");
-      }
       let user = await userModel.findById(order.owner);
 
-      user.orders.splice(user.orders.indexOf(order._id), 1);
-      await user.save();
+      if (
+        order.state === "pendient" ||
+        order.state === "onway" ||
+        order.state === "aproved"
+      ) {
+        order.state = req.body.state;
+        if (req.body.state == "canceled") {
+          article.stagedCnt -= order.cnt;
+          article.cnt += order.cnt;
+          if (user.toBeDelivered) user.toBeDelivered--;
+        } else if (req.body.state == "completed") {
+          article.stagedCnt -= order.cnt;
+          if (user.toBeDelivered) user.toBeDelivered--;
+        }
+      } else {
+        res.send("No puede cambiar el estado de una orden ya cancelada");
+      }
 
-      res.send("Vendido");
+      await user.save();
+      await order.save();
+      
+      res.redirect("/admin/ordenes");
     } catch (error) {
       console.error(error);
     }
@@ -49,6 +64,11 @@ router
   .delete(async (req, res) => {
     try {
       let order = await orderModel.findById(req.params.id);
+      if (order === null) {
+        req.flash("alert alert-danger", "El articulo ya no existe");
+        res.redirect("/admin/ordenes/");
+        return;
+      }
       console.log(req.params.id);
       let article =
         order.articleType == "mascota"

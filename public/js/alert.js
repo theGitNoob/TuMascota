@@ -1,4 +1,24 @@
-let arr = document.querySelectorAll(".alert");
-setTimeout(() => {
-  arr.forEach((elem) => elem.remove());
-}, 3000);
+const modalCanceledBack = document.querySelector("#modal-back-alert");
+const modalCanceled = modalCanceledBack.firstElementChild;
+const btnCancelModal = modalCanceled.querySelector(".btn-alert-cancel");
+const btnAcceptModal = modalCanceled.querySelector(".btn-alert-confirm");
+
+btnAcceptModal.addEventListener("click", (e) => {
+  //   e.preventDefault();
+  modalCanceledBack.click();
+  animCompleted();
+});
+
+function animarModalAlert() {
+  mostrarModal(modalCanceledBack, modalCanceled);
+}
+
+document.addEventListener("click", (e) => {
+  switch (e.target) {
+    case modalCanceledBack:
+      mostrarModal(modalCanceledBack, modalCanceled);
+      break;
+    case btnCancelModal:
+      mostrarModal(modalCanceledBack, modalCanceled);
+  }
+});

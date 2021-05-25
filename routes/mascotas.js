@@ -10,11 +10,8 @@ router.get("/order/:id", (req, res) => {
 
 router.post("/ordenes/:id", async (req, res) => {
   if (!req.isAuthenticated()) {
-    // req.flash(
-    //   "alert alert-danger",
-    //   "Debe iniciar sesion antes de realizar un pedido"
-    // );
-    res.status(401).end();
+    req.flash("alert-error", "Debe iniciar sesion antes de realizar un pedido");
+    res.redirect("/users/login");
     return;
   }
   try {
@@ -29,16 +26,22 @@ router.post("/ordenes/:id", async (req, res) => {
     if (pet.available) {
       let cnt = req.body.cnt > pet.cnt ? pet.cnt : req.body.cnt;
 
+      let date = new Date();
+      let month = date.getMonth();
+      month++;
+      let fullDate =
+        date.getUTCDate() + "/" + month + "/" + date.getUTCFullYear();
       let newOrder = new orderModel({
         articleId: pet._id,
         articleType: "mascota",
         owner: user._id,
         cnt: cnt,
         price: cnt * pet.price,
+        requestDate: fullDate,
       });
 
       await newOrder.save();
-      user.orders.push(newOrder._id);
+      user.toBeDelivered++;
       await user.save();
       pet.cnt -= cnt;
       pet.stagedCnt += cnt;

@@ -1,11 +1,7 @@
 const menuIcon = document.querySelector(".menu-icon");
 const navMenu = document.querySelector(".nav-menu");
 const subMenuPet = document.querySelector("#pet-submenu");
-const subMenuPetImg = document.querySelector("#pet-submenu > img");
-const subMenuPetSpan = document.querySelector("#pet-submenu > span");
 const subMenuServices = document.querySelector("#services-menu");
-const subMenuServicesImg = document.querySelector("#services-submenu > img");
-const subMenuServicesSpan = document.querySelector("#services-submenu > span");
 const submenuIcon = document.querySelectorAll(".show-submenu-img");
 const submenu = document.querySelectorAll(".submenu");
 
@@ -27,6 +23,11 @@ subMenuServices.addEventListener("click", mostrarSubMenuServices);
 function mostrarSubMenuServices() {
     submenu[1].classList.toggle("show-submenu");
     submenuIcon[1].classList.toggle("rot-submenu-icon");
+    if (submenu[1].classList.contains("show-submenu")) {
+        submenu[1].style.height = "52px";
+    } else {
+        submenu[1].style.height = "0px";
+    }
 }
 
 document.addEventListener("click", (e) => {

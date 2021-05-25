@@ -12,23 +12,73 @@ let userModel = require("../models/user").userModel;
 router.get("/", async (req, res, next) => {
   try {
     let orders = await orderModel.find({ owner: req.user.id });
-    res.json(orders);
+    for await (order of orders) {
+      try {
+        if (order.articleType == "mascota") {
+          let pet = await petModel.findById(order.articleId);
+          order.pet = pet;
+        } else {
+          let accesorie = await accesoriesModel.findById(order.articleId);
+          order.accesorie = accesorie;
+        }
+      } catch (error) {
+        next(error);
+        return;
+      }
+    }
+    res.render("ordenes", { ordenes: orders });
   } catch (error) {
     next(error);
   }
 });
 router
-  .route("/:id")
-  .put(async (req, res, next) => {
+  .route("/:id/cancel")
+  .post(async (req, res, next) => {
     try {
+      let order = await orderModel.findById(req.params.id);
+      if (order === null) {
+        req.flash("alert alert-danger", "El articulo ya no existe");
+        res.redirect("/ordenes");
+        return;
+      }
+      if (req.user._id == order.owner) {
+        next();
+        return;
+      }
+      if (order.state !== "pendient") {
+        res.redirect("/ordenes");
+        return;
+      }
+
+      let article =
+        order.articleType == "mascota"
+          ? await petModel.findById(order.articleId)
+          : await accesoriesModel.findById(order.articleId);
+
+      let user = await userModel.findById(order.owner);
+      article.cnt += order.cnt;
+      article.stagedCnt -= order.cnt;
+      article.available = article.cnt === 0 ? false : true;
+
+      order.state = "canceled";
+      if (user.toBeDelivered) {
+        user.toBeDelivered--;
+      }
+      await article.save({ validateModifiedOnly: true });
+      await user.save();
+      await order.save();
+
+      res.redirect("/ordenes");
     } catch (error) {
       next(error);
     }
   })
   .delete(async (req, res, next) => {
     try {
-    } catch (error) {
-      next(error);
+      throw new Error("rafa");
+    } catch (err) {
+      console.error(err);
+      next(err);
     }
   });
 

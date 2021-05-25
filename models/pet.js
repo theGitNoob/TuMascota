@@ -22,7 +22,6 @@ let petSchema = mongoose.Schema({
       message: "La cuenta es invalida",
     },
   },
-  order: { type: mongoose.Schema.Types.ObjectId, ref: "Order" },
   imgExtension: String,
   available: { type: Boolean, default: true },
   stagedCnt: { type: Number, default: 0 },

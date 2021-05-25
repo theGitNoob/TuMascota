@@ -8,7 +8,18 @@ revisar en los promises q para q un evento suba el q lo genera debe ser return
 poner un usuario y contraseña en mongo db
 eje:
 
+no me gusta la palabra orden prefiero pedido
 
+
+las ordenes solo podran cancelarse por el usuario mientras esten en pending
+
+decirle a jesus q elimine las animaciones para cuando no se usen ejemplo
+los div.line-element en mobile no deberian animarse
+eliminar las validaciones en los schemas y hacerlas antes de guardar
+
+agregar un estilo para ul.error
+
+agregar el nuevo footer
 asi sube hasta q el error es atrapado
     let fs = require("fs/promises");
 

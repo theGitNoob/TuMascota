@@ -1,16 +1,120 @@
-extends ./admin-layout.pug
-block contenido
-  body    
-    div(class="container col-md-4 center-block big-top-space")
-      h1(class="text-center") Login
-      form(action="/users/login" method="POST")
-        div(class="form-group")
-          label(for="username" class="form-label" ) Nombre de Usuario
-          input(type="text" class="form-control" name="username" required id="username" placeholder="Nombre de Usuario")
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width,initial-scale=1')
+    title Venta de Mascotas
+    link(rel='stylesheet' href='/public/css/style.css')
+    link(rel='stylesheet' href='/public/css/log-in.css')
+    link(rel='icon' href='/public/img/res/shop.png')
+  body
+    header#header.header
+      .container-header
+        img.logo-tm(src='/public/img/res/Logo.png' alt)
+    main
+      section#login-section.login-section
+        .container-login
+          .container-login-header
+            h4 Acceder
+          img.login-logo(src='/public/img/res/Logo.png' alt)
+          != messages()
+          form.login-form(action="/users/login" method="post")
+            input#username(autofocus type='text' placeholder='Nombre de Usuario' name='username' required)
+            input#password(type='password' name='password' placeholder='Contraseña' required)
+            input(type='submit' value='Acceder')
+          span.line-login
+            | No tienes una cuenta?
 
-          label(for="password" class="form-label") Contraseña
-          input(type="password" class="form-control" name="password" required id="password" placeholder="Contraseña")
+            a(href='/users/register') Regístrate Aquí
+        a.back-home(href='/' type='submit') Volver a Inicio
 
-          div(class="top-space flex-container")
-            input(type="submit" value="Iniciar sesion" class="btn btn-info")
+    footer
+      .container-footer
+        .thanks-for
+          h3 ¡Gracias por visitar nuestra tienda!
+        .container-footer-content
+          .content-footer
+            ul.content-footer-list
+              span.footer-content-title Contenido
+              a.content-footer-element(href='/').
 
+                Inicio
+
+              a.content-footer-element(href='/mascotas').
+
+                Mascotas
+
+              a.content-footer-element(href='/accesorios').
+
+                Accesorios
+
+              a.content-footer-element(href='/servicios').
+
+                Servicios
+
+          .contact
+            span.footer-content-title Contacto
+            .container-contact
+              #modal-back-contact.modal-back
+                #modal-contact.modal
+                  .modal-header Contactános
+                  .modal-body
+                    h4.modal-body-header.
+
+                      Tienes alguna pregunta? Contáctanos:
+
+                    .modal-contact-us-container
+                      .contact-us-elements
+                        img(src='/public/img/res/mail.svg' alt)
+                        span.
+
+                          mascotunas@gmail.com
+                      .contact-us-elements
+                        img(src='/public/img/res/whatsapp.png' alt)
+                        span 58156518
+                      .contact-us-elements
+                        a(href)
+                          img(src='/public/img/res/facebook.png' alt)
+                        span.
+
+                          Venta de Mascotas en Las Tunas
+              // Fin Modal Contact 
+              #first-element-contact-us.contact-us
+                span.element-contact-us Contáctanos
+                img.contact-icon(src='/public/img/res/contact-us.png' alt)
+              //  Modal About 
+              #modal-back-about.modal-back
+                #modal-about.modal
+                  .modal-header Acerca de
+                  .modal-body
+                    h4.modal-body-header.
+
+                      Creado y Desarrollado en Las Tunas por:
+
+                    .container-us
+                      .avatar-rafa
+                        img(src='/public/img/res/avatar-rafa.png' alt)
+                        span.name Rafael Acosta Márquez
+                      .avatar-jesus
+                        img(src='/public/img/res/avatar-jesus.png' alt)
+                        span.name Jesús Manuel López Ponce
+                    .avatar-abraham
+                      h4.modal-body-header.
+
+                        Con una idea original de:
+
+                      span.name Sadan Jiskly Fernández Ávila
+                      span.name José Abraham Oduardo Ávila
+              //  Fin Modal About 
+              #second-element-contact-us.about-us
+                span.element-contact-us Acerca de
+                img.contact-icon(src='/public/img/res/info(1).svg' alt)
+          .social-media
+            span.footer-content-title.center-title Redes Sociales
+            a.social-media-icon(href)
+              img(src='/public/img/res/facebook.png' alt)
+          .go-top
+            a(href='#header')
+              img.go-top-icon(src='/public/img/res/next.png' alt)
+      .line

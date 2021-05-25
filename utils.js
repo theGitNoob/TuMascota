@@ -23,6 +23,8 @@ function validateUserRegistration(userData) {
     if (!validator.isEmail(userData.email)) {
       errors.push("El correo no es válido");
     }
+  } else if (validator.isEmpty(userData.email)) {
+    errors.push("El correo el obligatorio");
   }
   return errors;
 }

@@ -10,6 +10,15 @@ block contenido
             h3 Télefono del dueño: #{orden.owner.phone}
             h3 Cantidad de articulos: #{orden.cnt}
             h3 Precio total: #{orden.price}
+            h3 Estado: #{orden.state}
+            form(action=`/admin/ordenes/${orden._id}?_method=PUT` method="POST")
+              select(name="state")
+                option pendient
+                option aproved
+                option onway
+                option completed
+                option canceled
+              input(type="submit" value="Actualizar")
           .col-md-2.col-sm-2.container.flex-container
             a(href=`/admin/${orden.articleType}s/${orden.articleId._id}` class="link-primary right-space") Ver Artículo
             form(action=`/admin/ordenes/${orden._id}?_method=PUT` method="POST" class="link-container right-space")

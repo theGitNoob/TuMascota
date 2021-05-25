@@ -2,8 +2,27 @@ const firstElement = document.querySelector("#first-element-contact-us");
 const secondElement = document.querySelector("#second-element-contact-us");
 const modalBackContact = document.querySelector("#modal-back-contact");
 const modalBackAbout = document.querySelector("#modal-back-about");
-const modalContact = document.querySelector("#modal-contact");
-const modalAbout = document.querySelector("#modal-about");
+// const modalContact = document.querySelector("#modal-contact");
+// const modalAbout = document.querySelector("#modal-about");
+const modalContact = modalBackContact.firstElementChild;
+const modalAbout = modalBackAbout.firstElementChild;
+const goTop = document.querySelector(".go-top");
+
+function goTopScroll() {
+    let scrY = window.pageYOffset;
+    if (scrY > 200) {
+        goTop.style.opacity = "1";
+        goTop.style.visibility = "visible";
+    } else {
+        goTop.style.opacity = "0";
+        goTop.style.visibility = "hidden";
+    }
+}
+
+// goTopScroll();
+window.addEventListener("scroll", () => {
+    goTopScroll();
+});
 
 firstElement.addEventListener("click", () => {
     mostrarModal(modalBackContact, modalContact);

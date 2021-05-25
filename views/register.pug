@@ -1,34 +1,137 @@
-extends ./admin-layout.pug
-block contenido
-  body    
-    .d-flex.justify-center
-      != messages()
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width,initial-scale=1')
+    title Venta de Mascotas
+    link(rel='stylesheet' href='/public/css/style.css')
+    link(rel='stylesheet' href='/public/css/log-in.css')
+    link(rel='icon' href='/public/img/res/shop.png')
+  body
+    header#header.header
+      .container-header
+        img.logo-tm(src='/public/img/res/Logo.png' alt)
+    main
+      section#login-section.login-section
+        .container-login
+          .container-login-header
+            h4 Registrarse
+          img.login-logo(src='/public/img/res/Logo.png' alt)
+          p.
 
-    div(class="container col-md-4 center-block big-top-space")
-      h1(class="text-center") Registrarse
-      form(action="/users/register" method="POST")
-        div(class="form-group")
-          label(for="name" class="form-label") Nombre y Apellidos
-          input(type="text" class="form-control" name="name" required id="name" placeholder="Nombre")
+            Para la compra de articulos en nuestra página hay que estar registrado. Usaremos los datos introducidos aquí para ponernos en contacto con usted.
 
-          label(for="username" class="form-label") Nombre de Usuario
-          input(type="text" class="form-control" name="username" required id="username" placeholder="Nombre de Usuario")
+          .alert-error
+            span El nombre de usuario ya existe
+          form.login-form.register-form(action="/users/register" method="post")
+            input#name(autofocus type='text' placeholder='Nombre(s)' name='name' required)
+            input#lastname(type='text' placeholder='Apellido(s)' name='lastname' required)
+            input(type='tel' placeholder='Número de teléfono' name='phone' maxlength='8' required)
+            input#email(type='email' placeholder='Correo Electrónico' name='email')
+            input#address(type='text' placeholder='Dirección' name='address')
+            input#username(type='text' placeholder='Nombre de Usuario' name='username')
+            input#password(type='password' name='password' placeholder='Contraseña' required)
+            input#confirm-password(type='password' name='confirm-password' placeholder='Confirmar Contraseña' required)
+            input#check-for-new(type='checkbox' name='check-for-new')
+            label(for='check-for-new') Notificarme productos nuevos
+            input(type='submit' value='Registarse')
+          span.line-login
+            | Ya tienes una cuenta?
 
-          label(for="address" class="form-label") Dirección
-          input(type="text" class="form-control" name="address" id="address" placeholder="Dirección")
+            a(href='/users/login') Accede Aquí
+        a.back-home(href='/' type='submit').
 
-          label(for="phone" class="form-label") Numero de telefono
-          input(type="phone" class="form-control" name="phone" required id="phone" placeholder="Numero de telefono")
+          Volver a Inicio
 
-          label(for="email" class="form-label") Correo Electronico
-          input(type="email" class="form-control" name="email" id="email" placeholder="Correo Electronico")
+    footer
+      .container-footer
+        .thanks-for
+          h3 ¡Gracias por visitar nuestra tienda!
+        .container-footer-content
+          .content-footer
+            ul.content-footer-list
+              span.footer-content-title Contenido
+              a.content-footer-element(href='/').
 
-          label(for="password" class="form-label") Contraseña
-          input(type="password" class="form-control" name="password" required id="password" placeholder="Contraseña")
+                Inicio
 
-          label(for="confirm-password" class="form-label") Confirmar contraseña
-          input(type="password" class="form-control" name="password_confirmation" id="confirm-password" placeholder="Confirmar contraseña" required)
+              a.content-footer-element(href='/mascotas').
 
-          div(class="top-space flex-container")
-            input(type="submit" value="Registrarse" class="btn btn-info")
+                Mascotas
 
+              a.content-footer-element(href='/accesorios').
+
+                Accesorios
+
+              a.content-footer-element(href='/servicios').
+
+                Servicios
+
+          .contact
+            span.footer-content-title Contacto
+            .container-contact
+              #modal-back-contact.modal-back
+                #modal-contact.modal
+                  .modal-header Contactános
+                  .modal-body
+                    h4.modal-body-header.
+
+                      Tienes alguna pregunta? Contáctanos:
+
+                    .modal-contact-us-container
+                      .contact-us-elements
+                        img(src='/public/img/res/mail.svg' alt)
+                        span.
+
+                          mascotunas@gmail.com
+                      .contact-us-elements
+                        img(src='/public/img/res/whatsapp.png' alt)
+                        span 58156518
+                      .contact-us-elements
+                        a(href)
+                          img(src='/public/img/res/facebook.png' alt)
+                        span.
+
+                          Venta de Mascotas en Las Tunas
+              // Fin Modal Contact 
+              #first-element-contact-us.contact-us
+                span.element-contact-us Contáctanos
+                img.contact-icon(src='/public/img/res/contact-us.png' alt)
+              //  Modal About 
+              #modal-back-about.modal-back
+                #modal-about.modal
+                  .modal-header Acerca de
+                  .modal-body
+                    h4.modal-body-header.
+
+                      Creado y Desarrollado en Las Tunas por:
+
+                    .container-us
+                      .avatar-rafa
+                        img(src='/public/img/res/avatar-rafa.png' alt)
+                        span.name Rafael Acosta Márquez
+                      .avatar-jesus
+                        img(src='/public/img/res/avatar-jesus.png' alt)
+                        span.name Jesús Manuel López Ponce
+                    .avatar-abraham
+                      h4.modal-body-header.
+
+                        Con una idea original de:
+
+                      span.name Sadan Jiskly Fernández Ávila
+                      span.name José Abraham Oduardo Ávila
+              //  Fin Modal About 
+              #second-element-contact-us.about-us
+                span.element-contact-us Acerca de
+                img.contact-icon(src='/public/img/res/info(1).svg' alt)
+          .social-media
+            span.footer-content-title.center-title Redes Sociales
+            a.social-media-icon(href)
+              img(src='/public/img/res/facebook.png' alt)
+          .go-top
+            a(href='#header')
+              img.go-top-icon(src='/public/img/res/next.png' alt)
+      .line
+    script(src='/public/js/.js')
+    script(src='/public/js/login.js')

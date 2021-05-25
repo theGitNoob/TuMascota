@@ -1,76 +1,62 @@
 const avatar = document.querySelector("#avatar-login");
-//Registrarse
-const menuLogin = document.querySelector("#login-section");
-const accessForm = document.querySelector(".access-form");
-const registerForm = document.querySelector(".register-form");
-const accessSpan = document.querySelector("#access");
-const registerSpan = document.querySelector("#register");
-//Fin Registrarse
+const orders = document.querySelector("#orders-login");
+const notifications = document.querySelector("#bell-login");
+
 const menuAccount = document.querySelector("#account-section");
+const bellSubMenu = document.querySelector("#bell-section");
+
+const menuGoLogin = document.querySelector("#go-login");
 
 /*
-Aqui es donde elijo que menu mostrar, configurarlo a tu gusto
-menuLogin es cuando no estas logueado
-menuAccount es cuando estas logueado
-*/
+Rafa cuando no estas logueado solo te va a aparecer los botones de logueo
+asi que los iconos de avatar, order y notification van a estar
+con display:none
+Ya tu lo cambias a display:inline-block una vez que te loguees:)
+
+Y entonces a los dos botones de acceder y registrarse le pones
+display:none
+
+si estas logueado ponle al c
+
+:)
+ */
+
 avatar.addEventListener("click", () => {
   menuAccount.classList.toggle("show-login-menu");
-  setTimeout(() => {
-    accessSpan.click();
-  }, 600);
+  //   if (bellSubMenu.classList.contains("show-login-menu")) {
+  //     bellSubMenu.classList.toggle("show-login-menu");
+  //   }
 });
 
-if (accessSpan) {
-  accessSpan.addEventListener("click", () => {
-    if (
-      accessSpan.firstElementChild.classList.contains("hide-line") &&
-      !accessSpan.firstElementChild.classList.contains("anim-line")
-    ) {
-      accessSpan.firstElementChild.classList.toggle("hide-line");
-      accessSpan.firstElementChild.classList.toggle("anim-line");
+notifications.addEventListener("click", () => {
+  bellSubMenu.classList.toggle("show-login-menu");
 
-      accessForm.style.transform = "scale(1)";
-      accessForm.classList.toggle("show-form");
-      accessForm.classList.toggle("change-access-form");
-      registerForm.classList.toggle("show-register-form");
-    }
-    if (
-      !registerSpan.firstElementChild.classList.contains("hide-line") &&
-      registerSpan.firstElementChild.classList.contains("anim-line")
-    ) {
-      registerSpan.firstElementChild.classList.toggle("hide-line");
-      registerSpan.firstElementChild.classList.toggle("anim-line");
-    }
-  });
+  //   if (menuAccount.classList.contains("show-login-menu")) {
+  //     menuAccount.classList.toggle("show-login-menu");
+  //   }
+});
 
-  registerSpan.addEventListener("click", () => {
-    if (registerSpan.firstElementChild.classList.contains("hide-line")) {
-      registerSpan.firstElementChild.classList.toggle("hide-line");
-      registerSpan.firstElementChild.classList.toggle("anim-line");
-
-      accessForm.classList.toggle("show-form");
-      accessForm.classList.toggle("change-access-form");
-      registerForm.classList.toggle("show-register-form");
-      accessForm.style.transform = "scale(0)";
+document.addEventListener("click", (e) => {
+  if (
+    e.target != avatar &&
+    e.target != notifications.firstElementChild &&
+    e.target != notifications.childNodes[3]
+  ) {
+    if (menuAccount.classList.contains("show-login-menu")) {
+      if (e.target != menuAccount.firstElementChild.firstElementChild)
+        menuAccount.classList.toggle("show-login-menu");
     }
-    if (
-      !accessSpan.firstElementChild.classList.contains("hide-line") &&
-      accessSpan.firstElementChild.classList.contains("anim-line")
-    ) {
-      accessSpan.firstElementChild.classList.toggle("hide-line");
-      accessSpan.firstElementChild.classList.toggle("anim-line");
+    if (bellSubMenu.classList.contains("show-login-menu")) {
+      if (
+        e.path[0].getAttribute("class") != "bell-submenu-element" &&
+        e.target.getAttribute("class") != "bell-time" &&
+        e.target.getAttribute("class") != "remove-notifications" &&
+        e.target.parentElement.getAttribute("class") != "remove-notifications"
+      ) {
+        // console.log(e.path[0]);
+        bellSubMenu.classList.toggle("show-login-menu");
+      }
     }
-  });
-}
-// let loginForm = document.querySelector(".login-form.access-form.show-form");
-// loginForm.addEventListener("submit", (e) => {
-//   let formData = new FormData();
-//   loginForm.childNodes.forEach((elem) => {
-//     if (elem.type != "submit") {
-//       console.log(elem.value);
-//       formData.append(elem.name, elem.value);
-//       console.log(elem.type, elem.name, elem.value);
-//     }
-//   });
-//   fetch(_)
-// });
+  }
+  // console.log(e.path);
+});

@@ -1,0 +1,115 @@
+extends ./layout.pug
+
+block contenido
+  main
+    section.main-section.mar10
+      .main-section-title
+        h3 Órdenes
+        p.mar10
+          | Aqui estan registradas todas las órdenes de las mascotas y artículos que ha solicitado. Puede cancelarlas en cualquier momento si lo desea. Nosotros nos pondremos en contacto con usted através de los datos de su cuenta. Ante cualquier pregunta puede contactarnos al
+
+          span 58156518
+          | .
+
+      .filter-orders-menu
+        span.active.order-state.filter-order(data-state='pendient').
+
+          Pendientes
+        span.order-state.filter-order(data-state='aproved').
+
+          Aprobadas
+        span.order-state.filter-order(data-state='onway').
+
+          En Camino
+        span.order-state.filter-order(data-state='completed').
+
+          Completadas
+        span.order-state.filter-order(data-state='canceled').
+
+          Canceladas
+      form#cancel-form
+      .flex-container
+        for orden in ordenes
+          article.order-container
+            .order-header(data-state=orden.state)
+              h4 Pedido de #{orden.articleType}
+            .container-info-order
+              if orden.articleType == "accesorio"
+                .order-img-container
+                  img(src=`/public/img/accesorios/${orden.articleId}.${orden.accesorie.imgExtension}` alt='orden')
+                ul.order-container-list
+                  li.order-element-title
+                    | Tipo: 
+
+                    span.order-element=orden.accesorie.type
+
+                  li.order-element-title
+                    | Precio: 
+                    span.order-element= orden.price+" CUP"
+                  li.order-element-title
+                    | Cantidad: 
+                    span.order-element= orden.cnt
+
+                  li.order-element-title
+                    | Fecha del Pedido: 
+
+                    span.order-element= orden.requestDate
+              else 
+                .order-img-container
+                  img(src=`/public/img/mascotas/${orden.articleId}.${orden.pet.imgExtension}` alt='orden')
+                ul.order-container-list
+                  li.order-element-title
+                    | Tipo: 
+
+                    span.order-element=orden.pet.type
+                  li.order-element-title
+                    | Raza: 
+
+                    span.order-element=orden.pet.breed
+                  li.order-element-title
+                    | Sexo: 
+
+                    span.order-element=orden.pet.sex
+                  li.order-element-title
+                    | Fecha de Nacimiento: 
+
+                    span.order-element=orden.pet.birthDay
+                  li.order-element-title
+                    | Precio: 
+                    span.order-element=orden.pet.price + " CUP" 
+                  li.order-element-title
+                    | Cantidad: 
+                    span.order-element= orden.cnt
+                  li.order-element-title
+                    | Fecha del Pedido:
+
+                    span.order-element= orden.requestDate
+            .container-btn-order
+              span.order-state(data-state=orden.state)= orden.state
+              if orden.state == "pendient"
+                button#btn-cancel.btn-cancel(type='submit' formmethod="post" formaction=`/ordenes/${orden._id}/cancel` form="cancel-form")
+                  | Cancelar Entrega 
+                  img(src='/public/img/res/borrar.png' alt='borrar')
+          #modal-back-alert.modal-back
+            #modal-alert.modal.modal-alert
+              .modal-body.modal-body-alert
+                .alert-icon
+                  span.alert-icon-long
+                  span.alert-icon-short  
+                span.alert-text Está seguro?
+                .btn-alert-container
+                  button.btn-alert.btn-alert-cancel(type='submit').
+                    Cancelar
+                  button.btn-alert.btn-alert-confirm(type='submit').
+                    Eliminar
+
+          #modal-back-completed.modal-back
+            #modal-completed.modal.modal-completed
+              .modal-body.modal-body-completed
+                .success-checkmark
+                  .check-icon
+                    span.icon-line.line-tip
+                    span.icon-line.line-long
+                    .icon-circle
+                    .icon-fix
+                span.completed Completado

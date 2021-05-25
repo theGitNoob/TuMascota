@@ -6,135 +6,200 @@ html(lang='en')
     meta(name='viewport' content='width=device-width,initial-scale=1')
     title Venta de Mascotas
     link(rel='stylesheet' href='/public/css/style.css')
-    link(rel='stylesheet' href='/public/css/log-in.css')
-    if path.startsWith("/mascotas")
-      link(rel='stylesheet' href='/public/css/mascotas-style.css')
-    if path.startsWith("/accesorios")
-      link(rel='stylesheet' href='/public/css/accesorios-style.css')
+
+    link(rel='stylesheet' href='/public/css/accesorios-style.css')
+    link(rel='stylesheet' href='/public/css/mascotas-style.css')
     link(rel='stylesheet' href='/public/css/alert-style.css')
     link(rel='stylesheet' href='/public/css/buy-style.css')
+    link(rel='stylesheet' href='/public/css/ordenes.css')
     link(rel='icon' href='/public/img/res/shop.png')
   body
     header#header.header
       .container-header
-        img.logo(src='/public/img/res/shop.svg', alt)
-        h1.title
-          span Tu
-          | Mascota
-
+        img.logo-tm(src='/public/img/res/Logo.png' alt)
         .container-header-login
           if user
-            .login-option.orders-login
-              img#orders-login(src='/public/img/res/shopping-cart(3).svg', alt)
-              span.login-count-msj.orders-msj=user.orders.length
-          if user
-            .login-option.bell-login
-              img#bell-login(src='/public/img/res/campana-de-notificacion(1).svg', alt)
+            a#orders-login.login-option.orders-login(href='/ordenes')
+              img(src='/public/img/res/order-shop-cart.svg' alt)
+              span.login-count-msj.orders-msj=user.toBeDelivered
+            #bell-login.login-option.bell-login
+              img(src='/public/img/res/bell.png' alt)
               span.login-count-msj.bell-msj=user.messages.length
-          img#avatar-login(src='/public/img/res/logo_avatar_circle_blue_color.png', alt)
-
+          if !user
+            .go-login
+              a.btn-go-login(href='/users/login') Acceder
+              a.btn-go-login(href='/users/register') Registrarse
+          if user
+            img#avatar-login(src='/public/img/res/avatar.png' alt)
     section.sticky-hidden-menu
-      if !user
-        article#account-section.login-section
-          .container-login
-            .container-span-login
-              span#access
-                | Acceder
+      article#account-section.account-section
+        ul.account-section-submenu
+          li.account-section-submenu-element Cuenta
+          li.account-section-submenu-element
+            img(src='/public/img/res/settings.png' alt)
+            | Modificar Perfil
 
-                .line-element.span-line.anim-line
-              span#register
-                | Registrarse
+          li.account-section-submenu-element
+            a(href="/users/logout") 
+              img(src='/public/img/res/log-out.png' alt)
+              |  Salir
 
-                .line-element.span-line.hide-line
-            form.login-form.access-form.show-form(action="/users/login" method="post" )
-              input(autofocus type='text' placeholder='Nombre de Usuario' name='username', required)
-              input(type='password' name='password' placeholder='Contraseña', required)
-              input(type='submit' value='Acceder')
+      article#bell-section.bell-section
+        ul.bell-submenu
+          li.bell-submenu-title
+            | Tiene 
+            span.bell-number 6
+            |  nuevas notificaciones.
 
-            form.login-form.register-form(action="/users/register" method="post")
-              input#name(type='text' placeholder='Nombre y Apellido' name='name', required)
-              input(type='text' placeholder='Nombre de Usuario' name='username', required)
-              input(type='tel' placeholder='Número de teléfono' name='phone' maxlength='8', required)
-              input(type='email' placeholder='Correo Electrónico' name='email')
-              input(type='text' placeholder='Dirección' name='address')
-              input(type='password' name='password' placeholder='Contraseña', required)
-              input(type='password' name='password_confirmation' placeholder='Contraseña', required)
-              input(type='checkbox' name='check-for-new')
-              label(for='check-for-new') Notificarme productos nuevos
-              input(type='submit' value='Registarse')
-      if user
-        article#account-section.account-section
-          ul.account-section-submenu.container-login
-            li.account-section-submenu-element
-              | Cuenta
-              .line-element.account-line
-            li.account-section-submenu-element 
-              a Configurar Cuenta
-            li.account-section-submenu-element 
-              a(href="/users/logout") Salir
-    img.menu-icon(src='/public/img/res/bx-menu-alt-left.svg', alt)
+          li.bell-submenu-element
+            | Nuevas Mascotas disponibles
 
+            span.bell-time Hace 20 min
+            span.remove-notifications
+              img(src='/public/img/res/borrar.png' alt)
+          li.bell-submenu-element
+            | Cuenta creada satisfactoriamente
+
+            span.bell-time Hace 2 horas
+            span.remove-notifications
+              img(src='/public/img/res/borrar.png' alt)
+          li.bell-submenu-element
+            | Nuevos articulos disponibles
+
+            span.bell-time Hace 3 semanas
+            span.remove-notifications
+              img(src='/public/img/res/borrar.png' alt)
+          li.bell-submenu-element
+            | Su mascota se subio a la galeria
+
+            span.bell-time Hace 4 dias
+            span.remove-notifications
+              img(src='/public/img/res/borrar.png' alt)
+          li.bell-submenu-element
+            | Ahora esta disponible la seccion veterinarios
+
+            span.bell-time Hace 5 meses
+            span.remove-notifications
+              img(src='/public/img/res/borrar.png' alt)
+    img.menu-icon(src='/public/img/res/menu-icon.svg' alt)
+    //
+      <section class="login-section">
+        <div class="container-login">
+          <div class="container-span-login">
+            <span id="access"
+              >Acceder
+              <div class="line-element span-line anim-line"></div>
+            </span>
+            <span id="register"
+              >Registrarse
+              <div class="line-element span-line hide-line"></div>
+            </span>
+          </div>
+          <form class="login-form access-form" action="">
+            <input
+              type="tel"
+              placeholder="Número de teléfono"
+              name="phone"
+              maxlength="8"
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+            />
+            <input type="submit" value="Acceder" />
+          </form>
+          <form class="login-form register-form" action=""></form>
+        </div>
+          </section> 
     nav.nav-menu
       .container-menu-element
         a.menu-element(href='/')
-          img(src='/public/img/res/dog-home.svg', alt)
+          img(src='/public/img/res/dog-home.svg' alt)
           span Inicio
-        if path == '/'
-          .line-element 
+        .line-element
       .container-menu-element
         #pet-submenu.menu-element
-          img(src='/public/img/res/dog.png', alt)
+          img(src='/public/img/res/pet.png' alt)
           span Mascotas
           .show-submenu-container
-            img.show-submenu-img(src='/public/img/res/next.png', alt)
+            img.show-submenu-img(src='/public/img/res/next.png' alt)
           .submenu
             ul.submenu-list
               a.submenu-element(href='mascotas')
-                img(src='/public/img/res/shiba.svg', alt)
+                img(src='/public/img/res/dog.svg' alt)
                 |  Perros
 
               a.submenu-element(href='mascotas')
-                img(src='/public/img/res/cat.svg', alt)
+                img(src='/public/img/res/cat.svg' alt)
                 |  Gatos
 
               a.submenu-element(href='mascotas')
-                img(src='/public/img/res/macaw.svg', alt)
+                img(src='/public/img/res/macaw.svg' alt)
                 |  Aves
 
               a.submenu-element(href='mascotas')
-                img(src='/public/img/res/roedor.svg', alt)
-                |  Roedor
+                img(src='/public/img/res/roedor.svg' alt)
+                | Roedor
 
-              a.submenu-element(href='mascotas')
-                img(src='/public/img/res/fish.svg', alt)
-                |  Peces
+            a.submenu-element(href='mascotas')
+              img(src='/public/img/res/fish.svg' alt)
+              |  Peces
 
-              a.submenu-element(href='mascotas')
-                img(src='/public/img/res/tortoise.svg', alt)
-                |  Otros
-          if path.startsWith("/mascotas")
-            .line-element 
-
+            a.submenu-element(href='mascotas')
+              img(src='/public/img/res/tortoise.svg' alt)
+              | Otros
       .container-menu-element
         a.menu-element(href='/accesorios')
-          img(src='/public/img/res/accesorios.png', alt)
+          img(src='/public/img/res/accesorios.png' alt)
           span Accesorios
-          if path.startsWith("/accesorios")
-            .line-element 
+        //  <div class="line-element"></div> 
       .container-menu-element
         #services-menu.menu-element
-          img(src='/public/img/res/doctor.png', alt)
+          img(src='/public/img/res/doctor.png' alt)
           span Servicios
-          if path.startsWith("/servicios")
-            .line-element 
           .show-submenu-container
-            img.show-submenu-img(src='/public/img/res/next.png', alt)
+            img.show-submenu-img(src='/public/img/res/next.png' alt)
           .submenu
             ul.submenu-list
               li.submenu-element
-                img(src='/public/img/res/stethoscope.png', alt)
+                img(src='/public/img/res/stethoscope.png' alt)
                 | Veterinario
-  != messages()
+
+  //  <div class="line-element"></div> 
+    .container-menu-element
+      a.menu-element(href='/accesorios')
+        img(src='/public/img/res/accesorios.png' alt)
+        span Accesorios
+      //  <div class="line-element"></div> 
+    .container-menu-element
+      #services-menu.menu-element
+        img(src='/public/img/res/doctor.png' alt)
+        span Servicios
+        .show-submenu-container
+          img.show-submenu-img(src='/public/img/res/next.png' alt)
+        .submenu
+          ul.submenu-list
+            li.submenu-element
+              img(src='/public/img/res/stethoscope.png' alt)
+              | Veterinario
+
+  //  <div class="line-element"></div> 
+    main
+      section.container-section
+        .main-title
+          h2.subtitle TIENDA DE MASCOTAS
+          p.subtitle-p.
+
+            Bienvenidos a nuestra tienda online en Las Tunas, donde podrás encontrar tus mascotas preferidas
+
+        //  <div class="container-image"> 
+        img.back-image(src='public/inicio/portada-transparente.png' alt)
+        //  </div> 
+        .container-button
+          p.button-p Accede a nuestras mascotas
+          a.btn(href='/mascotas') CONTINUAR
+  //- != messages()
   block contenido
 
   footer
@@ -223,11 +288,17 @@ html(lang='en')
   block footer
   script(src="/public/js/menu.js")
   script(src="/public/js/index.js")
+  script(src="/public/js/ordenes.js")
+  script(src="/public/js/alert.js")
+  script(src="/public/js/alert-completed.js")
+
+
   -if (path.startsWith("/mascotas") || path.startsWith("/accesorios"))
     script(src="/public/js/lazy-load.js")
-  script(src="/public/js/login.js")
-  -if (path.startsWith("/mascotas") || path.startsWith("/accesorios"))
     script(src="/public/js/modal.js")
+    script(src="/public/js/alert-completed.js")
+  -if (user)
+    script(src="/public/js/login.js")
+
   -if (path.startsWith("/mascotas"))
     script(src="/public/js/mascotas.js")
-  script(src="/public/js/alert.js")

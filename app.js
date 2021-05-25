@@ -38,7 +38,7 @@ app.use(
     name: "sessionID",
     saveUninitialized: false,
     cookie: {
-      maxAge: 1800000,
+      maxAge: 18000000,
     },
     store: MongoStore.create({
       mongoUrl: "mongodb://localhost/users",
@@ -97,7 +97,7 @@ app.use(
 app.use(
   "/admin",
   (req, res, next) => {
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.user.isAdmin) {
       next();
     } else {
       res.status(404).send("La pagina q esta buscando no existe");

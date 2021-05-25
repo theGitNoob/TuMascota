@@ -7,6 +7,21 @@ let passport = require("passport");
 let LocalStrategy = require("passport-local").Strategy;
 let bcrypt = require("bcryptjs");
 let crypto = require("crypto");
+let nodemailer = require("nodemailer");
+
+let transporter = nodemailer.createTransport({
+  host: "smtp.nauta.cu",
+  port: 25,
+  secure: false, // upgrade later with STARTTLS
+  auth: {
+    user: "racosta011220@nauta.cu",
+    pass: "qmxU9qqw",
+  },
+  tls: {
+    // do not fail on invalid certs
+    rejectUnauthorized: false,
+  },
+});
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -25,6 +40,7 @@ passport.use(
       if (!user) return done(null, false);
       let res = await bcrypt.compare(password, user.password);
       if (res) {
+        // user.isAdmin =
         return done(null, user);
       } else {
         return done(null, false);
@@ -38,7 +54,6 @@ passport.use(
 router
   .route("/login")
   .get((req, res) => {
-    console.log(req.user);
     if (req.isAuthenticated()) res.redirect("/");
     else res.render("login");
   })
@@ -48,12 +63,18 @@ router
       failureRedirect: "/users/login",
     }),
     (req, res) => {
-      // new Promise(resolve,rejec)
+      console.log(req.user);
+      if (!req.user.confirmed) {
+        req.logout();
+        req.flash("alert alert-danger", "Su cuenta aun no ha sido confirmada");
+
+        res.redirect("/users/login");
+        return;
+      }
       req.flash(
         "alert alert-success",
         "Usted ha iniciado session correctamente"
       );
-      console.log("das");
       let pattern = "8080/";
       let path = req.headers.referer.split(pattern)[1];
       res.redirect(`/${path}`);
@@ -65,7 +86,7 @@ router
   .get((req, res) => {
     res.render("register");
   })
-  .post(async (req, res) => {
+  .post(async (req, res, next) => {
     req.body.phone = parsePhone(req.body.phone);
 
     userData = JSON.parse(JSON.stringify(req.body));
@@ -99,25 +120,36 @@ router
             throw err;
           }
           newUser.password = hash;
-          await newUser.save();
-          let pattern = "8080/";
-          let path = req.headers.referer.split(pattern)[1];
-          console.log(path);
-          res.redirect(`/${path}`);
+          crypto.randomBytes(16, async (err, rand) => {
+            if (err) {
+              throw err;
+            }
+            let customURL = newUser._id + rand.toString("hex");
+            newUser.verifyURL = customURL;
+
+            await newUser.save();
+
+            // aun tengo q testear esto
+
+            let message = {
+              from: "racosta011220@nauta.cu",
+              to: req.body.email,
+              subject: "Confirme su cuenta",
+              text: "Por favor siga el siguiente enlace",
+              html: `<p>Siga el siguiente link para confirmar su cuenta<a href=192.168.43.224:8080/users/verify/${newUser.verifyURL}>Click Aquí</a></p>`,
+            };
+
+            transporter.sendMail(message, (err) => {});
+
+            let pattern = "8080/";
+            let path = req.headers.referer.split(pattern)[1];
+            res.redirect(`/${path}`);
+          });
         });
       }
     } catch (err) {
-      let parsedErr = JSON.parse(JSON.stringify(err));
-
-      let message = parsedErr.message;
-      if (message != undefined) {
-        message = message.substring(message.lastIndexOf(":") + 2);
-        console.error(message);
-        res.send(message);
-      } else {
-        console.error(err);
-        // res.redirect("/users/register");
-      }
+      console.log(err);
+      next(err);
     }
   });
 
@@ -126,13 +158,30 @@ router.get("/logout", (req, res, next) => {
     req.logout();
     req.flash("alert alert-success", "Su sessión ha sido cerrada");
     // nombre de dominio
-    let pattern = "8080/";
-    let path = req.headers.referer.split(pattern)[1];
-    res.redirect(`/${path}`);
+    // let pattern = "8080/";
+    // let path = req.headers.referer.split(pattern)[1];
+    // res.redirect(`/${path}`);
+    res.redirect("/users/login");
   } else {
     next();
   }
 });
 
+router.get("/verify/:url", async (req, res, next) => {
+  try {
+    let user = await userModel.findOne({ verifyURL: req.params.url });
+    if (user == null) {
+      next();
+    }
+    user.confirmed = true;
+    user.verifyURL = undefined;
+    await user.save();
+    req.flash(
+      "alert alert-success",
+      "Su cuenta ha sido confirmada ahora puede iniciar session"
+    );
+    res.redirect("/users/login");
+  } catch (error) {}
+});
 router.get("/forgot_password", (req, res) => {});
 module.exports = router;

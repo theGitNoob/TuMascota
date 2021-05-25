@@ -28,7 +28,6 @@ router.post("/ordenes/:id", async (req, res) => {
     }
 
     let user = await userModel.findById(req.user.id);
-    console.log(user);
     if (user == null) {
       res.redirect("/accesorios");
     }
@@ -36,16 +35,23 @@ router.post("/ordenes/:id", async (req, res) => {
     if (accesorie.available) {
       let cnt = req.body.cnt > accesorie.cnt ? accesorie.cnt : req.body.cnt;
 
+      let date = new Date();
+      let month = date.getMonth();
+      month++;
+      let fullDate =
+        date.getUTCDate() + "/" + month + "/" + date.getUTCFullYear();
+
       let newOrder = new orderModel({
         articleId: accesorie._id,
         articleType: "accesorio",
         owner: user._id,
         cnt: cnt,
         price: cnt * accesorie.price,
+        requestDate: fullDate,
       });
 
       await newOrder.save();
-      user.orders.push(newOrder._id);
+      user.toBeDelivered++;
       await user.save();
       accesorie.cnt -= cnt;
       accesorie.stagedCnt += cnt;
