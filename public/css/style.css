@@ -318,7 +318,7 @@ body {
   top: 0;
   z-index: 1;
   background: rgb(0, 123, 255);
-  background: rgb(0, 123, 255);(to bottom, #00aced 0%, #26bffc 100%);
+  background: rgb(0, 123, 255) (to bottom, #00aced 0%, #26bffc 100%);
   box-shadow: 0 0 6px #00000080;
   width: 100%;
   height: 70px;
@@ -1077,4 +1077,28 @@ footer {
   .nav-menu {
     top: 73px;
   }
+}
+
+#messages {
+  text-align: center;
+}
+ul.alert {
+  list-style: none;
+  position: relative;
+  padding: 1rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+
+.alert-success {
+  color: #0f5132;
+  background-color: #d1e7dd;
+  border-color: #badbcc;
+}
+
+.alert-danger {
+  color: #842029;
+  background-color: #f11023;
+  border-color: #f5c2c7;
 }

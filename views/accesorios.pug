@@ -10,7 +10,7 @@ block contenido
           | .
       .flex-container
         for accesorio in accesorios
-          article.article-container.mar10
+          article.article-container.mar10(id=accesorio._id)
             .article-header
               h4.article-name=accesorio.type
             .article-img-container
@@ -20,9 +20,14 @@ block contenido
                 span.article-info-title Descripción:
                 p=accesorio.description 
 
+              li.article-info-back.article-info-element
+                span.article-info-title Cantidad:
+                span.cnt=accesorio .cnt
+
               .article-price
                 span.article-info-title Precio:
                 span.price=accesorio.price+'$'
+
               .container-btn-buy
                 .btn-buy
                   input(type="hidden" value=accesorio.cnt id=accesorio._id)
@@ -48,14 +53,13 @@ block contenido
               button#accept-btn-buy.accept-btn(type='submit' form="buy-form") Confirmar
               button#cancel-btn-buy.cancel-btn(type='submit') Cancelar
 
-            #modal-back-completed.modal-back
-              #modal-completed.modal.modal-completed
-                .modal-body.modal-body-completed
-                  .success-checkmark
-                    .check-icon
-                      span.icon-line.line-tip
-                      span.icon-line.line-long
-                      .icon-circle
-                      .icon-fix
-                  span.completed Completado
-//- block  footer
+      #modal-back-completed.modal-back
+        #modal-completed.modal.modal-completed
+          .modal-body.modal-body-completed
+            .success-checkmark
+              .check-icon
+                span.icon-line.line-tip
+                span.icon-line.line-long
+                .icon-circle
+                .icon-fix
+            span.completed Completado

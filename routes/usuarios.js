@@ -29,6 +29,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   userModel.findById(id, (err, user) => {
+    if (user) user.password = undefined;
     done(err, user);
   });
 });
@@ -59,11 +60,14 @@ router
   })
   .post(
     passport.authenticate("local", {
-      failureFlash: "El nombre o la contraseña son incorrectos",
+      failureFlash: true,
+      failureFlash: {
+        type: "alert alert-danger",
+        message: "El nombre o la contraseña son incorrectos",
+      },
       failureRedirect: "/users/login",
     }),
     (req, res) => {
-      console.log(req.user);
       if (!req.user.confirmed) {
         req.logout();
         req.flash("alert alert-danger", "Su cuenta aun no ha sido confirmada");
@@ -148,7 +152,7 @@ router
         });
       }
     } catch (err) {
-      console.log(err);
+      console.err(err);
       next(err);
     }
   });

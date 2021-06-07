@@ -30,7 +30,7 @@ block contenido
       form#cancel-form
       .flex-container
         for orden in ordenes
-          article.order-container
+          article.order-container(id=orden._id)
             .order-header(data-state=orden.state)
               h4 Pedido de #{orden.articleType}
             .container-info-order
@@ -76,7 +76,7 @@ block contenido
                     span.order-element=orden.pet.birthDay
                   li.order-element-title
                     | Precio: 
-                    span.order-element=orden.pet.price + " CUP" 
+                    span.order-element=orden.price + " CUP" 
                   li.order-element-title
                     | Cantidad: 
                     span.order-element= orden.cnt
@@ -87,29 +87,29 @@ block contenido
             .container-btn-order
               span.order-state(data-state=orden.state)= orden.state
               if orden.state == "pendient"
-                button#btn-cancel.btn-cancel(type='submit' formmethod="post" formaction=`/ordenes/${orden._id}/cancel` form="cancel-form")
+                button.btn-cancel(type='submit' formmethod="post" formaction=`/ordenes/${orden._id}/cancel` form="cancel-form")
                   | Cancelar Entrega 
                   img(src='/public/img/res/borrar.png' alt='borrar')
-          #modal-back-alert.modal-back
-            #modal-alert.modal.modal-alert
-              .modal-body.modal-body-alert
-                .alert-icon
-                  span.alert-icon-long
-                  span.alert-icon-short  
-                span.alert-text Está seguro?
-                .btn-alert-container
-                  button.btn-alert.btn-alert-cancel(type='submit').
-                    Cancelar
-                  button.btn-alert.btn-alert-confirm(type='submit').
-                    Eliminar
+        #modal-back-alert.modal-back
+          #modal-alert.modal.modal-alert
+            .modal-body.modal-body-alert
+              .alert-icon
+                span.alert-icon-long
+                span.alert-icon-short  
+              span.alert-text Está seguro?
+              .btn-alert-container
+                button.btn-alert.btn-alert-cancel(type='submit').
+                  Cancelar
+                button.btn-alert.btn-alert-confirm(type='submit').
+                  Eliminar
 
-          #modal-back-completed.modal-back
-            #modal-completed.modal.modal-completed
-              .modal-body.modal-body-completed
-                .success-checkmark
-                  .check-icon
-                    span.icon-line.line-tip
-                    span.icon-line.line-long
-                    .icon-circle
-                    .icon-fix
-                span.completed Completado
+        #modal-back-completed.modal-back
+          #modal-completed.modal.modal-completed
+            .modal-body.modal-body-completed
+              .success-checkmark
+                .check-icon
+                  span.icon-line.line-tip
+                  span.icon-line.line-long
+                  .icon-circle
+                  .icon-fix
+              span.completed Completado

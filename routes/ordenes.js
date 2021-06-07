@@ -17,15 +17,18 @@ router.get("/", async (req, res, next) => {
         if (order.articleType == "mascota") {
           let pet = await petModel.findById(order.articleId);
           order.pet = pet;
+          console.log(order);
         } else {
           let accesorie = await accesoriesModel.findById(order.articleId);
           order.accesorie = accesorie;
+          console.log(order);
         }
       } catch (error) {
         next(error);
         return;
       }
     }
+    console.log("render");
     res.render("ordenes", { ordenes: orders });
   } catch (error) {
     next(error);
@@ -68,7 +71,7 @@ router
       await user.save();
       await order.save();
 
-      res.redirect("/ordenes");
+      res.sendStatus(200).end();
     } catch (error) {
       next(error);
     }

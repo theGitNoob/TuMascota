@@ -2,7 +2,6 @@ const btnBuyArr = document.querySelectorAll(".btn-buy");
 
 const modalBackBuyThis = document.querySelector(".modal-back-buy-this");
 
-// const modalBuyThis = document.querySelector(".modal-buy-this");
 const modalBuyThis = modalBackBuyThis.firstElementChild;
 
 const acceptBtnBuy = document.querySelector("#accept-btn-buy");
@@ -11,6 +10,8 @@ const cancelBtnBuy = document.querySelector("#cancel-btn-buy");
 let modalBackBuyThisCnt = modalBackBuyThis.querySelector(".spin-box-buy");
 const plusBtn = document.querySelector(".plus-btn");
 const lessBtn = document.querySelector(".less-btn");
+
+let action = "";
 
 modalBackBuyThisCnt.addEventListener("change", () => {
   let parseValue = parseInt(modalBackBuyThisCnt.value);
@@ -35,10 +36,31 @@ lessBtn.addEventListener("click", () => {
     modalBackBuyThisCnt.value = parseInt(modalBackBuyThisCnt.value) - 1;
   }
 });
+acceptBtnBuy.addEventListener("click", (e) => {
+  e.preventDefault();
 
-acceptBtnBuy.addEventListener("click", () => {
-  modalBackBuyThis.click();
-  animCompleted();
+  let buyForm = document.getElementById("buy-form");
+  let node = buyForm.querySelector("input");
+  let data = node.name + "=" + node.value;
+
+  let req = new XMLHttpRequest();
+  req.open("POST", action);
+  req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  req.onload = () => {
+    console.log(req.status);
+    if (req.status == 200) {
+      let orders = document.querySelector(".login-count-msj.orders-msj");
+      let orderCnt = Number(orders.textContent);
+      orderCnt++;
+      orders.textContent = orderCnt.toString();
+
+      modalBackBuyThis.click();
+      animCompleted();
+    }
+  };
+
+  req.send(data);
 });
 
 btnBuyArr.forEach((btnBuy) => {
@@ -51,7 +73,7 @@ btnBuyArr.forEach((btnBuy) => {
     modalBackBuyThisCnt.setAttribute("max", cnt);
 
     let buyForm = document.getElementById("buy-form");
-    buyForm.action += root.firstElementChild.id;
+    action = buyForm.action + root.firstElementChild.id;
 
     mostrarModal(modalBackBuyThis, modalBuyThis);
     modalBackBuyThisCnt.value = 1;

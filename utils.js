@@ -16,6 +16,7 @@ function validateUserRegistration(userData) {
   if (validator.isEmpty(userData.password)) {
     errors.push("Debe introducir una contraseña");
   }
+  console.log(userData.password, userData.password_confirmation);
   if (userData.password !== userData.password_confirmation) {
     errors.push("Las contraseñas no coinciden");
   }

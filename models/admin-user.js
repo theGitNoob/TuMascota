@@ -2,6 +2,7 @@ let mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
 //"mongodb://localhost/TuMascota"
+//manejar el error en caso de desconexion de la BD
 mongoose.connect("mongodb://localhost/users", {
   useNewUrlParser: true,
   useUnifiedTopology: true,

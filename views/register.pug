@@ -22,8 +22,7 @@ html(lang='en')
 
             Para la compra de articulos en nuestra página hay que estar registrado. Usaremos los datos introducidos aquí para ponernos en contacto con usted.
 
-          .alert-error
-            span El nombre de usuario ya existe
+          !=messages()
           form.login-form.register-form(action="/users/register" method="post")
             input#name(autofocus type='text' placeholder='Nombre(s)' name='name' required)
             input#lastname(type='text' placeholder='Apellido(s)' name='lastname' required)
@@ -32,7 +31,7 @@ html(lang='en')
             input#address(type='text' placeholder='Dirección' name='address')
             input#username(type='text' placeholder='Nombre de Usuario' name='username')
             input#password(type='password' name='password' placeholder='Contraseña' required)
-            input#confirm-password(type='password' name='confirm-password' placeholder='Confirmar Contraseña' required)
+            input#confirm-password(type='password' name='password_confirmation' placeholder='Confirmar Contraseña' required)
             input#check-for-new(type='checkbox' name='check-for-new')
             label(for='check-for-new') Notificarme productos nuevos
             input(type='submit' value='Registarse')

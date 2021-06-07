@@ -3,6 +3,9 @@ let router = express.Router();
 let userModel = require("../models/user").userModel;
 let orderModel = require("../models/order").orderModel;
 let petModel = require("../models/pet").petModel;
+let redis = require("redis");
+
+let redisClient = redis.createClient();
 
 router.get("/order/:id", (req, res) => {
   res.send("No jodas mas");
@@ -10,18 +13,25 @@ router.get("/order/:id", (req, res) => {
 
 router.post("/ordenes/:id", async (req, res) => {
   if (!req.isAuthenticated()) {
-    req.flash("alert-error", "Debe iniciar sesion antes de realizar un pedido");
-    res.redirect("/users/login");
+    // req.flash("alert-error", "Debe iniciar sesion antes de realizar un pedido");
+    // res.redirect("/users/login");
+    res.sendStatus(404).end();
     return;
   }
   try {
     let pet = await petModel.findById(req.params.id);
 
     if (pet == null) {
-      res.redirect("/mascotas");
+      res.sendStatus(404).end();
+      return;
     }
 
     let user = await userModel.findById(req.user.id);
+
+    if (user == null) {
+      res.sendStatus(404).end();
+      return;
+    }
 
     if (pet.available) {
       let cnt = req.body.cnt > pet.cnt ? pet.cnt : req.body.cnt;
@@ -48,10 +58,14 @@ router.post("/ordenes/:id", async (req, res) => {
       pet.available = pet.cnt == 0 ? false : true;
 
       await pet.save({ validateModifiedOnly: true });
-
-      res.redirect("/mascotas");
+      let info = { id: pet._id, cnt: pet.cnt };
+      redisClient.publish("product", JSON.stringify(info));
+      res.sendStatus(200).end();
+      // res.redirect("/mascotas");
     } else {
-      res.send("Lo sentimoas la mascota no s eencuentra disponible");
+      res
+        .send("Lo sentimoas la mascota no s eencuentra disponible")
+        .status(404);
     }
   } catch (err) {
     console.error(err);

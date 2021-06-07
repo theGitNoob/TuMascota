@@ -8,17 +8,12 @@ let userSchema = mongoose.Schema({
   addres: String,
   phone: String,
   username: { type: String, required: true },
-  // orders: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: "Order",
-  //   },
-  // ],
   messages: [
     {
       type: String,
     },
   ],
+  notifications: { type: Number, default: 0 },
   password: String,
   isAdmin: Boolean,
   verifyURL: String,

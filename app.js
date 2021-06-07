@@ -10,19 +10,24 @@ let pets = require("./routes/mascotas");
 let orders = require("./routes/ordenes");
 let accesories = require("./routes/accesorios");
 let services = require("./routes/servicios");
-let passport = require("passport");
+var passport = require("passport");
 let flash = require("connect-flash");
-const MongoStore = require("connect-mongo");
-
 let app = express();
-
+let http = require("http");
+var server = http.createServer(app);
+let io = require("socket.io")(server);
+let passportSocketIo = require("passport.socketio");
+let redis = require("redis");
+let RedisStore = require("connect-redis")(session);
+let cookieParser = require("cookie-parser");
+const { contentSecurityPolicy } = require("helmet");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //
 
 app.use(
   "/public",
   express.static("public", {
-    // maxAge: "10h", //con esta opcion puedo definir la duracio del los archivos en cache super rapido
+    // maxAge: "10h", //con esta opcion puedo definir la duracion del los archivos en cache super rapido
   })
 );
 
@@ -31,27 +36,53 @@ app.use(methodOverride("_method"));
 app.set("view engine", "pug"); //establece el motor de vistas a usar
 app.disable("x-powered-by");
 
-app.use(
-  session({
-    secret: "123the cat is falling in love",
-    resave: false,
-    name: "sessionID",
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 18000000,
-    },
-    store: MongoStore.create({
-      mongoUrl: "mongodb://localhost/users",
-      collectionName: "sessions",
-      autoRemove: "interval",
-      autoRemoveInterval: 10,
-      touchAfter: 24 * 3600,
-    }),
-  })
-);
+let sessionStore = new RedisStore({ client: redis.createClient() });
+
+let expressSession = session({
+  secret: "123the cat is falling in love",
+  resave: false,
+  name: "sessionID",
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 18000000,
+    sameSite: true,
+  },
+  store: sessionStore,
+});
+
+app.use(expressSession);
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+io.use(
+  passportSocketIo.authorize({
+    cookieParser: cookieParser,
+    key: "sessionID",
+    secret: "123the cat is falling in love",
+    store: sessionStore,
+    passport: passport,
+  })
+);
+
+let suscriberClient = redis.createClient();
+
+suscriberClient.subscribe("product");
+
+suscriberClient.on("message", (channel, message) => {
+  if (channel == "product") {
+    console.log(message);
+    io.emit("product update", message);
+  }
+});
+io.on("connection", (socket) => {
+  if (socket.request.isAuthenticated()) {
+    console.log("socket whith id: " + socket.id + " was connected");
+    socket.on("disconnect", () => {
+      console.log("socket disconnected");
+    });
+  }
+});
 
 app.use(flash());
 app.use((req, res, next) => {
@@ -73,6 +104,8 @@ app.get("*", (req, res, next) => {
 });
 
 app.get("/", (req, res) => {
+  console.log(res.locals);
+  io.emit("new message", { url: "www.google.com", extension: ".png" });
   res.render("index");
   //   res.send(compiledIndex());
 });
@@ -120,7 +153,7 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
-app.listen(8080, (err) => {
+server.listen(8080, (err) => {
   console.log("Servidor corriendo en el puerto 8080");
 });
 

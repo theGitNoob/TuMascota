@@ -3,6 +3,22 @@ crear un middleware para el manejo de errores
 cambiar las rutas para poder subir varias fotos de las mascotas
 
 
+añadir util.promisify
+
+usar skip y limit para poder controlar las imagenes q necesito
+agregar indices a la base de datos para acelerar
+
+
+//buscar todos los httpstatus codes
+
+incluir helmet csurf rate-limiter
+realizar npm audit
+añadir sonido a la pagina
+
+implementar scrollSpy
+
+
+cambiar bcryptjs por bcrypt
 
 revisar en los promises q para q un evento suba el q lo genera debe ser return
 poner un usuario y contraseña en mongo db
@@ -18,8 +34,11 @@ los div.line-element en mobile no deberian animarse
 eliminar las validaciones en los schemas y hacerlas antes de guardar
 
 agregar un estilo para ul.error
-
+añadir un estilo para cuando no hayan nuevas mascotas
 agregar el nuevo footer
+
+
+como hacer q las peticiones en express se hagan en paralelo
 asi sube hasta q el error es atrapado
     let fs = require("fs/promises");
 

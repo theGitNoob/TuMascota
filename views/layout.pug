@@ -24,94 +24,67 @@ html(lang='en')
               span.login-count-msj.orders-msj=user.toBeDelivered
             #bell-login.login-option.bell-login
               img(src='/public/img/res/bell.png' alt)
-              span.login-count-msj.bell-msj=user.messages.length
+              span.login-count-msj.bell-msj=user.notifications
           if !user
             .go-login
               a.btn-go-login(href='/users/login') Acceder
               a.btn-go-login(href='/users/register') Registrarse
           if user
             img#avatar-login(src='/public/img/res/avatar.png' alt)
-    section.sticky-hidden-menu
-      article#account-section.account-section
-        ul.account-section-submenu
-          li.account-section-submenu-element Cuenta
-          li.account-section-submenu-element
-            img(src='/public/img/res/settings.png' alt)
-            | Modificar Perfil
+    if user
+      section.sticky-hidden-menu
+        article#account-section.account-section
+          ul.account-section-submenu
+            li.account-section-submenu-element Cuenta
+            li.account-section-submenu-element
+              img(src='/public/img/res/settings.png' alt)
+              | Modificar Perfil
 
-          li.account-section-submenu-element
-            a(href="/users/logout") 
-              img(src='/public/img/res/log-out.png' alt)
-              |  Salir
+            li.account-section-submenu-element
+              a(href="/users/logout") 
+                img(src='/public/img/res/log-out.png' alt)
+                |  Salir
 
-      article#bell-section.bell-section
-        ul.bell-submenu
-          li.bell-submenu-title
-            | Tiene 
-            span.bell-number 6
-            |  nuevas notificaciones.
+        article#bell-section.bell-section
+          ul.bell-submenu
+            li.bell-submenu-title
+              | Tiene 
+              span.bell-number=user.notifications
+              |  nuevas notificaciones.
 
-          li.bell-submenu-element
-            | Nuevas Mascotas disponibles
+            for not of user.messages
+              li.bell-submenu-element
+                | Nuevas Mascotas disponibles
 
-            span.bell-time Hace 20 min
-            span.remove-notifications
-              img(src='/public/img/res/borrar.png' alt)
-          li.bell-submenu-element
-            | Cuenta creada satisfactoriamente
+                span.bell-time Hace 20 min
+                span.remove-notifications
+                  img(src='/public/img/res/borrar.png' alt)
+              li.bell-submenu-element
+                | Cuenta creada satisfactoriamente
 
-            span.bell-time Hace 2 horas
-            span.remove-notifications
-              img(src='/public/img/res/borrar.png' alt)
-          li.bell-submenu-element
-            | Nuevos articulos disponibles
+                span.bell-time Hace 2 horas
+                span.remove-notifications
+                  img(src='/public/img/res/borrar.png' alt)
+              li.bell-submenu-element
+                | Nuevos articulos disponibles
 
-            span.bell-time Hace 3 semanas
-            span.remove-notifications
-              img(src='/public/img/res/borrar.png' alt)
-          li.bell-submenu-element
-            | Su mascota se subio a la galeria
+                span.bell-time Hace 3 semanas
+                span.remove-notifications
+                  img(src='/public/img/res/borrar.png' alt)
+              li.bell-submenu-element
+                | Su mascota se subio a la galeria
 
-            span.bell-time Hace 4 dias
-            span.remove-notifications
-              img(src='/public/img/res/borrar.png' alt)
-          li.bell-submenu-element
-            | Ahora esta disponible la seccion veterinarios
+                span.bell-time Hace 4 dias
+                span.remove-notifications
+                  img(src='/public/img/res/borrar.png' alt)
+              li.bell-submenu-element
+                | Ahora esta disponible la seccion veterinarios
 
-            span.bell-time Hace 5 meses
-            span.remove-notifications
-              img(src='/public/img/res/borrar.png' alt)
+                span.bell-time Hace 5 meses
+                span.remove-notifications
+                  img(src='/public/img/res/borrar.png' alt)
     img.menu-icon(src='/public/img/res/menu-icon.svg' alt)
-    //
-      <section class="login-section">
-        <div class="container-login">
-          <div class="container-span-login">
-            <span id="access"
-              >Acceder
-              <div class="line-element span-line anim-line"></div>
-            </span>
-            <span id="register"
-              >Registrarse
-              <div class="line-element span-line hide-line"></div>
-            </span>
-          </div>
-          <form class="login-form access-form" action="">
-            <input
-              type="tel"
-              placeholder="Número de teléfono"
-              name="phone"
-              maxlength="8"
-            />
-            <input
-              type="password"
-              name="password"
-              placeholder="Contraseña"
-            />
-            <input type="submit" value="Acceder" />
-          </form>
-          <form class="login-form register-form" action=""></form>
-        </div>
-          </section> 
+
     nav.nav-menu
       .container-menu-element
         a.menu-element(href='/')
@@ -166,40 +139,8 @@ html(lang='en')
                 img(src='/public/img/res/stethoscope.png' alt)
                 | Veterinario
 
-  //  <div class="line-element"></div> 
-    .container-menu-element
-      a.menu-element(href='/accesorios')
-        img(src='/public/img/res/accesorios.png' alt)
-        span Accesorios
-      //  <div class="line-element"></div> 
-    .container-menu-element
-      #services-menu.menu-element
-        img(src='/public/img/res/doctor.png' alt)
-        span Servicios
-        .show-submenu-container
-          img.show-submenu-img(src='/public/img/res/next.png' alt)
-        .submenu
-          ul.submenu-list
-            li.submenu-element
-              img(src='/public/img/res/stethoscope.png' alt)
-              | Veterinario
 
-  //  <div class="line-element"></div> 
-    main
-      section.container-section
-        .main-title
-          h2.subtitle TIENDA DE MASCOTAS
-          p.subtitle-p.
-
-            Bienvenidos a nuestra tienda online en Las Tunas, donde podrás encontrar tus mascotas preferidas
-
-        //  <div class="container-image"> 
-        img.back-image(src='public/inicio/portada-transparente.png' alt)
-        //  </div> 
-        .container-button
-          p.button-p Accede a nuestras mascotas
-          a.btn(href='/mascotas') CONTINUAR
-  //- != messages()
+  != messages()
   block contenido
 
   footer
@@ -292,13 +233,17 @@ html(lang='en')
   script(src="/public/js/alert.js")
   script(src="/public/js/alert-completed.js")
 
+  if user
+    script(src="/socket.io/socket.io.js")
+    script(src="/public/js/socket.js")
+    script(src="/public/js/realtime.js")
+    script(src="/public/js/login.js")
+
+
 
   -if (path.startsWith("/mascotas") || path.startsWith("/accesorios"))
     script(src="/public/js/lazy-load.js")
     script(src="/public/js/modal.js")
-    script(src="/public/js/alert-completed.js")
-  -if (user)
-    script(src="/public/js/login.js")
 
   -if (path.startsWith("/mascotas"))
     script(src="/public/js/mascotas.js")

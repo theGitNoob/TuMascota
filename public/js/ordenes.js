@@ -58,9 +58,45 @@ filtros.forEach((f) => {
   });
 });
 
+document.querySelector(".filter-orders-menu").firstChild.click();
 /*Esto es para la alerta de cancelar*/
 btnCancelOrder.forEach((btn) => {
-  btn.addEventListener("click", () => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
     animarModalAlert();
+
+    let cancelBtn = document.querySelector(".btn-alert.btn-alert-confirm");
+    let node = e.target;
+    let action = node.formAction;
+    let method = node.formMethod;
+
+    cancelBtn.onclick = (e) => {
+      e.preventDefault();
+      console.log(action, method);
+      let req = new XMLHttpRequest();
+      req.open(method, action);
+
+      req.onload = function () {
+        if (req.status == 200) {
+          let cart = document.querySelector(".login-count-msj.orders-msj");
+          let orders = Number(cart.textContent);
+
+          cart.textContent = --orders;
+
+          let root = node.parentNode.parentNode;
+          let nodes = root.querySelectorAll("[data-state='pendient']");
+          root.style = "display:none";
+          for (const node of nodes) {
+            node.setAttribute("data-state", "canceled");
+          }
+          nodes[1].textContent = "CANCELED";
+          let img = document.createElement("img");
+          img.src = "/public/img/res/borrar.png";
+          nodes[1].appendChild(img);
+          root.querySelector(".btn-cancel").remove();
+        }
+      };
+      req.send();
+    };
   });
 });
