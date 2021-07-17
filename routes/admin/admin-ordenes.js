@@ -1,4 +1,4 @@
-"@use-strict";
+"use strict";
 let router = require("express").Router();
 let orderModel = require("../../models/order").orderModel;
 let fs = require("fs/promises");
@@ -41,11 +41,28 @@ router
         order.state === "aproved"
       ) {
         order.state = req.body.state;
-        if (req.body.state == "canceled") {
+        if (order.state === "aproved") {
+          user.messages.push({
+            msg: "Su órden ha sido aprobada",
+            date: Date(),
+          });
+          user.notifications++;
+        } else if (order.state === "onway") {
+          user.messages.push({
+            msg: "Su órden ahora está en camino",
+            date: Date(),
+          });
+          user.notifications++;
+        } else if (req.body.state === "canceled") {
           article.stagedCnt -= order.cnt;
           article.cnt += order.cnt;
+          user.messages.push({
+            msg: "Su órden ha sido cancelada",
+            date: Date(),
+          });
+          user.notifications++;
           if (user.toBeDelivered) user.toBeDelivered--;
-        } else if (req.body.state == "completed") {
+        } else if (req.body.state === "completed") {
           article.stagedCnt -= order.cnt;
           if (user.toBeDelivered) user.toBeDelivered--;
         }
@@ -55,7 +72,7 @@ router
 
       await user.save();
       await order.save();
-      
+
       res.redirect("/admin/ordenes");
     } catch (error) {
       console.error(error);
@@ -63,13 +80,13 @@ router
   })
   .delete(async (req, res) => {
     try {
+      // Notificar usuario que su orden fue eliminada
       let order = await orderModel.findById(req.params.id);
       if (order === null) {
         req.flash("alert alert-danger", "El articulo ya no existe");
         res.redirect("/admin/ordenes/");
         return;
       }
-      console.log(req.params.id);
       let article =
         order.articleType == "mascota"
           ? await petModel.findById(order.articleId)
@@ -83,8 +100,15 @@ router
       await order.deleteOne();
 
       let user = await userModel.findById(order.owner);
-
-      user.orders.splice(user.orders.indexOf(order._id), 1);
+      user.orders;
+      if (order.state !== "canceled") {
+        user.messages.push({
+          msg: `Su órden con id: ${order._id} ha sido eliminada`,
+          date: Date(),
+        });
+        user.toBeDelivered--;
+        notifications++;
+      }
       await user.save();
       res.redirect("/admin/ordenes");
     } catch (err) {

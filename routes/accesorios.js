@@ -69,7 +69,7 @@ router.post("/ordenes/:id", async (req, res) => {
 
       res.sendStatus(200).end();
     } else {
-      res.send("Lo sentimoas la mascota no s eencuentra disponible");
+      res.sendStatus(404).end();
     }
   } catch (err) {
     console.error(err);

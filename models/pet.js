@@ -9,7 +9,7 @@ let petSchema = mongoose.Schema({
   cnt: { type: Number, default: 1, min: 0 },
   birthDay: String,
   description: String,
-  ownerName: { type: String, require: true },
+  ownerName: { type: String, required: true },
   ownerPhone: { type: Number, required: true },
   ownerAccount: {
     type: String,
@@ -25,6 +25,7 @@ let petSchema = mongoose.Schema({
   imgExtension: String,
   available: { type: Boolean, default: true },
   stagedCnt: { type: Number, default: 0 },
+  added: { type: Number },
 });
 
 petSchema.post("findOneAndDelete", function (doc) {

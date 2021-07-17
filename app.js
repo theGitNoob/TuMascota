@@ -1,16 +1,17 @@
 "use strict";
-let express = require("express");
+require("dotenv").config();
+const express = require("express");
 // let compression = require("compression");
 let session = require("express-session");
 let methodOverride = require("method-override");
 // let sessionMiddleware = require("./middlewares/session-middleware");
-let adminRouter = require("./routes/admin/admin-routes");
-let user = require("./routes/usuarios");
-let pets = require("./routes/mascotas");
-let orders = require("./routes/ordenes");
-let accesories = require("./routes/accesorios");
-let services = require("./routes/servicios");
-var passport = require("passport");
+const adminRouter = require("./routes/admin/admin-routes");
+const user = require("./routes/usuarios");
+const pets = require("./routes/mascotas");
+const orders = require("./routes/ordenes");
+const accesories = require("./routes/accesorios");
+const services = require("./routes/servicios");
+const passport = require("passport");
 let flash = require("connect-flash");
 let app = express();
 let http = require("http");
@@ -20,21 +21,23 @@ let passportSocketIo = require("passport.socketio");
 let redis = require("redis");
 let RedisStore = require("connect-redis")(session);
 let cookieParser = require("cookie-parser");
-const { contentSecurityPolicy } = require("helmet");
+let helmet = require("helmet");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //
+// app.use(helmet());
 
 app.use(
   "/public",
   express.static("public", {
-    // maxAge: "10h", //con esta opcion puedo definir la duracion del los archivos en cache super rapido
+    maxAge: "10h", //con esta opcion puedo definir la duracion del los archivos en cache super rapido
   })
 );
 
 app.use(methodOverride("_method"));
 
 app.set("view engine", "pug"); //establece el motor de vistas a usar
-app.disable("x-powered-by");
+// app.disable("x-powered-by");
 
 let sessionStore = new RedisStore({ client: redis.createClient() });
 
@@ -71,15 +74,15 @@ suscriberClient.subscribe("product");
 
 suscriberClient.on("message", (channel, message) => {
   if (channel == "product") {
-    console.log(message);
+    // console.log(message);
     io.emit("product update", message);
   }
 });
 io.on("connection", (socket) => {
   if (socket.request.isAuthenticated()) {
-    console.log("socket whith id: " + socket.id + " was connected");
+    // console.log("socket whith id: " + socket.id + " was connected");
     socket.on("disconnect", () => {
-      console.log("socket disconnected");
+      // console.log("socket disconnected");
     });
   }
 });
@@ -103,9 +106,7 @@ app.get("*", (req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  console.log(res.locals);
-  io.emit("new message", { url: "www.google.com", extension: ".png" });
+app.get("/", (req, res, next) => {
   res.render("index");
   //   res.send(compiledIndex());
 });
@@ -120,7 +121,8 @@ app.use(
     if (req.isAuthenticated()) {
       next();
     } else {
-      res.status(404).send("La pagina q esta buscando no existe");
+      // res.status(404).send("La pagina q esta buscando no existe");
+      res.render("404");
     }
   },
   orders
@@ -133,14 +135,16 @@ app.use(
     if (req.isAuthenticated() && req.user.isAdmin) {
       next();
     } else {
-      res.status(404).send("La pagina q esta buscando no existe");
+      res.render("404");
+      // res.status(404).send("La pagina q esta buscando no existe");
     }
   },
   adminRouter
 );
 
 app.use((req, res) => {
-  res.status(404).send("La pagina q esta buscando no existe");
+  res.render("404");
+  // res.status(404).send("La pagina q esta buscando no existe");
 });
 
 // error handler
@@ -151,43 +155,41 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.render("500");
 });
+
 server.listen(8080, (err) => {
   console.log("Servidor corriendo en el puerto 8080");
 });
 
-// let nodemailer = require("nodemailer");
+//TODO: clear something
+//FIXME: Fix something
 
-// let transporter = nodemailer.createTransport({
-//   host: "smtp.nauta.cu",
-//   port: 25,
-//   secure: false, // upgrade later with STARTTLS
-//   auth: {
-//     user: "racosta011220@nauta.cu",
-//     pass: "qmxU9qqw",
+// const { Schema, model, connect } = require("mongoose");
+
+// connect("mongodb://localhost/ttlTest", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useCreateIndex: true,
+//   useFindAndModify: false,
+// }).catch((err) => {
+//   console.error("Error:", err, "mongodb://localhost/ttlTest");
+// });
+// const testSchema = new Schema({
+//   name: String,
+//   age: Number,
+//   // link: { type: String, expires: new Date().now + 60 },
+//   expireAt: {
+//     type: Date,
+//     default: Date.now,
+//     index: { expires: 240 },
 //   },
-//   tls: {
-//     // do not fail on invalid certs
-//     rejectUnauthorized: false,
-//   },
 // });
 
-// var message = {
-//   from: "racosta011220@nauta.cu",
-//   to: "racosta011220@gmail.com",
-//   subject: "Hola mundo por correo",
-//   text: "Hola Mundo en texto plano",
-//   html: "<p>Hello World from html</p>",
-// };
-
-// transporter.sendMail(message, (err) => {
-//   console.log(err);
-// });
-// transporter.verify(function (error, success) {
-//   if (error) {
-//     console.log(error);
-//   } else {
-//     console.log("Server is ready to take our messages");
-//   }
-// });
+// const mod = model("TTL", testSchema);
+// async function f() {
+//   let x = new mod({ name: "rafa", age: 18, link: "Pepe" });
+//   let z = await x.save();
+//   console.log(z);
+// }
+// f();

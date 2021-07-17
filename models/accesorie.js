@@ -1,11 +1,11 @@
 let mongoose = require("mongoose");
 let fs = require("fs/promises");
 
-let accesoriesSchema = mongoose.Schema({
+let AccesoriesSchema = mongoose.Schema({
   type: { type: String, required: true },
   price: { type: Number, required: true },
   description: String,
-  ownerName: { type: String, require: true },
+  ownerName: { type: String, required: true },
   ownerPhone: { type: Number, required: true },
   cnt: { type: Number, default: 1 },
   ownerAccount: {
@@ -25,11 +25,12 @@ let accesoriesSchema = mongoose.Schema({
   imgExtension: String,
   available: { type: Boolean, default: true },
   stagedCnt: { type: Number, deafult: true },
+  added: { type: Number },
 });
 
-// accesoriesSchema.virtual("prevImgExtension").get(fuc)
+// AccesoriesSchema.virtual("prevImgExtension").get(fuc)
 
-accesoriesSchema.post("findOneAndDelete", function (doc) {
+AccesoriesSchema.post("findOneAndDelete", function (doc) {
   fs.unlink(`./public/img/accesorios/${doc._id}.${doc.imgExtension}`).catch(
     (err) => {
       if (err && err.code != "ENOENT") console.error(err);
@@ -37,7 +38,7 @@ accesoriesSchema.post("findOneAndDelete", function (doc) {
   );
 });
 
-accesoriesSchema.post("remove", function (doc) {
+AccesoriesSchema.post("remove", function (doc) {
   fs.unlink(`./public/img/accesorios/${doc._id}.${doc.imgExtension}`).catch(
     (err) => {
       if (err && err.code != "ENOENT") console.error(err);
@@ -45,6 +46,6 @@ accesoriesSchema.post("remove", function (doc) {
   );
 });
 
-let accesoriesModel = new mongoose.model("Accesorie", accesoriesSchema);
+let accesoriesModel = new mongoose.model("Accesorie", AccesoriesSchema);
 
 module.exports.accesoriesModel = accesoriesModel;

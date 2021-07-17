@@ -1,4 +1,4 @@
-"@use-strict";
+"use strict";
 let router = require("express").Router();
 let petModel = require("../../models/pet").petModel;
 let fs = require("fs/promises");
@@ -22,10 +22,9 @@ router
   .post(upload.single("file"), (req, res) => {
     let wasFileSend = req.file !== undefined;
     let fileName = wasFileSend ? req.file.path : undefined;
-    console.log(req.file);
 
     let data = {
-      type: req.body.animal_type.toLowerCase(),
+      type: req.body.type.toLowerCase(),
       breed: req.body.breed ? req.body.breed : undefined,
       sex: req.body.sex ? req.body.sex : undefined,
       price: req.body.price,
@@ -35,6 +34,7 @@ router
       ownerPhone: req.body.owner_phone,
       ownerName: req.body.owner_name,
       ownerAccount: req.body.owner_account ? req.body.owner_account : undefined,
+      added: new Date().getTime(),
     };
 
     if (wasFileSend) {

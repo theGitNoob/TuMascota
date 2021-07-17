@@ -1,4 +1,4 @@
-"@use-strict";
+"use strict";
 let router = require("express").Router();
 let fs = require("fs/promises");
 let mongoose = require("mongoose");
@@ -31,6 +31,7 @@ router
       ownerName: req.body.owner_name,
       ownerAccount: req.body.owner_account ? req.body.owner_account : undefined,
       cnt: req.body.cnt ? req.body.cnt : undefined,
+      added: new Date().getTime(),
     };
 
     if (wasFileSend) {

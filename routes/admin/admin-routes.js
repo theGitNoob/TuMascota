@@ -1,4 +1,4 @@
-"@use-strict";
+"use strict";
 let express = require("express");
 let adminModel = require("../../models/admin-user.js").adminModel;
 
@@ -86,7 +86,7 @@ router.get("/", (req, res) => {
 //           let data = {
 //             username: req.body.username,
 //             password: req.body.password,
-//             password_confirmation: req.body.password_confirmation,
+//             password2: req.body.password2,
 //           };
 
 //           let newAdminUser = new adminModel(data);

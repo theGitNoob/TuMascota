@@ -3,30 +3,60 @@ block contenido
   div(class="container col-md-4 top-space")
     form(action="/admin/mascotas/" method='POST' class="form-group" enctype="multipart/form-data")
 
-      input(type="text" class="form-control" name="animal_type" placeholder="Tipo de animal" required)
+      select#options.form-control(name="type")
+        option(value="perro") Perro
+        option(value="gato") Gato
+        option(value="ave") Ave
+        option(value="roedor") Roedor
+        option(value="pez") Pez
+        option(value="otro") Otro
+      input#animal-type.form-control(type="text" placeholder="Escriba el tipo de animal" style='display:none;')
 
-      input(type="text" class="form-control" name="breed" placeholder="Raza")
+      input.form-control(type="text" name="breed" placeholder="Raza")
 
-      input(type="text" class="form-control" name="sex" placeholder="Sexo")
+      select.form-control(name="sex")
+        option(value="") Selecciona el Sexo
+        option(value="masculino") Masculino
+        option(value="femenino") Femenino
 
-      input(type="text" class="form-control" name="price" placeholder="Precio" required)
+      input.form-control(type="text" name="price" placeholder="Precio" required)
 
-      input(type="text" class="form-control" name="cnt" placeholder="Cantidad" )
+      input.form-control(type="text" name="cnt" placeholder="Cantidad" required)
 
-      input(type="datetime-local " class="form-control" name="birth_day" placeholder="Año-Mes-Dia")
+      input.form-control(type="datetime-local" name="birth_day" placeholder="Año-Mes-Dia")
 
-      input(type="text" class="form-control" name="description" placeholder="Descripción")
+      input.form-control(type="text" name="description" placeholder="Descripción")
 
-      input(type="text" class="form-control" name="owner_name" placeholder="Nombre del dueño" required)
+      input.form-control(type="text" name="owner_name" placeholder="Nombre del dueño" required)
 
-      input(type="tel" class="form-control" name="owner_phone" placeholder="Télefono del dueño" required)
+      input.form-control(type="tel" name="owner_phone" placeholder="Télefono del dueño" required)
 
-      input(type="text" class="form-control " name="owner_account" placeholder="Cuenta bancaria")
+      input.form-control(type="text" name="owner_account" placeholder="Cuenta bancaria")
 
-      input(type="file" class="form-control" name="file" accept="image/jpeg,image/png" multiple)
+      input.form-control(type="file" name="file" accept="image/jpeg,image/png" multiple)
 
       div(class="d-flex")
         input(type="submit" class="btn btn-info " value="Guardar")
+      script.
+        let opts = document.querySelector('#options')
+        let input = document.querySelector('#animal-type');
+        opts.addEventListener('click',(e)=>{
+          if(e.target.value == 'otro')
+          {
+            //- e.target.style = 'display:none';
+            input.style = "";
+            input.setAttribute("name","type");
+            opts.removeAttribute("name");
+
+          }
+          else 
+          {
+            opts.setAttribute("name","type");
+            input.removeAttribute("name");
+            input.style = 'display:none';
+          }
+
+        })
 
 
 

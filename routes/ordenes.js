@@ -1,4 +1,4 @@
-"@use-strict";
+"use strict";
 let router = require("express").Router();
 let orderModel = require("../models/order").orderModel;
 let fs = require("fs/promises");
@@ -12,7 +12,7 @@ let userModel = require("../models/user").userModel;
 router.get("/", async (req, res, next) => {
   try {
     let orders = await orderModel.find({ owner: req.user.id });
-    for await (order of orders) {
+    for await (const order of orders) {
       try {
         if (order.articleType == "mascota") {
           let pet = await petModel.findById(order.articleId);

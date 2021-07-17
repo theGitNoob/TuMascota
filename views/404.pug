@@ -1,0 +1,17 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width,initial-scale=1')
+    title 404 Página No Encontrada
+    link(rel='stylesheet' href='/public/css/404.css')
+  body
+    .back-image
+      img(src='/public/img/res/Logo.png' alt)
+    header
+      h1.error-type 404
+    main
+      h3.error-message Página No Encontrada
+      p.error-text La página que usted busca no existe
+      button.btn(type='submit')
+        a(href='/') Volver a Inicio 

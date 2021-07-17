@@ -63,9 +63,8 @@ router.post("/ordenes/:id", async (req, res) => {
       res.sendStatus(200).end();
       // res.redirect("/mascotas");
     } else {
-      res
-        .send("Lo sentimoas la mascota no s eencuentra disponible")
-        .status(404);
+      console.log("not available");
+      res.sendStatus(404).end();
     }
   } catch (err) {
     console.error(err);

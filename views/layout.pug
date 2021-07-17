@@ -1,5 +1,5 @@
 doctype html
-html(lang='en')
+html(lang='es')
   head
     meta(charset='UTF-8')
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
@@ -50,37 +50,15 @@ html(lang='en')
             li.bell-submenu-title
               | Tiene 
               span.bell-number=user.notifications
-              |  nuevas notificaciones.
+                if user.notifications ===1
+                  |  nueva   notificación.
+                else 
+                  |  nuevas notificaciones.
+
 
             for not of user.messages
-              li.bell-submenu-element
-                | Nuevas Mascotas disponibles
-
-                span.bell-time Hace 20 min
-                span.remove-notifications
-                  img(src='/public/img/res/borrar.png' alt)
-              li.bell-submenu-element
-                | Cuenta creada satisfactoriamente
-
-                span.bell-time Hace 2 horas
-                span.remove-notifications
-                  img(src='/public/img/res/borrar.png' alt)
-              li.bell-submenu-element
-                | Nuevos articulos disponibles
-
-                span.bell-time Hace 3 semanas
-                span.remove-notifications
-                  img(src='/public/img/res/borrar.png' alt)
-              li.bell-submenu-element
-                | Su mascota se subio a la galeria
-
-                span.bell-time Hace 4 dias
-                span.remove-notifications
-                  img(src='/public/img/res/borrar.png' alt)
-              li.bell-submenu-element
-                | Ahora esta disponible la seccion veterinarios
-
-                span.bell-time Hace 5 meses
+              li.bell-submenu-element=not.msg
+                span.bell-time=not.fullDate
                 span.remove-notifications
                   img(src='/public/img/res/borrar.png' alt)
     img.menu-icon(src='/public/img/res/menu-icon.svg' alt)

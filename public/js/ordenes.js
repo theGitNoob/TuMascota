@@ -72,7 +72,6 @@ btnCancelOrder.forEach((btn) => {
 
     cancelBtn.onclick = (e) => {
       e.preventDefault();
-      console.log(action, method);
       let req = new XMLHttpRequest();
       req.open(method, action);
 
