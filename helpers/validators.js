@@ -32,10 +32,22 @@ const validateResults = (req) => {
   return validationResult(req).formatWith(({ msg }) => msg);
 };
 
+const imageUploaded = (image, { req }) => {
+  if (!req.file) {
+    throw new Error("Debe subir una imagen de la mascota");
+  } else if (
+    req.file.mimetype !== "image/jpeg" &&
+    req.file.mimetype !== "image/png"
+  ) {
+    throw new Error("La imagen debe ser png o jpg");
+  } else return true;
+};
+
 module.exports = {
   emailExist,
   passwordsMatch,
   usernameExists,
   emailNotExist,
   validateResults,
+  imageUploaded,
 };

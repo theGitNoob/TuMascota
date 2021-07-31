@@ -11,25 +11,27 @@ let userModel = require("../models/user").userModel;
 
 router.get("/", async (req, res, next) => {
   try {
+    const mascotas = [];
+    const accesorios = [];
     let orders = await orderModel.find({ owner: req.user.id });
     for await (const order of orders) {
       try {
         if (order.articleType == "mascota") {
           let pet = await petModel.findById(order.articleId);
           order.pet = pet;
-          console.log(order);
+          mascotas.push(order);
         } else {
           let accesorie = await accesoriesModel.findById(order.articleId);
           order.accesorie = accesorie;
-          console.log(order);
+          accesorios.push(order);
         }
       } catch (error) {
         next(error);
         return;
       }
     }
-    console.log("render");
-    res.render("ordenes", { ordenes: orders });
+    res.render("ordenes", { accesorios, mascotas });
+    // res.json({ mascotas });
   } catch (error) {
     next(error);
   }

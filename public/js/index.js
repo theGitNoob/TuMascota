@@ -1,71 +1,88 @@
-const firstElement = document.querySelector("#first-element-contact-us");
-const secondElement = document.querySelector("#second-element-contact-us");
-const modalBackContact = document.querySelector("#modal-back-contact");
-const modalBackAbout = document.querySelector("#modal-back-about");
-// const modalContact = document.querySelector("#modal-contact");
-// const modalAbout = document.querySelector("#modal-about");
-const modalContact = modalBackContact.firstElementChild;
-const modalAbout = modalBackAbout.firstElementChild;
-const goTop = document.querySelector(".go-top");
+const galleryPictures = document.querySelectorAll(".home-gallery__picture");
+const carrusel = document.getElementById("carrusel");
 
-function goTopScroll() {
-    let scrY = window.pageYOffset;
-    if (scrY > 200) {
-        goTop.style.opacity = "1";
-        goTop.style.visibility = "visible";
-    } else {
-        goTop.style.opacity = "0";
-        goTop.style.visibility = "hidden";
+function addCarruselIcons() {
+    for (let i = 0; i < galleryPictures.length; i++) {
+        let node = document.createElement("span");
+        node.classList.add("carrusel__icon");
+        carrusel.appendChild(node);
     }
 }
 
-// goTopScroll();
-window.addEventListener("scroll", () => {
-    goTopScroll();
+addCarruselIcons();
+
+const carrusellIcons = document.querySelectorAll(".carrusel__icon");
+
+galleryPictures.forEach(function (picture) {
+    picture.style.display = "none";
+    // picture.classList.add("remove-gallery-picture");
 });
 
-firstElement.addEventListener("click", () => {
-    mostrarModal(modalBackContact, modalContact);
-});
+galleryPictures[0].style.display = "inline-block";
+galleryPictures[0].classList.add("gallery__picture--active");
+carrusellIcons[0].classList.add("carrusel__icon--active");
 
-secondElement.addEventListener("click", () => {
-    mostrarModal(modalBackAbout, modalAbout);
-});
 
-function mostrarModal(modalback, modal) {
-    if (
-        modalback.classList.contains("show-modal-back") &&
-        modal.classList.contains("show-modal")
-    ) {
-        modal.classList.toggle("hide-modal");
-        setTimeout(() => {
-            modalback.classList.toggle("show-modal-back");
-            modal.classList.toggle("show-modal");
-            modal.classList.toggle("hide-modal");
-        }, 650);
-    } else {
-        modalback.classList.toggle("show-modal-back");
-        modal.classList.toggle("show-modal");
-        if (
-            modalback.classList.contains("show-modal-back") &&
-            modal.classList.contains("show-modal")
-        ) {
-            modalback.style.zIndex = "2";
-            modal.style.zIndex = "2";
-        } else {
-            modalback.style.zIndex = "1";
-            modal.style.zIndex = "1";
+
+function moveCarrusel(cont) {
+    galleryPictures[cont].classList.remove("gallery__picture--active");
+    carrusellIcons[cont].classList.remove("carrusel__icon--active");
+    setTimeout(function () {
+        galleryPictures[cont].style.display = "none";
+        if (cont == galleryPictures.length - 1) {
+            cont = -1;
         }
-    }
+        galleryPictures[cont + 1].style.display = "inline-block";
+        setTimeout(function () {
+            galleryPictures[cont + 1].classList.add("gallery__picture--active");
+            carrusellIcons[cont + 1].classList.add("carrusel__icon--active");
+        }, 10);
+    }, 430);
 }
 
-document.addEventListener("click", (e) => {
-    switch (e.target) {
-        case modalBackContact:
-            mostrarModal(modalBackContact, modalContact);
-            break;
-        case modalBackAbout:
-            mostrarModal(modalBackAbout, modalAbout);
-            break;
-    }
+
+
+// let cont = 0;
+// setTimeout(function () {
+// var carruselInterval =  setInterval(function () {
+//     if (cont == galleryPictures.length) cont = 0;
+//     moveCarrusel(cont);
+//     cont++;
+// }, 3000);
+    
+function createInterval(cnt){
+    return setInterval(function(){
+        if (cnt == galleryPictures.length) cnt = 0;
+        moveCarrusel(cnt);
+        cnt++;
+    }, 3000);
+}
+
+
+var carruselInterval = createInterval(0);
+
+carrusellIcons.forEach(function(btn, contBtn){
+    btn.addEventListener("click",function(){
+        console.log(carruselInterval);
+        clearInterval(carruselInterval);
+        /*Esto pone la imagen correspondiente al button clickeado*/    
+        galleryPictures.forEach(function(img, contImg){
+            if(img.style.display == "inline-block"){
+                galleryPictures[contImg].classList.remove("gallery__picture--active");
+                carrusellIcons[contImg].classList.remove("carrusel__icon--active");
+            }
+            setTimeout(function () {
+                galleryPictures[contImg].style.display = "none";
+                carrusellIcons[contImg].classList.remove("carrusel__icon--active");
+                galleryPictures[contBtn].style.display = "inline-block";
+                setTimeout(function () {
+                    galleryPictures[contBtn].classList.add("gallery__picture--active");
+                    carrusellIcons[contBtn].classList.add("carrusel__icon--active");
+                }, 10);
+            }, 430);
+        });
+        // setTimeout(function(){
+            carruselInterval = createInterval(contBtn);
+        // },2000);
+    });
 });

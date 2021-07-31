@@ -1,3 +1,5 @@
+//TODO: Limitar el tamaño de el nombre de usuario hasta 20
+ limitar tmb la direccion la contraseña etc etc
 Crea un administrador en la BD
 eliminar el modelo de admin
 

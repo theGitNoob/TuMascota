@@ -1,5 +1,6 @@
 "use strict";
 require("dotenv").config();
+require("./config/db-config")();
 const express = require("express");
 // let compression = require("compression");
 let session = require("express-session");
@@ -22,6 +23,7 @@ let redis = require("redis");
 let RedisStore = require("connect-redis")(session);
 let cookieParser = require("cookie-parser");
 let helmet = require("helmet");
+const { userModel } = require("./models/user");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //
@@ -30,7 +32,7 @@ app.use(express.urlencoded({ extended: false })); //
 app.use(
   "/public",
   express.static("public", {
-    maxAge: "10h", //con esta opcion puedo definir la duracion del los archivos en cache super rapido
+    // maxAge: "10h", //con esta opcion puedo definir la duracion del los archivos en cache super rapido
   })
 );
 
@@ -108,7 +110,6 @@ app.get("*", (req, res, next) => {
 
 app.get("/", (req, res, next) => {
   res.render("index");
-  //   res.send(compiledIndex());
 });
 
 app.use("/users", user);
@@ -121,7 +122,7 @@ app.use(
     if (req.isAuthenticated()) {
       next();
     } else {
-      // res.status(404).send("La pagina q esta buscando no existe");
+      res.status(404);
       res.render("404");
     }
   },
@@ -132,9 +133,11 @@ app.use(
 app.use(
   "/admin",
   (req, res, next) => {
-    if (req.isAuthenticated() && req.user.isAdmin) {
+    if (req.isAuthenticated() && req.user.role == "ADMIN_ROLE") {
       next();
     } else {
+      console.log(req.user);
+      res.status(404);
       res.render("404");
       // res.status(404).send("La pagina q esta buscando no existe");
     }
@@ -143,6 +146,7 @@ app.use(
 );
 
 app.use((req, res) => {
+  res.status(404);
   res.render("404");
   // res.status(404).send("La pagina q esta buscando no existe");
 });
@@ -151,6 +155,7 @@ app.use((req, res) => {
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
+  console.error(err);
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // render the error page

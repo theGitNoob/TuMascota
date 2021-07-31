@@ -155,7 +155,11 @@
 /*Alert Animation*/
 
 .modal-alert {
-    width: 50%;
+    /* width: 50%; */
+    width: auto;
+    display: inline-block;
+    padding: 1rem;
+    max-width: 80%;
 }
 
 .alert-icon {
@@ -216,7 +220,7 @@
 }
 
 .btn-alert {
-    font-family: "Open Sans", sans-serif;
+    font-family: inherit;
     border: none;
     background-color: #fff;
     color: #757575;
@@ -227,6 +231,8 @@
     margin: 5px;
     font-weight: bold;
     font-size: 16px;
+    border-radius: 4px;
+    transition: 0.4s;
 }
 
 .btn-alert:last-child {
@@ -234,12 +240,19 @@
     color: white;
 }
 
-.modal-completed {
-    width: 25%;
+.btn-alert:hover {
+    box-shadow: none;
 }
 
-.modal-body-completed {
-    padding: 15px;
+.modal-completed {
+    /* width: 55%; */
+    display: inline-block;
+    width: auto;
+    padding: 1rem;
+}
+
+.modal__body-completed {
+    margin: 1rem;
 }
 
 .completed {
@@ -249,15 +262,120 @@
     text-transform: uppercase;
 }
 
-@media screen and (max-width: 550px) {
-    .modal-completed {
-        width: 45%;
+/*Fin Alert Animation*/
+
+/*Success,Warning,Error, Info Alert */
+
+.alerts-container {
+    position: fixed;
+
+    max-width: 35rem;
+    top: 10rem;
+    z-index: 1;
+    opacity: 0;
+    display: none;
+    right: 6%;
+    padding: 0.5rem 0.3rem;
+    width: 90%;
+    transition: all 0.4s ease;
+    transform: translateX(150%);
+}
+
+.alert-message {
+    padding: 0.5rem 0.3rem;
+    background-color: #fff;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.26);
+    border-radius: 6px;
+    margin: 1.5rem 0;
+    position: relative;
+    overflow: hidden;
+    transition: opacity 0.4s ease;
+}
+
+.alert-message__icon-container {
+    display: inline-block;
+}
+
+.alert-message__color {
+    display: inline-block;
+    position: relative;
+    width: 4px;
+    height: 80%;
+    top: 10%;
+    border-radius: 10px;
+    position: absolute;
+    vertical-align: middle;
+}
+
+.alert-message[data-alert-state="success"] .alert-message__color {
+    background-color: #32ba7c;
+}
+.alert-message[data-alert-state="error"] .alert-message__color {
+    background-color: #f15249;
+}
+.alert-message[data-alert-state="warning"] .alert-message__color {
+    background-color: #f0a92e;
+}
+
+.alert-message__icon {
+    height: 2.4rem;
+    display: inline-block;
+    margin: 0 1rem 0 0.7rem;
+    vertical-align: middle;
+}
+
+.alert-message__text {
+    font-size: 1rem;
+    margin-left: 1.7rem;
+    display: inline-block;
+    vertical-align: middle;
+    width: 60%;
+    margin: auto;
+    color: #5f5f5f;
+}
+
+.alert-message__text strong {
+    display: block;
+    margin: 0.4rem 0;
+}
+
+.alert-message__close {
+    display: inline-block;
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    cursor: pointer;
+}
+
+.alert-message__close img {
+    height: 0.8rem;
+}
+
+.show-alert {
+    opacity: 1;
+    top: 10rem;
+    z-index: 1;
+    transform: translate(0);
+}
+
+.close-alert-message {
+    opacity: 0;
+}
+
+/*Fin Success,Warning,Error, Info Alert */
+
+@media (min-width: 480px), (min-width: 30rem) {
+    .alert-message__text {
+        width: 75%;
     }
 }
 
-@media screen and (max-width: 400px) {
-    .modal-alert {
-        width: 70%;
+@media (min-width: 40rem), (min-width: 640px) {
+    .alerts-container {
+        top: 7rem;
+    }
+    .show-alert {
+        top: 7rem;
     }
 }
 

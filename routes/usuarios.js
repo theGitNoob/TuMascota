@@ -15,6 +15,10 @@ const {
   isValidId,
   validateResults,
 } = require("../helpers/validators");
+const {
+  getConfirmHtml,
+  getForgetHtml,
+} = require("../helpers/get-template-html");
 const Token = require("../models/token.model");
 const { transporter } = require("../config/nodemailer-config");
 
@@ -69,8 +73,7 @@ router
         req.logout();
         req.flash("alert alert-danger", "Su cuenta aun no ha sido confirmada");
 
-        res.redirect("/users/login");
-        return;
+        return res.redirect("/users/login");
       }
       req.flash(
         "alert alert-success",
@@ -92,15 +95,20 @@ router
       check("username", "El Nombre de usuario es obligatorio").notEmpty(),
       check("email", "El correo no es válido").isEmail(),
       check("password", "La contraseña no debe estar vacía").notEmpty(),
+      check(
+        "password",
+        "La contraseña no debe tener mas de 50 caracteres"
+      ).isLength({ max: 50 }),
       check("phone", "El télefono es obligatorio").notEmpty(),
       check("password2").custom(passwordsMatch),
       check("email").custom(emailExist),
       check("username").custom(usernameExists),
     ],
     async (req, res, next) => {
+      console.log(req.body);
+      //TODO: cambiar para enviar los errores de manera asincrona con JSON
       try {
         const result = validateResults(req);
-
         // req.body.phone = parsePhone(req.body.phone);
         const { name, username, password, phone, email } = req.body;
         const user = {
@@ -110,11 +118,10 @@ router
           phone,
           email,
         };
-
         if (!result.isEmpty()) {
-          req.flash("alert alert-danger", result.array());
-          res.redirect("/users/register");
-          return;
+          return res.status(400).json(result.array());
+          // req.flash("alert alert-danger", result.array());
+          // return res.redirect("/users/register");
         }
 
         let newUser = new userModel(user);
@@ -127,7 +134,6 @@ router
         newUser.password = hash;
         newUser.verifyURL = newUser._id + randomBytes;
 
-        await newUser.save();
         const link = `http://${process.env.URL}/users/verify/${newUser.verifyURL}`;
         console.log(link);
         const message = {
@@ -135,17 +141,18 @@ router
           to: req.body.email,
           subject: "Confirme su cuenta",
           text: "Por favor siga el siguiente enlace",
-          html: `<p>Siga el siguiente link para confirmar su cuenta <a href="${link}">Click Aquí</a></p>`,
+          html: getConfirmHtml(newUser.name, link),
         };
 
-        transporter.sendMail(message, (err) => {
-          // console.log(err);
-        });
+        await transporter.sendMail(message);
 
-        res.redirect("/users/login");
+        await newUser.save();
+
+        return res.status(200).end();
       } catch (err) {
         console.error(err);
-        next(err);
+        return res.status(500).end();
+        // next(err);
       }
     }
   );
@@ -226,36 +233,43 @@ router
     else res.redirect("/");
   })
   .get((req, res) => {
-    // res.render("modify-profile", req.user);
-    res.sendFile(
-      "D:/Rafael/Programing/CODES/JS/ProyectoSadan/modificar-perfil.html"
-    );
+    res.render("modificar-perfil");
+    // res.sendFile(
+    //   "D:/Rafael/Programing/CODES/JS/ProyectoSadan/modificar-perfil.html"
+    // );
     // res.json(req.user);
   })
   .put(
     [
       check("name", "El Nombre es obligatorio").notEmpty(),
       check("name", "El nombre solo debe contener letras").isAlpha(),
-      // check("username", "El Nombre de usuario es obligatorio").notEmpty(),
-      check("password", "La contraseña no debe estar vacía").notEmpty(),
+      check(
+        "password",
+        "La contraseña no debe tener mas de 50 caracteres"
+      ).isLength({ max: 50 }),
       check("phone", "El télefono es obligatorio").notEmpty(),
+      check("address", "La dirección es obligatoria").notEmpty(),
       check("password2").custom(passwordsMatch),
-      // check("username").custom(usernameExists),
     ],
     async (req, res) => {
       const errors = validateResults(req);
       if (!errors.isEmpty()) {
         req.flash("alert alert-danger", errors.array());
-        return res.redirect("/users/register");
+        // return res.redirect("/users/modify_profile");
+        return res.status(400).json({ errors: errors.array() });
       }
-      console.log(errors.array());
-      let { phone, address, password } = req.body;
-      password = await bcrypt.hash(password, 10);
-      const user = await userModel.findByIdAndUpdate(req.user.id, {
-        phone,
-        address,
-        password,
-      });
+
+      let { phone, address, password, name } = req.body;
+
+      let newData = { phone, address, name };
+
+      if (password) {
+        password = await bcrypt.hash(password, 10);
+        newData.password = password;
+      }
+
+      console.log(newData);
+      const user = await userModel.findByIdAndUpdate(req.user.id, newData);
       res.redirect("/users/modify_profile");
     }
   );
@@ -269,7 +283,6 @@ router
     next();
   })
   .get((req, res) => {
-    console.log("pepe");
     res.render("forgot-password");
   })
   .post(
@@ -285,8 +298,9 @@ router
         // res.json(errors);
         const { email } = req.body;
         if (!errors.isEmpty()) {
-          req.flash("alert alert-danger", errors.array());
-          res.redirect("/users/forgot_password");
+          // req.flash("alert alert-danger", errors.array());
+          // res.redirect("/users/forgot_password");
+          return res.status(400).json({ errors: errors.array() });
         } else {
           const user = await userModel.findOne({ email });
           let token = await Token.findOne({ userId: user._id });
@@ -296,8 +310,6 @@ router
           let resetToken = await genRandomBytes(32);
 
           const hash = await bcrypt.hash(resetToken, 10);
-
-          console.log(resetToken, hash);
 
           await new Token({
             userId: user._id,
@@ -311,10 +323,9 @@ router
             to: req.body.email,
             subject: "Restablecer contraseña",
             text: "Por favor siga el siguiente enlace",
-            html: `<p>Siga el siguiente link para reiniciar su contraseña <a href="${link}">Click Aquí</a></p>`,
+            html: getForgetHtml(link),
           };
-          console.log(link);
-          await transporter.sendMail(message);
+          transporter.sendMail(message, (error) => {});
 
           req.flash("alert alert-success", "Hemos enviado un correo");
           return res.redirect("/users/forgot_password");
@@ -341,6 +352,10 @@ router
   .put(
     [
       check("password", "La contraseña no debe estar vacía").notEmpty(),
+      check(
+        "password",
+        "La contraseña no debe tener mas de 50 caracteres"
+      ).isLength({ max: 50 }),
       check("password2").custom(passwordsMatch),
       check("token", "El link no es válido o puede haber expirado").notEmpty(),
       check("id", "El link no es válido o puede haber expirado").isMongoId(),

@@ -1,12 +1,11 @@
 extends ./admin-layout.pug
 block contenido
   div(class="container col-md-4 top-space")
-    if mascota.imgExtension != undefined
-      .d-flex.justify-content-center
-        img(src=`/public/img/mascotas/${mascota._id}.${mascota.imgExtension}` class="img-fluid img-thumbnail")
+    .d-flex.justify-content-center
+      img(src=`${mascota.images[0].url}` class="img-fluid img-thumbnail")
     form(action=`/admin/mascotas/${mascota._id}?_method=PUT` method='POST' class="form-group" enctype="multipart/form-data")
 
-      input(type="text" class="form-control" name="animal_type"  placeholder="Tipo de animal" required value=mascota.type)
+      input(type="text" class="form-control" name="type" placeholder="Tipo de animal"  value=mascota.type.toUpperCase())
 
       input(type="text" class="form-control" name="breed" placeholder="Raza" value=mascota.breed)
 
@@ -20,13 +19,13 @@ block contenido
 
       input(type="text" class="form-control" name="description" placeholder="Descripción" value=mascota.description)
 
-      input(type="text" class="form-control" name="owner_name" placeholder="Nombre del dueño" required value=mascota.ownerName)
+      input(type="text" class="form-control" name="ownerName" placeholder="Nombre del dueño" required value=mascota.ownerName)
 
-      input(type="text" class="form-control" name="owner_phone" placeholder="Télefono" required value=mascota.ownerPhone)
+      input(type="text" class="form-control" name="ownerPhone" placeholder="Télefono" required value=mascota.ownerPhone)
 
-      input(type="text" class="form-control" name="owner_account" placeholder="Cuenta bancaria" value=mascota.ownerAccount)
+      input(type="text" class="form-control" name="ownerAccount" placeholder="Cuenta bancaria" value=mascota.ownerAccount)
 
-      input(type="file" class="form-control" name="file" /*multiple me permite enviar varios archivos*/)
+      input(type="file" class="form-control" name="image" /*multiple me permite enviar varios archivos*/)
 
       div(class="d-flex justify-content-sm-start justify-content-center")
         input(type="submit" class="btn btn-info" value="Guardar")

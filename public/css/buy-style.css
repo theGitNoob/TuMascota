@@ -7,16 +7,15 @@
     padding: 10px 15px 10px 15px;
 }
 .need-account span {
-    color: #1681da;
+    color: #007bff;
     font-weight: bold;
 }
 
 .btn-need-account {
     display: inline-block;
-    /* width: 30%; */
     border-width: 2px;
-    font-size: 16px;
-    padding: 6px 10px;
+    font-size: 1rem;
+    padding: 0.3rem 0.5rem;
     text-align: center;
     border-radius: 5px;
     border-color: #4caf50;
@@ -34,27 +33,27 @@
 
 /*Modal Buy*/
 
-.modal-header {
+.modal__header {
     text-align: left;
 }
 
-.modal-body-buy {
+.modal-body__buy {
     padding: 15px;
 }
 
 .plus-btn,
 .less-btn {
     font-weight: bold;
-    font-size: 22px;
-    padding: 0 10px;
+    font-size: 1.3rem;
+    padding: 0 0.6rem;
     color: white;
-    background-color: #0d6efd;
-    border: 1px solid #0d6efd;
+    background-color: #007bff;
+    border: 1px solid #007bff;
     border-radius: 4px;
     cursor: pointer;
     vertical-align: middle;
-    transition: background-color 0.8s ease;
-    box-shadow: 1px 1px 3px black;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px 0 rgb(0, 0, 0, 0.16), 0 2px 6px 0 rgb(0, 0, 0, 0.16);
 }
 .plus-btn::after {
     content: "+";
@@ -63,69 +62,70 @@
     content: "-";
 }
 
-.less-btn:hover {
+/* .less-btn:hover {
     background-color: red;
+    border-color: red;
 }
 .plus-btn:hover {
     background-color: #0d11fd;
-}
+    border-color: #0d1ffd;
+} */
 
 .less-btn {
     background-color: #ff5252;
     border: 1px solid #ff5252;
 }
 .spin-box-buy {
-    margin: 10px 0;
-    width: 50px;
-    height: 30px;
+    margin: 0.6rem 0.3rem;
+    width: 3.1rem;
+    height: 1.9rem;
     outline: none;
     text-align: center;
     font-family: "Open Sans";
     vertical-align: middle;
     font-weight: bold;
     font-size: 14px;
-    border: 1px solid black;
+    border: 3px solid #ccc;
     border-radius: 6px;
+    color: #353131;
 }
 
 .btns-buy-container {
-    margin: 20px 0;
+    margin: 1.2rem 0;
 }
 
 .accept-btn,
 .cancel-btn {
-    background-color: #0d6efd;
-    cursor: pointer;
-    margin: 10px;
-    padding: 5px 8px;
+    background-color: #007bff;
+    margin: 0.6rem;
     color: white;
-    font-weight: bold;
-    /* border-radius: 12px; */
-    font-size: 16px;
-    border: 2px solid #0d6efd;
-    transition: background-color 0.6s ease;
-    box-shadow: 0 2px 5px 0 rgb(0, 0, 0, 0.16), 0 2px 10px 0 rgb(0, 0, 0, 0.16);
     text-transform: uppercase;
-    font-family: "Open Sans", sans-serif;
 }
 
-.modal-body-buy > span {
+.modal-body__buy > span {
     font-weight: bold;
-    color: #0d6efd;
+    color: #007bff;
 }
 
-.accept-btn:hover {
-    color: #0d6efd;
-    background-color: #fff;
+.accept-btn:hover,
+.cancel-btn:hover,
+.plus-btn:hover,
+.less-btn:hover {
+    box-shadow: none;
 }
-.cancel-btn:hover {
-    color: #ff5252;
-    background-color: #fff;
+
+.accept-btn:active,
+.plus-btn:active {
+    background-color: #0059b8;
+}
+
+.cancel-btn:active,
+.less-btn:active {
+    background-color: #c42727;
 }
 
 .cancel-btn {
     background-color: #ff5252;
-    border: 2px solid #ff5252;
 }
 /*Fin Modal Buy*/
 

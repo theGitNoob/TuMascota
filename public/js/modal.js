@@ -44,6 +44,7 @@ acceptBtnBuy.addEventListener("click", (e) => {
   let data = node.name + "=" + node.value;
 
   let req = new XMLHttpRequest();
+
   req.open("POST", action);
   req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 

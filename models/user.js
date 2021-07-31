@@ -7,6 +7,7 @@ let messageSchema = new mongoose.Schema({
   msg: { type: String },
   date: { type: Date },
 });
+
 messageSchema.virtual("fullDate").get(function () {
   let ms = new Date().getTime() - this.date.getTime();
   let secs = Math.trunc(ms / 1000);
@@ -33,30 +34,27 @@ messageSchema.virtual("fullDate").get(function () {
   }
 });
 
+// TODO: Cambiar isAdmin por role
 let userSchema = mongoose.Schema({
   name: { type: String, required: true },
   email: String,
-  addres: String,
+  address: String,
   phone: String,
   username: { type: String, required: true },
   password: String,
   messages: [messageSchema],
   notifications: { type: Number, default: 0 },
-  isAdmin: Boolean,
+  role: {
+    type: String,
+    required: true,
+    enum: ["ADMIN_ROLE", "USER_ROLE"],
+    default: "USER_ROLE",
+  },
   verifyURL: String,
   toBeDelivered: { type: Number, default: 0 },
   confirmed: { type: Boolean, default: false },
   receiveNotification: { type: Boolean, default: false },
 });
-
-// userSchema
-//   .virtual("password2")
-//   .get(() => {
-//     return this.p_c;
-//   })
-//   .set((password) => {
-//     this.p_c = password;
-//   });
 
 let userModel = new mongoose.model("User", userSchema);
 

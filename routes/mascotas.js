@@ -4,72 +4,76 @@ let userModel = require("../models/user").userModel;
 let orderModel = require("../models/order").orderModel;
 let petModel = require("../models/pet").petModel;
 let redis = require("redis");
-
+const { check } = require("express-validator");
 let redisClient = redis.createClient();
 
 router.get("/order/:id", (req, res) => {
   res.send("No jodas mas");
 });
 
-router.post("/ordenes/:id", async (req, res) => {
-  if (!req.isAuthenticated()) {
-    // req.flash("alert-error", "Debe iniciar sesion antes de realizar un pedido");
-    // res.redirect("/users/login");
-    res.sendStatus(404).end();
-    return;
+//TODO: usar express validator para validadar las ordenes
+router.post(
+  "/ordenes/:id",
+  // [check("cnt").notEmpty(), check("cnt").no],
+  async (req, res) => {
+    if (!req.isAuthenticated()) {
+      // req.flash("alert-error", "Debe iniciar sesion antes de realizar un pedido");
+      // res.redirect("/users/login");
+      return res.sendStatus(404).end();
+    }
+    try {
+      let pet = await petModel.findById(req.params.id);
+      console.log(req.body);
+      if (pet == null) {
+        res.sendStatus(404).end();
+        return;
+      }
+
+      let user = await userModel.findById(req.user.id);
+
+      if (user == null) {
+        res.sendStatus(404).end();
+        return;
+      }
+
+      if (pet.available) {
+        let cnt = req.body.cnt > pet.cnt ? pet.cnt : req.body.cnt;
+
+        let date = new Date();
+        let month = date.getMonth();
+        month++;
+        let fullDate =
+          date.getUTCDate() + "/" + month + "/" + date.getUTCFullYear();
+        let newOrder = new orderModel({
+          articleId: pet._id,
+          articleType: "mascota",
+          owner: user._id,
+          cnt: cnt,
+          price: cnt * pet.price,
+          requestDate: fullDate,
+        });
+
+        await newOrder.save();
+        user.toBeDelivered++;
+        await user.save();
+        pet.cnt -= cnt;
+        pet.stagedCnt += cnt;
+        pet.available = pet.cnt == 0 ? false : true;
+
+        await pet.save({ validateModifiedOnly: true });
+        let info = { id: pet._id, cnt: pet.cnt };
+        redisClient.publish("product", JSON.stringify(info));
+        res.sendStatus(200).end();
+        // res.redirect("/mascotas");
+      } else {
+        console.log("not available");
+        res.sendStatus(404).end();
+      }
+    } catch (err) {
+      console.error(err);
+    }
   }
-  try {
-    let pet = await petModel.findById(req.params.id);
-
-    if (pet == null) {
-      res.sendStatus(404).end();
-      return;
-    }
-
-    let user = await userModel.findById(req.user.id);
-
-    if (user == null) {
-      res.sendStatus(404).end();
-      return;
-    }
-
-    if (pet.available) {
-      let cnt = req.body.cnt > pet.cnt ? pet.cnt : req.body.cnt;
-
-      let date = new Date();
-      let month = date.getMonth();
-      month++;
-      let fullDate =
-        date.getUTCDate() + "/" + month + "/" + date.getUTCFullYear();
-      let newOrder = new orderModel({
-        articleId: pet._id,
-        articleType: "mascota",
-        owner: user._id,
-        cnt: cnt,
-        price: cnt * pet.price,
-        requestDate: fullDate,
-      });
-
-      await newOrder.save();
-      user.toBeDelivered++;
-      await user.save();
-      pet.cnt -= cnt;
-      pet.stagedCnt += cnt;
-      pet.available = pet.cnt == 0 ? false : true;
-
-      await pet.save({ validateModifiedOnly: true });
-      let info = { id: pet._id, cnt: pet.cnt };
-      redisClient.publish("product", JSON.stringify(info));
-      res.sendStatus(200).end();
-      // res.redirect("/mascotas");
-    } else {
-      console.log("not available");
-      res.sendStatus(404).end();
-    }
-  } catch (err) {
-    console.error(err);
-  }
-});
+);
 
 router
   .route("/")
@@ -121,4 +125,10 @@ router
     //   console.error(err);
     // }
   });
+
+router.get("/:id/images/", async (req, res) => {
+  const id = req.params.id;
+  const pet = await petModel.findById(id);
+  res.json(pet.images);
+});
 module.exports = router;

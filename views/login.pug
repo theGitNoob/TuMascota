@@ -4,117 +4,56 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
     meta(name='viewport' content='width=device-width,initial-scale=1')
-    title Venta de Mascotas
-    link(rel='stylesheet' href='/public/css/style.css')
+    title TuMascota
+    link(rel='stylesheet' href='/public/css/shared.css')
     link(rel='stylesheet' href='/public/css/log-in.css')
     link(rel='icon' href='/public/img/res/shop.png')
   body
-    header#header.header
-      .container-header
-        img.logo-tm(src='/public/img/res/Logo.png' alt)
-    main
+    header.main-header
+      .main-header__container
+        a(href='/')
+          img.logo-tm(src='/public/img/res/Logo.png' alt)
+    main#main
       section#login-section.login-section
-        .container-login
-          .container-login-header
-            h4 Acceder
-          img.login-logo(src='/public/img/res/Logo.png' alt)
+        .login-section__container
+          .login-section__header
+            | Acceder
+            a.close-login(href='/')
+              img(src='/public/img/res/close.png' alt)
+          .logo-user
+            img(src='/public/img/res/user.png' alt)
+          img.login-section__logo(src='/public/img/res/Logo.png' alt)
           != messages()
-          form.login-form(action="/users/login" method="post")
-            input#username(autofocus type='text' placeholder='Nombre de Usuario' name='username' required)
-            input#password(type='password' name='password' placeholder='Contraseña' required)
-            input(type='submit' value='Acceder')
+          form.login-section__form(action='/users/login' method='post')
+            .form-container
+              label.form-container__img(for='username')
+                img(src='/public/img/res/user-input.png' alt)
+              |
+              |
+              input#username(autofocus type='text' name='username' required)
+              label.placeholder(for='username') Nombre de usuario
+            .form-container
+              label.form-container__img(for='password')
+                img(src='/public/img/res/password.png' alt)
+              |
+              |
+              input#password.password(type='password' name='password' required)
+              label.placeholder(for='password') Contraseña
+              span#show-password.show-password
+                img(src='/public/img/res/show-eye.png' alt)
+            .forgot-password
+              a(href='/users/forgot_password') olvidaste la contraseña?
+            input.btn(type='submit' value='Acceder')
+            |
+            |
+            a.btn.btn-cancel(href='/' type='submit').
+
+              Cancelar
+
           span.line-login
-            | No tienes una cuenta?
+            | No tienes una cuenta? 
 
             a(href='/users/register') Regístrate Aquí
-        a.back-home(href='/' type='submit') Volver a Inicio
-
-    footer
-      .container-footer
-        .thanks-for
-          h3 ¡Gracias por visitar nuestra tienda!
-        .container-footer-content
-          .content-footer
-            ul.content-footer-list
-              span.footer-content-title Contenido
-              a.content-footer-element(href='/').
-
-                Inicio
-
-              a.content-footer-element(href='/mascotas').
-
-                Mascotas
-
-              a.content-footer-element(href='/accesorios').
-
-                Accesorios
-
-              a.content-footer-element(href='/servicios').
-
-                Servicios
-
-          .contact
-            span.footer-content-title Contacto
-            .container-contact
-              #modal-back-contact.modal-back
-                #modal-contact.modal
-                  .modal-header Contactános
-                  .modal-body
-                    h4.modal-body-header.
-
-                      Tienes alguna pregunta? Contáctanos:
-
-                    .modal-contact-us-container
-                      .contact-us-elements
-                        img(src='/public/img/res/mail.svg' alt)
-                        span.
-
-                          mascotunas@gmail.com
-                      .contact-us-elements
-                        img(src='/public/img/res/whatsapp.png' alt)
-                        span 58156518
-                      .contact-us-elements
-                        a(href)
-                          img(src='/public/img/res/facebook.png' alt)
-                        span.
-
-                          Venta de Mascotas en Las Tunas
-              // Fin Modal Contact 
-              #first-element-contact-us.contact-us
-                span.element-contact-us Contáctanos
-                img.contact-icon(src='/public/img/res/contact-us.png' alt)
-              //  Modal About 
-              #modal-back-about.modal-back
-                #modal-about.modal
-                  .modal-header Acerca de
-                  .modal-body
-                    h4.modal-body-header.
-
-                      Creado y Desarrollado en Las Tunas por:
-
-                    .container-us
-                      .avatar-rafa
-                        img(src='/public/img/res/avatar-rafa.png' alt)
-                        span.name Rafael Acosta Márquez
-                      .avatar-jesus
-                        img(src='/public/img/res/avatar-jesus.png' alt)
-                        span.name Jesús Manuel López Ponce
-                    .avatar-abraham
-                      h4.modal-body-header.
-
-                        Con una idea original de:
-
-                      span.name Sadan Jiskly Fernández Ávila
-                      span.name José Abraham Oduardo Ávila
-              //  Fin Modal About 
-              #second-element-contact-us.about-us
-                span.element-contact-us Acerca de
-                img.contact-icon(src='/public/img/res/info(1).svg' alt)
-          .social-media
-            span.footer-content-title.center-title Redes Sociales
-            a.social-media-icon(href)
-              img(src='/public/img/res/facebook.png' alt)
-          .go-top
-            a(href='#header')
-              img.go-top-icon(src='/public/img/res/next.png' alt)
-      .line
+    script(src='/public/js/shared.js')
+    script(src='/public/js/login.js')
+    script(src='/public/js/alert.js')

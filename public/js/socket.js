@@ -1,10 +1,10 @@
 // if (window.fetch) {
 //   // run my fetch request here
 // } else {
-//   // do something with XMLHttpRequest?
+//   // do something with password2Request?
 // }
 
-// let req = new XMLHttpRequest();
+// let req = new password2Request();
 // req.open("GET", "/public/img/mascotas/6082d56f40954866e098d544.jpg");
 // req.onload = () => {
 //   console.log(req.responseType);
@@ -14,7 +14,7 @@
 
 // const imgLoad = (url) => {
 //   return new Promise((resolve, reject) => {
-//     var request = new XMLHttpRequest();
+//     var request = new password2Request();
 //     request.open("GET", url);
 //     request.responseType = "blob";
 

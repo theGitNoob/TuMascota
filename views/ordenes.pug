@@ -1,5 +1,4 @@
 extends ./layout.pug
-
 block contenido
   main
     section.main-section.mar10
@@ -12,84 +11,104 @@ block contenido
           | .
 
       .filter-orders-menu
-        span.active.order-state.filter-order(data-state='pendient').
+        span.active.order-state.filter-order(data-state='pendient')
+          | Pendientes
 
-          Pendientes
-        span.order-state.filter-order(data-state='aproved').
+          img.pendient(src='/public/img/res/pendiente.png' alt)
+        span.order-state.filter-order(data-state='aproved')
+          | Aprobadas
 
-          Aprobadas
-        span.order-state.filter-order(data-state='onway').
+          img(src='/public/img/res/completadas.svg' alt)
+        span.order-state.filter-order(data-state='completed')
+          | Completadas
 
-          En Camino
-        span.order-state.filter-order(data-state='completed').
+          img(src='/public/img/res/checked.png' alt)
+        span.order-state.filter-order(data-state='canceled')
+          | Canceladas
 
-          Completadas
-        span.order-state.filter-order(data-state='canceled').
+          img(src='/public/img/res/borrar.png' alt)
+      //Ordenes de mascotas
+      section.order-section
+        h1.order-section__title Listado de Mascotas
+        table.order-section__table.order-section--pet
+          thead.order-section__cell.order-section__header
+            tr
+              th.order-section__column.order-section__column--header.
 
-          Canceladas
-      form#cancel-form
-      .flex-container
-        for orden in ordenes
-          article.order-container(id=orden._id)
-            .order-header(data-state=orden.state)
-              h4 Pedido de #{orden.articleType}
-            .container-info-order
-              if orden.articleType == "accesorio"
-                .order-img-container
-                  img(src=`/public/img/accesorios/${orden.articleId}.${orden.accesorie.imgExtension}` alt='orden')
-                ul.order-container-list
-                  li.order-element-title
-                    | Tipo: 
+                Raza
 
-                    span.order-element=orden.accesorie.type
+              th.order-section__column.order-section__column--header.
 
-                  li.order-element-title
-                    | Precio: 
-                    span.order-element= orden.price+" CUP"
-                  li.order-element-title
-                    | Cantidad: 
-                    span.order-element= orden.cnt
+                Sexo
 
-                  li.order-element-title
-                    | Fecha del Pedido: 
+              th.order-section__column.order-section__column--header.
 
-                    span.order-element= orden.requestDate
-              else 
-                .order-img-container
-                  img(src=`/public/img/mascotas/${orden.articleId}.${orden.pet.imgExtension}` alt='orden')
-                ul.order-container-list
-                  li.order-element-title
-                    | Tipo: 
+                Nacimiento
 
-                    span.order-element=orden.pet.type
-                  li.order-element-title
-                    | Raza: 
+              th.order-section__column.order-section__column--header.
 
-                    span.order-element=orden.pet.breed
-                  li.order-element-title
-                    | Sexo: 
+                Precio
 
-                    span.order-element=orden.pet.sex
-                  li.order-element-title
-                    | Fecha de Nacimiento: 
+              th.order-section__column.order-section__column--header.
 
-                    span.order-element=orden.pet.birthDay
-                  li.order-element-title
-                    | Precio: 
-                    span.order-element=orden.price + " CUP" 
-                  li.order-element-title
-                    | Cantidad: 
-                    span.order-element= orden.cnt
-                  li.order-element-title
-                    | Fecha del Pedido:
+                Cantidad
 
-                    span.order-element= orden.requestDate
-            .container-btn-order
-              span.order-state(data-state=orden.state)= orden.state
-              if orden.state == "pendient"
-                button.btn-cancel(type='submit' formmethod="post" formaction=`/ordenes/${orden._id}/cancel` form="cancel-form")
-                  | Cancelar Entrega 
-                  img(src='/public/img/res/borrar.png' alt='borrar')
+              th.order-section__column.order-section__column--header.
+
+                Fecha del Pedido
+
+              th.order-section__column.order-section__column--header.
+
+                Estado
+
+              th.order-section__column.order-section__column--header.delete-column.
+
+                Cancelar
+
+          tbody
+            for orden of mascotas
+              tr.order-section__cell
+                td.order-section__column(data-header='Raza')=orden.pet.breed
+                td.order-section__column(data-header='Sexo')=orden.pet.sex
+                td.order-section__column(data-header='Nacimiento')=orden.pet.birthday
+                td.order-section__column(data-header='Precio')=orden.price +'$'
+                td.order-section__column(data-header='Cantidad')=orden.cnt
+                td.order-section__column(data-header='Fecha del Pedido')=orden.fullDate
+                td.order-section__column.order-section__state(data-header='Estado') 
+                  span.order-state(data-state=orden.state)=orden.state
+                td.order-section__column(data-header='Cancelar')
+                  button.btn.cancel-order(type='submit')
+                    img(src='/public/img/res/borrar.png' alt)
+      // Ordenes de accesorios
+      section.order-section
+        h1.order-section__title Listado de Accesorios
+        table.order-section__table.order-section--article
+          thead.order-section__cell.order-section__header
+            tr
+              th.order-section__column.order-section__column--header(colspan='3').
+                Artículo
+              th.order-section__column.order-section__column--header.
+                Precio
+              th.order-section__column.order-section__column--header.
+                Cantidad
+              th.order-section__column.order-section__column--header.
+                Fecha del Pedido
+              th.order-section__column.order-section__column--header.
+                Estado
+              th.order-section__column.order-section__column--header.delete-column.
+                Cancelar
+          tbody
+            for orden of accesorios
+              tr.order-section__cell
+                td.order-section__column(colspan='3' data-header='Artículo')=orden.accesorie.type
+                td.order-section__column(data-header='Precio')=orden.price+'$'
+                td.order-section__column(data-header='Cantidad')=orden.cnt
+                td.order-section__column(data-header='Fecha del Pedido')=orden.fullDate
+                td.order-section__column.order-section__state(data-header='Estado')
+                  span.order-state(data-state=orden.state)=orden.state
+                td.order-section__column(data-header='Cancelar')
+                  button.btn.cancel-order(type='submit')
+                    img(src='/public/img/res/borrar.png' alt)
         #modal-back-alert.modal-back
           #modal-alert.modal.modal-alert
             .modal-body.modal-body-alert
