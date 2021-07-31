@@ -1,0 +1,240 @@
+.home {
+    padding: 1.7rem 1rem 1rem;
+    color: #6f6666;
+}
+.home-title {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #f26422;
+}
+
+.home-title .underline img {
+    width: 1.8rem;
+}
+
+.home-title .underline span {
+    width: 30%;
+}
+
+.home-subtitle {
+    font-size: 1.3rem;
+    text-align: center;
+    display: block;
+    background-color: #f26422;
+    margin: 1rem 0;
+    padding: 0.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    position: relative;
+}
+
+.home-gallery {
+    text-align: center;
+    overflow: hidden;
+    border-radius: 6px;
+    margin-bottom: 1.6rem;
+    transition: all 0.4s ease;
+}
+
+.home-gallery__picture {
+    width: 90%;
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 5px;
+    transition: all 0.4s ease;
+    margin: 1.2rem;
+    opacity: 0;
+}
+
+.gallery__picture--active {
+    opacity: 1;
+}
+
+.carrusel {
+    text-align: center;
+}
+
+.carrusel__icon {
+    width: 1rem;
+    height: 1rem;
+    display: inline-block;
+    margin: 0 1rem 0.8rem 0;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 2px solid #007bff;
+    cursor: pointer;
+}
+
+.carrusel__icon:hover {
+    background-color: #99caff;
+}
+.carrusel__icon:active {
+    background-color: #007bff;
+}
+
+.carrusel__icon--active {
+    background-color: #007bff;
+}
+.carrusel__icon--active:hover {
+    background-color: #007bff;
+}
+
+.service {
+    text-align: center;
+    background-color: rgb(245, 245, 247);
+    border-radius: 6px;
+    padding: 1rem;
+}
+
+.service__header {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #f26422;
+    text-transform: uppercase;
+}
+
+.service__list {
+    list-style: none;
+    margin: 1rem 0;
+}
+
+@supports (display: flex) {
+    .service__list {
+        display: -webkit-flex;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.service__item {
+    background-color: #fff;
+    margin: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.12);
+    padding-bottom: 0.6rem;
+    position: relative;
+}
+
+.service__item-number {
+    position: absolute;
+    width: 1.6rem;
+    height: 1.6rem;
+    display: inline-block;
+    background-color: #f26422;
+    color: #fff;
+    font-weight: bold;
+    padding: 0.2 0.5rem;
+    line-height: 1.6rem;
+    top: -5%;
+    left: 50%;
+    transform: translate(-50%);
+    border-radius: 50%;
+    font-size: 0.9rem;
+}
+
+.service__item img {
+    width: 4rem;
+    margin: 1.6rem 0.6rem 0.2rem;
+}
+
+.service__item strong {
+    display: block;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    margin: 0 0.4rem;
+    color: #6f6666;
+    border-bottom: 2px solid #f26422;
+}
+
+.service__item p {
+    margin: 0 0.7rem;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    text-align: center;
+    color: #9c9999;
+}
+
+.service__item-btn {
+    padding: 0.2rem 0.4rem;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    background-color: #f26422;
+    font-weight: normal;
+}
+
+.service__item-btn a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.home__contact-us {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.home__contact-us-header {
+    color: #f26422;
+    font-size: 1.2rem;
+}
+
+.home__contact-us-picture {
+    display: inline-block;
+    width: 16rem;
+    vertical-align: middle;
+}
+
+.home__contact-us-list {
+    display: inline-block;
+    vertical-align: middle;
+    list-style: none;
+    text-align: left;
+}
+
+.home__contact-us-item {
+    font-size: 0.9rem;
+    margin: 0.4rem 0;
+}
+
+.home__contact-us-item span {
+    display: inline-block;
+    vertical-align: middle;
+}
+.home__contact-us-item img {
+    width: 1.6rem;
+    display: inline-block;
+    margin: 0.5rem 0;
+    vertical-align: middle;
+}
+
+@media (min-width: 46rem), (min-width: 736px) {
+    .service {
+        margin: 1rem auto;
+    }
+    .service__list {
+        display: table;
+        margin: 1rem auto;
+        border-spacing: 0.9rem;
+    }
+    .service__item {
+        display: table-cell;
+        width: 24%;
+        max-width: 25rem;
+    }
+    @supports (display: flex) {
+        .service__list {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+    }
+
+    .home__contact-us-item {
+        font-size: 1rem;
+    }
+    .home__contact-us-item img {
+        width: 2rem;
+    }
+}
