@@ -1,10 +1,9 @@
-const util = require("util");
 let express = require("express");
 let router = express.Router();
 let passport = require("passport");
 let LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
-const { check, validationResult } = require("express-validator");
+const { check } = require("express-validator");
 const userModel = require("../models/user").userModel;
 const { genRandomBytes } = require("../utils");
 const {
@@ -12,15 +11,21 @@ const {
   passwordsMatch,
   usernameExists,
   emailNotExist,
-  isValidId,
   validateResults,
+  isValidName,
+  isValidLastName,
+  isValidPhone,
 } = require("../helpers/validators");
-const {
-  getConfirmHtml,
-  getForgetHtml,
-} = require("../helpers/get-template-html");
+const { getForgetHtml } = require("../helpers/get-template-html");
 const Token = require("../models/token.model");
 const { transporter } = require("../config/nodemailer-config");
+const { getCleanName } = require("../helpers/string-helper");
+const {
+  logUser,
+  registerUser,
+  logoutUser,
+  sendEmail,
+} = require("../controllers/usuarios.controller");
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -53,35 +58,15 @@ passport.use(
   })
 );
 
+//TODO: Cambiar passport por JWT
+
 router
   .route("/login")
   .get((req, res) => {
     if (req.isAuthenticated()) res.redirect("/");
     else res.render("login");
   })
-  .post(
-    passport.authenticate("local", {
-      failureFlash: true,
-      failureFlash: {
-        type: "alert alert-danger",
-        message: "El nombre o la contraseña son incorrectos",
-      },
-      failureRedirect: "/users/login",
-    }),
-    (req, res) => {
-      if (!req.user.confirmed) {
-        req.logout();
-        req.flash("alert alert-danger", "Su cuenta aun no ha sido confirmada");
-
-        return res.redirect("/users/login");
-      }
-      req.flash(
-        "alert alert-success",
-        "Usted ha iniciado session correctamente"
-      );
-      res.redirect("/");
-    }
-  );
+  .post(logUser);
 
 router
   .route("/register")
@@ -90,86 +75,30 @@ router
   })
   .post(
     [
-      check("name", "El Nombre es obligatorio").notEmpty(),
-      check("name", "El nombre solo debe contener letras").isAlpha(),
-      check("username", "El Nombre de usuario es obligatorio").notEmpty(),
+      check("name").custom(isValidName),
+      check("lastname").custom(isValidLastName),
+      check("phone", "El télefono es obligatorio").notEmpty(),
+      check("phone").custom(isValidPhone),
       check("email", "El correo no es válido").isEmail(),
-      check("password", "La contraseña no debe estar vacía").notEmpty(),
+      check("email").custom(emailExist),
+      check("username", "El nombre de usuario es obligatorio").notEmpty(),
+      check("username", "El nombre de usuario es muy largo").isLength({
+        max: 50,
+      }),
+      check("username").custom(usernameExists),
+      check("password", "La contraseña es demasiado corta").isLength({
+        min: 8,
+      }),
       check(
         "password",
         "La contraseña no debe tener mas de 50 caracteres"
       ).isLength({ max: 50 }),
-      check("phone", "El télefono es obligatorio").notEmpty(),
       check("password2").custom(passwordsMatch),
-      check("email").custom(emailExist),
-      check("username").custom(usernameExists),
     ],
-    async (req, res, next) => {
-      console.log(req.body);
-      //TODO: cambiar para enviar los errores de manera asincrona con JSON
-      try {
-        const result = validateResults(req);
-        // req.body.phone = parsePhone(req.body.phone);
-        const { name, username, password, phone, email } = req.body;
-        const user = {
-          name,
-          username,
-          password,
-          phone,
-          email,
-        };
-        if (!result.isEmpty()) {
-          return res.status(400).json(result.array());
-          // req.flash("alert alert-danger", result.array());
-          // return res.redirect("/users/register");
-        }
-
-        let newUser = new userModel(user);
-
-        const [hash, randomBytes] = await Promise.all([
-          bcrypt.hash(newUser.password, 10),
-          genRandomBytes(16),
-        ]);
-
-        newUser.password = hash;
-        newUser.verifyURL = newUser._id + randomBytes;
-
-        const link = `http://${process.env.URL}/users/verify/${newUser.verifyURL}`;
-        console.log(link);
-        const message = {
-          from: "racosta011220@nauta.cu",
-          to: req.body.email,
-          subject: "Confirme su cuenta",
-          text: "Por favor siga el siguiente enlace",
-          html: getConfirmHtml(newUser.name, link),
-        };
-
-        await transporter.sendMail(message);
-
-        await newUser.save();
-
-        return res.status(200).end();
-      } catch (err) {
-        console.error(err);
-        return res.status(500).end();
-        // next(err);
-      }
-    }
+    registerUser
   );
 
-router.get("/logout", (req, res, next) => {
-  if (req.isAuthenticated()) {
-    req.logout();
-    req.flash("alert alert-success", "Su sessión ha sido cerrada");
-    // nombre de dominio
-    // let pattern = "8080/";
-    // let path = req.headers.referer.split(pattern)[1];
-    // res.redirect(`/${path}`);
-    res.redirect("/users/login");
-  } else {
-    next();
-  }
-});
+router.get("/logout", logoutUser);
 
 router.get("/verify/:url", async (req, res, next) => {
   try {
@@ -241,7 +170,7 @@ router
   })
   .put(
     [
-      check("name", "El Nombre es obligatorio").notEmpty(),
+      check("name", "El nombre es obligatorio").notEmpty(),
       check("name", "El nombre solo debe contener letras").isAlpha(),
       check(
         "password",
@@ -404,4 +333,6 @@ router
     }
   );
 
+//TODO: ruta para reenviar el correo en caso de que no le llegue al usuario
+router.post("/send_email", sendEmail);
 module.exports = router;

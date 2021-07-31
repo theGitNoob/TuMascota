@@ -1,5 +1,7 @@
 const User = require("../models/user").userModel;
 const { validationResult } = require("express-validator");
+const { isNumeric, isLength, isEmpty, isAlpha } = require("validator");
+const { getCleanName } = require("../helpers/string-helper");
 
 const emailExist = async (email = "", req) => {
   const exists = await User.findOne({ email });
@@ -43,6 +45,52 @@ const imageUploaded = (image, { req }) => {
   } else return true;
 };
 
+const isValidName = (name = "") => {
+  if (isEmpty(name, { ignore_whitespace: true }))
+    throw new Error("El nombre es obligatorio");
+
+  if (!isLength(name, { max: 50 }))
+    throw new Error("El nombre es damasiado largo");
+
+  const arr = getCleanName(name).split(" ");
+
+  if (arr.length > 2) throw new Error("No puede introducir más de dos nombres");
+
+  if (!isAlpha(arr[0], ["es-ES"]))
+    throw new Error("El nombre solo debe contener letras");
+
+  if (arr[1] && !isAlpha(arr[1], ["es-ES"]))
+    throw new Error("El nombre solo debe contener letras");
+
+  return true;
+};
+
+const isValidLastName = (lastname = "") => {
+  if (!isLength(lastname, { max: 50 }))
+    throw new Error("El apellido es damasiado largo");
+
+  const arr = getCleanName(lastname).split(" ");
+
+  if (arr.length > 2)
+    throw new Error("No puede introducir más de dos apellidos");
+
+  if (!isAlpha(arr[0], ["es-ES"]))
+    throw new Error("Los apellidos solo deben contener letras");
+
+  if (arr[1] && !isAlpha(arr[1], ["es-ES"]))
+    throw new Error("Los apellidos solo deben contener letras");
+
+  return true;
+};
+
+const isValidPassword = (password) => {};
+
+const isValidPhone = (phone = "") => {
+  if (!isNumeric(phone) || phone.length < 8) {
+    throw new Error("El número de télefono no es válido");
+  }
+  return true;
+};
 module.exports = {
   emailExist,
   passwordsMatch,
@@ -50,4 +98,8 @@ module.exports = {
   emailNotExist,
   validateResults,
   imageUploaded,
+  isValidName,
+  isValidLastName,
+  isValidPhone,
+  isValidPassword,
 };

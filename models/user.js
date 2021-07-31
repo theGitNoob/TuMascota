@@ -34,9 +34,9 @@ messageSchema.virtual("fullDate").get(function () {
   }
 });
 
-// TODO: Cambiar isAdmin por role
 let userSchema = mongoose.Schema({
   name: { type: String, required: true },
+  lastname: { type: String, required: true },
   email: String,
   address: String,
   phone: String,
@@ -52,7 +52,7 @@ let userSchema = mongoose.Schema({
   },
   verifyURL: String,
   toBeDelivered: { type: Number, default: 0 },
-  confirmed: { type: Boolean, default: false },
+  state: { type: String, default: "unconfirmed" },
   receiveNotification: { type: Boolean, default: false },
 });
 
