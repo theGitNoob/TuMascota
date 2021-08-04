@@ -1,8 +1,8 @@
-const User = require("../models/user").userModel;
+const User = require("../models/user");
 const { validationResult } = require("express-validator");
 const { isNumeric, isLength, isEmpty, isAlpha } = require("validator");
 const { getCleanName } = require("../helpers/string-helper");
-
+const Token = require("../models/token.model");
 const emailExist = async (email = "", req) => {
   const exists = await User.findOne({ email });
   if (exists) {
@@ -91,6 +91,7 @@ const isValidPhone = (phone = "") => {
   }
   return true;
 };
+
 module.exports = {
   emailExist,
   passwordsMatch,

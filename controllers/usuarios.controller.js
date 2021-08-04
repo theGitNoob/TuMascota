@@ -26,7 +26,7 @@ const logUser = async (req, res, next) => {
 
     req.logIn(user, (err) => {
       if (err) return next(err);
-      return res.end();
+      return res.redirect("/");
     });
   })(req, res, next);
 };
@@ -65,7 +65,7 @@ const registerUser = async (req, res, next) => {
     const link = `http://${process.env.URL}/users/verify/${newUser.verifyURL}`;
 
     const message = {
-      from: "racosta011220@nauta.cu",
+      from: process.env.MAIL_USER,
       to: req.body.email,
       subject: "Confirme su cuenta",
       text: "Por favor siga el siguiente enlace",
@@ -115,17 +115,19 @@ const sendEmail = async (req, res) => {
         .status(400)
         .json({ msg: "El nombre de usuario o la contraseña son incorrectos" });
     }
+
     const link = `http://${process.env.URL}/users/verify/${user.verifyURL}`;
 
     const message = {
-      from: "racosta011220@nauta.cu",
+      from: process.env.MAIL_USER,
       to: user.email,
       subject: "Confirme su cuenta",
       text: "Por favor siga el siguiente enlace",
       html: getConfirmHtml(link),
     };
 
-    transporter.sendMail(message).catch((err) => {});
+    transporter.sendMail(message, (err) => {});
+    res.end();
   } catch (error) {}
 };
 

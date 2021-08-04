@@ -56,6 +56,6 @@ let userSchema = mongoose.Schema({
   receiveNotification: { type: Boolean, default: false },
 });
 
-let userModel = new mongoose.model("User", userSchema);
+let User = new mongoose.model("User", userSchema);
 
-module.exports.userModel = userModel;
+module.exports = User;

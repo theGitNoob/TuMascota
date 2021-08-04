@@ -1,35 +1,31 @@
 let express = require("express");
 let router = express.Router();
-let userModel = require("../models/user").userModel;
+let User = require("../models/user");
 let orderModel = require("../models/order").orderModel;
 let petModel = require("../models/pet").petModel;
 let redis = require("redis");
 const { check } = require("express-validator");
 let redisClient = redis.createClient();
 
-router.get("/order/:id", (req, res) => {
-  res.send("No jodas mas");
-});
-
 //TODO: usar express validator para validadar las ordenes
 router.post(
   "/ordenes/:id",
-  // [check("cnt").notEmpty(), check("cnt").no],
+  [
+    check("cnt", "La cantidad no debe estar vacía").notEmpty(),
+    check("id", "").isMongoId(),
+  ],
   async (req, res) => {
     if (!req.isAuthenticated()) {
-      // req.flash("alert-error", "Debe iniciar sesion antes de realizar un pedido");
-      // res.redirect("/users/login");
-      return res.sendStatus(404).end();
+      return res.status(401).end();
     }
     try {
       let pet = await petModel.findById(req.params.id);
-      console.log(req.body);
+
       if (pet == null) {
-        res.sendStatus(404).end();
-        return;
+        return res.status(401).json({ msg: "No available" });
       }
 
-      let user = await userModel.findById(req.user.id);
+      let user = await User.findById(req.user.id);
 
       if (user == null) {
         res.sendStatus(404).end();

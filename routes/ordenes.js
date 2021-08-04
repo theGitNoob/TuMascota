@@ -7,7 +7,7 @@ let multer = require("multer");
 var upload = multer({ dest: "./uploads/" });
 let petModel = require("../models/pet").petModel;
 let accesoriesModel = require("../models/accesorie").accesoriesModel;
-let userModel = require("../models/user").userModel;
+let User = require("../models/user");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -60,7 +60,7 @@ router
           ? await petModel.findById(order.articleId)
           : await accesoriesModel.findById(order.articleId);
 
-      let user = await userModel.findById(order.owner);
+      let user = await User.findById(order.owner);
       article.cnt += order.cnt;
       article.stagedCnt -= order.cnt;
       article.available = article.cnt === 0 ? false : true;

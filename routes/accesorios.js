@@ -1,5 +1,5 @@
 let router = require("express").Router();
-let userModel = require("../models/user").userModel;
+let User = require("../models/user");
 let orderModel = require("../models/order").orderModel;
 let accesoriesModel = require("../models/accesorie").accesoriesModel;
 let redis = require("redis");
@@ -31,7 +31,7 @@ router.post("/ordenes/:id", async (req, res) => {
       return;
     }
 
-    let user = await userModel.findById(req.user.id);
+    let user = await User.findById(req.user.id);
     if (user == null) {
       res.sendStatus(404).end();
       return;

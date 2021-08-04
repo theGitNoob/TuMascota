@@ -21,26 +21,26 @@ html(lang='en')
             a.close-login(href='/')
               img(src='/public/img/res/close.png' alt)
           .logo-user
-            img(src='/public/img/res/user.png' alt)
+            img(src='/public/img/login/user.png' alt)
           img.login-section__logo(src='/public/img/res/Logo.png' alt)
           != messages()
           form.login-section__form(action='/users/login' method='post')
             .form-container
               label.form-container__img(for='username')
-                img(src='/public/img/res/user-input.png' alt)
+                img(src='/public/img/login/user-input.png' alt)
               |
               |
               input#username(autofocus type='text' name='username' required)
               label.placeholder(for='username') Nombre de usuario
             .form-container
               label.form-container__img(for='password')
-                img(src='/public/img/res/password.png' alt)
+                img(src='/public/img/login/password.png' alt)
               |
               |
               input#password.password(type='password' name='password' required)
               label.placeholder(for='password') Contraseña
               span#show-password.show-password
-                img(src='/public/img/res/show-eye.png' alt)
+                img(src='/public/img/login/show-eye.png' alt)
             .forgot-password
               a(href='/users/forgot_password') olvidaste la contraseña?
             input.btn(type='submit' value='Acceder')

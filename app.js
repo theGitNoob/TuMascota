@@ -2,13 +2,15 @@
 require("dotenv").config();
 require("./config/db-config")();
 const express = require("express");
+var logger = require("morgan");
 // let compression = require("compression");
 let session = require("express-session");
 let methodOverride = require("method-override");
-// let sessionMiddleware = require("./middlewares/session-middleware");
+const { checkAuth, noAuth } = require("./middlewares/session-middleware");
 const adminRouter = require("./routes/admin/admin-routes");
-const user = require("./routes/usuarios");
-const pets = require("./routes/mascotas");
+const usersRouter = require("./routes/usuarios-route");
+const userRouter = require("./routes/user-route");
+const petsRouter = require("./routes/mascotas");
 const orders = require("./routes/ordenes");
 const accesories = require("./routes/accesorios");
 const services = require("./routes/servicios");
@@ -28,7 +30,6 @@ const { userModel } = require("./models/user");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //
 // app.use(helmet());
-
 app.use(
   "/public",
   express.static("public", {
@@ -36,6 +37,7 @@ app.use(
   })
 );
 
+app.use(logger("dev"));
 app.use(methodOverride("_method"));
 
 app.set("view engine", "pug"); //establece el motor de vistas a usar
@@ -95,9 +97,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// let compiledIndex = pug.compileFile("./views/index.pug");
-//Tengo q recompilar cada vez q realizo un cambio a la pagina
-
 app.use((req, res, next) => {
   res.locals.path = req.path;
   next();
@@ -112,10 +111,12 @@ app.get("/", (req, res, next) => {
   res.render("index");
 });
 
-app.use("/users", user);
+app.use("/users", noAuth, usersRouter);
+app.use("/user", checkAuth, userRouter);
 
-app.use("/mascotas", pets);
+app.use("/mascotas", petsRouter);
 app.use("/accesorios", accesories);
+
 app.use(
   "/ordenes",
   (req, res, next) => {

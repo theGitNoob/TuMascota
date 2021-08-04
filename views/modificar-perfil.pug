@@ -13,7 +13,7 @@ block contenido
 
           Usaremos los datos introducidos aquí para ponernos en contacto con usted.
 
-        form.login-section__form.login-section__form--register(action='/users/modify_profile?_method=PUT' method='post')
+        form.login-section__form.login-section__form--register(action='/user/modify_profile?_method=PUT' method='post')
           .form-container
             label.form-container__img(for='name')
               img(src='/public/img/login/datos.png' alt)
@@ -22,7 +22,7 @@ block contenido
           .form-container
             label.form-container__img(for='lastname')
               img(src='/public/img/login/datos.png' alt)
-            input#lastname(type='text' name='lastname' value=user.lastName required)
+            input#lastname(type='text' name='lastname' value=user.lastname required)
             label.placeholder(for='lastname') Apellido(s)
           .form-container
             label.form-container__img(for='phone')
@@ -54,9 +54,9 @@ block contenido
             span#confirm-show-password.show-password
               img(src='/public/img/login/show-eye.png' alt)
           label(for='checkbox')
-            input#checkbox.checkbox-input(type='checkbox' name='checkbox')
+            input#checkbox.checkbox-input(type='checkbox' name='checkbox' checked=user.receiveNotification)
             span.my-checkbox
-          label(for='checkbox') Notificarme productos nuevos
+          label(for='checkbox' ) Notificarme productos nuevos
           div
             input.btn(type='submit' value='Modificar')
             a.btn.btn-cancel(href='/index.html' type='submit').
