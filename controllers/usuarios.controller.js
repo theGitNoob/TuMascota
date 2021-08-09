@@ -1,7 +1,7 @@
 const passport = require("passport");
 const { getCleanName } = require("../helpers/string-helper");
 const { validateResults } = require("../helpers/validators");
-const { userModel } = require("../models/user");
+const User = require("../models/user");
 const { genRandomBytes } = require("../utils");
 const bcrypt = require("bcrypt");
 const {
@@ -52,7 +52,7 @@ const registerUser = async (req, res, next) => {
       return res.status(400).json(result.array());
     }
 
-    let newUser = new userModel(user);
+    let newUser = new User(user);
 
     const [hash, randomBytes] = await Promise.all([
       bcrypt.hash(newUser.password, 10),
@@ -102,7 +102,7 @@ const logoutUser = (req, res, next) => {
 const sendEmail = async (req, res) => {
   try {
     const { username, password = "" } = req.body;
-    const user = await userModel.findOne({ username });
+    const user = await User.findOne({ username });
     if (!user) {
       return res
         .status(400)

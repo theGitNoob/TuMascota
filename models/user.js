@@ -1,9 +1,7 @@
 "use strict";
-let mongoose = require("mongoose");
-let validator = require("validator");
-let parsePhone = require("../utils").parsePhone;
+const { model, Schema } = require("mongoose");
 
-let messageSchema = new mongoose.Schema({
+const messageSchema = Schema({
   msg: { type: String },
   date: { type: Date },
 });
@@ -34,7 +32,7 @@ messageSchema.virtual("fullDate").get(function () {
   }
 });
 
-let userSchema = mongoose.Schema({
+const userSchema = Schema({
   name: { type: String, required: true },
   lastname: { type: String, required: true },
   email: String,
@@ -56,6 +54,4 @@ let userSchema = mongoose.Schema({
   receiveNotification: { type: Boolean, default: false },
 });
 
-let User = new mongoose.model("User", userSchema);
-
-module.exports = User;
+module.exports = new model("User", userSchema);
