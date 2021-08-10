@@ -1,9 +1,13 @@
 const { Router } = require("express");
 const { logoutUser } = require("../controllers/usuarios.controller");
-const User = require("../models/user");
+const User = require("../models/user-model");
 const { check } = require("express-validator");
 
-const { passwordsMatch, validateResults } = require("../helpers/validators");
+const {
+  passwordsMatch,
+  validateResults,
+  isValidLastName,
+} = require("../helpers/validators");
 
 const router = Router();
 
@@ -38,6 +42,7 @@ router
   .put(
     [
       check("name", "El nombre es obligatorio").notEmpty(),
+      check("lastname").custom(isValidLastName),
       check("name", "El nombre solo debe contener letras").isAlpha(),
       check(
         "password",
@@ -49,23 +54,30 @@ router
     ],
     async (req, res) => {
       const errors = validateResults(req);
+
       if (!errors.isEmpty()) {
-        req.flash("alert alert-danger", errors.array());
-        // return res.redirect("/users/modify_profile");
         return res.status(400).json({ errors: errors.array() });
       }
 
-      let { phone, address, password, name } = req.body;
+      let { phone, address, password, name, lastname, notify } = req.body;
 
-      let newData = { phone, address, name };
+      let newData = {
+        phone,
+        address,
+        name,
+        lastname,
+        receiveNotification: notify === "on",
+      };
 
       if (password) {
         password = await bcrypt.hash(password, 10);
         newData.password = password;
       }
 
-      console.log(newData);
-      await User.findByIdAndUpdate(req.user.id, newData);
+      let user = req.user;
+
+      await user.updateOne(newData).exec();
+
       res.redirect("/users/modify_profile");
     }
   );

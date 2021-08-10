@@ -1,25 +1,24 @@
 extends ./admin-layout.pug
 block contenido
   div(class="container col-md-4 top-space")
-    if accesorio.imgExtension != undefined
-      .d-flex.justify-content-center
-        img(src=`/public/img/accesorios/${accesorio._id}.${accesorio.imgExtension}` class="img-fluid img-thumbnail")
-    form(action=`/admin/accesorios/${accesorio._id}?_method=PUT` method='POST' class="form-group" enctype="multipart/form-data")
+    .d-flex.justify-content-center
+      img(src=accesorie.images[0].url class="img-fluid img-thumbnail")
+    form(action=`/admin/accesorios/${accesorie._id}?_method=PUT` method='POST' class="form-group" enctype="multipart/form-data")
 
 
-      input(type="text" class="form-control" name="type"  placeholder="Tipo de accesorios" required value=accesorio.type)
+      input(type="text" class="form-control" name="type"  placeholder="Tipo de accesorios" required value=accesorie.type)
 
-      input(type="text" class="form-control" name="price" placeholder="Precio" value=accesorio.price)
+      input(type="text" class="form-control" name="price" placeholder="Precio" value=accesorie.price)
 
-      input(type="text" class="form-control" name="description" placeholder="Descripción" value=accesorio.description)
+      input(type="text" class="form-control" name="description" placeholder="Descripción" value=accesorie.description)
 
-      input(type="text" class="form-control" name="cnt"  placeholder="Cantidad de articulos" value=accesorio.cnt)
+      input(type="text" class="form-control" name="cnt"  placeholder="Cantidad de articulos" value=accesorie.cnt)
 
-      input(type="text" class="form-control" name="owner_name" placeholder="Nombre del dueño" required value=accesorio.ownerName)
+      input(type="text" class="form-control" name="ownerName" placeholder="Nombre del dueño" required value=accesorie.ownerName)
 
-      input(type="text" class="form-control" name="owner_phone" placeholder="Télefono" required value=accesorio.ownerPhone)
+      input(type="text" class="form-control" name="ownerPhone" placeholder="Télefono" required value=accesorie.ownerPhone)
 
-      input(type="text" class="form-control" name="owner_account" placeholder="Cuenta bancaria" value=accesorio.ownerAccount)
+      input(type="text" class="form-control" name="ownerAccount" placeholder="Cuenta bancaria" value=accesorie.ownerAccount)
 
       input(type="file" class="form-control" name="file" /*multiple me permite enviar varios archivos*/)
 

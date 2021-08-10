@@ -5,30 +5,34 @@ html(lang='es')
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
     meta(name='viewport' content='width=device-width,initial-scale=1')
     title TuMascota
-    link(rel='stylesheet' href='/public/css/log-in.css')
     link(rel='stylesheet' href='/public/css/shared.css')
     link(rel='stylesheet' href='/public/css/ordenes.css')
     link(rel='stylesheet' href='/public/css/index.css')
     link(rel='stylesheet' href='/public/css/alert-style.css')
-    link(rel='stylesheet' href='/public/css/mascotas-style.css')
     link(rel='stylesheet' href='/public/css/accesorios-style.css')
-    link(rel='stylesheet' href='/public/css/buy-style.css')
+    link(rel='stylesheet' href='/public/css/mascotas-style.css')
+    link(rel='stylesheet' href='/public/css/log-in.css')
+    
+    //- link(rel='stylesheet' href='/public/css/buy-style.css')
     //- <link rel="stylesheet" href="/public/css/log-in.css" /> 
     link(rel='icon' href='/public/img/res/shop.png')
   body
     header.main-header
       .main-header__container
-        a(href='/')
-          img.logo-tm(src='/public/img/res/Logo.png' alt)
+        a.logo(href='/')
+          img.logo__img(src='/public/img/res/Logo.png' alt)
         .main-header__container-login
           if user
             a.login-option.orders-login(href='/ordenes')
               img(src='/public/img/res/cart.png' alt)
-              span.login-count-msj.orders-msj=user.toBeDelivered
+              span.login-count-msj.orders-msj=user.orders
+            |
+            |
             #bell-login.login-option.bell-login
               img(src='/public/img/res/bell.png' alt)
-              if user.notifications
-                span.login-count-msj.bell-msj=user.notifications
+              span.login-count-msj.bell-msj=user.notifications
+            |
+            |
           if !user
             .go-login
               a.btn.btn-go-login(href='/users/login')
@@ -59,59 +63,17 @@ html(lang='es')
         article#bell-section.bell-section
           h4.bell-section___title
             | Notificaciones 
-            span.bell-number=user.notifications
+            span.bell-number=user.messages.length
           section.bell-submenu
             .bell-submenu__inner-container
               ul.bell-submenu__list
-                li.bell-submenu__element.bell-submenu__element--new
-                  | Su mascota se subio a la galeria. esta notificacion es reciente,
-
-                  span.bell-time Hace 4 dias
-                  span.remove-notifications
-                    img(src='/public/img/res/three-dots.png' alt)
-                    img(src='/public/img/res/trash.png' alt)
-                li.bell-submenu__element.bell-submenu__element--new
-                  | Su mascota se subio a la galeria
-
-                  span.bell-time Hace 4 dias
-                  span.remove-notifications
-                    img(src='/public/img/res/three-dots.png' alt)
-                    img(src='/public/img/res/trash.png' alt)
-                li.bell-submenu__element.bell-submenu__element--old
-                  | Su mascota se subio a la galeria
-
-                  span.bell-time Hace 4 dias
-                  span.remove-notifications
-                    img(src='/public/img/res/three-dots.png' alt)
-                    img(src='/public/img/res/trash.png' alt)
-                li.bell-submenu__element.bell-submenu__element--old
-                  | Su mascota se subio a la galeria
-
-                  span.bell-time Hace 4 dias
-                  span.remove-notifications
-                    img(src='/public/img/res/three-dots.png' alt)
-                    img(src='/public/img/res/trash.png' alt)
-                li.bell-submenu__element.bell-submenu__element--old
-                  | Ahora esta disponible la seccion veterinarios
-
-                  span.bell-time Hace 5 meses
-                  span.remove-notifications
-                    img(src='/public/img/res/three-dots.png' alt)
-                    img(src='/public/img/res/trash.png' alt)
-                li.bell-submenu__element.bell-submenu__element--old
-                  | Ahora esta disponible la seccion veterinarios
-
-                  span.bell-time Hace 5 meses
-                  span.remove-notifications
-                    img(src='/public/img/res/three-dots.png' alt)
-                    img(src='/public/img/res/trash.png' alt)
-                li.bell-submenu__element.bell-submenu__element--old
-                  | Ahora esta disponible la seccion veterinarios
-
-                  span.bell-time Hace 5 meses
-                  span.remove-notifications
-                    img(src='/public/img/res/three-dots.png' alt)
-                    img(src='/public/img/res/trash.png' alt)
+                for msg in user.messages
+                  li.bell-submenu__element(class=`bell-submenu__element--${msg.state}`)=msg.msg
+                    span.bell-time=msg.fullDate
+                    span.remove-notifications
+                      img(src='/public/img/res/three-dots.png' alt)
+                      img(src='/public/img/res/trash.png' alt)
+                  
           .show-all-notifications.
 
             Ver todas las notificaciones
@@ -120,16 +82,20 @@ html(lang='es')
       img.menu-icon(src='/public/img/res/menu-icon.png' alt)
     nav.nav-menu
       .nav-menu__inner-container
+        img.nav-menu__login-logo(src='/public/img/res/Logo.png' alt)
         .nav-menu__login
-          img(src='/public/img/res/Logo.png' alt)
           .main-header__container-login
             if user
               a.login-option.orders-login(href='/ordenes')
                 img(src='/public/img/res/cart.png' alt)
-                span.login-count-msj.orders-msj 3
+                span.login-count-msj.orders-msj=user.orders
+              |
+              |
               .login-option.bell-login
                 img(src='/public/img/res/bell.png' alt)
                 span.login-count-msj.bell-msj=user.notifications
+              |
+              |
             if !user
               .go-login
                 a.btn.btn-go-login(href='/users/login')
@@ -146,6 +112,7 @@ html(lang='es')
           a.nav-menu__link(href='/')
             img(src='/public/img/res/dog-home.png' alt)
             span  Inicio
+            
         .nav-menu__element(class=path.startsWith("/mascotas")  && "nav-menu__element--active")
           #pet-submenu.nav-menu__link
             img(src='/public/img/res/pet.png' alt)
@@ -196,7 +163,7 @@ html(lang='es')
 
         .nav-menu__element.contact-us
           .nav-menu__link
-            img(src='/public/img/res/contact-us.png' alt)
+            img(src='/public/img/res/phone-blue.png' alt)
             span  Contáctenos
         .nav-menu__element.about-us
           .nav-menu__link
@@ -215,7 +182,7 @@ html(lang='es')
       a(href='#')
         img(src='/public/img/res/whatsapp.png' alt)
       a(href='#')
-        img(src='/public/img/res/whatsapp.png' alt)
+        img(src='/public/img/res/telegram.png' alt)
     |
     |
     .main-footer__info
@@ -234,111 +201,137 @@ html(lang='es')
         h4 Contenido
         ul.main-footer__list
           li.main-footer__item
-            a(href='index.html') Inicio
+            a(href='/') Inicio
           |
           |
           li.main-footer__item
-            a(href='mascotas.html') Mascotas
+            a(href='/mascotas') Mascotas
           |
           |
           li.main-footer__item
-            a(href='accesorios.html') Accesorios
+            a(href='/accesorios') Accesorios
           |
           |
           li.main-footer__item
-            a(href='servicios.html') Servicios
-          |
-          |
+            a(href='/servicios') Servicios
+      |
+      |
       .main-footer__element
         h4 Contacto
         ul.main-footer__list
           li.main-footer__item.contact-us
             | Contáctanos
-            img(src='/public/img/res/contact-us.png' alt)
+            |
+            |
+            img(src='/public/img/res/phone-blue.png' alt)
           |
           |
           li.main-footer__item.about-us
             | Acerca De
-            img(src='/public/img/res/info(1).png' alt)
-          |
-          |
+            |
+            |
+            img(src='/public/img/res/info.png' alt) 
+      |
+      |
       .main-footer__element
         h4 Redes Sociales
         ul.main-footer__list
           li.main-footer__item
             | Facebook
-
+            |
+            |
             img(src='/public/img/res/facebook.png' alt)
+          |
+          |
           li.main-footer__item
             | Whatsapp
-
+            |
+            |
             img(src='/public/img/res/whatsapp.png' alt)
+          |
+          |
           li.main-footer__item
             | Telegram
-
-            img(src='/public/img/res/facebook.png' alt)
-    .go-top
-      a(href='#main')
-        img.go-top-icon(src='/public/img/res/next.png' alt)
-    //  modal contact-us 
-    #modal-back-contact.modal-back
-      #modal-contact.modal
-        .modal__header Contactános
-        .modal__body
-          h4.modal-body__header.
-
-            Tienes alguna pregunta? Contáctanos:
-
-          .modal__contact-us
-            .modal__contact-us-element
-              img(src='/public/img/res/mail.png' alt)
-              span mascotunas@gmail.com
-            .modal__contact-us-element
-              img(src='/public/img/res/whatsapp.png' alt)
-              span 58156518
-            .modal__contact-us-element
-              a(href)
-                img(src='/public/img/res/facebook.png' alt)
+            |
+            |
+            img(src='/public/img/res/telegram.png' alt)
+  .go-top
+    a(href='#main')
+      img.go-top-icon(src='/public/img/res/next.png' alt)
+  //  modal contact-us 
+  #modal-back-contact.modal-back
+    #modal-contact.modal
+      .modal__header
+        | Contactános
+        
+        button.modal-close(type='submit')
+          img.modal-close__icon(src='/public/img/res/close-white.png' alt)
+      .modal__body
+        h4.modal-body__header.
+          ¿Tienes alguna pregunta? Contáctanos:
+        .modal__contact-us
+          .modal__contact-us-element
+            img(src='/public/img/res/mail.png' alt)
+            |
+            |
+            span tumascota@nauta.cu
+          .modal__contact-us-element
+            img(src='/public/img/res/whatsapp.png' alt)
+            |
+            |
+            span 58156518
+          .modal__contact-us-element.modal__contact-us-facebook
+            a(href='#')
+              img(src='/public/img/res/facebook.png' alt)
+            |
+            |
+            span TuMascota
+          .modal__contact-us-element.modal__contact-us-telegram
+            a(href='#')
+              img(src='/public/img/res/telegram.png' alt)
+              |
+              |
               span TuMascota
-    //  modal about-us 
-    #modal-back-about.modal-back
-      #modal-about.modal
-        .modal__header Acerca de
-        .modal__body
+  #modal-back-about.modal-back
+    #modal-about.modal
+      .modal__header  Acerca de
+
+        button.modal-close(type='submit')
+          img.modal-close__icon(src='/public/img/res/close-white.png' alt)
+      .modal__body
+        h4.modal-body__header Creado y Desarrollado en Las Tunas por:
+        .modal__container-us
+          .avatar-rafa
+            img(src='/public/img/res/avatar-rafa.png' alt)
+            span.name Rafael Acosta Márquez
+          |
+          |
+          .avatar-jesus
+            img(src='/public/img/res/avatar-jesus.png' alt)
+            span.name Jesús Manuel López Ponce
+        .avatar-abraham
           h4.modal-body__header.
 
-            Creado y Desarrollado en Las Tunas por:
+            Con una idea original de:
 
-          .modal__container-us
-            .avatar-rafa
-              img(src='/public/img/res/avatar-rafa.png' alt)
-              span.name Rafael Acosta Márquez
-            .avatar-jesus
-              img(src='/public/img/res/avatar-jesus.png' alt)
-              span.name Jesús Manuel López Ponce
-          .avatar-abraham
-            h4.modal-body__header.
-
-              Con una idea original de:
-
-            span.name Sadan Jiskly Fernández Ávila
-            span.name José Abraham Oduardo Ávila
+          span.name Sadan Jiskly Fernández Ávila
+          span.name José Abraham Oduardo Ávila
 
   block footer
-  script(src="/public/js/fetch.js")
   script(src="/public/js/shared.js")
-  script(src="/public/js/alert.js")
   script(src="/public/js/menu.js")
+  script(src="/public/js/index.js")
+  script(src="/public/js/user-option.js")
+  //- script(src="/public/js/fetch.js")
+  //- script(src="/public/js/alert.js")
   script(src="/public/js/login.js")
-  script(src="/public/js/ordenes.js")
-  script(src="/public/js/modal-completed.js")
-  script(src="/public/js/modal-alert-cancel.js")
+  //- script(src="/public/js/ordenes.js")
+  //- script(src="/public/js/modal-completed.js")
+  //- script(src="/public/js/modal-alert-cancel.js")
 
-  if path === '/'
-    script(src="/public/js/index.js")
-  -if (path.startsWith("/mascotas") || path.startsWith("/accesorios"))
-    //- script(src="/public/js/lazy-load.js")
-    script(src="/public/js/modal.js")
+  //- -if (path.startsWith("/mascotas") || path.startsWith("/accesorios"))
+  //-   //- script(src="/public/js/lazy-load.js")
+  //-   script(src="/public/js/modal.js")
 
-  -if (path.startsWith("/mascotas"))
-    script(src="/public/js/mascotas.js")
+  //- -if (path.startsWith("/mascotas"))
+  //-   script(src="/public/js/mascotas.js")

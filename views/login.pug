@@ -7,23 +7,26 @@ html(lang='en')
     title TuMascota
     link(rel='stylesheet' href='/public/css/shared.css')
     link(rel='stylesheet' href='/public/css/log-in.css')
+    link(rel='stylesheet' href='/public/css/alert-style.css')
     link(rel='icon' href='/public/img/res/shop.png')
   body
     header.main-header
       .main-header__container
-        a(href='/')
-          img.logo-tm(src='/public/img/res/Logo.png' alt)
+        a.logo(href='/')
+          img.logo__img(src='/public/img/res/Logo.png' alt)
     main#main
       section#login-section.login-section
+        h3.login-section__title
+          | Inciar Sesión
+          .underline
+            span
+            img(src='/public/img/res/pata.png' alt)
+            span
         .login-section__container
           .login-section__header
-            | Acceder
-            a.close-login(href='/')
-              img(src='/public/img/res/close.png' alt)
           .logo-user
             img(src='/public/img/login/user.png' alt)
           img.login-section__logo(src='/public/img/res/Logo.png' alt)
-          != messages()
           form.login-section__form(action='/users/login' method='post')
             .form-container
               label.form-container__img(for='username')
@@ -31,7 +34,7 @@ html(lang='en')
               |
               |
               input#username(autofocus type='text' name='username' required)
-              label.placeholder(for='username') Nombre de usuario
+              label.placeholder.move-placeholder(for='username') Nombre de usuario
             .form-container
               label.form-container__img(for='password')
                 img(src='/public/img/login/password.png' alt)
@@ -42,18 +45,159 @@ html(lang='en')
               span#show-password.show-password
                 img(src='/public/img/login/show-eye.png' alt)
             .forgot-password
-              a(href='/users/forgot_password') olvidaste la contraseña?
+              a(href='/users/forgot_password') ¿olvidaste la contraseña?
             input.btn(type='submit' value='Acceder')
             |
             |
-            a.btn.btn-cancel(href='/' type='submit').
-
-              Cancelar
-
+            a.btn.btn-cancel(href='/' type='submit') Cancelar
           span.line-login
-            | No tienes una cuenta? 
-
+            | ¿No tienes una cuenta? 
             a(href='/users/register') Regístrate Aquí
+  footer.main-footer
+    .main-footer__logo
+      img(src='/public/img/res/Logo.png' alt)
+      strong.copyright © 2021- Todos los derechos reservados
+    .main-footer__social-media
+      a(href='#')
+        img(src='/public/img/res/facebook.png' alt)
+      a(href='#')
+        img(src='/public/img/res/whatsapp.png' alt)
+      a(href='#')
+        img(src='/public/img/res/telegram.png' alt)
+    |
+    |
+    .main-footer__info
+      p
+        | Hemos construido 
+        strong Tumascota
+        |  porque amamos a los animales. Si le gusta la página o tiene alguna sugerencia puede llamarnos al 
+        strong 58156518
+        |  o puede enviarnos un correo electrónico a 
+
+        strong tumascota@nauta.cu 
+        | así como tus comentarios, son bienvenidos.
+
+    .main-footer__content
+      .main-footer__element
+        h4 Contenido
+        ul.main-footer__list
+          li.main-footer__item
+            a(href='/') Inicio
+          |
+          |
+          li.main-footer__item
+            a(href='/mascotas') Mascotas
+          |
+          |
+          li.main-footer__item
+            a(href='/accesorios') Accesorios
+          |
+          |
+          li.main-footer__item
+            a(href='/servicios') Servicios
+      |
+      |
+      .main-footer__element
+        h4 Contacto
+        ul.main-footer__list
+          li.main-footer__item.contact-us
+            | Contáctanos
+            |
+            |
+            img(src='/public/img/res/phone-blue.png' alt)
+          |
+          |
+          li.main-footer__item.about-us
+            | Acerca De
+            |
+            |
+            img(src='/public/img/res/info.png' alt) 
+      |
+      |
+      .main-footer__element
+        h4 Redes Sociales
+        ul.main-footer__list
+          li.main-footer__item
+            | Facebook
+            |
+            |
+            img(src='/public/img/res/facebook.png' alt)
+          |
+          |
+          li.main-footer__item
+            | Whatsapp
+            |
+            |
+            img(src='/public/img/res/whatsapp.png' alt)
+          |
+          |
+          li.main-footer__item
+            | Telegram
+            |
+            |
+            img(src='/public/img/res/telegram.png' alt)
+  .go-top
+    a(href='#main')
+      img.go-top-icon(src='/public/img/res/next.png' alt)
+  //  modal contact-us 
+  #modal-back-contact.modal-back
+    #modal-contact.modal
+      .modal__header
+        | Contactános
+        
+        button.modal-close(type='submit')
+          img.modal-close__icon(src='/public/img/res/close-white.png' alt)
+      .modal__body
+        h4.modal-body__header.
+          ¿Tienes alguna pregunta? Contáctanos:
+        .modal__contact-us
+          .modal__contact-us-element
+            img(src='/public/img/res/mail.png' alt)
+            |
+            |
+            span tumascota@nauta.cu
+          .modal__contact-us-element
+            img(src='/public/img/res/whatsapp.png' alt)
+            |
+            |
+            span 58156518
+          .modal__contact-us-element.modal__contact-us-facebook
+            a(href='#')
+              img(src='/public/img/res/facebook.png' alt)
+            |
+            |
+            span TuMascota
+          .modal__contact-us-element.modal__contact-us-telegram
+            a(href='#')
+              img(src='/public/img/res/telegram.png' alt)
+              |
+              |
+              span TuMascota
+  #modal-back-about.modal-back
+    #modal-about.modal
+      .modal__header  Acerca de
+
+        button.modal-close(type='submit')
+          img.modal-close__icon(src='/public/img/res/close-white.png' alt)
+      .modal__body
+        h4.modal-body__header Creado y Desarrollado en Las Tunas por:
+        .modal__container-us
+          .avatar-rafa
+            img(src='/public/img/res/avatar-rafa.png' alt)
+            span.name Rafael Acosta Márquez
+          |
+          |
+          .avatar-jesus
+            img(src='/public/img/res/avatar-jesus.png' alt)
+            span.name Jesús Manuel López Ponce
+        .avatar-abraham
+          h4.modal-body__header.
+
+            Con una idea original de:
+
+          span.name Sadan Jiskly Fernández Ávila
+          span.name José Abraham Oduardo Ávila
+
     script(src='/public/js/shared.js')
     script(src='/public/js/login.js')
     script(src='/public/js/alert.js')

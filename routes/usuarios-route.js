@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 require("../config/passport-config");
 
 const { check } = require("express-validator");
-const User = require("../models/user");
+const User = require("../models/user-model");
 const { genRandomBytes } = require("../utils");
 
 const {
@@ -115,7 +115,6 @@ router
       console.time();
       try {
         const errors = validateResults(req);
-
         const { email } = req.body;
         if (!errors.isEmpty()) {
           return res.status(400).json({ errors: errors.array() });
@@ -139,6 +138,7 @@ router
           }).save();
 
           const link = `http://${process.env.URL}/users/reset_password?token=${resetToken}&id=${user._id}`;
+          console.log(link);
 
           const message = {
             from: process.env.MAIL_USER,
@@ -163,7 +163,7 @@ router
   .route("/reset_password")
   .get(async (req, res) => {
     const { token, id } = req.query;
-    res.render("reset_password", { token, id });
+    res.render("reset-password", { token, id });
   })
   .put(
     [
@@ -197,7 +197,8 @@ router
         }
 
         const hash = await bcrypt.hash(password, 10);
-        await User.findByIdAndUpdate(id, { password: hash });
+        await User.findByIdAndUpdate(id, { password: hash }).exec();
+        await resetToken.remove().exec();
 
         req.flash(
           "alert alert-success",

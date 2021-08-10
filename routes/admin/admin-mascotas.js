@@ -1,26 +1,29 @@
 "use strict";
 let router = require("express").Router();
-let petModel = require("../../models/pet").petModel;
 let fs = require("fs/promises");
 let mongoose = require("mongoose");
 let multer = require("multer");
 const upload = multer({ dest: "./uploads/" });
+let Pet = require("../../models/pet-model");
 const { check } = require("express-validator");
 const { validateResults, imageUploaded } = require("../../helpers/validators");
 const { moveFiles } = require("../../helpers/move-files");
 
+//TODO:
+//Hacer pruebas sobre updatear campos no vacios con valores null "" o undefined
+
 router
   .route("/")
-  .get((req, res) => {
-    petModel
-      .find({})
-      .then((mascotas) =>
-        res.render("index-mascotas", {
-          mascotas: mascotas,
-          seccion: "de mascotas",
-        })
-      )
-      .catch((err) => res.json(err));
+  .get(async (req, res) => {
+    try {
+      const mascotas = await Pet.find({}).exec();
+      res.render("index-mascotas", {
+        mascotas,
+        seccion: "de mascotas",
+      });
+    } catch (error) {
+      console.error(error);
+    }
   })
   .post(
     upload.single("image"),
@@ -77,9 +80,8 @@ router
           file.originalname.lastIndexOf(".") + 1
         );
 
-        let newPet = new petModel(data);
+        let newPet = new Pet(data);
 
-        const url = imgExtension;
         newPet.images = [{}];
         const image = newPet.images[0];
         newPet.images[0].url = `/public/img/mascotas/${image._id}.${imgExtension}`;
@@ -104,25 +106,23 @@ router.get("/new", (req, res) => {
 
 router
   .route("/:id")
-  .get((req, res) => {
-    if (mongoose.Types.ObjectId.isValid(req.params.id)) {
-      petModel
-        .findById(req.params.id)
-        .then((doc) => {
-          if (doc === null) throw null;
-          res.render("show-pet", { mascota: doc, seccion: "de mascotas" });
-        })
-        .catch((err) => {
-          if (err === null)
-            res.send("La página q esta intentando acceder no existe");
-          else {
-            console.error(err);
-            res.redirect("/admin/mascotas");
-          }
-        });
-    } else {
-      res.send("La página q esta intentando acceder no existe");
+  .get(check("id").isMongoId(), async (req, res) => {
+    const errors = validateResults(req);
+
+    if (!errors.isEmpty()) {
+      return res.redirect("/admin/mascotas");
     }
+
+    const pet = await Pet.findById(req.params.id).exec();
+
+    if (!pet) {
+      return res.redirect("/admin/mascotas");
+    }
+
+    res.render("show-pet", {
+      pet,
+      seccion: "de mascotas",
+    });
   })
   .put(
     upload.single("image"),
@@ -174,9 +174,10 @@ router
         };
         const file = req.file;
 
-        const pet = await petModel.findByIdAndUpdate(id, data);
+        const pet = await Pet.findByIdAndUpdate(id, data).exec();
+
         if (!pet) {
-          return next();
+          res.redirect("/admin/mascotas");
         }
 
         if (file) {
@@ -193,6 +194,7 @@ router
   )
   .delete((req, res) => {
     const id = req.params.id;
+    //TODO:Eliminar las mascotas
     // let pet = petModel.findById(id);
     // const images = pet.images
     //   petModel
@@ -205,7 +207,7 @@ router
   .route("/:id/images/")
   .all(async (req, res, next) => {
     const id = req.params.id;
-    const pet = await petModel.findById(id);
+    const pet = await Pet.findById(id);
     if (!pet) {
       res.status(404);
       return res.render("404");
@@ -213,7 +215,7 @@ router
   })
   .get(async (req, res) => {
     const id = req.params.id;
-    let pet = await petModel.findById(id);
+    let pet = await Pet.findById(id);
     const images = pet.images;
     res.json(images);
   })
@@ -221,7 +223,7 @@ router
     try {
       const id = req.params.id;
       const images = req.files;
-      const pet = await petModel.findById(id);
+      const pet = await Pet.findById(id);
 
       const currImages = pet.images.length;
       if (images.length + currImages > 5) {
@@ -260,7 +262,7 @@ router
 router.route("/:id/images/:imgId/").delete(async (req, res, next) => {
   try {
     const { id, imgId } = req.params;
-    const pet = await petModel.findById(id);
+    const pet = await Pet.findById(id);
     if (!pet) {
       res.status(404);
       return res.render("404");

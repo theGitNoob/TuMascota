@@ -1,16 +1,19 @@
-const avatar = document.querySelectorAll(".avatar-login");
-const orders = document.querySelectorAll(".orders-login");
-const notifications = document.querySelectorAll(".bell-login");
-
-const menuGoLogin = document.querySelectorAll(".go-login");
-
-const showpassword = document.querySelectorAll(".show-password");
-const password = document.querySelectorAll(".password");
-
-const inputs = document.querySelectorAll(".form-container input");
+const showpassword = document.querySelectorAll(".show-password"),
+  password = document.querySelectorAll(".password"),
+  inputs = document.querySelectorAll(".form-container input"),
+  loginForm = document.querySelector("#login-form");
 
 if (inputs) {
   /*Esto es para el efecto del desplazamiento del placeholder en los input */
+
+  /*Esto es para cuando tienes guardadas las contraseñas, se mueva el placeholder automaticamente*/
+  setTimeout(function () {
+    inputs.forEach(function (inp) {
+      if (inp.value != "") {
+        inp.nextElementSibling.classList.add("move-placeholder");
+      }
+    });
+  }, 10);
 
   inputs.forEach(function (inp) {
     inp.addEventListener("change", function () {
@@ -53,254 +56,94 @@ if (showpassword) {
   });
 }
 
-const menuAccount = document.querySelector("#account-section");
-const bellSection = document.querySelector("#bell-section");
-const bellElements = bellSection.querySelectorAll(".bell-submenu__element");
-const removeBell = bellSection.querySelectorAll(".remove-notifications");
-const showAllNotifications = bellSection.querySelector(
-  ".show-all-notifications"
-);
+/**/
 
-//   menuGoLogin[0].style.display = "none";
-//   menuGoLogin[1].style.display = "none";
-
-const bellSubmenu = bellSection.querySelector(".bell-submenu");
-avatar.forEach(function (avt) {
-  avt.addEventListener("click", function () {
-    menuAccount.classList.toggle("show-login-menu");
-    if (bellSection.classList.contains("show-login-menu")) {
-      bellSection.classList.toggle("show-login-menu");
-    }
-  });
-});
-
-/*Notificaciones*/
-notifications.forEach(function (not) {
-  not.addEventListener("click", function () {
-    /*Aqui hago q se muestre el div de mostrar todas las notificaciones*/
-    showAllNotifications.style.display = "block";
-    if (
-      bellSubMenuList.firstElementChild.classList.contains(
-        "no-new-notifications"
-      )
-    )
-      bellSubMenuList.firstElementChild.style.display = "block";
-    /*Aqui reviso si tienes notifiaciones*/
-    checkBell();
-
-    bellSection.classList.toggle("show-login-menu");
-    if (bellSection.classList.contains("show-login-menu")) {
-      bellElements.forEach(function (el, cont) {
-        el.classList.add("anim-bell-scale");
-        let calcDelay = 300 + cont * 60;
-        el.style.animationDelay = calcDelay.toString() + "ms";
-        // console.log(el.style.animationDelay, cont);
-        if (el.classList.contains("bell-submenu__element--old")) {
-          el.style.display = "none";
-        }
-        if (
-          el.classList.contains("bell-submenu__element--new") ||
-          el.classList.contains("no-new-notifications")
-        ) {
-          el.style.display = "block";
-        }
-      });
-    } else {
-      bellElements.forEach(function (el) {
-        el.classList.remove("anim-bell-scale");
-      });
-    }
-    if (menuAccount.classList.contains("show-login-menu")) {
-      menuAccount.classList.toggle("show-login-menu");
-    }
-    /*checkeo el Height*/
-    checkHeight();
-  });
-});
-
-/*Selecciono todos los botones de borrar*/
-const deleteBell = document.querySelectorAll(
-  ".remove-notifications > img:last-child"
-);
-
-/*Animacion de los botones de borrar notificaciones*/
-removeBell.forEach(function (btn) {
-  btn.addEventListener("click", function () {
-    if (!btn.classList.contains("move-remove")) {
-      btn.classList.toggle("move-remove");
-      btn.firstElementChild.classList.toggle("rot-three-dots");
-      btn.lastElementChild.style.opacity = "1";
-      btn.lastElementChild.style.visibility = "visible";
-    } else {
-      btn.classList.toggle("move-remove");
-      btn.firstElementChild.classList.toggle("rot-three-dots");
-      btn.lastElementChild.style.opacity = "0";
-      btn.lastElementChild.style.visibility = "hidden";
-    }
-  });
-});
-
-/*Asignar Heigth a las notificaciones*/
-const bellSubMenuList = bellSection.querySelector(".bell-submenu__list");
-function checkHeight() {
-  let sumHeight = 0;
-  bellElements.forEach(function (el) {
-    elementStyle = getComputedStyle(el);
-    if (parseInt(elementStyle.height) > 0 && el.style.display == "block") {
-      sumHeight +=
-        parseFloat(elementStyle.height) +
-        parseFloat(elementStyle.marginTop) * 2;
-    }
-  });
-
-  if (bellSubMenuList.firstElementChild) {
-    if (
-      bellSubMenuList.firstElementChild.classList.contains(
-        "no-new-notifications"
-      ) ||
-      (bellSubMenuList.firstElementChild.classList.contains(
-        "no-notifications"
-      ) &&
-        bellSubMenuList.childElementCount > 1)
-    ) {
-      if (bellSubMenuList.firstElementChild.style.display != "none")
-        sumHeight += parseFloat(bellSubMenuList.firstElementChild.style.height);
-    }
-  }
-
-  bellSubmenu.style.height = sumHeight + 10 + "px";
-  bellSubMenuList.style.height = getComputedStyle(bellSubmenu).maxHeight;
-  // console.log(bellSubmenu.style.height);
-  // console.log(heightMenu.maxHeight);
-}
-
-/*Borrar notificacione*/
-deleteBell.forEach(function (btn) {
-  btn.addEventListener("click", function () {
-    const element = btn.parentElement.parentElement;
-    const elementStyle = getComputedStyle(element);
-    element.style.height = elementStyle.height;
-    setTimeout(function () {
-      element.style.height = 0;
-    }, 10);
-    element.classList.add("delete-element");
-    /*Aqui ya le pongo display:none, y luego tu elimarias la notificacion del DOM y de la BD*/
-    setTimeout(function () {
-      element.style.display = "none";
-      /*checkeo el scroll*/
-      checkHeight();
-    }, 500);
-  });
-});
-showAllNotifications.addEventListener("click", function () {
-  bellElements.forEach(function (el) {
-    if (el.classList.contains("bell-submenu__element--old")) {
-      el.style.display = "block";
-    }
-    showAllNotifications.style.display = "none";
-    bellSubmenu.style.borderRadius = "0 0 6px 6px";
-  });
-  /*checkeo el scroll*/
-  if (
-    bellSubMenuList.firstElementChild.classList.contains("no-new-notifications")
-  ) {
-    bellSubMenuList.firstElementChild.style.display = "none";
-  }
-  checkHeight();
-});
-
-/*Cuando no tienes notifiaciones*/
-function checkBell() {
-  let flag = 0;
-  bellElements.forEach(function (el) {
-    if (el.classList.contains("bell-submenu__element--new")) flag = 1;
-  });
-
-  if (!flag && bellSubMenuList.firstElementChild) {
-    if (
-      !bellSubMenuList.firstElementChild.classList.contains(
-        "no-new-notifications"
-      )
-    ) {
-      let node = document.createElement("li");
-      node.classList.add("bell-submenu__element");
-      node.classList.add("no-new-notifications");
-      node.style.borderRadius = "0";
-      node.style.padding = "0.5rem";
-      node.innerHTML = "No tienes notificaciones recientes";
-      if (
-        !bellSubMenuList.firstElementChild.classList.contains(
-          "no-notifications"
-        )
-      ) {
-        bellSubMenuList.insertBefore(node, bellSubMenuList.firstElementChild);
-      }
-      node.style.height = getComputedStyle(node).height;
-    }
-  }
-
-  if (bellSubMenuList.childElementCount == 0) {
-    let node = document.createElement("li");
-    node.classList.add("bell-submenu__element");
-    node.classList.add("no-notifications");
-    node.style.borderRadius = "0";
-
-    node.innerHTML = "No tienes notificaciones actualmente";
-
-    showAllNotifications.style.display = "none";
-    bellSubMenuList.appendChild(node);
-    node.style.height = getComputedStyle(node).height;
-    console.log("epepe");
-    if (
-      bellSubMenuList.lastElementChild.classList.contains("no-notifications") &&
-      bellSubMenuList.childElementCount == 1
-    ) {
-      showAllNotifications.style.display = "none";
-    } else {
-      showAllNotifications.style.display = "block";
-    }
-    if (
-      bellSubMenuList.lastElementChild.classList.contains("no-notifications") &&
-      bellSubMenuList.childElementCount > 1
-    ) {
-      // console.log("elimine");
-      bellSubMenuList.removeChild(bellSubMenuList.lastElementChild);
-    }
+function addModalConfirmEmail() {
+  const modalLogin = document.createElement("div");
+  modalLogin.classList.add("modal-back");
+  modalLogin.classList.add("modal-back-confirm-login");
+  modalLogin.innerHTML =
+    "                <div class='modal confirm-login'><div class='modal__header'>Confirmar Cuenta<button type='submit' class='modal-close'><img class='modal-close__icon' src='public/img/res/close-white.png' alt=''/></button></div><div class='modal__body'> <h4>Hola Jmlopez</h4> <img src='public/img/login/email-warning.png' alt='' /><span>Aún no ha confirmado su cuenta en su correo electrónico.</span></div><div class='modal-line-login line-login'>si no le ha llegado el correo a su buzón, presione aquí <a href='users/send_email'>reenviar correo</a></div></div>";
+  if (!document.querySelector(".modal-back-confirm-login")) {
+    document.body.appendChild(modalLogin);
+    let closeModal = modalLogin.querySelector(".modal-close");
+    closeModal.addEventListener("click", function () {
+      mostrarModal(modalLogin, modalLogin.firstElementChild, 0);
+    });
+    modalLogin.addEventListener("click", function (event) {
+      if (event.target == modalLogin)
+        mostrarModal(modalLogin, modalLogin.firstElementChild, 0);
+    });
   }
 }
-checkBell();
 
-document.addEventListener("click", function (e) {
-  if (
-    e.target != avatar[0] &&
-    e.target != notifications[0].children[0] &&
-    e.target != notifications[0].children[1] &&
-    e.target != avatar[1] &&
-    e.target != notifications[1].children[0] &&
-    e.target != notifications[1].children[1]
-  ) {
-    if (menuAccount.classList.contains("show-login-menu")) {
-      if (e.target != menuAccount.firstElementChild.firstElementChild)
-        menuAccount.classList.toggle("show-login-menu");
+function confirmAccountCheck() {
+  addModalConfirmEmail();
+  const modalBackConfirmLogin = document.querySelector(
+      ".modal-back-confirm-login"
+    ),
+    modalConfirmLogin = modalBackConfirmLogin.firstElementChild,
+    userNameInput = document.querySelector("#username"),
+    passwordInput = document.querySelector("#password");
+
+  const requestUrl = "public/JSON/login/login.json";
+  let xhr = new XMLHttpRequest();
+
+  xhr.open("POST", "/users/login");
+  xhr.setRequestHeader("Content-Type", "application/json"); //Esto es para yo saber que es un json
+  //Si no lo pones da error
+  xhr.responseType = "json";
+  let userData = {
+    username: userNameInput.value,
+    password: passwordInput.value,
+  };
+
+  xhr.send(JSON.stringify(userData));
+
+  xhr.onload = () => {
+    if (xhr.status == 200) {
+      document.location = "index.html";
     }
-    if (bellSection.classList.contains("show-login-menu")) {
-      if (
-        !e.target.classList.contains("bell-submenu__element") &&
-        !e.target.classList.contains("bell-time") &&
-        !e.target.classList.contains("remove-notifications") &&
-        !e.target.parentElement.classList.contains("remove-notifications") &&
-        e.target != bellSection.firstElementChild &&
-        e.target != bellSection.lastElementChild
-      ) {
-        bellSection.classList.toggle("show-login-menu");
-        bellElements.forEach(function (el) {
-          el.classList.remove("anim-bell-scale");
-          if (el.classList.contains("bell-submenu__element--new")) {
-            el.classList.remove("bell-submenu__element--new");
-            el.classList.add("bell-submenu__element--old");
-          }
-        });
+
+    let msgJSON = xhr.response;
+    console.log(msgJSON);
+    if (xhr.status == 401) {
+      if (msgJSON.msg == "unconfirmed") {
+        mostrarModal(modalBackConfirmLogin, modalConfirmLogin, 1);
+      } else {
+        addAlert("error", [msgJSON.msg]);
       }
     }
-  }
-});
+  };
+
+  /*
+  xhr.open("GET", requestUrl);
+  xhr.responseType = "json";
+  let userData = { username: username, password: password };
+  xhr.send(JSON.stringify(userData));
+
+  xhr.onload = () => {
+    // if (xhr.status == 200) {
+    //     document.location = "index.html";
+    // }
+    //cambiar a 401
+    let msgJSON = xhr.response;
+    console.log(msgJSON);
+    if (xhr.status == 200) {
+      if (msgJSON.msg == "unconfirmed") {
+        mostrarModal(modalBackConfirmLogin, modalConfirmLogin, 1);
+      } else {
+        addAlert("error", [msgJSON.msg]);
+      }
+    }
+  };
+  */
+  // return true;
+}
+
+if (loginForm) {
+  loginForm.addEventListener("submit", function (log) {
+    log.preventDefault();
+    confirmAccountCheck();
+  });
+}

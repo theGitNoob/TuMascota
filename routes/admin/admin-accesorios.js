@@ -1,58 +1,89 @@
 "use strict";
 let router = require("express").Router();
+const { check } = require("express-validator");
 let fs = require("fs/promises");
 let mongoose = require("mongoose");
 let multer = require("multer");
-var upload = multer({ dest: "./uploads/" });
-let accesoriesModel = require("../../models/accesorie").accesoriesModel;
+const { imageUploaded, validateResults } = require("../../helpers/validators");
+const upload = multer({ dest: "./uploads/" });
+let Accesorie = require("../../models/accesorie-model");
 
 router
   .route("/")
-  .get((req, res) => {
-    accesoriesModel
-      .find({})
-      .then((accesorios) =>
-        res.render("index-accesorios", {
-          accesorios: accesorios,
-          seccion: "de accesorios",
-        })
-      )
-      .catch((err) => res.json(err));
-  })
-  .post(upload.single("file"), (req, res) => {
-    let wasFileSend = req.file !== undefined;
-    let fileName = wasFileSend ? req.file.path : undefined;
-
-    let data = {
-      type: req.body.type.toLowerCase(),
-      price: req.body.price,
-      description: req.body.description ? req.body.description : undefined,
-      ownerPhone: req.body.owner_phone,
-      ownerName: req.body.owner_name,
-      ownerAccount: req.body.owner_account ? req.body.owner_account : undefined,
-      cnt: req.body.cnt ? req.body.cnt : undefined,
-      added: new Date().getTime(),
-    };
-
-    if (wasFileSend) {
-      let extension = (data.imgExtension = req.file.originalname.substring(
-        req.file.originalname.lastIndexOf(".") + 1
-      ));
-      data.imgExtension = extension;
-    }
-    let newAccesorie = new accesoriesModel(data);
-    let newFileName = `./public/img/accesorios/${newAccesorie._id}.${newAccesorie.imgExtension}`;
-    newAccesorie
-      .save()
-      .then(() => {
-        if (wasFileSend) return fs.rename(fileName, newFileName);
-      })
-      .then(() => res.redirect("/admin/accesorios/"))
-      .catch((err) => {
-        console.error(err);
-        res.redirect("/admin/accesorios/new");
+  .get(async (req, res) => {
+    try {
+      const accesorios = await Accesorie.find({}).exec();
+      res.render("index-accesorios", {
+        accesorios,
+        seccion: "de accesorios",
       });
-  });
+    } catch (error) {
+      console.error(error);
+    }
+  })
+  .post(
+    upload.single("image"),
+    [
+      check("type", "El tipo de accesorio no debe estar vacío").notEmpty(),
+      check("price", "El precio no debe estar vacío").notEmpty(),
+      check(
+        "ownerPhone",
+        "El numero de telefono del dueño no debe estar vacío"
+      ).notEmpty(),
+      check(
+        "ownerName",
+        "El nombre del propietario no debe estar vacío"
+      ).notEmpty(),
+      check("image").custom(imageUploaded),
+    ],
+    async (req, res) => {
+      const errors = validateResults(req);
+
+      if (!errors.isEmpty()) {
+        return res.json(errors.array());
+      }
+
+      const file = req.file;
+
+      const {
+        type,
+        price,
+        cnt = 1,
+        description = undefined,
+        ownerPhone,
+        ownerName,
+        ownerAccount,
+      } = req.body;
+
+      let data = {
+        type: type.toLowerCase(),
+        price,
+        description,
+        ownerPhone,
+        ownerName,
+        ownerAccount,
+        cnt,
+      };
+
+      const imgExtension = file.originalname.substring(
+        file.originalname.lastIndexOf(".") + 1
+      );
+
+      let newAccesorie = new Accesorie(data);
+
+      newAccesorie.images = [{}];
+      const image = newAccesorie.images[0];
+      newAccesorie.images[0].url = `/public/img/accesorios/${image._id}.${imgExtension}`;
+
+      const imgId = newAccesorie.images[0]._id;
+      let newFileName = `./public/img/accesorios/${imgId}.${imgExtension}`;
+
+      await fs.rename(file.path, newFileName);
+      await newAccesorie.save();
+
+      res.redirect("/admin/accesorios");
+    }
+  );
 
 router.get("/new", (req, res) => {
   res.render("new-accesorie", { seccion: "de accesorios" });
@@ -60,91 +91,85 @@ router.get("/new", (req, res) => {
 
 router
   .route("/:id")
-  .get((req, res) => {
-    if (mongoose.Types.ObjectId.isValid(req.params.id)) {
-      accesoriesModel
-        .findById(req.params.id)
-        .then((doc) => {
-          if (doc === null) throw null;
+  .get(check("id").isMongoId(), async (req, res) => {
+    const errors = validateResults(req);
 
-          res.render("show-accesorie", {
-            accesorio: doc,
-            seccion: "de accesorios",
-          });
-        })
-        .catch((err) => {
-          if (err === null)
-            res.send("La página q esta intentando acceder no existe");
-          else {
-            console.error(err);
-            res.redirect("/admin/accesorios");
-          }
-        });
-    } else {
-      res.send("La página q esta intentando acceder no existe");
+    if (!errors.isEmpty()) {
+      return res.redirect("/admin/accesorios");
     }
+
+    const accesorie = await Accesorie.findById(req.params.id).exec();
+
+    if (!accesorie) {
+      return res.redirect("/admin/accesorios");
+    }
+
+    res.render("show-accesorie", {
+      accesorie,
+      seccion: "de accesorios",
+    });
   })
-  .put(upload.single("file"), (req, res) => {
-    let wasFileSend = req.file !== undefined;
-    let fileName = wasFileSend ? req.file.path : undefined;
+  .put(
+    upload.single("file"),
+    [
+      check("type", "El tipo de accesorio no debe estar vacío").notEmpty(),
+      check("price", "El precio no debe estar vacío").notEmpty(),
+      check(
+        "ownerPhone",
+        "El numero de telefono del dueño no debe estar vacío"
+      ).notEmpty(),
+      check(
+        "ownerName",
+        "El nombre del propietario no debe estar vacío"
+      ).notEmpty(),
+    ],
+    async (req, res) => {
+      const id = req.params.id;
+      try {
+        const errors = validateResults(req);
 
-    let data = {
-      type: req.body.type.toLowerCase(),
-      price: req.body.price,
-      description: req.body.description ? req.body.description : undefined,
-      ownerPhone: req.body.owner_phone,
-      ownerName: req.body.owner_name,
-      ownerAccount: req.body.owner_account ? req.body.owner_account : undefined,
-      cnt: req.body.cnt ? req.body.cnt : undefined,
-      available: req.body.cnt != undefined && req.body.cnt != 0 ? true : false,
-    };
-
-    if (wasFileSend) {
-      let extension = (data.imgExtension = req.file.originalname.substring(
-        req.file.originalname.lastIndexOf(".") + 1
-      ));
-      data.imgExtension = extension;
-    }
-
-    accesoriesModel
-      .findByIdAndUpdate(req.params.id, data, {
-        useFindAndModify: false,
-        runValidators: true,
-      })
-      .then(async (doc) => {
-        if (wasFileSend) {
-          try {
-            console.log(fileName);
-            await fs.rename(
-              fileName,
-              `./public/img/accesorios/${doc._id}.${data.imgExtension}`
-            );
-            if (
-              doc.imgExtension != undefined &&
-              doc.imgExtension != data.imgExtension
-            ) {
-              await fs.unlink(
-                `./public/img/accesorios/${doc._id}.${doc.imgExtension}`
-              );
-            }
-          } catch (err) {
-            if (err.code != "ENOENT") throw err;
-          }
+        if (!errors.isEmpty()) {
+          return res.json(errors.array());
         }
-      })
-      .then(() => {
-        res.redirect("/admin/accesorios/");
-      })
-      .catch((err) => {
-        console.error(err);
-        res.redirect(`/admin/accesorios/${req.params.id}`);
-      });
-  })
+
+        const {
+          type,
+          price,
+          cnt = 1,
+          description = undefined,
+          ownerPhone,
+          ownerName,
+          ownerAccount,
+        } = req.body;
+
+        const data = {
+          type: type.toLowerCase(),
+          price,
+          cnt,
+          description,
+          ownerPhone,
+          ownerName,
+          ownerAccount,
+        };
+
+        const file = req.file;
+        const pet = await Accesorie.findByIdAndUpdate(id, data).exec();
+
+        if (!pet) {
+          return res.redirect("/admin/accesorios");
+        }
+
+        if (file) {
+          const image = pet.images[0].url;
+          await fs.rename(file.path, `.${image}`);
+        }
+
+        return res.redirect("/admin/accesorios");
+      } catch (error) {}
+    }
+  )
   .delete((req, res) => {
-    accesoriesModel
-      .findOneAndDelete({ _id: req.params.id })
-      .catch((err) => console.error(err))
-      .then(() => res.redirect("/admin/accesorios/"));
+    //TODO:Eliminar los accesorios
   });
 
 module.exports = router;

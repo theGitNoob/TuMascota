@@ -1,14 +1,14 @@
 extends ./layout
 block contenido
-  main
+  main#main
     section.main-section.mar10
       .main-section-title
-        h3 MASCOTAS
-        p.mar10
-          | Estas son todas las mascotas de las que disponemos actualmente. Ante cualquier pregunta puede contactarnos al
+        h3 Mascotas
 
-          span  58156518
-          | .
+           .underline
+              span
+              img(src='public/img/res/pata.png' alt)
+              span
 
       section.filter
         span Aqui puede filtrar las mascotas: 
@@ -20,47 +20,82 @@ block contenido
           .group-filter
             .group-filter__element
               label.filter-element(for='perro')
-                img(src='/public/img/res/dog.svg' alt)
+                img(src='/public/img/res/dog.png' alt)
+                |
+                |
                 | Perro
+              |
+              |
               label(for='perro')
                 input#perro.checkbox-input(type='checkbox' name='perro')
                 span.my-checkbox
+            |
+            |
             .group-filter__element
               label.filter-element(for='gato')
-                img(src='/public/img/res/cat.svg' alt)
+                img(src='/public/img/res/cat.png' alt)
+                |
+                |
                 | Gato
+              |
+              |
               label(for='gato')
                 input#gato.checkbox-input(type='checkbox' name='gato')
                 span.my-checkbox
+            |
+            |
             .group-filter__element
               label.filter-element(for='ave')
-                img(src='/public/img/res/macaw.svg' alt)
+                img(src='/public/img/res/macaw.png' alt)
+                |
+                |
                 | Aves
+              |
+              |
               label(for='ave')
                 input#ave.checkbox-input(type='checkbox' name='ave')
                 span.my-checkbox
+          |
+          |
           .group-filter
             .group-filter__element
               label.filter-element(for='roedor')
-                img(src='/public/img/res/roedor.svg' alt)
+                img(src='/public/img/res/roedor.png' alt)
+                |
+                |
                 | Roedor
+              |
+              |
               label(for='roedor')
                 input#roedor.checkbox-input(type='checkbox' name='roedor')
                 span.my-checkbox
+            |
+            |
             .group-filter__element
               label.filter-element(for='pez')
-                img(src='/public/img/res/fish.svg' alt)
+                img(src='/public/img/res/fish.png' alt)
+                |
+                |
                 | Peces
+              |
+              |
               label(for='pez')
                 input#pez.checkbox-input(type='checkbox' name='pez')
                 span.my-checkbox
+            |
+            |
             .group-filter__element
               label.filter-element(for='otros')
-                img(src='/public/img/res/tortoise.svg' alt)
+                img(src='/public/img/res/tortoise.png' alt)
+                |
+                |
                 | Otros
+              |
+              |
               label(for='otros')
                 input#otros.checkbox-input(type='checkbox' name='otros')
                 span.my-checkbox
+
           .filter-form__submit
             input.btn.filter-btn-sub(type='submit' value='Filtrar')
       .flex-container.pet-flex
@@ -70,40 +105,44 @@ block contenido
               h4.article-name=mascota.type
             .article-img-container.pet-image
               img.article-img(alt='Mascota' src=mascota.images[0].url id=mascota._id)
-              //- img.prev-img(src='/public/img/res/next.png', alt)
-              //- img.next-img(src='/public/img/res/next.png', alt)
             .article-info
               .article-description
                 ul.article-info-list
                   li.article-info-back.article-info-element
-                    span.article-info-title   Raza:
-                    | #{mascota.breed}
-
+                    span.article-info-title   Raza:  
+                    |  #{mascota.breed}
+                  |
+                  |
                   li.article-info-back.article-info-element
-                    span.article-info-title Sexo:
-                    | #{mascota.sex}
-
+                    span.article-info-title Sexo:  
+                    |  #{mascota.sex}
+                  |
+                  |
                   li.article-info-back.article-info-element
-                    span.article-info-title Fecha de Nacimiento:
-                    | #{mascota.birthDay}
-
+                    span.article-info-title Fecha de Nacimiento:    
+                    |  #{mascota.birthDay}
+                  |
+                  |
                   li.article-info-element
-                    span.article-info-title Descripción:
-                    p.article-info-back=mascota.description 
-
+                    span.article-info-title Descripción:  
+                    p.article-info-back=mascota.description
+                  |
+                  |
                   li.article-info-back.article-info-element
-                    span.article-info-title Cantidad:
-                    span.cnt=mascota.cnt
-
-                  li.article-info-back.article-info-element.mar50
-                    span.article-info-title Precio:
-                    span.price=mascota.price  
-
+                    span.article-info-title Cantidad:  
+                    | #{mascota.cnt}
+                  |
+                  |
+                  li.article-info-back.article-info-element
+                    span.article-info-title Precio:  
+                    span.price=mascota.price +'$'
               .container-btn-buy
                 .btn-buy
                   input(type='hidden' value=mascota.cnt id=mascota._id)
                   span Me Interesa
-                  img(src='/public/img/res/basket.svg', alt)
+                  |
+                  |
+                  img(src='/public/img/accesorios/basket.png', alt)
 
       .modal-back.modal-back-buy-this
         .modal.modal-buy-this
@@ -137,5 +176,6 @@ block contenido
                 .icon-circle
                 .icon-fix
             span.completed Completado
+  //- script(src="/public/js/mascotas.js") 
 
 block  footer

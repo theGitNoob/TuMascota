@@ -15,16 +15,11 @@
     font-size: 0;
 }
 
-.logo-tm {
-    width: 245px;
-    margin: 0.3rem;
-}
-
 .login-section__container {
     width: 100%;
     border-radius: 3px;
     background-color: #fff;
-    box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
     margin: 3.2rem auto;
     position: relative;
 }
@@ -34,34 +29,12 @@
     color: #fff;
     font-size: 1rem;
     font-weight: bold;
-    background-color: #00aced;
+    background-color: #208cff;
     padding: 0.2rem 0.4rem;
     min-height: 1.7rem;
     text-transform: uppercase;
     text-align: left;
     position: relative;
-}
-
-.close-login {
-    color: white;
-    background-color: #ff3333;
-    display: inline-block;
-    padding: 0.5rem;
-    line-height: 2px;
-    border-radius: 0 3px 0 0;
-    position: absolute;
-    /* left: 3px; */
-    right: 0;
-    top: 0px;
-    transition: all 0.3s ease;
-}
-
-.close-login:hover {
-    background-color: #eb0000;
-}
-
-.close-login img {
-    width: 12px;
 }
 
 .logo-user {
@@ -81,7 +54,7 @@
 }
 
 .login-section__logo {
-    width: 160px;
+    width: 10rem;
     margin: 0.6rem 0;
 }
 
@@ -122,7 +95,7 @@
 }
 
 .login-section__form input {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Montserrat", sans-serif;
     display: inline-block;
     width: 90%;
     height: 40px;
@@ -145,8 +118,7 @@
 }
 
 .form-container__img img {
-    width: 20px;
-    height: 20px;
+    width: 1.2rem;
     vertical-align: sub;
 }
 
@@ -169,8 +141,8 @@
 }
 
 .show-password img {
-    width: 24px;
-    height: 24px;
+    width: 1.3rem;
+    height: 1.3rem;
 }
 
 .login-section__form input[type="tel"]:focus,
@@ -185,13 +157,13 @@
 .login-section__form input[type="email"]:focus,
 .login-section__form input[type="email"]:hover,
 .login-section__form input[type="email"]:valid {
-    border-color: #00aced;
+    border-color: #208cff;
 }
 
 .move-placeholder {
     font-size: 0.8rem;
     top: -1rem;
-    color: #00aced;
+    color: #208cff;
 }
 
 .login-section__form input[type="submit"] {
@@ -201,11 +173,12 @@
     width: auto;
     height: auto;
     line-height: initial;
-    padding: 0.5rem 1rem;
-    background-color: #00aced;
+    padding: 0.6rem 1rem;
+    background-color: #208cff;
     display: inline-block;
     margin: 1rem auto;
     text-transform: uppercase;
+    font-weight: 500;
 }
 
 .login-section__form input[type="submit"]:hover {
@@ -229,13 +202,18 @@
 }
 
 .checkbox-input:checked ~ .msg-checkbox {
-    color: #00aced;
+    color: #208cff;
+}
+
+.my-checkbox {
+    box-shadow: none;
 }
 
 .msg-checkbox {
     color: #6e6e6e;
     cursor: pointer;
-    vertical-align: top;
+    vertical-align: super;
+    font-weight: 500;
 }
 
 .forgot-password {
@@ -266,7 +244,7 @@
 .line-login > a {
     font-weight: bold;
     text-decoration: none;
-    color: #00aced;
+    color: #208cff;
     transition: 0.3s;
 }
 
@@ -278,9 +256,10 @@
     display: inline-block;
     color: white;
     text-transform: uppercase;
-    background-color: #ff3333;
+    background-color: #ff4d4d;
     margin: 0;
     margin-bottom: 0.5rem;
+    font-weight: 500;
 }
 
 .btn-cancel:active {
@@ -299,7 +278,7 @@
 }
 
 .send-email__header {
-    background-color: #00aced;
+    background-color: #208cff;
     padding: 0.2rem 0.1rem;
     font-weight: bold;
     border-radius: 3px 3px 0 0;
@@ -323,6 +302,44 @@
     display: block;
     word-break: break-all;
 }
+
+/*Modal de no confirmar cuenta*/
+
+.modal__body {
+    margin: 1rem;
+}
+
+.modal__body > img {
+    width: 4rem;
+    margin: 0.6rem;
+    vertical-align: middle;
+    display: inline-block;
+    animation: anim-email 1s ease infinite;
+}
+
+@keyframes anim-email {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    30% {
+        transform: scale(1.2);
+    }
+}
+
+.modal__body > span {
+    vertical-align: middle;
+    color: #4c4c4c;
+    font-weight: 500;
+    display: inline-block;
+    font-size: 1.1rem;
+}
+
+.modal-line-login a {
+    font-weight: 500;
+}
+
+/*FIN Modal de no confirmar cuenta*/
 
 @media (min-width: 30rem) {
     .login-section__container,

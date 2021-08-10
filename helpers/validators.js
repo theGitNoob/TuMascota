@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const User = require("../models/user-model");
 const { validationResult } = require("express-validator");
 const { isNumeric, isLength, isEmpty, isAlpha } = require("validator");
 const { getCleanName } = require("../helpers/string-helper");

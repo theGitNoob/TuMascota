@@ -1,33 +1,47 @@
 extends ./layout.pug
 block contenido
-  main
-    section.main-section.mar10
+  main#main
+    article.main-section.mar10
       .main-section-title
-        h3 Órdenes
-        p.mar10
-          | Aqui estan registradas todas las órdenes de las mascotas y artículos que ha solicitado. Puede cancelarlas en cualquier momento si lo desea. Nosotros nos pondremos en contacto con usted através de los datos de su cuenta. Ante cualquier pregunta puede contactarnos al
+        h3.login-section__title Órdenes
+          .underline
+            span
+            img(src='public/img/res/pata.png' alt)
+            span
+      section.order-alert
+        img(src='public/img/ordenes/atencion.png' alt)
+        .order-alert__content
+          span.order-alert__info.
 
-          span 58156518
-          | .
+            Usted no podrá cancelar las órdenes aprobadas
 
       .filter-orders-menu
         span.active.order-state.filter-order(data-state='pendient')
           | Pendientes
-
-          img.pendient(src='/public/img/res/pendiente.png' alt)
+          |
+          |
+          img.pendient(src='/public/img/ordenes/pendiente.png' alt)
+        |
+        |
         span.order-state.filter-order(data-state='aproved')
           | Aprobadas
-
-          img(src='/public/img/res/completadas.svg' alt)
+          |
+          |
+          img(src='/public/img/ordenes/completadas.png' alt)
+        |
+        |
         span.order-state.filter-order(data-state='completed')
           | Completadas
-
-          img(src='/public/img/res/checked.png' alt)
+          |
+          |
+          img(src='/public/img/ordenes/checked.png' alt)
+        |
+        |
         span.order-state.filter-order(data-state='canceled')
           | Canceladas
-
-          img(src='/public/img/res/borrar.png' alt)
-      //Ordenes de mascotas
+          |
+          |
+          img(src='/public/img/ordenes/borrar.png' alt)
       section.order-section
         h1.order-section__title Listado de Mascotas
         table.order-section__table.order-section--pet
@@ -70,7 +84,7 @@ block contenido
               tr.order-section__cell
                 td.order-section__column(data-header='Raza')=orden.pet.breed
                 td.order-section__column(data-header='Sexo')=orden.pet.sex
-                td.order-section__column(data-header='Nacimiento')=orden.pet.birthday
+                td.order-section__column(data-header='Nacimiento')=orden.pet.birthDay
                 td.order-section__column(data-header='Precio')=orden.price +'$'
                 td.order-section__column(data-header='Cantidad')=orden.cnt
                 td.order-section__column(data-header='Fecha del Pedido')=orden.fullDate
@@ -78,7 +92,9 @@ block contenido
                   span.order-state(data-state=orden.state)=orden.state
                 td.order-section__column(data-header='Cancelar')
                   button.btn.cancel-order(type='submit')
-                    img(src='/public/img/res/borrar.png' alt)
+                    img(src='/public/img/ordenes/borrar.png' alt)
+              |
+              |
       // Ordenes de accesorios
       section.order-section
         h1.order-section__title Listado de Accesorios
@@ -108,23 +124,28 @@ block contenido
                   span.order-state(data-state=orden.state)=orden.state
                 td.order-section__column(data-header='Cancelar')
                   button.btn.cancel-order(type='submit')
-                    img(src='/public/img/res/borrar.png' alt)
+                    img(src='/public/img/ordenes/borrar.png' alt)
         #modal-back-alert.modal-back
           #modal-alert.modal.modal-alert
-            .modal-body.modal-body-alert
+            .modal__body.modal-body__alert
               .alert-icon
                 span.alert-icon-long
                 span.alert-icon-short  
-              span.alert-text Está seguro?
+              span.alert-text.
+                
+                ¿Está seguro que desea cancelar la orden?
               .btn-alert-container
                 button.btn-alert.btn-alert-cancel(type='submit').
-                  Cancelar
+
+                  No
+
                 button.btn-alert.btn-alert-confirm(type='submit').
-                  Eliminar
+
+                  Si
 
         #modal-back-completed.modal-back
           #modal-completed.modal.modal-completed
-            .modal-body.modal-body-completed
+            .modal__body.modal-body__completed
               .success-checkmark
                 .check-icon
                   span.icon-line.line-tip
@@ -132,3 +153,5 @@ block contenido
                   .icon-circle
                   .icon-fix
               span.completed Completado
+  script(src="/public/js/modal-alert-cancel.js") 
+  script(src="/public/js/ordenes.js") 

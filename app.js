@@ -13,7 +13,6 @@ const userRouter = require("./routes/user-route");
 const petsRouter = require("./routes/mascotas");
 const orders = require("./routes/ordenes");
 const accesories = require("./routes/accesorios");
-const services = require("./routes/servicios");
 const passport = require("passport");
 let flash = require("connect-flash");
 let app = express();
@@ -25,7 +24,7 @@ let redis = require("redis");
 let RedisStore = require("connect-redis")(session);
 let cookieParser = require("cookie-parser");
 let helmet = require("helmet");
-const { userModel } = require("./models/user");
+const { userModel } = require("./models/user-model");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //
@@ -117,18 +116,7 @@ app.use("/user", checkAuth, userRouter);
 app.use("/mascotas", petsRouter);
 app.use("/accesorios", accesories);
 
-app.use(
-  "/ordenes",
-  (req, res, next) => {
-    if (req.isAuthenticated()) {
-      next();
-    } else {
-      res.status(404);
-      res.render("404");
-    }
-  },
-  orders
-);
+app.use("/ordenes", orders);
 // app.use("/servicios", services);
 
 app.use(
@@ -167,35 +155,3 @@ app.use(function (err, req, res, next) {
 server.listen(8080, (err) => {
   console.log("Servidor corriendo en el puerto 8080");
 });
-
-//TODO: clear something
-//FIXME: Fix something
-
-// const { Schema, model, connect } = require("mongoose");
-
-// connect("mongodb://localhost/ttlTest", {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   useCreateIndex: true,
-//   useFindAndModify: false,
-// }).catch((err) => {
-//   console.error("Error:", err, "mongodb://localhost/ttlTest");
-// });
-// const testSchema = new Schema({
-//   name: String,
-//   age: Number,
-//   // link: { type: String, expires: new Date().now + 60 },
-//   expireAt: {
-//     type: Date,
-//     default: Date.now,
-//     index: { expires: 240 },
-//   },
-// });
-
-// const mod = model("TTL", testSchema);
-// async function f() {
-//   let x = new mod({ name: "rafa", age: 18, link: "Pepe" });
-//   let z = await x.save();
-//   console.log(z);
-// }
-// f();

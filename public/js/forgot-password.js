@@ -2,6 +2,9 @@ const sendEmail = document.getElementById("send-email");
 const btnRegister = document.getElementById("btn-register");
 const newPassword = document.getElementById("new-password");
 const sendEmailBack = document.getElementById("back-email-send");
+const loginSectionContainer = document.querySelector(
+    ".login-section__container"
+);
 const emailVal = document.getElementById("email-val");
 const emailInput = document.getElementById("email");
 
@@ -15,44 +18,43 @@ const emailInput = document.getElementById("email");
 // addAlertCompleted();
 
 function changeBack() {
-  sendEmailBack.parentElement.firstElementChild.style.display = "none";
-  sendEmailBack.style.display = "block";
-  emailVal.innerHTML = emailInput.value;
+    // sendEmailBack.parentElement.firstElementChild.style.display = "none";
+    loginSectionContainer.style.display = "none";
+    sendEmailBack.style.display = "block";
+    emailVal.innerHTML = emailInput.value;
 }
 
 if (newPassword) {
-  newPassword.addEventListener("click", function (btn) {
-    btn.preventDefault();
-    animCompleted(0);
-    setTimeout(function () {
-      document.location = "login.html";
-    }, 2700);
-  });
+    newPassword.addEventListener("click", function (btn) {
+        btn.preventDefault();
+        animCompleted(0);
+        setTimeout(function () {
+            document.location = "login.html";
+        }, 2700);
+    });
 }
 
 if (sendEmail) {
-  sendEmail.addEventListener("click", function (btn) {
-    /*
+    sendEmail.addEventListener("click", function (btn) {
+        /*
     aqui tu revisarias si esta validado el email supongo
     if(....) 
     */
-    btn.preventDefault();
-    animCompleted(0);
-    setTimeout(changeBack, 2700);
-  });
+        btn.preventDefault();
+        animCompleted(0);
+        setTimeout(changeBack, 2700);
+    });
 }
 
 if (btnRegister) {
-  btnRegister.addEventListener("click", function (btn) {
-    /*
+    btnRegister.addEventListener("click", function (btn) {
+        console.log("click");
+        /*
     aqui tu revisarias si se puede crear la cuenta
     if(....) 
     */
-    // btn.preventDefault();
-    // animCompleted(0);
-    // setTimeout(changeBack, 2700);
-  });
+        btn.preventDefault();
+        animCompleted(0);
+        setTimeout(changeBack, 2700);
+    });
 }
-
-//name=&lastname=dsdsad&phone=dsa&email=dsdsa%40dssad&address=dsadas&username=ddsa&password=123&password2=123
-//name=&lastname=dsdsad&phone=dsa&email=dsdsa%40dssad&address=dsadas&username=ddsa&password=123&password2=123&checkbox=on&

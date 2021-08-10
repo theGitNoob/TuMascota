@@ -1,7 +1,7 @@
 const passport = require("passport");
 const { getCleanName } = require("../helpers/string-helper");
 const { validateResults } = require("../helpers/validators");
-const User = require("../models/user");
+const User = require("../models/user-model");
 const { genRandomBytes } = require("../utils");
 const bcrypt = require("bcrypt");
 const {

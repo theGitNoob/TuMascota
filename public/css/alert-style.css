@@ -268,17 +268,16 @@
 
 .alerts-container {
     position: fixed;
-
     max-width: 35rem;
     top: 10rem;
     z-index: 1;
-    opacity: 0;
+    /* opacity: 0; */
     display: none;
     right: 6%;
     padding: 0.5rem 0.3rem;
     width: 90%;
     transition: all 0.4s ease;
-    transform: translateX(150%);
+    /* transform: translateX(150%); */
 }
 
 .alert-message {
@@ -289,7 +288,8 @@
     margin: 1.5rem 0;
     position: relative;
     overflow: hidden;
-    transition: opacity 0.4s ease;
+    transition: all 0.4s ease;
+    transform: translate(150%);
 }
 
 .alert-message__icon-container {
@@ -353,7 +353,7 @@
 
 .show-alert {
     opacity: 1;
-    top: 10rem;
+    /* top: 10rem; */
     z-index: 1;
     transform: translate(0);
 }
@@ -372,9 +372,6 @@
 
 @media (min-width: 40rem), (min-width: 640px) {
     .alerts-container {
-        top: 7rem;
-    }
-    .show-alert {
         top: 7rem;
     }
 }

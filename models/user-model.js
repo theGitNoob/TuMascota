@@ -4,6 +4,7 @@ const { model, Schema } = require("mongoose");
 const messageSchema = Schema({
   msg: { type: String },
   date: { type: Date },
+  state: { type: String, default: "new" },
 });
 
 messageSchema.virtual("fullDate").get(function () {
@@ -49,7 +50,7 @@ const userSchema = Schema({
     default: "USER_ROLE",
   },
   verifyURL: String,
-  toBeDelivered: { type: Number, default: 0 },
+  orders: { type: Number, default: 0 },
   state: { type: String, default: "unconfirmed" },
   receiveNotification: { type: Boolean, default: false },
 });

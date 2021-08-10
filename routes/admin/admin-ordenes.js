@@ -1,16 +1,12 @@
 "use strict";
-let router = require("express").Router();
-let orderModel = require("../../models/order").orderModel;
-let fs = require("fs/promises");
-let mongoose = require("mongoose");
-let multer = require("multer");
-var upload = multer({ dest: "./uploads/" });
-let petModel = require("../../models/pet").petModel;
-let accesoriesModel = require("../../models/accesorie").accesoriesModel;
-let userModel = require("../../models/user").userModel;
+const router = require("express").Router();
+const Order = require("../../models/order-model");
+const Pet = require("../../models/pet-model");
+const Accesorie = require("../../models/accesorie-model");
+const User = require("../../models/user-model");
 router.get("/", async (req, res) => {
   try {
-    let orders = await orderModel.find().populate("owner");
+    const orders = await Order.find().populate("user").exec();
     res.render("index-ordenes", { ordenes: orders });
   } catch (err) {
     console.error(err);
@@ -22,18 +18,18 @@ router
   .get(async (req, res) => {})
   .put(async (req, res) => {
     try {
-      let order = await orderModel.findById(req.params.id);
+      let order = await Order.findById(req.params.id);
       if (order === null) {
         req.flash("alert alert-danger", "El articulo ya no existe");
         res.redirect("/admin/ordenes/");
         return;
       }
       let article =
-        order.articleType == "mascota"
-          ? await petModel.findById(order.articleId)
-          : await accesoriesModel.findById(order.articleId);
+        order.type == "pet"
+          ? await Pet.findById(order.pet)
+          : await Accesorie.findById(order.accesorie);
 
-      let user = await userModel.findById(order.owner);
+      let user = await User.findById(order.user);
 
       if (
         order.state === "pendient" ||
@@ -61,10 +57,10 @@ router
             date: Date(),
           });
           user.notifications++;
-          if (user.toBeDelivered) user.toBeDelivered--;
+          if (user.orders) user.orders--;
         } else if (req.body.state === "completed") {
           article.stagedCnt -= order.cnt;
-          if (user.toBeDelivered) user.toBeDelivered--;
+          if (user.orders) user.orders--;
         }
       } else {
         res.send("No puede cambiar el estado de una orden ya cancelada");
@@ -81,7 +77,7 @@ router
   .delete(async (req, res) => {
     try {
       // Notificar usuario que su orden fue eliminada
-      let order = await orderModel.findById(req.params.id);
+      let order = await Order.findById(req.params.id);
       if (order === null) {
         req.flash("alert alert-danger", "El articulo ya no existe");
         res.redirect("/admin/ordenes/");
@@ -89,8 +85,8 @@ router
       }
       let article =
         order.articleType == "mascota"
-          ? await petModel.findById(order.articleId)
-          : await accesoriesModel.findById(order.articleId);
+          ? await Pet.findById(order.articleId)
+          : await Accesorie.findById(order.articleId);
 
       article.cnt += order.cnt;
       article.stagedCnt -= order.cnt;
@@ -99,14 +95,14 @@ router
       await article.save({ validateModifiedOnly: true });
       await order.deleteOne();
 
-      let user = await userModel.findById(order.owner);
+      let user = await User.findById(order.owner);
       user.orders;
       if (order.state !== "canceled") {
         user.messages.push({
           msg: `Su órden con id: ${order._id} ha sido eliminada`,
           date: Date(),
         });
-        user.toBeDelivered--;
+        user.orders--;
         notifications++;
       }
       await user.save();

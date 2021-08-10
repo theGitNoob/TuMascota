@@ -2,28 +2,31 @@ extends ./admin-layout.pug
 block contenido
   div(class="container col-md-4 top-space")
     .d-flex.justify-content-center
-      img(src=`${mascota.images[0].url}` class="img-fluid img-thumbnail")
-    form(action=`/admin/mascotas/${mascota._id}?_method=PUT` method='POST' class="form-group" enctype="multipart/form-data")
+      img(src=pet.images[0].url class="img-fluid img-thumbnail")
+    form(action=`/admin/mascotas/${pet._id}?_method=PUT` method='POST' class="form-group" enctype="multipart/form-data")
 
-      input(type="text" class="form-control" name="type" placeholder="Tipo de animal"  value=mascota.type.toUpperCase())
+      input(type="text" class="form-control" name="type" placeholder="Tipo de animal"  value=pet.type.toUpperCase())
 
-      input(type="text" class="form-control" name="breed" placeholder="Raza" value=mascota.breed)
+      input(type="text" class="form-control" name="breed" placeholder="Raza" value=pet.breed)
 
-      input(type="text" class="form-control" name="sex" placeholder="Sexo" value=mascota.sex)
+      select.form-control(name="sex")
+        option(value="") Selecciona el Sexo
+        option(value="Masculino") Masculino
+        option(value="Femenino") Femenino
 
-      input(type="text" class="form-control" name="price" placeholder="Precio" value=mascota.price)
+      input(type="text" class="form-control" name="price" placeholder="Precio" value=pet.price)
 
-      input(type="text" class="form-control" name="cnt" placeholder="Cantidad" value=mascota.cnt)
+      input(type="text" class="form-control" name="cnt" placeholder="Cantidad" value=pet.cnt)
 
-      input(type="datetime-local " class="form-control" name="birth_day" placeholder="Año-Mes-Dia" value=mascota.birthDay)
+      input(type="datetime-local " class="form-control" name="birthDay" placeholder="Año-Mes-Dia" value=pet.birthDay)
 
-      input(type="text" class="form-control" name="description" placeholder="Descripción" value=mascota.description)
+      input(type="text" class="form-control" name="description" placeholder="Descripción" value=pet.description)
 
-      input(type="text" class="form-control" name="ownerName" placeholder="Nombre del dueño" required value=mascota.ownerName)
+      input(type="text" class="form-control" name="ownerName" placeholder="Nombre del dueño" required value=pet.ownerName)
 
-      input(type="text" class="form-control" name="ownerPhone" placeholder="Télefono" required value=mascota.ownerPhone)
+      input(type="text" class="form-control" name="ownerPhone" placeholder="Télefono" required value=pet.ownerPhone)
 
-      input(type="text" class="form-control" name="ownerAccount" placeholder="Cuenta bancaria" value=mascota.ownerAccount)
+      input(type="text" class="form-control" name="ownerAccount" placeholder="Cuenta bancaria" value=pet.ownerAccount)
 
       input(type="file" class="form-control" name="image" /*multiple me permite enviar varios archivos*/)
 

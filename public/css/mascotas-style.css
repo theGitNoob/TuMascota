@@ -20,7 +20,7 @@
 }
 
 .filter-btn img {
-    width: 1rem;
+    width: 0.8rem;
     transform: rotate(90deg);
     vertical-align: middle;
     transition: all 0.3s ease;
@@ -34,7 +34,7 @@
     display: inline-block;
     padding: 0.4rem 1.2rem;
     color: white;
-    background-color: #00aced;
+    background-color: #208cff;
     box-shadow: 0 0 16px rgba(0, 0, 0, 0.26);
     font-weight: normal;
     border: none;
@@ -45,7 +45,7 @@
 }
 .filter-btn-sub:hover {
     background-color: #fff;
-    color: #00aced;
+    color: #208cff;
 }
 
 .filter-form {
