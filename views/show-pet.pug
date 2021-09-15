@@ -2,7 +2,8 @@ extends ./admin-layout.pug
 block contenido
   div(class="container col-md-4 top-space")
     .d-flex.justify-content-center
-      img(src=pet.images[0].url class="img-fluid img-thumbnail")
+      if pet.images[0]
+        img(src=pet.images[0].url class="img-fluid img-thumbnail")
     form(action=`/admin/mascotas/${pet._id}?_method=PUT` method='POST' class="form-group" enctype="multipart/form-data")
 
       input(type="text" class="form-control" name="type" placeholder="Tipo de animal"  value=pet.type.toUpperCase())
@@ -28,7 +29,7 @@ block contenido
 
       input(type="text" class="form-control" name="ownerAccount" placeholder="Cuenta bancaria" value=pet.ownerAccount)
 
-      input(type="file" class="form-control" name="image" /*multiple me permite enviar varios archivos*/)
+      input(type="file" class="form-control" name="images" multiple)
 
       div(class="d-flex justify-content-sm-start justify-content-center")
         input(type="submit" class="btn btn-info" value="Guardar")

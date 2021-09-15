@@ -113,8 +113,9 @@
 }
 
 .modal-body__buy > span {
-    font-weight: bold;
+    font-weight: 500;
     color: #007bff;
+    text-transform: lowercase;
 }
 
 .accept-btn:hover,

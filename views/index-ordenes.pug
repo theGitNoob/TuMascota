@@ -13,16 +13,16 @@ block contenido
             h3 Estado: #{orden.state}
             form(action=`/admin/ordenes/${orden._id}?_method=PUT` method="POST")
               select(name="state")
-                option pendient
-                option aproved
-                option onway
-                option completed
-                option canceled
+                option( value="pendient") Pendiente
+                option( value="aproved") Aprobada
+                option( value="completed") Completada
+                //- option( value="canceled") Cancelada
               input(type="submit" value="Actualizar")
           .col-md-2.col-sm-2.container.flex-container
             //- a(href=`/admin/${orden.articleType}s/${orden.pet._id}` class="link-primary right-space") Ver Artículo
-            form(action=`/admin/ordenes/${orden._id}?_method=PUT` method="POST" class="link-container right-space")
-              input(type="submit" value="Marcar como vendido" class="link-success") 
+            //- form(action=`/admin/ordenes/${orden._id}?_method=PUT` method="POST" class="link-container right-space")
+            //-   input(type="hidden", name="state" value="completed")
+            //-   input(type="submit" value="Marcar como vendido" class="link-success")
             form(action=`/admin/ordenes/${orden._id}?_method=DELETE` method="POST" class="link-container delete-form")
-              input(type="submit" value="Eliminar" class="link-danger") 
+              input(type="submit" value="Cancelar" class="link-danger") 
 

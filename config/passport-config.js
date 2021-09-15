@@ -8,21 +8,21 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    let user = await User.findById(id, ["-__v", "-password"]);
+    const user = await User.findById(id, ["-__v", "-password"]).exec();
     done(null, user);
-  } catch (error) {
-    done(error);
+  } catch (err) {
+    done(err);
   }
 });
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
-      let user = await User.findOne({ username: username });
+      const user = await User.findOne({ username }).exec();
 
       if (!user) return done(null, false);
 
-      let res = await bcrypt.compare(password, user.password);
+      const res = await bcrypt.compare(password, user.password);
 
       if (res) {
         return done(null, user);

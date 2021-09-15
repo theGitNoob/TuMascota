@@ -13,7 +13,7 @@ html(lang='es')
     link(rel='stylesheet' href='/public/css/mascotas-style.css')
     link(rel='stylesheet' href='/public/css/log-in.css')
     
-    //- link(rel='stylesheet' href='/public/css/buy-style.css')
+    link(rel='stylesheet' href='/public/css/buy-style.css') 
     //- <link rel="stylesheet" href="/public/css/log-in.css" /> 
     link(rel='icon' href='/public/img/res/shop.png')
   body
@@ -30,7 +30,7 @@ html(lang='es')
             |
             #bell-login.login-option.bell-login
               img(src='/public/img/res/bell.png' alt)
-              span.login-count-msj.bell-msj=user.notifications
+              span.login-count-msj.bell-msj=user.newMessages
             |
             |
           if !user
@@ -68,7 +68,8 @@ html(lang='es')
             .bell-submenu__inner-container
               ul.bell-submenu__list
                 for msg in user.messages
-                  li.bell-submenu__element(class=`bell-submenu__element--${msg.state}`)=msg.msg
+                  -const state = (msg.state == "new")?"bell-submenu__element--new" :"bell-submenu__element--old";
+                  li.bell-submenu__element(class=state id=msg._id)=msg.msg
                     span.bell-time=msg.fullDate
                     span.remove-notifications
                       img(src='/public/img/res/three-dots.png' alt)
@@ -93,7 +94,7 @@ html(lang='es')
               |
               .login-option.bell-login
                 img(src='/public/img/res/bell.png' alt)
-                span.login-count-msj.bell-msj=user.notifications
+                span.login-count-msj.bell-msj=user.newMessages
               |
               |
             if !user
@@ -295,7 +296,6 @@ html(lang='es')
   #modal-back-about.modal-back
     #modal-about.modal
       .modal__header  Acerca de
-
         button.modal-close(type='submit')
           img.modal-close__icon(src='/public/img/res/close-white.png' alt)
       .modal__body
@@ -319,15 +319,15 @@ html(lang='es')
 
   block footer
   script(src="/public/js/shared.js")
-  script(src="/public/js/menu.js")
   script(src="/public/js/index.js")
+  script(src="/public/js/menu.js")
   script(src="/public/js/user-option.js")
-  //- script(src="/public/js/fetch.js")
+  script(src="/public/js/fetch.js")
   //- script(src="/public/js/alert.js")
-  script(src="/public/js/login.js")
-  //- script(src="/public/js/ordenes.js")
-  //- script(src="/public/js/modal-completed.js")
-  //- script(src="/public/js/modal-alert-cancel.js")
+  //- script(src="/public/js/login.js")
+  script(src="/public/js/ordenes.js")
+  script(src="/public/js/modal-completed.js")
+  script(src="/public/js/modal-alert-cancel.js")
 
   //- -if (path.startsWith("/mascotas") || path.startsWith("/accesorios"))
   //-   //- script(src="/public/js/lazy-load.js")

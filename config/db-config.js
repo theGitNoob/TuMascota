@@ -11,8 +11,8 @@ const connectDB = async () => {
       useFindAndModify: false,
     });
     console.log("DB Online");
-  } catch (error) {
-    console.error("Error:", error, process.env.MONGODB_URL);
+  } catch (err) {
+    console.error("Error:", err, process.env.MONGODB_URL);
   }
 };
 module.exports = connectDB;

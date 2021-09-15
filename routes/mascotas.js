@@ -1,15 +1,10 @@
 let express = require("express");
 let router = express.Router();
-let User = require("../models/user-model");
-let Order = require("../models/order-model");
 let Pet = require("../models/pet-model");
 let redis = require("redis");
-const { check } = require("express-validator");
 let redisClient = redis.createClient();
 
-//TODO: usar express validator para validadar las ordenes
-
-router.route("/").get(async (req, res) => {
+router.route("/").get(async (req, res, next) => {
   try {
     let obj = Object.keys(req.query);
     let filters = [];
@@ -36,15 +31,20 @@ router.route("/").get(async (req, res) => {
     res.render("mascotas", opts);
   } catch (err) {
     console.error(err);
-    // next(err)
+    // next(err);
     // res.redirect("/");
   }
 });
 
-router.get("/:id/images/", async (req, res) => {
+router.get("/:id/images/", async (req, res, next) => {
   const id = req.params.id;
   const pet = await Pet.findById(id).exec();
-  res.json(pet.images);
+
+  if (!pet) {
+    return next();
+  }
+
+  res.json(pet.images.map(({ url }) => url));
 });
 
 module.exports = router;

@@ -16,7 +16,9 @@ function animCompleted(flag) {
     succesCheckMark.style.display = "none";
 
     function animarModal() {
-        mostrarModal(modalBackCompleted, modalCompleted);
+        setTimeout(function () {
+            mostrarModal(modalBackCompleted, modalCompleted, 1);
+        }, 400);
     }
     setTimeout(() => {
         animarModal();
@@ -24,10 +26,10 @@ function animCompleted(flag) {
 
     setTimeout(() => {
         succesCheckMark.style.display = "block";
-    }, 1050);
+    }, 1350);
 
     setTimeout(() => {
         animarModal();
         if (flag) document.location.reload();
-    }, 2300);
+    }, 2500);
 }

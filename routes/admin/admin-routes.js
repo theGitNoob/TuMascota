@@ -6,7 +6,7 @@ let petRouter = require("./admin-mascotas");
 let accesoriesRouter = require("./admin-accesorios");
 let ordersRouter = require("./admin-ordenes");
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
   res.render("admin");
 });
 

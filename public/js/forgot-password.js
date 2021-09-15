@@ -1,12 +1,11 @@
-const sendEmail = document.getElementById("send-email");
-const btnRegister = document.getElementById("btn-register");
-const newPassword = document.getElementById("new-password");
-const sendEmailBack = document.getElementById("back-email-send");
-const loginSectionContainer = document.querySelector(
-    ".login-section__container"
-);
-const emailVal = document.getElementById("email-val");
-const emailInput = document.getElementById("email");
+const sendEmail = document.getElementById("send-email"),
+    newPassword = document.getElementById("new-password"),
+    sendEmailBack = document.getElementById("back-email-send"),
+    loginSectionContainer = document.querySelector(".login-section__container"),
+    emailVal = document.getElementById("email-val"),
+    emailInput = document.getElementById("email"),
+    newPasswordInput = document.getElementById("password"),
+    confirmNewPasswordInput = document.getElementById("confirm-password");
 
 // const confirmAlert = document.createElement("div");
 // confirmAlert.classList.add("modal-back");
@@ -17,8 +16,46 @@ const emailInput = document.getElementById("email");
 
 // addAlertCompleted();
 
+/*Aqui reviso si el email es valido en la parte de olvido la contraseña*/
+function checkValidEmail() {
+    const userData = { email: emailInput.value };
+    const xhr = makeRequest("POST", "/users/forgot_password", userData);
+    xhr.onload = function () {
+        let errorsMsg = JSON.parse(xhr.response);
+        if (xhr.status === 200) {
+            return true;
+        } else if (xhr.status === 400) {
+            addAlert("error", errorsMsg.errors);
+            return false;
+        } else if (xhr.status === 500) {
+            addAlert("error", ["Error Interno del servidor"]);
+        }
+    };
+}
+
+/*Aqui reviso si hay algun error en la parte de nueva contraseña*/
+function checkValidPassword() {
+    if (newPasswordInput.value === confirmNewPasswordInput.value) {
+        let userData = { password: newPasswordInput, confirmNewPassword: confirmNewPasswordInput.value };
+        const xhr = makeRequest("GET", "/users/reset_password", userData);
+        xhr.onload = function () {
+            let errorsMsg = JSON.parse(xhr.response);
+            if (xhr.status === 200) return true;
+            else if (xhr.status === 405) {
+                addAlert("error", errorsMsg.errors);
+                return false;
+            } else if (xhr.status === 500) {
+                addAlert("error", ["Error Interno del servidor"]);
+                return false;
+            }
+        };
+    } else {
+        addAlert("error", ["Las contraseñas introducidas no son iguales"]);
+    }
+    return false;
+}
+
 function changeBack() {
-    // sendEmailBack.parentElement.firstElementChild.style.display = "none";
     loginSectionContainer.style.display = "none";
     sendEmailBack.style.display = "block";
     emailVal.innerHTML = emailInput.value;
@@ -27,10 +64,12 @@ function changeBack() {
 if (newPassword) {
     newPassword.addEventListener("click", function (btn) {
         btn.preventDefault();
-        animCompleted(0);
-        setTimeout(function () {
-            document.location = "login.html";
-        }, 2700);
+        if (checkValidPassword()) {
+            animCompleted(0);
+            setTimeout(function () {
+                document.location = "login.html";
+            }, 2700);
+        }
     });
 }
 
@@ -41,20 +80,9 @@ if (sendEmail) {
     if(....) 
     */
         btn.preventDefault();
-        animCompleted(0);
-        setTimeout(changeBack, 2700);
-    });
-}
-
-if (btnRegister) {
-    btnRegister.addEventListener("click", function (btn) {
-        console.log("click");
-        /*
-    aqui tu revisarias si se puede crear la cuenta
-    if(....) 
-    */
-        btn.preventDefault();
-        animCompleted(0);
-        setTimeout(changeBack, 2700);
+        if (checkValidEmail()) {
+            animCompleted(0);
+            setTimeout(changeBack, 2700);
+        }
     });
 }

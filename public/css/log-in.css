@@ -65,8 +65,7 @@
     padding: 0.7rem 0.5rem;
     border-radius: 3px;
     margin: 1rem 0.6rem;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26),
-        0 2px 10px 0 rgba(0, 0, 0, 0.22);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26), 0 2px 10px 0 rgba(0, 0, 0, 0.22);
 }
 
 .alert-error > span::before {
@@ -132,10 +131,28 @@
     transition: all 0.3s ease;
 }
 
+.input-error {
+    text-align: left;
+    display: block;
+    margin: 0.5rem 0 0 2.3rem;
+}
+.input-error img {
+    width: 1.3rem;
+    vertical-align: sub;
+}
+.input-error__text {
+    vertical-align: middle;
+    color: #e44e56;
+    font-weight: 500;
+    font-style: oblique;
+    font-size: 0.8rem;
+}
+
 .show-password {
     display: inline-block;
     position: absolute;
-    right: 10px;
+    right: 1rem;
+    top: 15%;
     bottom: 0;
     cursor: pointer;
 }
@@ -207,12 +224,15 @@
 
 .my-checkbox {
     box-shadow: none;
+    vertical-align: middle;
+    width: 1.3rem;
+    height: 1.3rem;
 }
 
 .msg-checkbox {
     color: #6e6e6e;
     cursor: pointer;
-    vertical-align: super;
+    vertical-align: middle;
     font-weight: 500;
 }
 
@@ -280,7 +300,7 @@
 .send-email__header {
     background-color: #208cff;
     padding: 0.2rem 0.1rem;
-    font-weight: bold;
+    font-weight: 500;
     border-radius: 3px 3px 0 0;
     font-size: 1.1rem;
     color: white;
@@ -288,7 +308,7 @@
 }
 
 .send-email__title img {
-    width: 6.2rem;
+    width: 5.2rem;
     margin: 1rem;
 }
 
@@ -305,15 +325,14 @@
 
 /*Modal de no confirmar cuenta*/
 
-.modal__body {
+.modal__body-confirm-login {
     margin: 1rem;
 }
 
-.modal__body > img {
+.modal__body-confirm-login > img {
     width: 4rem;
-    margin: 0.6rem;
-    vertical-align: middle;
-    display: inline-block;
+    display: block;
+    margin: 0.4rem auto;
     animation: anim-email 1s ease infinite;
 }
 
@@ -327,16 +346,26 @@
     }
 }
 
-.modal__body > span {
+.modal__body-confirm-login > span {
     vertical-align: middle;
     color: #4c4c4c;
     font-weight: 500;
     display: inline-block;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
-.modal-line-login a {
+.btn__send-email {
     font-weight: 500;
+    padding: 0.4rem 0.5rem;
+    background-color: #007bff;
+    color: #fff;
+    display: inline-block;
+    width: auto;
+    display: inline-block;
+}
+
+.btn__send-email:hover {
+    box-shadow: none;
 }
 
 /*FIN Modal de no confirmar cuenta*/

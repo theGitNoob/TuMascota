@@ -2,7 +2,7 @@
 require("dotenv").config();
 require("./config/db-config")();
 const express = require("express");
-var logger = require("morgan");
+const logger = require("morgan");
 // let compression = require("compression");
 let session = require("express-session");
 let methodOverride = require("method-override");
@@ -106,7 +106,7 @@ app.get("*", (req, res, next) => {
   next();
 });
 
-app.get("/", (req, res, next) => {
+app.get("/", async (req, res, next) => {
   res.render("index");
 });
 
@@ -134,7 +134,7 @@ app.use(
   adminRouter
 );
 
-app.use((req, res) => {
+app.use((req, res, next) => {
   res.status(404);
   res.render("404");
   // res.status(404).send("La pagina q esta buscando no existe");
@@ -152,6 +152,10 @@ app.use(function (err, req, res, next) {
   res.render("500");
 });
 
-server.listen(8080, (err) => {
+server.listen(process.env.PORT, (err) => {
   console.log("Servidor corriendo en el puerto 8080");
 });
+
+//TODO:Apr3nder a usar Bluerbird, async, PM2, Cluster
+//TODO:Cambiar las variables de entorno cuando la app este en produccion
+//TODO:Entender el XSS y como prevenirlo

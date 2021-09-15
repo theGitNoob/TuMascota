@@ -6,10 +6,10 @@ block contenido
         h3.login-section__title Órdenes
           .underline
             span
-            img(src='public/img/res/pata.png' alt)
+            img(src='/public/img/res/pata.png' alt)
             span
       section.order-alert
-        img(src='public/img/ordenes/atencion.png' alt)
+        img(src='/public/img/ordenes/atencion.png' alt)
         .order-alert__content
           span.order-alert__info.
 
@@ -81,7 +81,7 @@ block contenido
 
           tbody
             for orden of mascotas
-              tr.order-section__cell
+              tr.order-section__cell(id=orden._id)
                 td.order-section__column(data-header='Raza')=orden.pet.breed
                 td.order-section__column(data-header='Sexo')=orden.pet.sex
                 td.order-section__column(data-header='Nacimiento')=orden.pet.birthDay
@@ -115,7 +115,7 @@ block contenido
                 Cancelar
           tbody
             for orden of accesorios
-              tr.order-section__cell
+              tr.order-section__cell(id=orden._id)
                 td.order-section__column(colspan='3' data-header='Artículo')=orden.accesorie.type
                 td.order-section__column(data-header='Precio')=orden.price+'$'
                 td.order-section__column(data-header='Cantidad')=orden.cnt
@@ -132,7 +132,7 @@ block contenido
                 span.alert-icon-long
                 span.alert-icon-short  
               span.alert-text.
-                
+
                 ¿Está seguro que desea cancelar la orden?
               .btn-alert-container
                 button.btn-alert.btn-alert-cancel(type='submit').

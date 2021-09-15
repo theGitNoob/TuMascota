@@ -18,7 +18,7 @@ block contenido
 
           Usaremos los datos introducidos aquí para ponernos en contacto con usted.
 
-        form.login-section__form.login-section__form--register(action='/user/modify_profile?_method=PUT' method='post')
+        form#modify-user-form.login-section__form.login-section__form--register(action='/user/modify_profile?_method=PUT' method='post')
           .form-container
             label.form-container__img(for='name')
               img(src='/public/img/login/datos.png' alt)

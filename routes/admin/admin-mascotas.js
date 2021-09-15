@@ -1,32 +1,35 @@
 "use strict";
 let router = require("express").Router();
 let fs = require("fs/promises");
-let mongoose = require("mongoose");
 let multer = require("multer");
 const upload = multer({ dest: "./uploads/" });
 let Pet = require("../../models/pet-model");
 const { check } = require("express-validator");
 const { validateResults, imageUploaded } = require("../../helpers/validators");
-const { moveFiles } = require("../../helpers/move-files");
+const { deleteFiles } = require("../../helpers/file-helper");
 
-//TODO:
-//Hacer pruebas sobre updatear campos no vacios con valores null "" o undefined
+//TODO:Hacer pruebas sobre updatear campos no vacios con valores null "" o undefined
+//TODO:Modificar multer para que los archivos se suban directamente el el directorio que deberia ir junto con el id unico de mongo
+//TODO:Cambiar multer para que los nombres de las imagenes sea un uuid/4 unico
 
 router
   .route("/")
-  .get(async (req, res) => {
+  .get(async (req, res, next) => {
     try {
       const mascotas = await Pet.find({}).exec();
       res.render("index-mascotas", {
         mascotas,
         seccion: "de mascotas",
       });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      next(err);
     }
   })
   .post(
-    upload.single("image"),
+    upload.array("images"),
+    (err, req, res, next) => {
+      return res.status(400).end();
+    },
     [
       check("type", "El tipo de mascota no debe estar vacío").notEmpty(),
       check("price", "El precio no debe estar vacío").notEmpty(),
@@ -38,17 +41,15 @@ router
         "ownerName",
         "El nombre del propietario no debe estar vacío"
       ).notEmpty(),
-      check("image").custom(imageUploaded),
+      check("images").custom(imageUploaded),
     ],
-
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const errors = validateResults(req);
+
         if (!errors.isEmpty()) {
           return res.json(errors.array());
         }
-        const file = req.file;
-        let fileName = file.path;
 
         const {
           type,
@@ -76,41 +77,32 @@ router
           ownerAccount,
         };
 
-        const imgExtension = file.originalname.substring(
-          file.originalname.lastIndexOf(".") + 1
-        );
-
         let newPet = new Pet(data);
 
-        newPet.images = [{}];
-        const image = newPet.images[0];
-        newPet.images[0].url = `/public/img/mascotas/${image._id}.${imgExtension}`;
+        const images = req.files;
 
-        const imgId = newPet.images[0]._id;
-
-        let newFileName = `./public/img/mascotas/${imgId}.${imgExtension}`;
-
-        await fs.rename(file.path, newFileName);
+        await newPet.addImages(images, "mascotas");
         await newPet.save();
+
         res.redirect("/admin/mascotas/");
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        console.error(err);
         res.redirect("/admin/mascotas/new");
       }
     }
   );
 
-router.get("/new", (req, res) => {
+router.get("/new", (req, res, next) => {
   res.render("new-pet", { seccion: "de mascotas" });
 });
 
 router
   .route("/:id")
-  .get(check("id").isMongoId(), async (req, res) => {
+  .get(check("id").isMongoId(), async (req, res, next) => {
     const errors = validateResults(req);
 
     if (!errors.isEmpty()) {
-      return res.redirect("/admin/mascotas");
+      return next();
     }
 
     const pet = await Pet.findById(req.params.id).exec();
@@ -125,7 +117,10 @@ router
     });
   })
   .put(
-    upload.single("image"),
+    upload.array("images"),
+    (err, req, res, next) => {
+      return res.status(400).end();
+    },
     [
       check("type", "El tipo de mascota no debe estar vacío").notEmpty(),
       check("price", "El precio no debe estar vacío").notEmpty(),
@@ -141,8 +136,10 @@ router
 
     async (req, res, next) => {
       const id = req.params.id;
+
       try {
         const errors = validateResults(req);
+
         if (!errors.isEmpty()) {
           return res.json(errors.array());
         }
@@ -172,27 +169,26 @@ router
           ownerName,
           ownerAccount,
         };
-        const file = req.file;
 
-        const pet = await Pet.findByIdAndUpdate(id, data).exec();
+        const images = req.files;
+
+        let pet = await Pet.findById(id).exec();
 
         if (!pet) {
-          res.redirect("/admin/mascotas");
+          return next();
         }
 
-        if (file) {
-          const image = pet.images[0].url;
-          await fs.rename(file.path, `.${image}`);
-        }
+        await pet.addImages(images, "mascotas");
+
+        await pet.updateOne({ ...data, images: pet.images }).exec();
 
         res.redirect("/admin/mascotas/");
-      } catch (error) {
-        console.log(error);
-        res.redirect("/admin/mascotas/new");
+      } catch (err) {
+        next(err);
       }
     }
   )
-  .delete((req, res) => {
+  .delete((req, res, next) => {
     const id = req.params.id;
     //TODO:Eliminar las mascotas
     // let pet = petModel.findById(id);
@@ -203,94 +199,54 @@ router
     //     .then(() => res.redirect("/admin/mascotas/"));
   });
 
-router
-  .route("/:id/images/")
-  .all(async (req, res, next) => {
-    const id = req.params.id;
-    const pet = await Pet.findById(id);
-    if (!pet) {
-      res.status(404);
-      return res.render("404");
-    } else next();
-  })
-  .get(async (req, res) => {
-    const id = req.params.id;
-    let pet = await Pet.findById(id);
-    const images = pet.images;
-    res.json(images);
-  })
-  .post(upload.array("images"), async (req, res) => {
-    try {
-      const id = req.params.id;
-      const images = req.files;
-      const pet = await Pet.findById(id);
-
-      const currImages = pet.images.length;
-      if (images.length + currImages > 5) {
-        return res.status(400).json({
-          msg: "Solo pueden haber 5 fotos por mascota elimine alguna",
-        });
-      }
-      let files = [];
-
-      images.forEach((image, idx) => {
-        const imgExtension = image.originalname.substring(
-          image.originalname.lastIndexOf(".") + 1
-        );
-
-        pet.images.push({});
-
-        const currIdx = currImages + idx;
-        pet.images[
-          currIdx
-        ].url = `/public/img/mascotas/${pet.images[currIdx]._id}.${imgExtension}`;
-        files.push({
-          oldPath: image.path,
-          newPath: `.${pet.images[currIdx].url}`,
-        });
-      });
-
-      await moveFiles(files);
-
-      await pet.save({});
-
-      res.json(pet.images);
-    } catch (error) {
-      console.log(error);
-    }
-  });
-router.route("/:id/images/:imgId/").delete(async (req, res, next) => {
+router.route("/:id/image/:imgId/").delete(async (req, res, next) => {
   try {
     const { id, imgId } = req.params;
-    const pet = await Pet.findById(id);
+
+    const pet = await Pet.findById(id).exec();
+
     if (!pet) {
-      res.status(404);
-      return res.render("404");
-    }
-    if (pet.images.length <= 1) {
-      return res
-        .status(400)
-        .json({ msg: "Siempre debe haber una foto de la mascota" });
+      return next();
     }
 
     const img = pet.images.id(imgId);
 
     if (!img) {
-      res.status(404);
-      return res.render("404");
+      return next();
     }
+
     img.remove();
+
     await fs.unlink(`.${img.url}`);
+
     await pet.save();
-    res.json(pet);
-  } catch (error) {
-    console.log(error);
-    res.status(500).end();
+
+    res.end();
+  } catch (err) {
+    console.log(err);
   }
 });
 
 router.route("/:id/images/").delete(async (req, res, next) => {
-  //TODO: Ruta para borrar todas las imagenes menos una
+  try {
+    const id = req.params.id;
+
+    const pet = await Pet.findById(id).exec();
+
+    if (!pet) {
+      console.info("pet does not exist");
+      return next();
+    }
+
+    let arr = pet.images.map(({ url }) => `./${url}`);
+
+    await deleteFiles(arr);
+    pet.images = [];
+    await pet.save();
+    res.end();
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 module.exports = router;

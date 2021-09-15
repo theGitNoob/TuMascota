@@ -4,21 +4,19 @@ const { validateResults } = require("../helpers/validators");
 const User = require("../models/user-model");
 const { genRandomBytes } = require("../utils");
 const bcrypt = require("bcrypt");
-const {
-  getConfirmHtml,
-  getForgetHtml,
-} = require("../helpers/get-template-html");
+const { getConfirmHtml } = require("../helpers/get-template-html");
 
 const { transporter } = require("../config/nodemailer-config");
 
+//Todo eliminar el username
 const logUser = async (req, res, next) => {
   passport.authenticate("local", (err, user) => {
     if (err) return next(err);
 
     if (!user) {
       return res
-        .status(401)
-        .json({ msg: "El nombre o la contraseña son incorrectos" });
+        .status(400)
+        .json({ msg: "El nombre de usuario o la contraseña son incorrectos" });
     }
     if (user.state === "unconfirmed") {
       return res.status(401).json({ msg: "unconfirmed" });
@@ -26,16 +24,14 @@ const logUser = async (req, res, next) => {
 
     req.logIn(user, (err) => {
       if (err) return next(err);
-      return res.redirect("/");
+      return res.status(200).end();
     });
   })(req, res, next);
 };
 
 const registerUser = async (req, res, next) => {
-  //TODO: Validar q los campos solo se envien una vez
   try {
     const result = validateResults(req);
-
     const { name, username, password, phone, email, lastname, address } =
       req.body;
 
@@ -89,17 +85,13 @@ const logoutUser = (req, res, next) => {
   if (req.isAuthenticated()) {
     req.logout();
     req.flash("alert alert-success", "Su sessión ha sido cerrada");
-    // nombre de dominio
-    // let pattern = "8080/";
-    // let path = req.headers.referer.split(pattern)[1];
-    // res.redirect(`/${path}`);
     res.redirect("/users/login");
   } else {
     next();
   }
 };
 
-const sendEmail = async (req, res) => {
+const sendEmail = async (req, res, next) => {
   try {
     const { username, password = "" } = req.body;
     const user = await User.findOne({ username });
@@ -128,7 +120,7 @@ const sendEmail = async (req, res) => {
 
     transporter.sendMail(message, (err) => {});
     res.end();
-  } catch (error) {}
+  } catch (err) {}
 };
 
 module.exports = {

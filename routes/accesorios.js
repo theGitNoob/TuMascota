@@ -4,7 +4,7 @@ let redis = require("redis");
 
 // let redisClient = redis.createClient();
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   try {
     const accesorios = await Accesorie.find({ status: "available" }).exec();
     res.render("accesorios", { accesorios });
@@ -13,10 +13,14 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id/images/", async (req, res) => {
+router.get("/:id/images/", async (req, res, next) => {
   const id = req.params.id;
   const accesorie = await Accesorie.findById(id).exec();
-  res.json(accesorie.images);
+
+  if (!accesorie) {
+    return next();
+  }
+  res.json(accesorie.images.map(({ url }) => url));
 });
 
 module.exports = router;

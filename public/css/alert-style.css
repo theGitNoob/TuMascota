@@ -342,7 +342,11 @@
 .alert-message__close {
     display: inline-block;
     position: absolute;
-    top: 3px;
+    top: 2px;
+    height: 95%;
+    width: 2rem;
+    line-height: 4rem;
+    text-align: center;
     right: 5px;
     cursor: pointer;
 }

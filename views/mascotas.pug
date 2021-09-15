@@ -5,17 +5,17 @@ block contenido
       .main-section-title
         h3 Mascotas
 
-           .underline
-              span
-              img(src='public/img/res/pata.png' alt)
-              span
+          .underline
+            span
+            img(src='/public/img/res/pata.png' alt)
+            span
 
       section.filter
         span Aqui puede filtrar las mascotas: 
         button.btn.filter-btn
           | Filtrar por 
 
-          img(src='public/img/res/next.png' alt)
+          img(src='/public/img/res/next.png' alt)
         form.filter-form(action)
           .group-filter
             .group-filter__element
@@ -104,12 +104,13 @@ block contenido
             .article-header
               h4.article-name=mascota.type
             .article-img-container.pet-image
-              img.article-img(alt='Mascota' src=mascota.images[0].url id=mascota._id)
+              if mascota.images[0]
+                img.article-img(alt='Mascota' src=mascota.images[0].url)
             .article-info
               .article-description
                 ul.article-info-list
                   li.article-info-back.article-info-element
-                    span.article-info-title   Raza:  
+                    span.article-info-title(data-pet-breed=mascota.breed)   Raza:  
                     |  #{mascota.breed}
                   |
                   |
@@ -149,12 +150,12 @@ block contenido
           .modal__header Me Interesa
           .modal__body.modal-body__buy
             | Ha seleccionado
-            span un Perro
-            | de la raza 
-            span Chaw Chaw
+            span#modal-article-type
+            |  de la raza 
+            span#modal-pet-breed Chaw Chaw
             br
             | Indique la cantidad que le Interesa: Max
-            span#cnt
+            span#max-cnt
             form#buy-form(method="post" action="/mascotas/ordenes/")
               button.less-btn(type='button')
               input.spin-box-buy(type='text' value='1' max='8' name='cnt')
@@ -178,4 +179,14 @@ block contenido
             span.completed Completado
   //- script(src="/public/js/mascotas.js") 
 
-block  footer
+  script(src="/public/js/shared.js")
+  script(src="/public/js/menu.js")
+  script(src="/public/js/buy-modal.js")
+  script(src="/public/js/fetch.js")
+  script(src="/public/js/user-option.js")
+  script(src="/public/js/mascotas.js")
+  script(src="/public/js/galeria-articulos.js")
+  script(src="/public/js/alert.js")
+  script(src="/public/js/modal-completed.js")
+
+//- block  footer

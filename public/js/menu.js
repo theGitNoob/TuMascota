@@ -8,8 +8,6 @@ const submenu = document.querySelectorAll(".submenu");
 const containerHeaderLogin = document.querySelectorAll(
     ".main-header__container-login"
 );
-const contactUs = document.querySelectorAll(".contact-us");
-const aboutUs = document.querySelectorAll(".about-us");
 
 menuIcon.addEventListener("click", mostrarMenu);
 
@@ -52,26 +50,7 @@ subMenuServices.addEventListener("click", mostrarSubMenuServices);
 function mostrarSubMenuServices() {
     submenu[1].classList.toggle("show-submenu");
     submenuIcon[1].classList.toggle("rot-submenu-icon");
-    if (submenu[1].classList.contains("show-submenu")) {
-        submenu[1].style.height = "64px";
-    } else {
-        submenu[1].style.height = "0px";
-    }
 }
-
-/*Mostrar las modal de contacto y acerca de, funciona tanto desde el menu como desde el footer*/
-
-contactUs.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-        mostrarModal(modalBackContact, modalContact);
-    });
-});
-
-aboutUs.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-        mostrarModal(modalBackAbout, modalAbout);
-    });
-});
 
 document.addEventListener("click", (e) => {
     if (

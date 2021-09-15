@@ -9,9 +9,9 @@ const User = require("../models/user-model");
 const { genRandomBytes } = require("../utils");
 
 const {
-  emailExist,
+  validEmail,
   passwordsMatch,
-  usernameExists,
+  validateUsername,
   emailNotExist,
   validateResults,
   isValidName,
@@ -31,29 +31,23 @@ const {
 
 router
   .route("/login")
-  .get((req, res) => {
+  .get((req, res, next) => {
     res.render("login");
   })
   .post(logUser);
 
 router
   .route("/register")
-  .get((req, res) => {
+  .get((req, res, next) => {
     res.render("register");
   })
   .post(
     [
       check("name").custom(isValidName),
       check("lastname").custom(isValidLastName),
-      check("phone", "El télefono es obligatorio").notEmpty(),
       check("phone").custom(isValidPhone),
-      check("email", "El correo no es válido").isEmail(),
-      check("email").custom(emailExist),
-      check("username", "El nombre de usuario es obligatorio").notEmpty(),
-      check("username", "El nombre de usuario es muy largo").isLength({
-        max: 50,
-      }),
-      check("username").custom(usernameExists),
+      check("email").custom(validEmail),
+      check("username").custom(validateUsername),
       check("password", "La contraseña es demasiado corta").isLength({
         min: 8,
       }),
@@ -81,29 +75,27 @@ router.get("/verify/:url", async (req, res, next) => {
     });
 
     // res.redirect("/users/login");
-  } catch (error) {
+  } catch (err) {
     next(error);
   }
 });
 
-router.delete("/messages/delete_all", async (req, res) => {
+router.delete("/messages/delete_all", async (req, res, next) => {
   try {
+    //FIXME:
     let user = req.user;
     user.mesages = [];
-    user.notifications = 0;
+    user.newMessages = 0;
     await user.save();
     res.sendStatus(200).end();
-  } catch (error) {
-    console.log("erro");
-    res.sendStatus(404).end();
+  } catch (err) {
+    next(err);
   }
 });
 
-//TODO: Implementar un middleware para saber si el usario está
-//autenticado
 router
   .route("/forgot_password")
-  .get((req, res) => {
+  .get((req, res, next) => {
     res.render("forgot-password");
   })
   .post(
@@ -152,8 +144,7 @@ router
           // console.timeEnd();
           return res.end();
         }
-      } catch (error) {
-        // console.error(error);
+      } catch (ERR) {
         next(error);
       }
     }
@@ -161,7 +152,7 @@ router
 
 router
   .route("/reset_password")
-  .get(async (req, res) => {
+  .get(async (req, res, next) => {
     const { token, id } = req.query;
     res.render("reset-password", { token, id });
   })
@@ -176,7 +167,7 @@ router
       check("password2").custom(passwordsMatch),
       check("token", "El link no es válido o puede haber expirado").notEmpty(),
     ],
-    async (req, res) => {
+    async (req, res, next) => {
       try {
         const errors = validateResults(req);
         const { token, id, password } = req.body;
@@ -206,12 +197,13 @@ router
         );
 
         res.redirect("/users/login");
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        next(err);
       }
     }
   );
 
 //TODO: ruta para reenviar el correo en caso de que no le llegue al usuario
+//TODO: limitar la cantidad de solicitudes con rate-limiter
 router.post("/send_email", sendEmail);
 module.exports = router;

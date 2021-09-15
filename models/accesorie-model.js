@@ -1,5 +1,5 @@
 let { model, Schema } = require("mongoose");
-let fs = require("fs/promises");
+const { addImages } = require("../helpers/file-helper");
 
 const imageSchema = new Schema({
   url: { type: String, required: true },
@@ -19,20 +19,6 @@ const accesoriesSchema = Schema({
   added: { type: Date, default: Date.now },
 });
 
-accesoriesSchema.post("findOneAndDelete", function (doc) {
-  fs.unlink(`./public/img/accesorios/${doc._id}.${doc.imgExtension}`).catch(
-    (err) => {
-      if (err && err.code != "ENOENT") console.error(err);
-    }
-  );
-});
-
-accesoriesSchema.post("remove", function (doc) {
-  fs.unlink(`./public/img/accesorios/${doc._id}.${doc.imgExtension}`).catch(
-    (err) => {
-      if (err && err.code != "ENOENT") console.error(err);
-    }
-  );
-});
+accesoriesSchema.method("addImages", addImages);
 
 module.exports = new model("Accesorie", accesoriesSchema);

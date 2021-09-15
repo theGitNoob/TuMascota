@@ -9,7 +9,7 @@ const orderSchema = Schema({
   price: { type: Number, required: true },
   state: {
     type: String,
-    enum: ["pendient", "aproved", "onway", "completed", "canceled"],
+    enum: ["pendient", "aproved", "completed"],
     default: "pendient",
   },
   date: { type: Date, default: Date.now },

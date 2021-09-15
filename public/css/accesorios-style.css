@@ -27,7 +27,6 @@
 }
 
 .article-container {
-    /* width: 100%; */
     max-width: 25rem;
     box-shadow: 0 0 12px rgb(0, 0, 0, 0.36);
     display: inline-block;
@@ -58,14 +57,6 @@
     width: 100%;
 }
 
-/* @supports not (object-fit: cover) {
-    .article-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-} */
-
 .article-info {
     text-align: left;
     display: inline-block;
@@ -84,9 +75,9 @@
 }
 
 .article-info-title {
-    font-weight: bold;
+    font-weight: 500;
     color: #fc5626;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 .article-description {
@@ -97,14 +88,14 @@
 .article-description > p {
     margin: 0.6rem 0 1.3rem 0;
     text-align: justify;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 .article-info-back {
     box-shadow: 0 0 8px rgb(0, 0, 0, 0.18);
     border-radius: 4px;
     padding: 0.3rem;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 .article-price {

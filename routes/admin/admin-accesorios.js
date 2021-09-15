@@ -2,7 +2,6 @@
 let router = require("express").Router();
 const { check } = require("express-validator");
 let fs = require("fs/promises");
-let mongoose = require("mongoose");
 let multer = require("multer");
 const { imageUploaded, validateResults } = require("../../helpers/validators");
 const upload = multer({ dest: "./uploads/" });
@@ -10,19 +9,22 @@ let Accesorie = require("../../models/accesorie-model");
 
 router
   .route("/")
-  .get(async (req, res) => {
+  .get(async (req, res, next) => {
     try {
       const accesorios = await Accesorie.find({}).exec();
       res.render("index-accesorios", {
         accesorios,
         seccion: "de accesorios",
       });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   })
   .post(
-    upload.single("image"),
+    upload.array("images"),
+    (err, req, res, next) => {
+      return res.status(400).end();
+    },
     [
       check("type", "El tipo de accesorio no debe estar vacío").notEmpty(),
       check("price", "El precio no debe estar vacío").notEmpty(),
@@ -34,68 +36,62 @@ router
         "ownerName",
         "El nombre del propietario no debe estar vacío"
       ).notEmpty(),
-      check("image").custom(imageUploaded),
+      check("images").custom(imageUploaded),
     ],
-    async (req, res) => {
-      const errors = validateResults(req);
+    async (req, res, next) => {
+      try {
+        const errors = validateResults(req);
 
-      if (!errors.isEmpty()) {
-        return res.json(errors.array());
+        if (!errors.isEmpty()) {
+          return res.json(errors.array());
+        }
+
+        const {
+          type,
+          price,
+          cnt = 1,
+          description = undefined,
+          ownerPhone,
+          ownerName,
+          ownerAccount,
+        } = req.body;
+
+        let data = {
+          type: type.toLowerCase(),
+          price,
+          description,
+          ownerPhone,
+          ownerName,
+          ownerAccount,
+          cnt,
+        };
+
+        let newAccesorie = new Accesorie(data);
+
+        const images = req.files;
+
+        await newAccesorie.addImages(images, "accesorios");
+        await newAccesorie.save();
+
+        res.redirect("/admin/accesorios");
+      } catch (err) {
+        console.error(err);
+        res.redirect("/admin/mascotas/new");
       }
-
-      const file = req.file;
-
-      const {
-        type,
-        price,
-        cnt = 1,
-        description = undefined,
-        ownerPhone,
-        ownerName,
-        ownerAccount,
-      } = req.body;
-
-      let data = {
-        type: type.toLowerCase(),
-        price,
-        description,
-        ownerPhone,
-        ownerName,
-        ownerAccount,
-        cnt,
-      };
-
-      const imgExtension = file.originalname.substring(
-        file.originalname.lastIndexOf(".") + 1
-      );
-
-      let newAccesorie = new Accesorie(data);
-
-      newAccesorie.images = [{}];
-      const image = newAccesorie.images[0];
-      newAccesorie.images[0].url = `/public/img/accesorios/${image._id}.${imgExtension}`;
-
-      const imgId = newAccesorie.images[0]._id;
-      let newFileName = `./public/img/accesorios/${imgId}.${imgExtension}`;
-
-      await fs.rename(file.path, newFileName);
-      await newAccesorie.save();
-
-      res.redirect("/admin/accesorios");
     }
   );
 
-router.get("/new", (req, res) => {
+router.get("/new", (req, res, next) => {
   res.render("new-accesorie", { seccion: "de accesorios" });
 });
 
 router
   .route("/:id")
-  .get(check("id").isMongoId(), async (req, res) => {
+  .get(check("id").isMongoId(), async (req, res, next) => {
     const errors = validateResults(req);
 
     if (!errors.isEmpty()) {
-      return res.redirect("/admin/accesorios");
+      return next();
     }
 
     const accesorie = await Accesorie.findById(req.params.id).exec();
@@ -110,7 +106,10 @@ router
     });
   })
   .put(
-    upload.single("file"),
+    upload.array("images"),
+    (err, req, res, next) => {
+      return res.status(400).end();
+    },
     [
       check("type", "El tipo de accesorio no debe estar vacío").notEmpty(),
       check("price", "El precio no debe estar vacío").notEmpty(),
@@ -123,8 +122,9 @@ router
         "El nombre del propietario no debe estar vacío"
       ).notEmpty(),
     ],
-    async (req, res) => {
+    async (req, res, next) => {
       const id = req.params.id;
+
       try {
         const errors = validateResults(req);
 
@@ -152,24 +152,76 @@ router
           ownerAccount,
         };
 
-        const file = req.file;
-        const pet = await Accesorie.findByIdAndUpdate(id, data).exec();
+        const images = req.file;
 
-        if (!pet) {
-          return res.redirect("/admin/accesorios");
+        let accesorie = await accesorieModel.findById(id).exec();
+
+        if (!accesorie) {
+          return next();
         }
 
-        if (file) {
-          const image = pet.images[0].url;
-          await fs.rename(file.path, `.${image}`);
-        }
-
-        return res.redirect("/admin/accesorios");
-      } catch (error) {}
+        await accesorie.addImages(images, "accesorios");
+        await accesorie.updateOne({ ...data, images: accesorie.images }).exec;
+      } catch (err) {
+        console.error(err);
+        next(err);
+      }
     }
   )
-  .delete((req, res) => {
+  .delete((req, res, next) => {
     //TODO:Eliminar los accesorios
   });
+
+router.route("/:id/image/:imgId/").delete(async (req, res, next) => {
+  try {
+    const { id, imgId } = req.params;
+
+    const accesorie = await Accesorie.findById(id).exec();
+
+    if (!accesorie) {
+      return next();
+    }
+
+    const img = accesorie.images.id(imgId);
+
+    if (!img) {
+      return next();
+    }
+
+    img.remove();
+
+    await accesorie.save();
+    await fs.unlink(`.${img.url}`);
+
+    res.end();
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.route("/:id/images/").delete(async (req, res, next) => {
+  try {
+    const id = req.params.id;
+
+    const accesorie = await Accesorie.findById(id).exec();
+
+    if (!accesorie) {
+      console.info("accesorie does not exist");
+      return next();
+    }
+
+    let arr = accesorie.images.map(({ url }) => `./${url}`);
+
+    await deleteFiles(arr);
+
+    accesorie.images = [];
+
+    await accesorie.save();
+
+    res.end();
+  } catch (err) {
+    console.error(err);
+  }
+});
 
 module.exports = router;

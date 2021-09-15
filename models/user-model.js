@@ -2,8 +2,8 @@
 const { model, Schema } = require("mongoose");
 
 const messageSchema = Schema({
-  msg: { type: String },
-  date: { type: Date },
+  msg: { type: String, required: true },
+  date: { type: Date, default: Date.now },
   state: { type: String, default: "new" },
 });
 
@@ -42,7 +42,7 @@ const userSchema = Schema({
   username: { type: String, required: true },
   password: String,
   messages: [messageSchema],
-  notifications: { type: Number, default: 0 },
+  newMessages: { type: Number, default: 0, min: 0 },
   role: {
     type: String,
     required: true,

@@ -13,30 +13,51 @@ const router = Router();
 
 router.get("/logout", logoutUser);
 
-router.delete("/message/:id", async (req, res) => {
+router.delete("/messages/:id", async (req, res, next) => {
   try {
+    const { id } = req.params;
+
     let user = req.user;
-    user.messages.id(req.params.id).remove();
-    await req.user.save();
-    res.sendStatus(200).end();
-  } catch (error) {
-    res.sendStatus(404).end();
+
+    user.newMessages;
+
+    let msg = user.messages.id(id);
+
+    if (!msg) {
+      return res.status(404).end();
+    }
+    if (msg.state === "new") {
+      user.newMessages--;
+    }
+
+    await msg.remove();
+
+    await user.save();
+    res.status(200).end();
+  } catch (err) {
+    next(err);
   }
 });
 
-router.patch("/messages/view_all", async (req, res) => {
+router.patch("/messages/", async (req, res, next) => {
   try {
-    req.user.notifications = 0;
-    await req.user.save();
-    res.sendStatus(200).end();
-  } catch (error) {
-    res.sendStatus(404).end();
+    let user = req.user;
+
+    user.messages.forEach((msg) => (msg.state = "old"));
+
+    user.newMessages = 0;
+
+    await user.save();
+
+    res.status(200).end();
+  } catch (err) {
+    next(err);
   }
 });
 
 router
   .route("/modify_profile")
-  .get((req, res) => {
+  .get((req, res, next) => {
     res.render("modificar-perfil");
   })
   .put(
@@ -52,7 +73,7 @@ router
       check("address", "La dirección es obligatoria").notEmpty(),
       check("password2").custom(passwordsMatch),
     ],
-    async (req, res) => {
+    async (req, res, next) => {
       const errors = validateResults(req);
 
       if (!errors.isEmpty()) {

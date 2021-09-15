@@ -1,19 +1,31 @@
-const User = require("../models/user-model");
 const { validationResult } = require("express-validator");
-const { isNumeric, isLength, isEmpty, isAlpha } = require("validator");
+const { isNumeric, isLength, isEmpty, isAlpha, isEmail } = require("validator");
 const { getCleanName } = require("../helpers/string-helper");
+const User = require("../models/user-model");
 const Token = require("../models/token.model");
-const emailExist = async (email = "", req) => {
+
+const validEmail = async (email = "", req) => {
+  if (!isEmail(email)) {
+    throw new Error("El correo no es válido");
+  }
   const exists = await User.findOne({ email });
   if (exists) {
-    throw new Error(`El correo ya está registrado`);
+    throw new Error("El correo ya está registrado");
   } else return true;
 };
 
-const usernameExists = async (username = "", req) => {
+const validateUsername = async (username = "", req) => {
+  if (!username) {
+    throw new Error("El nombre de usuario es obligatorio");
+  }
+
+  if (!isLength(username, { max: 50 })) {
+    throw new Error("El nombre de usuario es demasiado largo");
+  }
+
   const exists = await User.findOne({ username });
   if (exists) {
-    throw new Error(`El nombre de usuario ya existe, por favor elija otro`);
+    throw new Error("El nombre de usuario ya existe, por favor elija otro");
   } else return true;
 };
 
@@ -31,17 +43,23 @@ const emailNotExist = async (email = "", req) => {
 };
 
 const validateResults = (req) => {
-  return validationResult(req).formatWith(({ msg }) => msg);
+  return validationResult(req).formatWith(({ param, msg }) => {
+    let obj = { field: param, msg };
+    return obj;
+  });
 };
 
-const imageUploaded = (image, { req }) => {
-  if (!req.file) {
+const imageUploaded = (images, { req }) => {
+  const files = req.files;
+
+  if (!files) {
     throw new Error("Debe subir una imagen de la mascota");
   } else if (
-    req.file.mimetype !== "image/jpeg" &&
-    req.file.mimetype !== "image/png"
+    files.some(
+      (file) => file.mimetype !== "image/jpeg" && file.mimetype !== "image/png"
+    )
   ) {
-    throw new Error("La imagen debe ser png o jpg");
+    throw new Error("Las imagenes deben ser png o jpg");
   } else return true;
 };
 
@@ -86,6 +104,9 @@ const isValidLastName = (lastname = "") => {
 const isValidPassword = (password) => {};
 
 const isValidPhone = (phone = "") => {
+  if (!phone) {
+    throw new Error("El número de télefono es obligatorio");
+  }
   if (!isNumeric(phone) || phone.length < 8) {
     throw new Error("El número de télefono no es válido");
   }
@@ -93,9 +114,9 @@ const isValidPhone = (phone = "") => {
 };
 
 module.exports = {
-  emailExist,
+  validEmail,
   passwordsMatch,
-  usernameExists,
+  validateUsername,
   emailNotExist,
   validateResults,
   imageUploaded,

@@ -31,7 +31,7 @@ html(lang='en')
           p.
             
             Para la compra de artículos en nuestra tienda debe estar registrado. Usaremos los datos introducidos aquí para ponernos en contacto con usted.
-          form#regiter-form.login-section__form.login-section__form--register(action="/users/register" method="POST")
+          form#register-form.login-section__form.login-section__form--register(action="/users/register" method="POST")
             .form-container
               label.form-container__img(for='name')
                 img(src='/public/img/login/datos.png' alt)
@@ -271,5 +271,5 @@ html(lang='en')
     script(src='/public/js/login.js')
     script(src='/public/js/modal-completed.js')
     script(src='/public/js/alert.js')
-    script(src='/public/js/forgot-password.js')
+    //- script(src='/public/js/forgot-password.js')
     script(src='/public/js/fetch.js')

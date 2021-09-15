@@ -22,14 +22,12 @@ galleryPictures[0].style.display = "inline-block";
 galleryPictures[0].classList.add("gallery__picture--active");
 carrusellIcons[0].classList.add("carrusel__icon--active");
 
-
-
 function moveCarrusel(cont) {
     galleryPictures[cont].classList.remove("gallery__picture--active");
     carrusellIcons[cont].classList.remove("carrusel__icon--active");
     setTimeout(function () {
         galleryPictures[cont].style.display = "none";
-        if (cont == galleryPictures.length - 1) {
+        if (cont === galleryPictures.length - 1) {
             cont = -1;
         }
         galleryPictures[cont + 1].style.display = "inline-block";
@@ -40,34 +38,31 @@ function moveCarrusel(cont) {
     }, 430);
 }
 
-
-
 // let cont = 0;
 // setTimeout(function () {
 // var carruselInterval =  setInterval(function () {
-//     if (cont == galleryPictures.length) cont = 0;
+//     if (cont === galleryPictures.length) cont = 0;
 //     moveCarrusel(cont);
 //     cont++;
 // }, 3000);
-    
-function createInterval(cnt){
-    return setInterval(function(){
-        if (cnt == galleryPictures.length) cnt = 0;
+
+function createInterval(cnt) {
+    return setInterval(function () {
+        if (cnt === galleryPictures.length) cnt = 0;
         moveCarrusel(cnt);
         cnt++;
-    }, 3000);
+    }, 6000);
 }
-
 
 var carruselInterval = createInterval(0);
 
-carrusellIcons.forEach(function(btn, contBtn){
-    btn.addEventListener("click",function(){
+carrusellIcons.forEach(function (btn, contBtn) {
+    btn.addEventListener("click", function () {
         console.log(carruselInterval);
         clearInterval(carruselInterval);
-        /*Esto pone la imagen correspondiente al button clickeado*/    
-        galleryPictures.forEach(function(img, contImg){
-            if(img.style.display == "inline-block"){
+        /*Esto pone la imagen correspondiente al button clickeado*/
+        galleryPictures.forEach(function (img, contImg) {
+            if (img.style.display === "inline-block") {
                 galleryPictures[contImg].classList.remove("gallery__picture--active");
                 carrusellIcons[contImg].classList.remove("carrusel__icon--active");
             }
@@ -81,8 +76,6 @@ carrusellIcons.forEach(function(btn, contBtn){
                 }, 10);
             }, 430);
         });
-        // setTimeout(function(){
-            carruselInterval = createInterval(contBtn);
-        // },2000);
+        carruselInterval = createInterval(contBtn);
     });
 });

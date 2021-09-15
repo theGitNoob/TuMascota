@@ -1,8 +1,8 @@
 const { Schema, model } = require("mongoose");
-let fs = require("fs/promises");
+const { addImages } = require("../helpers/file-helper");
 
 const imageSchema = new Schema({
-  url: { type: String, required: true },
+  url: { type: String },
 });
 
 const petSchema = Schema({
@@ -22,18 +22,6 @@ const petSchema = Schema({
   added: { type: Date, default: Date.now },
 });
 
-petSchema.post("findOneAndDelete", function (doc) {
-  fs.unlink(`./public/img/mascotas/${doc._id}.${doc.imgExtension}`).catch(
-    (err) => {}
-  );
-});
+petSchema.method("addImages", addImages);
 
-petSchema.post("remove", function (doc) {
-  fs.unlink(`./public/img/mascotas/${doc._id}.${doc.imgExtension}`).catch(
-    (err) => {}
-  );
-});
-
-let petModel = new model("Pet", petSchema);
-
-module.exports = petModel;
+module.exports = new model("Pet", petSchema);

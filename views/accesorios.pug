@@ -5,10 +5,10 @@ block contenido
       .main-section-title
         h3 Accesorios
 
-           .underline
-              span
-              img(src='public/img/res/pata.png' alt)
-              span
+          .underline
+            span
+            img(src='/public/img/res/pata.png' alt)
+            span
       .flex-container
         for accesorio in accesorios
           article.article-container.mar10(id=accesorio._id)
@@ -38,14 +38,14 @@ block contenido
                 img(src='/public/img/mascotas/basket.png' alt)
       .modal-back.modal-back-buy-this
         .modal.modal-buy-this
-          .modal-header Me Interesa
-          .modal-body.modal-body-buy
+          .modal__header Me Interesa
+          .modal__body.modal-body__buy
             | Ha seleccionado
 
-            span una Comida de Perros
+            span#modal-article-type una Comida de Perros
             br
             | Indique la cantidad que le Interesa: Max
-            span#cnt
+            span#max-cnt
             form#buy-form(action="/accesorios/ordenes/" method="post")
               button.less-btn(type='button')
               input.spin-box-buy(type='text' value='1' max='5' name="cnt")
@@ -53,8 +53,8 @@ block contenido
             | Nos pondremos en contacto con usted a través de los datos de su cuenta
 
             .btns-buy-container
-              button#accept-btn-buy.accept-btn(type='submit' form="buy-form") Confirmar
-              button#cancel-btn-buy.cancel-btn(type='submit') Cancelar
+              button#accept-btn-buy.btn.accept-btn(type='submit' form="buy-form") Confirmar
+              button#cancel-btn-buy.btn.cancel-btn(type='submit') Cancelar
 
       #modal-back-completed.modal-back
         #modal-completed.modal.modal-completed
@@ -66,3 +66,10 @@ block contenido
                 .icon-circle
                 .icon-fix
             span.completed Completado
+  script(src="/public/js/shared.js")
+  script(src="/public/js/menu.js")
+  script(src="/public/js/buy-modal.js")
+  script(src="/public/js/user-option.js")
+  script(src="/public/js/galeria-articulos.js")
+  script(src="/public/js/alert.js")
+  script(src="/public/js/modal-completed.js")
