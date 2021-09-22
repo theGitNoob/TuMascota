@@ -1,5 +1,7 @@
 const modalBackContact = document.querySelector("#modal-back-contact");
 const modalBackAbout = document.querySelector("#modal-back-about");
+// const modalContact = document.querySelector("#modal-contact");
+// const modalAbout = document.querySelector("#modal-about");
 const modalContact = modalBackContact.firstElementChild;
 const modalAbout = modalBackAbout.firstElementChild;
 const closeModal = document.querySelectorAll(".modal-close");
@@ -19,9 +21,12 @@ function goTopScroll() {
 }
 
 function makeRequest(requestType, url, userData) {
+    console.log("ENTRO A SHARED", requestType, url, userData);
     let xhr = new XMLHttpRequest();
     xhr.open(requestType, url);
     xhr.setRequestHeader("Content-Type", "application/json");
+    // if (userData !== null) xhr.send(JSON.stringify(userData));
+    // else xhr.send(null);
     xhr.send(JSON.stringify(userData));
     return xhr;
 }

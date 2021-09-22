@@ -27,7 +27,7 @@ html(lang='en')
           .logo-user
             img(src='/public/img/login/user.png' alt)
           img.login-section__logo(src='/public/img/res/Logo.png' alt)
-          form#login-form.login-section__form(action='/users/login' method='post')
+          form.login-section__form(action='/users/login' method='post')
             .form-container
               label.form-container__img(for='username')
                 img(src='/public/img/login/user-input.png' alt)
@@ -144,7 +144,7 @@ html(lang='en')
     #modal-contact.modal
       .modal__header
         | Contactános
-
+        
         button.modal-close(type='submit')
           img.modal-close__icon(src='/public/img/res/close-white.png' alt)
       .modal__body
@@ -201,3 +201,5 @@ html(lang='en')
     script(src='/public/js/shared.js')
     script(src='/public/js/login.js')
     script(src='/public/js/alert.js')
+    script(src='/public/js/forgot-password.js')
+    

@@ -6,10 +6,10 @@ block contenido
         h3.login-section__title Órdenes
           .underline
             span
-            img(src='/public/img/res/pata.png' alt)
+            img(src='public/img/res/pata.png' alt)
             span
       section.order-alert
-        img(src='/public/img/ordenes/atencion.png' alt)
+        img(src='public/img/ordenes/atencion.png' alt)
         .order-alert__content
           span.order-alert__info.
 
@@ -132,14 +132,14 @@ block contenido
                 span.alert-icon-long
                 span.alert-icon-short  
               span.alert-text.
-
+                
                 ¿Está seguro que desea cancelar la orden?
               .btn-alert-container
-                button.btn-alert.btn-alert-cancel(type='submit').
+                button.btn-alert.btn-alert-cancel.
 
                   No
 
-                button.btn-alert.btn-alert-confirm(type='submit').
+                button.btn-alert.btn-alert-confirm.
 
                   Si
 
@@ -152,6 +152,13 @@ block contenido
                   span.icon-line.line-long
                   .icon-circle
                   .icon-fix
-              span.completed Completado
-  script(src="/public/js/modal-alert-cancel.js") 
-  script(src="/public/js/ordenes.js") 
+              span.completed Completado  
+
+
+  script(src="/public/js/shared.js")
+  script(src="/public/js/menu.js")
+  script(src="/public/js/ordenes.js")
+  script(src="/public/js/user-option.js")
+  script(src="/public/js/alert.js")
+  script(src="/public/js/modal-alert-cancel.js")
+  script(src="/public/js/modal-completed.js")

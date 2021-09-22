@@ -1,16 +1,40 @@
 extends ./admin-layout.pug
 block contenido
-  div(class="container top-space")
-    for mascota in mascotas
-      .border.tr
-        .row
-          .col-md-10
-            h3 Tipo: #{mascota.type}
-            if mascota.breed != ''
-              h3 Raza: #{mascota.breed}
-            h3 Nombre del dueño: #{mascota.ownerName}
-            h3 Télefono del dueño: #{mascota.ownerPhone}
-          .col-md-2.container.flex-container
-            a(href="/admin/mascotas/"+mascota._id class="right-space link-info") Editar
-            form(action=`/admin/mascotas/${mascota._id}?_method=DELETE` method="POST" class="link-container delete-form" )
-              input(type="submit" value="Eliminar" class="link-danger") 
+    main.main-admin
+      .container-btn 
+        a.btn.btn-add(href="/admin/mascotas/new")
+          img(src="/public/img/admin/add.png") 
+          | Añadir Mascota
+      article.table-container 
+        h3.table-title Listado de Mascotas
+        table.main-table 
+          thead.main-table__header 
+            th.table-cell.table-cell--header Tipo 
+            th.table-cell.table-cell--header Raza  
+            th.table-cell.table-cell--header Precio 
+            th.table-cell.table-cell--header Cantidad
+            th.table-cell.table-cell--header Editar 
+            th.table-cell.table-cell--header Eliminar
+          tbody.main-table__body 
+            for mascota in mascotas
+              tr.table-row 
+                td.table-cell(data-header="Tipo") #{mascota.type}
+                td.table-cell(data-header="Raza") #{mascota.breed}
+                td.table-cell(data-header="Precio") #{mascota.price}
+                td.table-cell(data-header="Cantidad") #{mascota.cnt}
+                td.table-cell(data-header="Editar") 
+                  a(href="/admin/mascotas/"+mascota._id class="btn btn-edit") 
+                    img(src="/public/img/admin/edit.png") 
+                td.table-cell(data-header="Eliminar")             
+                  form(action=`/admin/mascotas/${mascota._id}?_method=DELETE` method="POST" class="link-container delete-form" )
+                    button(type="submit" class="btn btn-delete")  
+                      img(src="/public/img/ordenes/borrar.png")
+                    //- input(type="submit" value="")
+        //- h1 #{orders[0]}
+        script.
+          const mainTable = document.querySelector(".main-table");
+          const mainTableBody = document.querySelector(".main-table__body");
+          if(mainTableBody.childElementCount == 0)
+            mainTable.innerHTML = `<span class='no-elements'>No hay mascotas actualmente</span>`;
+
+

@@ -1,26 +1,54 @@
 extends ./admin-layout.pug
 block contenido
-  div(class="container col-md-4 top-space")
-    form(action="/admin/accesorios/" method='POST' class="form-group" enctype="multipart/form-data")
+  main.main-admin
+    button.btn.btn-go-back(onclick = "window.history.back()") 
+      img(src="/public/img/admin/atras.png", alt="")
+      | Atras 
+    h3.main-title Nuevo Accesorio
+    article.form-container
+      form(action="/admin/accesorios/" method='POST' class="form-group" enctype="multipart/form-data")
 
-      input(type="text" class="form-control" name="type"  placeholder="Tipo de accesorio" required)
+        input(type="text" class="form-input" name="type"  placeholder="Tipo de accesorio" required)
 
-      input(type="text" class="form-control" name="price" placeholder="Precio" required)
+        input(type="text" class="form-input" name="price" placeholder="Precio" required)
 
-      input(type="text" class="form-control" name="description" placeholder="Descripción")
+        input(type="text" class="form-input" name="description" placeholder="Descripción")
 
-      input(type="text" class="form-control" name="cnt"  placeholder="Cantidad de articulos")
+        input(type="text" class="form-input" name="cnt"  placeholder="Cantidad de articulos")
 
-      input(type="text" class="form-control" name="ownerName" placeholder="Nombre del dueño" required)
+        input(type="text" class="form-input" name="ownerName" placeholder="Nombre del dueño" required)
 
-      input(type="text" class="form-control" name="ownerPhone" placeholder="Télefono" required)
+        input(type="text" class="form-input" name="ownerPhone" placeholder="Télefono" required)
 
-      input(type="text" class="form-control" name="ownerAccount" placeholder="Cuenta bancaria")
+        input(type="text" class="form-input" name="ownerAccount" placeholder="Cuenta bancaria")
 
-      input(type="file" class="form-control" name="file")
+        label.btn.select-file(for="file-selector") Seleccionar archivo
+        div.file-selected  No ha seleccionado ningún archivo
+        input.form-input(type="file" id="file-selector" multiple  name="image" accept="image/*" )
+        
+        .btn-save-container
+          input(type="submit" class="btn btn-save " value="Guardar")
+          a.btn.btn-cancel(href="/admin/accesorios") Cancelar
+        script.
+          const inputFile = document.querySelector("#file-selector");
+          const filesSelected = document.querySelector(".file-selected");
 
-      div(class="d-flex")
-        input(type="submit" class="btn btn-info " value="Guardar")
-
+          //Esto es para la seleccion de los archivos
+          inputFile.addEventListener("change", function(){
+              filesSelected.innerHTML = "";
+              filesSelected.classList.remove("file-preview");
+              const currentFiles = inputFile.files;
+              if(currentFiles.length == 0){
+                filesSelected.innerHTML = "No ha seleccionado ningún archivo";
+              }
+              else{
+                  let textPreview = "";
+                  for(file of currentFiles){
+                    textPreview += `<span>${file.name}</span> `;
+                  }
+                  filesSelected.innerHTML = `<h4> Ha seleccionado </h4> ${textPreview}`;
+                  filesSelected.classList.add("file-preview");
+              }
+          });
 
 

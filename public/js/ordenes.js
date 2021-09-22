@@ -132,28 +132,31 @@ btnCancelOrder.forEach(function (btn) {
 btnAcceptModal = document.querySelector(".btn-alert-confirm");
 
 function removeOrderCheck() {
+    //Con esto voy hasta el padre del boton que le di click, para saber a q orden me refiero
     let orderId = orderBtnActive;
     while (orderId.getAttribute("class") !== "order-section__cell") {
         orderId = orderId.parentElement;
     }
-    const userData = {};
-    const requestUrl = "users/" + orderId.getAttribute("id");
-    const xhr = makeRequest("DELETE", requestUrl, userData);
+    //La url
+    const requestUrl = "ordenes/" + orderId.getAttribute("id");
+    //La peticion con el metodo, la url, y los datos
+    const xhr = makeRequest("DELETE", requestUrl, null);
     xhr.onload = function () {
+        console.log("Estado", xhr.status);
         if (xhr.status === 200) {
-            return true;
+            mostrarModal(modalCanceledBack, modalCanceled, 0);
+            animCompleted(1);
+            return;
         }
         if (xhr.status === 500) {
             addAlert("error", ["Error interno del servidor"]);
-            return false;
+            return;
         }
     };
 }
 
-btnAcceptModal.addEventListener("click", function () {
-    if (removeOrderCheck()) {
-        // console.log("eeee");
-        mostrarModal(modalCanceledBack, modalCanceled, 0);
-        animCompleted(1);
-    }
+//Aqui hago el evento del click de aceptar borrar la orden
+btnAcceptModal.addEventListener("click", function (btn) {
+    btn.preventDefault();
+    removeOrderCheck();
 });

@@ -5,10 +5,10 @@ block contenido
       .main-section-title
         h3 Accesorios
 
-          .underline
-            span
-            img(src='/public/img/res/pata.png' alt)
-            span
+           .underline
+              span
+              img(src='public/img/res/pata.png' alt)
+              span
       .flex-container
         for accesorio in accesorios
           article.article-container.mar10(id=accesorio._id)
@@ -53,8 +53,8 @@ block contenido
             | Nos pondremos en contacto con usted a través de los datos de su cuenta
 
             .btns-buy-container
-              button#accept-btn-buy.btn.accept-btn(type='submit' form="buy-form") Confirmar
               button#cancel-btn-buy.btn.cancel-btn(type='submit') Cancelar
+              button#accept-btn-buy.btn.accept-btn(type='submit' form="buy-form") Confirmar
 
       #modal-back-completed.modal-back
         #modal-completed.modal.modal-completed

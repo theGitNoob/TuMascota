@@ -2,13 +2,13 @@ const { validationResult } = require("express-validator");
 const { isNumeric, isLength, isEmpty, isAlpha, isEmail } = require("validator");
 const { getCleanName } = require("../helpers/string-helper");
 const User = require("../models/user-model");
-const Token = require("../models/token.model");
 
 const validEmail = async (email = "", req) => {
   if (!isEmail(email)) {
     throw new Error("El correo no es válido");
   }
-  const exists = await User.findOne({ email });
+  //FIXME:Hacer que envie un status 500 en caso de ocurrin un error al hacer el lookup en la db
+  const exists = await User.findOne({ email }).exec().catch(err);
   if (exists) {
     throw new Error("El correo ya está registrado");
   } else return true;
@@ -23,7 +23,7 @@ const validateUsername = async (username = "", req) => {
     throw new Error("El nombre de usuario es demasiado largo");
   }
 
-  const exists = await User.findOne({ username });
+  const exists = await User.findOne({ username }).exec().catch(err);
   if (exists) {
     throw new Error("El nombre de usuario ya existe, por favor elija otro");
   } else return true;
@@ -36,7 +36,7 @@ const passwordsMatch = (password2, { req }) => {
 };
 
 const emailNotExist = async (email = "", req) => {
-  const exists = await User.findOne({ email });
+  const exists = await User.findOne({ email }).exec().catch(err);
   if (!exists) {
     throw new Error(`No hay ninguna cuenta asociada a este correo`);
   } else return true;

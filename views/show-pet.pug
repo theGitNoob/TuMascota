@@ -1,35 +1,61 @@
 extends ./admin-layout.pug
 block contenido
-  div(class="container col-md-4 top-space")
-    .d-flex.justify-content-center
-      if pet.images[0]
-        img(src=pet.images[0].url class="img-fluid img-thumbnail")
+  main.main-admin
+    button.btn.btn-go-back(onclick = "window.history.back()") 
+      img(src="/public/img/admin/atras.png", alt="")
+      | Atras
+    h3.main-title Editar Mascota
+    section.flex-container-img
+      img(src=pet.images[0].url)
     form(action=`/admin/mascotas/${pet._id}?_method=PUT` method='POST' class="form-group" enctype="multipart/form-data")
 
-      input(type="text" class="form-control" name="type" placeholder="Tipo de animal"  value=pet.type.toUpperCase())
+      input(type="text" class="form-input" name="type" placeholder="Tipo de animal"  value=pet.type.toUpperCase())
 
-      input(type="text" class="form-control" name="breed" placeholder="Raza" value=pet.breed)
+      input(type="text" class="form-input" name="breed" placeholder="Raza" value=pet.breed)
 
-      select.form-control(name="sex")
+      select.form-input(name="sex")
         option(value="") Selecciona el Sexo
         option(value="Masculino") Masculino
         option(value="Femenino") Femenino
 
-      input(type="text" class="form-control" name="price" placeholder="Precio" value=pet.price)
+      input(type="text" class="form-input" name="price" placeholder="Precio" value=pet.price)
 
-      input(type="text" class="form-control" name="cnt" placeholder="Cantidad" value=pet.cnt)
+      input(type="text" class="form-input" name="cnt" placeholder="Cantidad" value=pet.cnt)
 
-      input(type="datetime-local " class="form-control" name="birthDay" placeholder="Año-Mes-Dia" value=pet.birthDay)
+      input(type="datetime-local " class="form-input" name="birthDay" placeholder="Año-Mes-Dia" value=pet.birthDay)
 
-      input(type="text" class="form-control" name="description" placeholder="Descripción" value=pet.description)
+      input(type="text" class="form-input" name="description" placeholder="Descripción" value=pet.description)
 
-      input(type="text" class="form-control" name="ownerName" placeholder="Nombre del dueño" required value=pet.ownerName)
+      input(type="text" class="form-input" name="ownerName" placeholder="Nombre del dueño" required value=pet.ownerName)
 
-      input(type="text" class="form-control" name="ownerPhone" placeholder="Télefono" required value=pet.ownerPhone)
+      input(type="text" class="form-input" name="ownerPhone" placeholder="Télefono" required value=pet.ownerPhone)
 
-      input(type="text" class="form-control" name="ownerAccount" placeholder="Cuenta bancaria" value=pet.ownerAccount)
+      input(type="text" class="form-input" name="ownerAccount" placeholder="Cuenta bancaria" value=pet.ownerAccount)
 
-      input(type="file" class="form-control" name="images" multiple)
+      label.btn.select-file(for="file-selector") Seleccionar archivo
+      div.file-selected  No ha seleccionado ningún archivo
+      input.form-input(type="file" id="file-selector" multiple  name="image" accept="image/*" )
 
-      div(class="d-flex justify-content-sm-start justify-content-center")
-        input(type="submit" class="btn btn-info" value="Guardar")
+      .btn-save-container
+        input(type="submit" class="btn btn-save" value="Guardar")
+        a.btn.btn-cancel(href="/admin/mascotas") Cancelar
+      script.
+          const inputFile = document.querySelector("#file-selector");
+          const filesSelected = document.querySelector(".file-selected");
+          //Esto es para la seleccion de los archivos
+          inputFile.addEventListener("change", function(){
+              filesSelected.innerHTML = "";
+              filesSelected.classList.remove("file-preview");
+              const currentFiles = inputFile.files;
+              if(currentFiles.length == 0){
+                filesSelected.innerHTML = "No ha seleccionado ningún archivo";
+              }
+              else{
+                  let textPreview = "";
+                  for(file of currentFiles){
+                    textPreview += `<span>${file.name}</span> `;
+                  }
+                  filesSelected.innerHTML = `<h4> Ha seleccionado </h4> ${textPreview}`;
+                  filesSelected.classList.add("file-preview");
+              }
+          });

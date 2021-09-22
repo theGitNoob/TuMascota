@@ -3,7 +3,7 @@ const sendEmail = document.getElementById("send-email"),
     sendEmailBack = document.getElementById("back-email-send"),
     loginSectionContainer = document.querySelector(".login-section__container"),
     emailVal = document.getElementById("email-val"),
-    emailInput = document.getElementById("email"),
+    confirmEmailInput = document.getElementById("email"),
     newPasswordInput = document.getElementById("password"),
     confirmNewPasswordInput = document.getElementById("confirm-password");
 
@@ -18,7 +18,7 @@ const sendEmail = document.getElementById("send-email"),
 
 /*Aqui reviso si el email es valido en la parte de olvido la contraseña*/
 function checkValidEmail() {
-    const userData = { email: emailInput.value };
+    const userData = { email: confirmEmailInput.value };
     const xhr = makeRequest("POST", "/users/forgot_password", userData);
     xhr.onload = function () {
         let errorsMsg = JSON.parse(xhr.response);
@@ -58,7 +58,7 @@ function checkValidPassword() {
 function changeBack() {
     loginSectionContainer.style.display = "none";
     sendEmailBack.style.display = "block";
-    emailVal.innerHTML = emailInput.value;
+    emailVal.innerHTML = confirmEmailInput.value;
 }
 
 if (newPassword) {

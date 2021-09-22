@@ -4,15 +4,17 @@ const { connect } = require("mongoose");
 //manejar el error en caso de desconexion de la BD
 const connectDB = async () => {
   try {
+    //FIXME:Hacer que se reconecte
     await connect(process.env.MONGODB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
+      keepAlive: true,
+      keepAliveInitialDelay: 300000,
     });
     console.log("DB Online");
   } catch (err) {
-    console.error("Error:", err, process.env.MONGODB_URL);
+    console.error("Error when attempting to connect DB", err);
+    process.exit(1);
   }
 };
 module.exports = connectDB;

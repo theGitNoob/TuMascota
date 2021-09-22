@@ -1,62 +1,194 @@
 extends ./admin-layout.pug
 block contenido
-  div(class="container col-md-4 top-space")
-    form(action="/admin/mascotas/" method='POST' class="form-group" enctype="multipart/form-data")
+  main.main-admin
+    button.btn.btn-go-back(onclick = "window.history.back()") 
+      img(src="/public/img/admin/atras.png", alt="")
+      | Atras 
+    h3.main-title Nueva Mascota
+    label.btn.btn-add-photo(for="file-selector")
+      img(src="/public/img/admin/camera.png", alt="") 
+      | Agregar Foto
+    //- button.btn.add-photo(type="submit")
+    //-   img(src="/public/img/admin/camera.png", alt="") 
+    //-   | Agregar Foto
+    section.gallery
+      article.article-img-container
+        //- .article-img
+        //-   button(type="submit" class="btn btn-delete btn-delete-photo")   
+        //-     img(src="/public/img/ordenes/borrar.png") 
+        //-   img(src="/public/img/mascotas/labrador.jpg", alt="")
+        //- .article-img
+        //-   button(type="submit" class="btn btn-delete btn-delete-photo")   
+        //-     img(src="/public/img/ordenes/borrar.png") 
+        //-   img(src="/public/img/mascotas/pastor.jpg", alt="")
+        //- .article-img
+        //-   button(type="submit" class="btn btn-delete btn-delete-photo")   
+        //-     img(src="/public/img/ordenes/borrar.png") 
+        //-   img(src="/public/img/accesorios/articulo5.jpg", alt="")
+      .gallery-move 
+        button.btn.btn-prev(type="submit")
+          img(src="/public/img/admin/atras.png", alt="") 
+        button.btn.btn-next(type="submit")
+          img(src="/public/img/admin/adelante.png", alt="")
+    article.form-container 
+      form(action="/admin/mascotas/" method='POST' class="form-group" enctype="multipart/form-data")
 
-      select#options.form-control(name="type")
-        option(value="perro") Perro
-        option(value="gato") Gato
-        option(value="ave") Ave
-        option(value="roedor") Roedor
-        option(value="pez") Pez
-        option(value="otro") Otro
-      input#animal-type.form-control(type="text" placeholder="Escriba el tipo de animal" style='display:none;')
+        select#options.form-input(name="type")
+          option(value="perro") Perro
+          option(value="gato") Gato
+          option(value="ave") Ave
+          option(value="roedor") Roedor
+          option(value="pez") Pez
+          option(value="otro") Otro
+        input#animal-type.form-input(type="text" placeholder="Escriba el tipo de animal" style='display:none;')
 
-      input.form-control(type="text" name="breed" placeholder="Raza")
+        input.form-input(type="text" name="breed" placeholder="Raza")
 
-      select.form-control(name="sex")
-        option(value="") Selecciona el Sexo
-        option(value="Masculino") Masculino
-        option(value="Femenino") Femenino
+        select.form-input(name="sex")
+          option(value="") Selecciona el Sexo
+          option(value="Masculino") Masculino
+          option(value="Femenino") Femenino
 
-      input.form-control(type="text" name="price" placeholder="Precio" required)
+        input.form-input(type="text" name="price" placeholder="Precio" required)
 
-      input.form-control(type="text" name="cnt" placeholder="Cantidad" required)
+        input.form-input(type="text" name="cnt" placeholder="Cantidad" required)
 
-      input.form-control(type="datetime-local" name="birthDay" placeholder="Año-Mes-Dia")
+        input.form-input(type="datetime-local" name="birthDay" placeholder="Año-Mes-Dia")
 
-      input.form-control(type="text" name="description" placeholder="Descripción")
+        input.form-input(type="text" name="description" placeholder="Descripción")
 
-      input.form-control(type="text" name="ownerName" placeholder="Nombre del dueño" required)
+        input.form-input(type="text" name="ownerName" placeholder="Nombre del dueño" required)
 
-      input.form-control(type="tel" name="ownerPhone" placeholder="Télefono del dueño" required)
+        input.form-input(type="tel" name="ownerPhone" placeholder="Télefono del dueño" required)
 
-      input.form-control(type="text" name="ownerAccount" placeholder="Cuenta bancaria")
+        input.form-input(type="text" name="ownerAccount" placeholder="Cuenta bancaria")
 
-      input.form-control(type="file" name="images" accept="image/jpeg,image/png" multiple)
+        //- label.btn.select-file(for="file-selector") Seleccionar archivo
+        //- div.file-selected  No ha seleccionado ningún archivo
+        input.form-input(type="file" id="file-selector" multiple  name="image" accept="image/*" )
 
-      div(class="d-flex")
-        input(type="submit" class="btn btn-info " value="Guardar")
-      script.
-        let opts = document.querySelector('#options')
-        let input = document.querySelector('#animal-type');
-        opts.addEventListener('click',(e)=>{
-          if(e.target.value == 'otro')
-          {
-            //- e.target.style = 'display:none';
-            input.style = "";
-            input.setAttribute("name","type");
-            opts.removeAttribute("name");
+        .btn-save-container
+          input(type="submit" class="btn btn-save" value="Guardar")
+          a.btn.btn-cancel(href="/admin/mascotas") Cancelar
+        script.
+          let opts = document.querySelector('#options')
+          let input = document.querySelector('#animal-type');
+          const inputFile = document.querySelector("#file-selector");
+          const btnAddPhoto = document.querySelector("btn-add-photo");
+          const filesSelected = document.querySelector(".file-selected");
+          const articlesImgsContainers = document.querySelector(".article-img-container");
+          let articlesImgs;
+          let btnsDeleteImages;
+          const btnPrevImage = document.querySelector(".btn-prev");
+          const btnNextImage = document.querySelector(".btn-next");
 
+          //Galeria de imagenes
+          let indexGallery = 0;
+          function moveGallery(direccion) {
+
+              if (direccion) {
+                  if(indexGallery > articlesImgs.length - 1)
+                    indexGallery = 0;
+                  articlesImgs[indexGallery].style.display = "none";
+                  let flag = 0;
+                  do {
+                    indexGallery++;
+                    if (indexGallery > articlesImgs.length - 1){ 
+                       if(flag) break;
+                       flag = 1;
+                       indexGallery = 0;
+                    }
+                  }while(articlesImgs[indexGallery].parentElement == null);
+
+                  if (indexGallery > articlesImgs.length - 1) indexGallery = 0;
+                  articlesImgs[indexGallery].style.display = "block";
+              }
+              if (!direccion) {
+                  if(indexGallery < 0)
+                    indexGallery =  articlesImgs.length - 1;
+                  articlesImgs[indexGallery].style.display = "none";
+                  let flag = 0;
+                  do {
+                    indexGallery--;
+                    if (indexGallery < 0){ 
+                       if(flag) break;
+                       flag = 1;
+                       indexGallery = articlesImgs.length - 1;
+                    }
+                  }while(articlesImgs[indexGallery].parentElement == null);
+
+                  if (indexGallery < 0) indexGallery = articlesImgs.length - 1;
+                  articlesImgs[indexGallery].style.display = "block";
+              }
+              console.log(indexGallery, articlesImgsContainers.childElementCount);
           }
-          else 
-          {
-            opts.setAttribute("name","type");
-            input.removeAttribute("name");
-            input.style = 'display:none';
-          }
+          btnNextImage.addEventListener("click", function () {
+              moveGallery(1);
+          });
+          btnPrevImage.addEventListener("click", function () {
+              moveGallery(0);
+          });
 
-        })
+          inputFile.addEventListener("change", function(){
+              const currentFiles = inputFile.files;
+              console.log("pepe",articlesImgsContainers.childElementCount);
+              if(currentFiles.length == 0 && articlesImgsContainers.childElementCount == 0){
+                  articlesImgsContainers.innerHTML = "<span style = 'font-weight: 500;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
+                  btnPrevImage.parentElement.style.display = "none";
+                  console.log("No ha seleccionado ninguna foto");
+              }
+              else{
+                 if(!articlesImgsContainers.childElementCount || (currentFiles.length && !articlesImgsContainers.children[0] != "span")){
+                      articlesImgsContainers.innerHTML = "";
+                 } 
+                 console.log(currentFiles.length, articlesImgsContainers.childElementCount, articlesImgsContainers);
+                //- articlesImgsContainers.innerHTML = "";
+                for(let file of currentFiles){
+                      const node = document.createElement("div");
+                      node.classList.add("article-img");
+                      node.innerHTML = `<button type='submit' class='btn btn-delete btn-delete-photo'><img src='/public/img/ordenes/borrar.png'></button><img src='/public/img/mascotas/${file.name}' alt=''>`;
+                      articlesImgsContainers.appendChild(node);
+                }
+                
+                if(currentFiles.length){
+                  btnPrevImage.parentElement.style.display = "block";
+                  articlesImgs = articlesImgsContainers.querySelectorAll(".article-img");
+                  btnsDeleteImages = articlesImgsContainers.querySelectorAll(".btn-delete-photo");
+                  moveGallery(1);
+                }
+                
+                btnsDeleteImages.forEach(function(btn, index){
+                  btn.addEventListener("click", function(){
+                      if(articlesImgs[index].parentElement)
+                        articlesImgs[index].parentElement.removeChild(articlesImgs[index]);
+                      moveGallery(0);
+                      if(articlesImgsContainers.childElementCount == 0){
+                        articlesImgsContainers.innerHTML = "<span style = 'font-weight: 500;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
+                        btnPrevImage.parentElement.style.display = "none";
+                      } 
+                  });
+                })
+                
+              }
+          });
+
+          opts.addEventListener('click',(e)=>{
+            if(e.target.value == 'otro')
+            {
+              //- e.target.style = 'display:none';
+              input.style = "";
+              input.setAttribute("name","type");
+              opts.removeAttribute("name");
+
+            }
+            else 
+            {
+              opts.setAttribute("name","type");
+              input.removeAttribute("name");
+              input.style = 'display:none';
+            }
+
+          })
 
 
 
