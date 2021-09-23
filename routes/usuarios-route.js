@@ -70,11 +70,11 @@ router.get("/verify/:url", async (req, res, next) => {
     user.verifyURL = undefined;
     await user.save();
 
-    res.json({
-      msg: "Su cuenta ha sido confirmada, ahora puede iniciar sesión",
-    });
-
-    // res.redirect("/users/login");
+    // res.json({
+    //   msg: "Su cuenta ha sido confirmada, ahora puede iniciar sesión",
+    // });
+    req.flash("sucesss", "Su cuenta ha sido confirmada");
+    res.redirect("/users/login");
   } catch (err) {
     next(error);
   }

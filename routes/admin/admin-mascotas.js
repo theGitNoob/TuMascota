@@ -44,11 +44,13 @@ router
       check("images").custom(imageUploaded),
     ],
     async (req, res, next) => {
+      console.log("POST");
       try {
         const errors = validateResults(req);
 
         if (!errors.isEmpty()) {
-          return res.json(errors.array());
+          console.log(errors.array());
+          return res.status(400).json(errors.array());
         }
 
         const {
@@ -85,10 +87,7 @@ router
         await newPet.save();
 
         res.redirect("/admin/mascotas/");
-      } catch (err) {
-        console.error(err);
-        res.redirect("/admin/mascotas/new");
-      }
+      } catch (next) {}
     }
   );
 

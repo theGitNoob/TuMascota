@@ -159,3 +159,4 @@ server.listen(process.env.PORT, (err) => {
 //TODO:Apr3nder a usar Bluerbird, async, PM2, Cluster
 //TODO:Cambiar las variables de entorno cuando la app este en produccion
 //TODO:Entender el XSS y como prevenirlo
+//FIXME:Arreglar el error en new-pet y new-accesorie que hace que al eliminar las fotos aun se envien

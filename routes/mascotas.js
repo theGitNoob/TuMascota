@@ -2,6 +2,8 @@ let express = require("express");
 let router = express.Router();
 let Pet = require("../models/pet-model");
 let redis = require("redis");
+const { check } = require("express-validator");
+const { validationResult } = require("express-validator");
 let redisClient = redis.createClient();
 
 router.route("/").get(async (req, res, next) => {
@@ -36,15 +38,24 @@ router.route("/").get(async (req, res, next) => {
   }
 });
 
-router.get("/:id/images/", async (req, res, next) => {
-  const id = req.params.id;
-  const pet = await Pet.findById(id).exec();
+router.get(
+  "/:id/images/",
+  check("id", "").isMongoId(),
+  async (req, res, next) => {
+    console.log("images");
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ msg: "invalid id" });
+    }
+    const id = req.params.id;
+    const pet = await Pet.findById(id).exec();
 
-  if (!pet) {
-    return next();
+    if (!pet) {
+      return next();
+    }
+
+    res.json(pet.images.map(({ url }) => url));
   }
-
-  res.json(pet.images.map(({ url }) => url));
-});
+);
 
 module.exports = router;

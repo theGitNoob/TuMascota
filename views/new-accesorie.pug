@@ -2,19 +2,29 @@ extends ./admin-layout.pug
 block contenido
   main.main-admin
     button.btn.btn-go-back(onclick = "window.history.back()") 
-      img(src="/public/img/admin/atras.png", alt="")
+      img(src="/public/img/admin/atras.png" alt="")
       | Atras 
     h3.main-title Nuevo Accesorio
+    label.btn.btn-add-photo(for="file-selector")
+      img(src="/public/img/admin/camera.png" alt="") 
+      | Agregar Foto
+    section.gallery
+      article.article-img-container
+      .gallery-move 
+        button.btn.btn-prev(type="submit")
+          img(src="/public/img/admin/atras.png" alt="") 
+        button.btn.btn-next(type="submit")
+          img(src="/public/img/admin/adelante.png" alt="")
     article.form-container
       form(action="/admin/accesorios/" method='POST' class="form-group" enctype="multipart/form-data")
 
-        input(type="text" class="form-input" name="type"  placeholder="Tipo de accesorio" required)
+        input(type="text" class="form-input" name="type" placeholder="Tipo de accesorio" required)
 
         input(type="text" class="form-input" name="price" placeholder="Precio" required)
 
         input(type="text" class="form-input" name="description" placeholder="Descripción")
 
-        input(type="text" class="form-input" name="cnt"  placeholder="Cantidad de articulos")
+        input(type="text" class="form-input" name="cnt" placeholder="Cantidad de articulos")
 
         input(type="text" class="form-input" name="ownerName" placeholder="Nombre del dueño" required)
 
@@ -22,33 +32,119 @@ block contenido
 
         input(type="text" class="form-input" name="ownerAccount" placeholder="Cuenta bancaria")
 
-        label.btn.select-file(for="file-selector") Seleccionar archivo
-        div.file-selected  No ha seleccionado ningún archivo
-        input.form-input(type="file" id="file-selector" multiple  name="image" accept="image/*" )
-        
+        input.form-input(type="file" id="file-selector" multiple  name="images" accept="image/*" )
+
         .btn-save-container
           input(type="submit" class="btn btn-save " value="Guardar")
           a.btn.btn-cancel(href="/admin/accesorios") Cancelar
-        script.
-          const inputFile = document.querySelector("#file-selector");
-          const filesSelected = document.querySelector(".file-selected");
+  script.
+    const inputFile = document.querySelector("#file-selector");
+    const btnAddPhoto = document.querySelector("btn-add-photo");
+    const filesSelected = document.querySelector(".file-selected");
+    const articlesImgsContainers = document.querySelector(".article-img-container");
+    let articlesImgs;
+    let btnsDeleteImages;
+    const btnPrevImage = document.querySelector(".btn-prev");
+    const btnNextImage = document.querySelector(".btn-next");
 
-          //Esto es para la seleccion de los archivos
-          inputFile.addEventListener("change", function(){
-              filesSelected.innerHTML = "";
-              filesSelected.classList.remove("file-preview");
-              const currentFiles = inputFile.files;
-              if(currentFiles.length == 0){
-                filesSelected.innerHTML = "No ha seleccionado ningún archivo";
-              }
-              else{
-                  let textPreview = "";
-                  for(file of currentFiles){
-                    textPreview += `<span>${file.name}</span> `;
-                  }
-                  filesSelected.innerHTML = `<h4> Ha seleccionado </h4> ${textPreview}`;
-                  filesSelected.classList.add("file-preview");
-              }
+    //Galeria de imagenes
+    let indexGallery = 0;
+    function moveGallery(direccion) {
+      if (direccion) {
+        if (indexGallery > articlesImgs.length - 1) indexGallery = 0;
+        articlesImgs[indexGallery].style.display = "none";
+        let flag = 0;
+        do {
+          indexGallery++;
+          if (indexGallery > articlesImgs.length - 1) {
+            if (flag) break;
+            flag = 1;
+            indexGallery = 0;
+          }
+        } while (articlesImgs[indexGallery].parentElement == null);
+
+        if (indexGallery > articlesImgs.length - 1) indexGallery = 0;
+        articlesImgs[indexGallery].style.display = "block";
+      }
+      if (!direccion) {
+        if (indexGallery < 0) indexGallery = articlesImgs.length - 1;
+        articlesImgs[indexGallery].style.display = "none";
+        let flag = 0;
+        do {
+          indexGallery--;
+          if (indexGallery < 0) {
+            if (flag) break;
+            flag = 1;
+            indexGallery = articlesImgs.length - 1;
+          }
+        } while (articlesImgs[indexGallery].parentElement == null);
+
+        if (indexGallery < 0) indexGallery = articlesImgs.length - 1;
+        articlesImgs[indexGallery].style.display = "block";
+      }
+      console.log(indexGallery, articlesImgsContainers.childElementCount);
+    }
+    btnNextImage.addEventListener("click", function () {
+      moveGallery(1);
+    });
+    btnPrevImage.addEventListener("click", function () {
+      moveGallery(0);
+    });
+
+    inputFile.addEventListener("change", function () {
+      let currentFiles = inputFile.files;
+      if (
+        currentFiles.length == 0 &&
+        articlesImgsContainers.childElementCount == 0
+      ) {
+        articlesImgsContainers.innerHTML =
+          "<span style = 'font-weight: 500;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
+        btnPrevImage.parentElement.style.display = "none";
+        console.log("No ha seleccionado ninguna foto");
+      } else {
+        if (
+          !articlesImgsContainers.childElementCount ||
+          (currentFiles.length && !articlesImgsContainers.children[0] != "span")
+        ) {
+          articlesImgsContainers.innerHTML = "";
+        }
+        for (let file of currentFiles) {
+          let reader = new FileReader();
+
+          reader.addEventListener("load", function (e) {
+            const node = document.createElement("div");
+            node.classList.add("article-img");
+            node.innerHTML = `<button type='submit' class='btn btn-delete btn-delete-photo'><img src='/public/img/res/borrar.png'></button><img src=${reader.result} alt=''>`;
+            articlesImgsContainers.appendChild(node);
+
+            if (currentFiles.length) {
+              btnPrevImage.parentElement.style.display = "block";
+              articlesImgs = document.querySelectorAll(".article-img");
+              console.log(articlesImgs);
+              btnsDeleteImages =
+                articlesImgsContainers.querySelectorAll(".btn-delete-photo");
+              moveGallery(1);
+            }
+
+            btnsDeleteImages.forEach(function (btn, index) {
+              btn.addEventListener("click", function () {
+
+                if (articlesImgs[index].parentElement)
+                  articlesImgs[index].parentElement.removeChild(
+                    articlesImgs[index]
+                  );
+                moveGallery(0);
+                if (articlesImgsContainers.childElementCount == 0) {
+                  articlesImgsContainers.innerHTML =
+                    "<span style = 'font-weight: 500;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
+                  btnPrevImage.parentElement.style.display = "none";
+                }
+              });
+            });
           });
+          reader.readAsDataURL(file);
+        }
+      }
+    });
 
 

@@ -1,16 +1,38 @@
 extends ./admin-layout.pug
 block contenido
-  div(class="container top-space")
-    for accesorio in accesorios
-      .border.tr
-        .row
-          .col-md-10
-            h3 Tipo: #{accesorio.type}
-            h3 Precio: #{accesorio.price}
-            h3 Cantidad: #{accesorio.cnt}
-            h3 Nombre del dueño: #{accesorio.ownerName}
-            h3 Télefono del dueño: #{accesorio.ownerPhone}
-          .col-md-2.container.flex-container
-            a(href="/admin/accesorios/"+accesorio._id class="right-space link-info") Editar
-            form(action=`/admin/accesorios/${accesorio._id}?_method=DELETE` method="POST" class="link-container delete-form")
-              input(type="submit" value="Eliminar" class="link-danger") 
+  main.main-admin
+    .container-btn 
+      a.btn.btn-add(href="/admin/accesorios/new")
+        img(src="/public/img/admin/add.png") 
+        | Añadir Accessorio
+    article.table-container 
+      h3.table-title Listado de accesorios
+      table.main-table 
+        thead.main-table__header 
+          th.table-cell.table-cell--header Tipo 
+          th.table-cell.table-cell--header Raza  
+          th.table-cell.table-cell--header Precio 
+          th.table-cell.table-cell--header Cantidad
+          th.table-cell.table-cell--header Editar 
+          th.table-cell.table-cell--header Eliminar
+        tbody.main-table__body 
+          for accesorio in accesorios
+            tr.table-row 
+              td.table-cell(data-header="Tipo") #{accesorio.type}
+              td.table-cell(data-header="Raza") #{accesorio.breed}
+              td.table-cell(data-header="Precio") #{accesorio.price}
+              td.table-cell(data-header="Cantidad") #{accesorio.cnt}
+              td.table-cell(data-header="Editar") 
+                a(href="/admin/accesorios/"+accesorio._id class="btn btn-edit") 
+                  img(src="/public/img/admin/edit.png") 
+              td.table-cell(data-header="Eliminar")             
+                form(action=`/admin/accesorios/${accesorio._id}?_method=DELETE` method="POST" class="link-container delete-form" )
+                  button(type="submit" class="btn btn-delete")  
+                    img(src="/public/img/res/borrar.png")
+      script.
+        const mainTable = document.querySelector(".main-table");
+        const mainTableBody = document.querySelector(".main-table__body");
+        if(mainTableBody.childElementCount == 0)
+          mainTable.innerHTML = `<span class='no-elements'>No hay accesorios actualmente</span>`;
+
+

@@ -9,7 +9,7 @@ block contenido
             img(src='public/img/res/pata.png' alt)
             span
       section.order-alert
-        img(src='public/img/ordenes/atencion.png' alt)
+        img(src='/public/img/res/atencion.png' alt)
         .order-alert__content
           span.order-alert__info.
 
@@ -20,28 +20,28 @@ block contenido
           | Pendientes
           |
           |
-          img.pendient(src='/public/img/ordenes/pendiente.png' alt)
+          img.pendient(src='/public/img/res/pendiente.png' alt)
         |
         |
         span.order-state.filter-order(data-state='aproved')
           | Aprobadas
           |
           |
-          img(src='/public/img/ordenes/completadas.png' alt)
+          img(src='/public/img/res/completadas.png' alt)
         |
         |
         span.order-state.filter-order(data-state='completed')
           | Completadas
           |
           |
-          img(src='/public/img/ordenes/checked.png' alt)
+          img(src='/public/img/res/checked.png' alt)
         |
         |
         span.order-state.filter-order(data-state='canceled')
           | Canceladas
           |
           |
-          img(src='/public/img/ordenes/borrar.png' alt)
+          img(src='/public/img/res/borrar.png' alt)
       section.order-section
         h1.order-section__title Listado de Mascotas
         table.order-section__table.order-section--pet
@@ -92,7 +92,7 @@ block contenido
                   span.order-state(data-state=orden.state)=orden.state
                 td.order-section__column(data-header='Cancelar')
                   button.btn.cancel-order(type='submit')
-                    img(src='/public/img/ordenes/borrar.png' alt)
+                    img(src='/public/img/res/borrar.png' alt)
               |
               |
       // Ordenes de accesorios
@@ -124,7 +124,7 @@ block contenido
                   span.order-state(data-state=orden.state)=orden.state
                 td.order-section__column(data-header='Cancelar')
                   button.btn.cancel-order(type='submit')
-                    img(src='/public/img/ordenes/borrar.png' alt)
+                    img(src='/public/img/res/borrar.png' alt)
         #modal-back-alert.modal-back
           #modal-alert.modal.modal-alert
             .modal__body.modal-body__alert

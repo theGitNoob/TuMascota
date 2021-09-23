@@ -14,9 +14,12 @@ const logUser = async (req, res, next) => {
     if (err) return next(err);
 
     if (!user) {
-      return res
-        .status(400)
-        .json({ msg: "El nombre de usuario o la contraseña son incorrectos" });
+      return res.status(400).json([
+        {
+          field: "username",
+          msg: "El nombre de usuario o la contraseña son incorrectos",
+        },
+      ]);
     }
     if (user.state === "unconfirmed") {
       return res.status(401).json({ msg: "unconfirmed" });

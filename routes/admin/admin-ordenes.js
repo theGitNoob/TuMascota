@@ -29,6 +29,10 @@ router
         // res.redirect("/admin/ordenes/");
         return res.status(400).json({ msg: "La orden ya no existe" });
       }
+
+      if (order.state == state) {
+        return res.redirect("/admin/ordenes");
+      }
       let article =
         order.type == "pet"
           ? await Pet.findById(order.pet).exec()
@@ -63,7 +67,8 @@ router
       await user.save();
       await order.save();
 
-      return res.end();
+      // return res.end();
+      return res.redirect("/admin/ordenes");
     } catch (err) {
       next(err);
     }
@@ -74,7 +79,7 @@ router
       let order = await Order.findById(req.params.id).exec();
 
       if (!order) {
-        return res.status(400).json({ msg: "La orden ya no existe" });
+        return res.status(404).json({ msg: "La orden ya no existe" });
       }
 
       let article =
@@ -101,6 +106,8 @@ router
       await order.deleteOne();
       await article.save({ validateModifiedOnly: true });
       await user.save();
+
+      return res.end();
     } catch (err) {
       next(err);
     }
