@@ -4,17 +4,27 @@ html(lang="es")
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible" content="IE=edge")
     meta(name="viewport" content="width=device-width, initial-scale=1")
-    link(rel="stylesheet" href="/public/css/bootstrap.min.css")
+    //- link(rel="stylesheet" href="/public/css/bootstrap.min.css")
     link(rel="stylesheet" href="/public/css/admin.css") 
     script(src="/public/js/admin.js")
   body
     if ruta != '/login' & ruta != '/new'
-      header(class="header container")
-        h1(class="text-center top-space") Seccion de administracion #{seccion}
-        nav(class="top-space nav justify-content-around")
-          a(href="/admin/mascotas" class="nav-link") Mascotas
+      header(class="main-header")
+        h1(class="") Seccion de administracion #{seccion}
+        nav(class="nav-menu")
+          a(href="/admin/mascotas" class="nav-link") Mascotas 
           a(href="/admin/accesorios" class="nav-link") Accesorios
           a(href="/admin/servicios" class="nav-link") Servicios
           a(href="/admin/ordenes" class="nav-link") Órdenes
+  script.
+    const navLinks = document.querySelectorAll(".nav-link");
+    const loc = window.location.pathname;
+    if(loc.startsWith("/admin/mascotas"))
+      navLinks[0].classList.add("nav-link-active");
+    if(loc.startsWith("/admin/accesorios"))
+      navLinks[1].classList.add("nav-link-active");
+    if(loc.startsWith("/admin/ordenes"))
+      navLinks[3].classList.add("nav-link-active");
+
   != messages()
   block contenido

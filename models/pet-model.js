@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const { addImages } = require("../helpers/file-helper");
+const { addImages, deleteImages } = require("../helpers/file-helper");
 
 const imageSchema = new Schema({
   url: { type: String },
@@ -23,5 +23,6 @@ const petSchema = Schema({
 });
 
 petSchema.method("addImages", addImages);
+petSchema.method("deleteImages", deleteImages);
 
 module.exports = new model("Pet", petSchema);

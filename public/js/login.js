@@ -113,8 +113,7 @@ if (loginForm) {
     const modalLogin = document.createElement("div");
     modalLogin.classList.add("modal-back");
     modalLogin.classList.add("modal-back-confirm-login");
-    modalLogin.innerHTML =
-      "                <div class='modal confirm-login'><div class='modal__header'>Confirmar Cuenta<button type='submit' class='modal-close'><img class='modal-close__icon' src='/public/img/res/close-white.png' alt=''/></button></div><div class='modal__body modal__body-confirm-login'> <h3>Hola Jmlopez</h3> <img src='/public/img/login/email-warning.png' alt='' /><span>Aún no ha confirmado su cuenta en su correo electrónico.</span></div><div class='modal-line-login line-login'>si no le ha llegado el correo a su buzón, presione aquí <button type='submit' id='resend_email' class = 'btn btn__send-email'>Reenviar correo</button></div></div>";
+    modalLogin.innerHTML = `                <div class='modal confirm-login'><div class='modal__header'>Confirmar Cuenta<button type='submit' class='modal-close'><img class='modal-close__icon' src='/public/img/res/close-white.png' alt=''/></button></div><div class='modal__body modal__body-confirm-login'> <h3>Hola ${usernameInput.value}</h3> <img src='/public/img/login/email-warning.png' alt='' /><span>Aún no ha confirmado su cuenta en su correo electrónico.</span></div><div class='modal-line-login line-login'>si no le ha llegado el correo a su buzón, presione aquí <button type='submit' id='resend_email' class = 'btn btn__send-email'>Reenviar correo</button></div></div>`;
     if (!document.querySelector(".modal-back-confirm-login")) {
       document.body.appendChild(modalLogin);
       let closeModal = modalLogin.querySelector(".modal-close");
