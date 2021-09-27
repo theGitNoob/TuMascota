@@ -7,6 +7,7 @@ let Pet = require("../../models/pet-model");
 const { check } = require("express-validator");
 const { validateResults, imageUploaded } = require("../../helpers/validators");
 const { deleteFiles } = require("../../helpers/file-helper");
+const Order = require("../../models/order-model");
 
 //TODO:Hacer pruebas sobre updatear campos no vacios con valores null "" o undefined
 //TODO:Modificar multer para que los archivos se suban directamente el el directorio que deberia ir junto con el id unico de mongo
@@ -27,9 +28,6 @@ router
   })
   .post(
     upload.array("images"),
-    (err, req, res, next) => {
-      return res.status(400).end();
-    },
     [
       check("type", "El tipo de mascota no debe estar vacío").notEmpty(),
       check("price", "El precio no debe estar vacío").notEmpty(),
@@ -44,7 +42,6 @@ router
       check("images").custom(imageUploaded),
     ],
     async (req, res, next) => {
-      console.log("POST");
       try {
         const errors = validateResults(req);
 
@@ -87,14 +84,16 @@ router
         await newPet.save();
 
         res.redirect("/admin/mascotas/");
-      } catch (next) {}
+      } catch (error) {
+        next(error);
+      }
     }
   );
 
 router.get("/new", (req, res, next) => {
   res.render("new-pet", { seccion: "de mascotas" });
 });
-
+//TODO:Hacer un middleware en todas las rutas que usen un :id y verificar que sea valido(401) y exista(400)
 router
   .route("/:id")
   .get(check("id").isMongoId(), async (req, res, next) => {
@@ -117,7 +116,7 @@ router
   })
   .put(
     upload.array("images"),
-    (err, req, res, next) => {
+    (req, res, next) => {
       return res.status(400).end();
     },
     [
@@ -162,6 +161,7 @@ router
           sex,
           price,
           cnt,
+          status: cnt != 0 ? "available" : "unavailable",
           birthDay,
           description,
           ownerPhone,
@@ -187,15 +187,40 @@ router
       }
     }
   )
-  .delete((req, res, next) => {
-    const id = req.params.id;
-    //TODO:Eliminar las mascotas
-    // let pet = petModel.findById(id);
-    // const images = pet.images
-    //   petModel
-    //     .findOneAndDelete({ _id: req.params.id })
-    //     .catch((err) => console.error(err))
-    //     .then(() => res.redirect("/admin/mascotas/"));
+  .delete([check("id").isMongoId()], async (req, res, next) => {
+    const { id } = req.params;
+
+    const errors = validateResults(req);
+    if (!errors.isEmpty()) {
+      return res.status(401).end();
+    }
+
+    try {
+      let pet = await Pet.findById(id).exec();
+
+      if (!pet) return res.status(404).end();
+
+      const orders = await Order.find({ type: "pet", pet: id })
+        .populate("user")
+        .exec();
+
+      if (orders) {
+        //TODO:Notificar a los usuarios
+        for (let order of orders) {
+          order.user.orders--;
+          await order.user.save();
+          await order.remove();
+        }
+      }
+
+      await pet.deleteImages(pet.images);
+      await pet.remove();
+
+      // res.status(200).json({ pet, orders });
+      res.redirect("/admin/mascotas");
+    } catch (error) {
+      next(error);
+    }
   });
 
 router.route("/:id/image/:imgId/").delete(async (req, res, next) => {

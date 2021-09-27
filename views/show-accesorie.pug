@@ -6,7 +6,8 @@ block contenido
       | Atras
     h3.main-title Editar Accesorio
     section.flex-container-img
-      img(src=accesorie.images[0].url class="img-fluid img-thumbnail")
+      if accesorie.images[0]
+        img(src=accesorie.images[0].url class="img-fluid img-thumbnail")
     form(action=`/admin/accesorios/${accesorie._id}?_method=PUT` method='POST' class="form-group" enctype="multipart/form-data")
 
       input(type="text" class="form-input" name="type"  placeholder="Tipo de accesorios" required value=accesorie.type)
@@ -25,7 +26,7 @@ block contenido
 
       label.btn.select-file(for="file-selector") Seleccionar archivo
       div.file-selected  No ha seleccionado ningún archivo
-      input(type="file" id="file-selector" class="form-input" name="file" multiple)
+      input(type="file" id="file-selector" class="form-input" name="images" multiple)
 
       .btn-save-container
         input(type="submit" class="btn btn-save" value="Guardar")

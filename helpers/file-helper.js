@@ -1,13 +1,13 @@
-const fs = require("fs/promises");
+const { rename, unlink } = require("fs/promises");
 
 const moveFiles = async (images) => {
   return await Promise.all(
-    images.map(({ oldPath, newPath }) => fs.rename(oldPath, newPath))
+    images.map(({ oldPath, newPath }) => rename(oldPath, newPath))
   );
 };
 
-const deleteFiles = async (images) => {
-  return await Promise.all(images.map(fs.unlink)).catch((error) => {});
+const deleteImages = async (images) => {
+  return await Promise.all(images.map(({ url }) => unlink(url.slice(1))));
 };
 
 async function addImages(images, articleType) {
@@ -38,4 +38,4 @@ async function addImages(images, articleType) {
     throw err;
   }
 }
-module.exports = { moveFiles, addImages, deleteFiles };
+module.exports = { moveFiles, addImages, deleteImages };

@@ -1,9 +1,9 @@
 node_modules
 package-lock.json
-public/img/accesorios
-public/img/mascotas
+public/img/accesorios/*
+public/img/mascotas/*
 temp
-uploads
+uploads/*
 build/config.gypi
 .vscode/settings.json
 build/config.gypi

@@ -189,7 +189,7 @@ router
 
         const hash = await bcrypt.hash(password, 10);
         await User.findByIdAndUpdate(id, { password: hash }).exec();
-        await resetToken.remove().exec();
+        await resetToken.remove();
 
         req.flash(
           "alert alert-success",
@@ -203,7 +203,6 @@ router
     }
   );
 
-//TODO: ruta para reenviar el correo en caso de que no le llegue al usuario
 //TODO: limitar la cantidad de solicitudes con rate-limiter
 router.post("/send_email", sendEmail);
 module.exports = router;
