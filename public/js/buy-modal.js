@@ -53,16 +53,18 @@ if (modalBackBuyThisCnt && plusBtn && lessBtn) {
 
         xhr.onload = function () {
             console.log(xhr.response);
-            if (xhr.status === 200) return true;
+            if (xhr.status === 200) {
+                modalBackBuyThis.click();
+                animCompleted(1);
+            }
             console.log({ xhr });
-            // const errorsMsg = JSON.parse(xhr.response);
-            // if (xhr.status === 400) {
-            //     addAlert("error", errorsMsg.errors);
-            //     return false;
-            // }
-            // if (xhr.status === 500) {
-            //     addAlert("error", ["Error Interno del servidor"]);
-            // }
+            if (xhr.status === 400) {
+                const errorsMsg = JSON.parse(xhr.response);
+                addAlert("error", errorsMsg.errors);
+            }
+            if (xhr.status === 500) {
+                addAlert("error", ["Error Interno del servidor"]);
+            }
         };
     }
 
@@ -74,12 +76,7 @@ if (modalBackBuyThisCnt && plusBtn && lessBtn) {
         while (!currentArticle.classList.contains("article-container")) {
             currentArticle = currentArticle.parentNode;
         }
-        if (confirmBuyCheck(currentArticle)) {
-            modalBackBuyThis.click();
-            animCompleted(1);
-        } else {
-            modalBackBuyThis.click();
-        }
+        confirmBuyCheck(currentArticle);
     });
 
     btnBuyArr.forEach(function (btnBuy, ind) {

@@ -1,0 +1,10 @@
+No dar soporte en IE7 y IE8
+
+General:
+-Arreglar notificaciones
+Admin: 
+-terminar seccion , añadir peticiones fecth en vez de xhr
+
+Al Final:
+Añadir prefijos de los navegadores para:
+flexbox, transition, animation,transform
