@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const { Router } = require("express");
 const { logoutUser } = require("../controllers/usuarios.controller");
 const User = require("../models/user-model");
@@ -77,7 +78,7 @@ router
       const errors = validateResults(req);
 
       if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json(errors.array());
       }
 
       let { phone, address, password, name, lastname, notify } = req.body;
@@ -99,7 +100,7 @@ router
 
       await user.updateOne(newData).exec();
 
-      res.redirect("/users/modify_profile");
+      res.end();
     }
   );
 

@@ -238,21 +238,37 @@ if (modifyUserForm) {
         const xhr = makeRequest("PUT", "/user/modify_profile", userData);
 
         xhr.onload = function () {
-            console.log(xhr.response);
-            if (xhr.status === 200) {
-                animCompleted(0);
-                window.location = "/";
-            }
+            if (xhr.status === 200) return true;
             if (xhr.status === 400) {
                 const errorsMsg = JSON.parse(xhr.response);
                 console.log(errorsMsg);
+                // addAlert("error", errorsMsg);
                 showErrorsForm(errorsMsg);
+                return false;
             }
             if (xhr.status === 500) {
                 addAlert("error", ["Error Interno del servidor"]);
             }
         };
     }
+
+    const xhr = makeRequest("PUT", "/user/modify_profile", userData);
+
+    xhr.onload = function () {
+        console.log(xhr.response);
+        if (xhr.status === 200) {
+            animCompleted(0);
+            window.location = "/";
+        }
+        if (xhr.status === 400) {
+            const errorsMsg = JSON.parse(xhr.response);
+            console.log(errorsMsg);
+            showErrorsForm(errorsMsg);
+        }
+        if (xhr.status === 500) {
+            addAlert("error", ["Error Interno del servidor"]);
+        }
+    };
 
     modifyUserForm.addEventListener("submit", function (event) {
         event.preventDefault();
