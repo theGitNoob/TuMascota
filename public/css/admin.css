@@ -7,18 +7,17 @@
     padding: 0;
 }
 
-.flex-container-img > img{
+.flex-container-img > img {
     max-height: 17.5rem;
 }
-
-
 
 body {
     font-family: "Montserrat", sans-serif;
 }
 
 :focus,
-a:focus {
+a:focus,
+.btn:focus {
     border-color: #86b7fe;
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgb(13, 110, 253, 0.25);
@@ -245,6 +244,10 @@ a:focus {
     position: relative;
     margin: auto;
     padding: 0 0.4rem;
+}
+
+.picture-show {
+    display: block;
 }
 
 .article-img > img {

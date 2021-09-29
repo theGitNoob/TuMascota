@@ -59,7 +59,7 @@ function checkValidPassword() {
 function changeBack() {
     loginSectionContainer.style.display = "none";
     sendEmailBack.style.display = "block";
-    emailVal.innerHTML = confirmEmailInput.value;
+    // emailVal.innerHTML = confirmEmailInput.value;
 }
 
 if (newPassword) {

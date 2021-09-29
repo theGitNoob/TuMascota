@@ -53,6 +53,17 @@ html(lang='en')
           span.line-login
             | ¿No tienes una cuenta? 
             a(href='/users/register') Regístrate Aquí
+        #back-email-send.send-email
+          .send-email__header Recuperar Contraseña
+          .send-email__title
+            img(src='/public/img/login/confirm-email.png' alt)
+          h4 Revisa tu correo electrónico
+          p.send-email__info
+            | Hemos enviado un correo electrónico a su buzón
+            |  con las instrucciones para finalizar la creación de su cuenta
+
+            br
+          span.line-login Si no encuentra el correo, revise su bandeja spam
   footer.main-footer
     .main-footer__logo
       img(src='/public/img/res/Logo.png' alt)

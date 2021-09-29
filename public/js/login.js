@@ -205,8 +205,8 @@ if (registerForm) {
                 animCompleted(0);
                 setTimeout(changeBack, 2700);
             }
-            const errorsMsg = JSON.parse(xhr.response);
             if (xhr.status === 400) {
+                const errorsMsg = JSON.parse(xhr.response);
                 showErrorsForm(errorsMsg);
             }
             if (xhr.status === 500) {
@@ -235,7 +235,7 @@ if (modifyUserForm) {
             notify: notifyInput.value,
         };
 
-        const xhr = makeRequest("PUT", "/users/change_perfil", userData);
+        const xhr = makeRequest("PUT", "/user/modify_profile", userData);
 
         xhr.onload = function () {
             console.log(xhr.response);
