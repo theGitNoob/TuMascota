@@ -1,6 +1,5 @@
 const { connect } = require("mongoose");
 
-//"mongodb://localhost/TuMascota"
 //manejar el error en caso de desconexion de la BD
 const connectDB = async () => {
   try {
