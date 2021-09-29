@@ -13,6 +13,7 @@ const Order = require("../../models/order-model");
 //TODO:Modificar multer para que los archivos se suban directamente el el directorio que deberia ir junto con el id unico de mongo
 //TODO:Cambiar multer para que los nombres de las imagenes sea un uuid/4 unico
 
+//TODO: Notificar a los usuarios cuando una nueva mascota o accesorios ha sido añadida
 router
   .route("/")
   .get(async (req, res, next) => {
@@ -116,9 +117,6 @@ router
   })
   .put(
     upload.array("images"),
-    (req, res, next) => {
-      return res.status(400).end();
-    },
     [
       check("type", "El tipo de mascota no debe estar vacío").notEmpty(),
       check("price", "El precio no debe estar vacío").notEmpty(),

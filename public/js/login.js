@@ -235,7 +235,6 @@ if (modifyUserForm) {
       name: nameInput.value,
       lastname: lastnameInput.value,
       phone: phoneInput.value,
-      email: emailInput.value,
       address: addressInput.value,
       username: usernameInput.value,
       password: passwordInput.value,
@@ -243,13 +242,15 @@ if (modifyUserForm) {
       notify: notifyInput.value,
     };
 
-    const xhr = makeRequest("PUT", "users/change_perfil", userData);
+    const xhr = makeRequest("PUT", "/user/modify_profile", userData);
 
     xhr.onload = function () {
       if (xhr.status === 200) return true;
       if (xhr.status === 400) {
         const errorsMsg = JSON.parse(xhr.response);
-        addAlert("error", errorsMsg);
+        console.log(errorsMsg);
+        // addAlert("error", errorsMsg);
+        showErrorsForm(errorsMsg);
         return false;
       }
       if (xhr.status === 500) {
