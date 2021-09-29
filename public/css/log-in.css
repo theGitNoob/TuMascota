@@ -262,7 +262,7 @@
 }
 
 .line-login > a {
-    font-weight: bold;
+    font-weight: 500;
     text-decoration: none;
     color: #208cff;
     transition: 0.3s;

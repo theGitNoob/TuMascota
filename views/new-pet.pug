@@ -61,106 +61,133 @@ block contenido
     const inputFile = document.querySelector("#file-selector");
     const btnAddPhoto = document.querySelector("btn-add-photo");
     const filesSelected = document.querySelector(".file-selected");
-    const articlesImgsContainers = document.querySelector(".article-img-container");
-    let articlesImgs;
-    let btnsDeleteImages;
+    const gallery = document.querySelector(".article-img-container");
     const btnPrevImage = document.querySelector(".btn-prev");
     const btnNextImage = document.querySelector(".btn-next");
 
     //Galeria de imagenes
-    let indexGallery = 0;
-    function moveGallery(direccion) {
-      if (direccion) {
-        if (indexGallery > articlesImgs.length - 1) indexGallery = 0;
-        articlesImgs[indexGallery].style.display = "none";
-        let flag = 0;
-        do {
-          indexGallery++;
-          if (indexGallery > articlesImgs.length - 1) {
-            if (flag) break;
-            flag = 1;
-            indexGallery = 0;
-          }
-        } while (articlesImgs[indexGallery].parentElement == null);
-
-        if (indexGallery > articlesImgs.length - 1) indexGallery = 0;
-        articlesImgs[indexGallery].style.display = "block";
-      }
-      if (!direccion) {
-        if (indexGallery < 0) indexGallery = articlesImgs.length - 1;
-        articlesImgs[indexGallery].style.display = "none";
-        let flag = 0;
-        do {
-          indexGallery--;
-          if (indexGallery < 0) {
-            if (flag) break;
-            flag = 1;
-            indexGallery = articlesImgs.length - 1;
-          }
-        } while (articlesImgs[indexGallery].parentElement == null);
-
-        if (indexGallery < 0) indexGallery = articlesImgs.length - 1;
-        articlesImgs[indexGallery].style.display = "block";
-      }
-      console.log(indexGallery, articlesImgsContainers.childElementCount);
+    let idxGallery = 0;
+    function moveGallery(dir) {
+        if (!dir) {
+            let flag = 0;
+            for (idxGallery; idxGallery >= -1; idxGallery--) {
+                let node = gallery.children[idxGallery];
+                if (flag) {
+                    if (idxGallery === -1) {
+                        node = gallery.children[gallery.childElementCount - 1];
+                        idxGallery = gallery.childElementCount - 1;
+                    }
+                    node.classList.add("picture-show");
+                    flag = 0;
+                    break;
+                }
+                if (node.classList.contains("picture-show")) {
+                    node.classList.remove("picture-show");
+                    flag = 1;
+                }
+            }
+        } else {
+            let flag = 0;
+            for (idxGallery; idxGallery <= gallery.children.length; idxGallery++) {
+                let node = gallery.children[idxGallery];
+                if (flag) {
+                    if (idxGallery === gallery.children.length) {
+                        node = gallery.children[0];
+                        idxGallery = 0;
+                    }
+                    node.classList.add("picture-show");
+                    flag = 0;
+                    break;
+                }
+                if (node.classList.contains("picture-show")) {
+                    node.classList.remove("picture-show");
+                    flag = 1;
+                }
+            }
+        }
     }
-    btnNextImage.addEventListener("click", function () {
-      moveGallery(1);
+      
+    function handleDelete(node){
+        node.lastElementChild.addEventListener("click", function () {
+        //Mover al siguiente
+        for (let p = 0; p < gallery.children.length; p++) {
+            let n = gallery.children[p];
+            if (n.classList.contains("picture-show")) {
+                idxGallery = p == gallery.children.length - 1 ? 0 : p;
+                break;
+            }
+        }
+        gallery.removeChild(node);
+
+        if (gallery.childElementCount == 0) {
+          gallery.innerHTML = "<span style = 'font-weight: 500;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
+          btnPrevImage.parentElement.style.display = "none";
+        }
+        gallery.children[idxGallery].classList.add("picture-show");
     });
+    } 
+
     btnPrevImage.addEventListener("click", function () {
       moveGallery(0);
+    });
+    btnNextImage.addEventListener("click", function () {
+      moveGallery(1);
     });
 
     inputFile.addEventListener("change", function () {
       let currentFiles = inputFile.files;
-      if (
-        currentFiles.length == 0 &&
-        articlesImgsContainers.childElementCount == 0
-      ) {
-        articlesImgsContainers.innerHTML =
-          "<span style = 'font-weight: 500;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
-        btnPrevImage.parentElement.style.display = "none";
-        console.log("No ha seleccionado ninguna foto");
+      if ( currentFiles.length === 0 && gallery.childElementCount === 0) {
+        gallery.innerHTML ="<span style = 'font-weight: 500;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
       } else {
         if (
-          !articlesImgsContainers.childElementCount ||
-          (currentFiles.length && !articlesImgsContainers.children[0] != "span")
+          !gallery.childElementCount ||
+          (currentFiles.length && !gallery.children[0] != "span")
         ) {
-          articlesImgsContainers.innerHTML = "";
+          gallery.innerHTML = "";
         }
+        //muestro los botones is hay elementos
+        if(currentFiles.length){
+          btnPrevImage.parentElement.style.display = "block";
+        }
+        let flag = 0;
         for (let file of currentFiles) {
           let reader = new FileReader();
 
           reader.addEventListener("load", function (e) {
             const node = document.createElement("div");
             node.classList.add("article-img");
-            node.innerHTML = `<button type='submit' class='btn btn-delete btn-delete-photo'><img src='/public/img/res/borrar.png'></button><img src=${reader.result} alt=''>`;
-            articlesImgsContainers.appendChild(node);
-
-            if (currentFiles.length) {
-              btnPrevImage.parentElement.style.display = "block";
-              articlesImgs = document.querySelectorAll(".article-img");
-              console.log(articlesImgs);
-              btnsDeleteImages =
-                articlesImgsContainers.querySelectorAll(".btn-delete-photo");
-              moveGallery(1);
+            node.innerHTML = `<img src=${reader.result} alt=''> <button type='submit' class='btn btn-delete btn-delete-photo'><img src='/public/img/res/borrar.png'></button>`;
+            if (!flag) {
+                node.classList.add("picture-show");
+                flag = 1;
             }
+            gallery.appendChild(node);
+            handleDelete(node);
 
-            btnsDeleteImages.forEach(function (btn, index) {
-              btn.addEventListener("click", function () {
+            //- if (currentFiles.length) {
+            //-   btnPrevImage.parentElement.style.display = "block";
+            //-   articlesImgs = document.querySelectorAll(".article-img");
+            //-   console.log(articlesImgs);
+            //-   btnsDeleteImages =
+            //-     gallery.querySelectorAll(".btn-delete-photo");
+            //-   moveGallery(1);
+            //- }
 
-                if (articlesImgs[index].parentElement)
-                  articlesImgs[index].parentElement.removeChild(
-                    articlesImgs[index]
-                  );
-                moveGallery(0);
-                if (articlesImgsContainers.childElementCount == 0) {
-                  articlesImgsContainers.innerHTML =
-                    "<span style = 'font-weight: 500;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
-                  btnPrevImage.parentElement.style.display = "none";
-                }
-              });
-            });
+            //- btnsDeleteImages.forEach(function (btn, index) {
+            //-   btn.addEventListener("click", function () {
+
+            //-     if (articlesImgs[index].parentElement)
+            //-       articlesImgs[index].parentElement.removeChild(
+            //-         articlesImgs[index]
+            //-       );
+            //-     moveGallery(0);
+            //-     if (articlesImgsContainers.childElementCount == 0) {
+            //-       articlesImgsContainers.innerHTML =
+            //-         "<span style = 'font-weight: 500;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
+            //-       btnPrevImage.parentElement.style.display = "none";
+            //-     }
+            //-   });
+            //- });
           });
           reader.readAsDataURL(file);
         }

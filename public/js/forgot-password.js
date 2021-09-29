@@ -1,11 +1,11 @@
 const sendEmail = document.getElementById("send-email"),
-  newPassword = document.getElementById("new-password"),
-  sendEmailBack = document.getElementById("back-email-send"),
-  loginSectionContainer = document.querySelector(".login-section__container"),
-  emailVal = document.getElementById("email-val"),
-  confirmEmailInput = document.getElementById("email"),
-  newPasswordInput = document.getElementById("password"),
-  confirmNewPasswordInput = document.getElementById("confirm-password");
+    newPassword = document.getElementById("new-password"),
+    sendEmailBack = document.getElementById("back-email-send"),
+    loginSectionContainer = document.querySelector(".login-section__container"),
+    emailVal = document.getElementById("email-val"),
+    confirmEmailInput = document.getElementById("email"),
+    newPasswordInput = document.getElementById("password"),
+    confirmNewPasswordInput = document.getElementById("confirm-password");
 
 // const confirmAlert = document.createElement("div");
 // confirmAlert.classList.add("modal-back");
@@ -18,74 +18,60 @@ const sendEmail = document.getElementById("send-email"),
 
 /*Aqui reviso si el email es valido en la parte de olvido la contraseña*/
 function checkValidEmail() {
-  const userData = { email: confirmEmailInput.value };
-  const xhr = makeRequest("POST", "/users/forgot_password", userData);
-  xhr.onload = function () {
-    let errorsMsg = JSON.parse(xhr.response);
-    if (xhr.status === 200) {
-      return true;
-    } else if (xhr.status === 400) {
-      addAlert("error", errorsMsg.errors);
-      return false;
-    } else if (xhr.status === 500) {
-      addAlert("error", ["Error Interno del servidor"]);
-    }
-  };
+    const userData = { email: confirmEmailInput.value };
+    const xhr = makeRequest("POST", "/users/forgot_password", userData);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            animCompleted(0);
+            setTimeout(changeBack, 2700);
+        } else if (xhr.status === 400) {
+            const errorsMsg = JSON.parse(xhr.response);
+            showErrorsForm(errorsMsg.errors);
+            return false;
+        } else if (xhr.status === 500) {
+            addAlert("error", ["Error Interno del servidor"]);
+        }
+    };
 }
 
 /*Aqui reviso si hay algun error en la parte de nueva contraseña*/
 function checkValidPassword() {
-  if (newPasswordInput.value === confirmNewPasswordInput.value) {
-    let userData = {
-      password: newPasswordInput,
-      confirmNewPassword: confirmNewPasswordInput.value,
+    const userData = {
+        password: newPasswordInput.value,
+        password2: confirmNewPasswordInput.value,
     };
     const xhr = makeRequest("GET", "/users/reset_password", userData);
     xhr.onload = function () {
-      let errorsMsg = JSON.parse(xhr.response);
-      if (xhr.status === 200) return true;
-      else if (xhr.status === 405) {
-        addAlert("error", errorsMsg.errors);
-        return false;
-      } else if (xhr.status === 500) {
-        addAlert("error", ["Error Interno del servidor"]);
-        return false;
-      }
+        if (xhr.status === 200) {
+            animCompleted(0);
+            setTimeout(function () {
+                document.location = "/users/login";
+            }, 2700);
+        } else if (xhr.status === 405) {
+            const errorsMsg = JSON.parse(xhr.response);
+            showErrorsForm(errorsMsg);
+        } else if (xhr.status === 500) {
+            addAlert("error", ["Error Interno del servidor"]);
+        }
     };
-  } else {
-    addAlert("error", ["Las contraseñas introducidas no son iguales"]);
-  }
-  return false;
 }
 
 function changeBack() {
-  loginSectionContainer.style.display = "none";
-  sendEmailBack.style.display = "block";
-  emailVal.innerHTML = confirmEmailInput.value;
+    loginSectionContainer.style.display = "none";
+    sendEmailBack.style.display = "block";
+    // emailVal.innerHTML = confirmEmailInput.value;
 }
 
 if (newPassword) {
-  newPassword.addEventListener("click", function (btn) {
-    btn.preventDefault();
-    if (checkValidPassword()) {
-      animCompleted(0);
-      setTimeout(function () {
-        document.location = "/users/login";
-      }, 2700);
-    }
-  });
+    newPassword.addEventListener("click", function (btn) {
+        btn.preventDefault();
+        checkValidPassword();
+    });
 }
 
 if (sendEmail) {
-  sendEmail.addEventListener("click", function (btn) {
-    /*
-    aqui tu revisarias si esta validado el email supongo
-    if(....) 
-    */
-    btn.preventDefault();
-    if (checkValidEmail()) {
-      animCompleted(0);
-      setTimeout(changeBack, 2700);
-    }
-  });
+    sendEmail.addEventListener("click", function (btn) {
+        btn.preventDefault();
+        checkValidEmail();
+    });
 }

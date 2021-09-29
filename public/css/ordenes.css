@@ -55,7 +55,7 @@
 .order-state {
     padding: 0.2rem 0.1rem;
     background-color: #ff5252;
-    font-weight: bold;
+    font-weight: 500;
     border-radius: 5px;
     font-size: 1rem;
     color: white;
@@ -113,6 +113,7 @@
     color: white;
     border-radius: 5px 5px 0 0;
     padding: 0.3rem;
+    font-weight: 500;
 }
 
 .order-section__table {
