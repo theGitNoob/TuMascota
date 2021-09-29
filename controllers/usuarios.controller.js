@@ -95,9 +95,11 @@ const logoutUser = (req, res, next) => {
 };
 
 const sendEmail = async (req, res, next) => {
+  const { username, password = "" } = req.body;
+
   try {
-    const { username, password = "" } = req.body;
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).exec();
+
     if (!user) {
       return res
         .status(400)
@@ -123,7 +125,9 @@ const sendEmail = async (req, res, next) => {
 
     transporter.sendMail(message, (err) => {});
     res.end();
-  } catch (err) {}
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {

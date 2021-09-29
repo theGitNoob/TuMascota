@@ -62,7 +62,7 @@ router
 
 router.get("/verify/:url", async (req, res, next) => {
   try {
-    const user = await User.findOne({ verifyURL: req.params.url });
+    const user = await User.findOne({ verifyURL: req.params.url }).exec();
     if (user == null) {
       return next();
     }
@@ -204,5 +204,5 @@ router
   );
 
 //TODO: limitar la cantidad de solicitudes con rate-limiter
-router.post("/send_email", sendEmail);
+router.post("/send_mail", sendEmail);
 module.exports = router;
