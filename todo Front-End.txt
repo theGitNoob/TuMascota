@@ -2,6 +2,7 @@ No dar soporte en IE7 y IE8
 
 General:
 -Arreglar notificaciones
+-Modificar perfil problemas con la url de la peticion xhr
 Admin: 
 -terminar seccion , añadir peticiones fecth en vez de xhr
 

@@ -173,7 +173,8 @@ if (loginForm) {
             };
         }
 
-        resendEmail.addEventListener("click", function () {
+        resendEmail.addEventListener("click", function (e) {
+            e.preventDefault();
             resendEmailRequest();
         });
     }
@@ -203,12 +204,10 @@ if (registerForm) {
             if (xhr.status === 200) {
                 animCompleted(0);
                 setTimeout(changeBack, 2700);
-                return true;
             }
             const errorsMsg = JSON.parse(xhr.response);
             if (xhr.status === 400) {
                 showErrorsForm(errorsMsg);
-                // addAlert("error", errorsMsg);
             }
             if (xhr.status === 500) {
                 addAlert("error", ["Error Interno del servidor"]);
@@ -219,9 +218,6 @@ if (registerForm) {
     registerForm.addEventListener("submit", function (event) {
         event.preventDefault();
         checkRegister();
-        //     animCompleted(0);
-        //     setTimeout(changeBack, 2700);
-        // }
     });
 }
 
@@ -232,7 +228,6 @@ if (modifyUserForm) {
             name: nameInput.value,
             lastname: lastnameInput.value,
             phone: phoneInput.value,
-            email: emailInput.value,
             address: addressInput.value,
             username: usernameInput.value,
             password: passwordInput.value,
@@ -240,14 +235,18 @@ if (modifyUserForm) {
             notify: notifyInput.value,
         };
 
-        const xhr = makeRequest("PUT", "users/change_perfil", userData);
+        const xhr = makeRequest("PUT", "/users/change_perfil", userData);
 
         xhr.onload = function () {
-            if (xhr.status === 200) return true;
+            console.log(xhr.response);
+            if (xhr.status === 200) {
+                animCompleted(0);
+                window.location = "/";
+            }
             if (xhr.status === 400) {
                 const errorsMsg = JSON.parse(xhr.response);
-                addAlert("error", errorsMsg);
-                return false;
+                console.log(errorsMsg);
+                showErrorsForm(errorsMsg);
             }
             if (xhr.status === 500) {
                 addAlert("error", ["Error Interno del servidor"]);
@@ -257,10 +256,6 @@ if (modifyUserForm) {
 
     modifyUserForm.addEventListener("submit", function (event) {
         event.preventDefault();
-
-        if (checkModifyUser()) {
-            animCompleted(0);
-            window.location = "/";
-        }
+        checkModifyUser();
     });
 }
