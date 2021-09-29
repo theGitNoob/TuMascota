@@ -68,18 +68,30 @@ if (showpassword) {
     });
 }
 
-function showErrorsForm(errors) {
-    const allinputs = {
-        name: nameInput,
-        lastname: lastnameInput,
-        phone: phoneInput,
-        email: emailInput,
-        address: addressInput,
-        username: usernameInput,
-        password: passwordInput,
-        password2: confirmPasswordInput,
-    };
+const allinputs = {
+    name: nameInput,
+    lastname: lastnameInput,
+    phone: phoneInput,
+    email: emailInput,
+    address: addressInput,
+    username: usernameInput,
+    password: passwordInput,
+    password2: confirmPasswordInput,
+};
 
+function cleanInputs() {
+    const inputKeys = Object.values(allinputs);
+    inputKeys.forEach(function (el) {
+        if (el) {
+            elParent = el.parentElement;
+            if (elParent.lastElementChild.classList.contains("input-error")) {
+                elParent.lastElementChild.remove();
+            }
+        }
+    });
+}
+
+function showErrorsForm(errors) {
     function addFormError(id, msg) {
         const node = document.createElement("div");
         node.classList.add("input-error");
@@ -92,17 +104,8 @@ function showErrorsForm(errors) {
 
         inputParent.appendChild(node);
     }
+    cleanInputs();
 
-    const inputKeys = Object.values(allinputs);
-
-    inputKeys.forEach(function (el) {
-        if (el) {
-            elParent = el.parentElement;
-            if (elParent.lastElementChild.classList.contains("input-error")) {
-                elParent.lastElementChild.remove();
-            }
-        }
-    });
     for (er of errors) {
         addFormError(er.field, er.msg);
     }
@@ -238,38 +241,23 @@ if (modifyUserForm) {
         const xhr = makeRequest("PUT", "/user/modify_profile", userData);
 
         xhr.onload = function () {
-            if (xhr.status === 200) return true;
+            if (xhr.status === 200) {
+                animCompleted(0);
+                cleanInputs();
+                // window.location = "/";
+            }
             if (xhr.status === 400) {
                 const errorsMsg = JSON.parse(xhr.response);
                 console.log(errorsMsg);
                 // addAlert("error", errorsMsg);
                 showErrorsForm(errorsMsg);
-                return false;
+                // return false;
             }
             if (xhr.status === 500) {
                 addAlert("error", ["Error Interno del servidor"]);
             }
         };
     }
-
-    const xhr = makeRequest("PUT", "/user/modify_profile", userData);
-
-    xhr.onload = function () {
-        console.log(xhr.response);
-        if (xhr.status === 200) {
-            animCompleted(0);
-            window.location = "/";
-        }
-        if (xhr.status === 400) {
-            const errorsMsg = JSON.parse(xhr.response);
-            console.log(errorsMsg);
-            showErrorsForm(errorsMsg);
-        }
-        if (xhr.status === 500) {
-            addAlert("error", ["Error Interno del servidor"]);
-        }
-    };
-
     modifyUserForm.addEventListener("submit", function (event) {
         event.preventDefault();
         checkModifyUser();
