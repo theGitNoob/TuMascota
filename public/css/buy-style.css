@@ -6,7 +6,7 @@
 .need-account h4 {
     width: 80%;
     margin: 0.6rem auto;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .btn-need-account img {
@@ -113,7 +113,7 @@
 }
 
 .modal-body__buy > span {
-    font-weight: 500;
+    font-weight: 600;
     color: #007bff;
     text-transform: lowercase;
 }

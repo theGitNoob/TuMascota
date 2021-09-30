@@ -60,6 +60,20 @@ block contenido
 
             button.btn.service__item-btn(type='submit')
               a(href='/accesorios') Ver más
+      section.home-articles
+        .home-articles__container  
+          h3 Mascotas Disponibles
+            .underline
+              span
+              img(src='/public/img/res/pata.png' alt)
+              span
+          p Abre tu 
+            strong corazón 
+            | y tu casa para nuestras mascotas 
+        a.home-articles__picture(href="/mascotas")
+          img(src="/public/img/inicio/mascotas.png", alt="")
+        .home-articles__btn 
+          a.btn(href="/mascotas") Ver Mascotas  
       section.home__contact-us
         h3.home__contact-us-header.
 
@@ -105,6 +119,21 @@ block contenido
                 
               |
               |
+      section.home-articles
+        a.home-articles__picture(href="/accesorios")
+          img(src="/public/img/inicio/accesorios.png", alt="")
+        .home-articles__container  
+          h3 Artículos Disponibles
+            .underline
+              span
+              img(src='/public/img/res/pata.png' alt)
+              span
+          p Poseemos variedad de 
+            strong productos 
+            | para que escojas el que más se ajusta a tus necesidades
+        .home-articles__btn 
+          a.btn(href="/accesorios") Ver Artículos
+
 block footer
   script(src='/public/js/shared.js')
   script(src='/public/js/menu.js')

@@ -27,7 +27,7 @@ body {
     text-align: center;
     color: #383535;
     border: none;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1rem;
     padding: 0.6rem 1rem;
     border-radius: 5px;
@@ -39,7 +39,12 @@ body {
 .btn:hover {
     box-shadow: none;
 }
-
+a:focus,
+.btn:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(13, 110, 253, 0.25);
+}
 /* My Checkbox */
 .checkbox-input {
     display: none;
@@ -573,9 +578,13 @@ body {
     overflow-x: hidden;
 }
 
-.nav-menu__inner-container::-webkit-scrollbar {
-    display: none;
+.nav-menu__content {
+    width: 18.2rem;
+    height: 100%;
 }
+/* .nav-menu__inner-container::-webkit-scrollbar {
+    display: none;
+} */
 
 .show-menu {
     transform: translate(0);
@@ -911,7 +920,7 @@ main {
     font-size: 1.1rem;
     border-radius: 5px 5px 0 0;
     color: white;
-    font-weight: 500;
+    font-weight: 600;
     position: relative;
     text-align: left;
 }
@@ -991,7 +1000,7 @@ main {
 .modal__contact-us-element a {
     text-decoration: none;
     color: inherit;
-    font-weight: 500;
+    font-weight: 600;
     display: inline-block;
     transition: all 0.3s ease;
 }

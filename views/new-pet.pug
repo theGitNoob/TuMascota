@@ -56,14 +56,14 @@ block contenido
           input(type="submit" class="btn btn-save" value="Guardar")
           a.btn.btn-cancel(href="/admin/mascotas") Cancelar
   script.
-    let opts = document.querySelector("#options");
-    let input = document.querySelector("#animal-type");
-    const inputFile = document.querySelector("#file-selector");
-    const btnAddPhoto = document.querySelector("btn-add-photo");
-    const filesSelected = document.querySelector(".file-selected");
-    const gallery = document.querySelector(".article-img-container");
-    const btnPrevImage = document.querySelector(".btn-prev");
-    const btnNextImage = document.querySelector(".btn-next");
+    let opts = document.querySelector("#options"),
+     input = document.querySelector("#animal-type");
+    const inputFile = document.querySelector("#file-selector"),
+    btnAddPhoto = document.querySelector("btn-add-photo"),
+    filesSelected = document.querySelector(".file-selected"),
+    gallery = document.querySelector(".article-img-container"),
+    btnPrevImage = document.querySelector(".btn-prev"),
+    btnNextImage = document.querySelector(".btn-next");
 
     //Galeria de imagenes
     let idxGallery = 0;
@@ -120,7 +120,7 @@ block contenido
         gallery.removeChild(node);
 
         if (gallery.childElementCount == 0) {
-          gallery.innerHTML = "<span style = 'font-weight: 500;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
+          gallery.innerHTML = "<span style = 'font-weight: 600;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
           btnPrevImage.parentElement.style.display = "none";
         }
         gallery.children[idxGallery].classList.add("picture-show");
@@ -137,7 +137,7 @@ block contenido
     inputFile.addEventListener("change", function () {
       let currentFiles = inputFile.files;
       if ( currentFiles.length === 0 && gallery.childElementCount === 0) {
-        gallery.innerHTML ="<span style = 'font-weight: 500;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
+        gallery.innerHTML ="<span style = 'font-weight: 600;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
       } else {
         if (
           !gallery.childElementCount ||
@@ -145,7 +145,7 @@ block contenido
         ) {
           gallery.innerHTML = "";
         }
-        //muestro los botones is hay elementos
+        //muestro los botones si hay elementos
         if(currentFiles.length){
           btnPrevImage.parentElement.style.display = "block";
         }
@@ -163,31 +163,6 @@ block contenido
             }
             gallery.appendChild(node);
             handleDelete(node);
-
-            //- if (currentFiles.length) {
-            //-   btnPrevImage.parentElement.style.display = "block";
-            //-   articlesImgs = document.querySelectorAll(".article-img");
-            //-   console.log(articlesImgs);
-            //-   btnsDeleteImages =
-            //-     gallery.querySelectorAll(".btn-delete-photo");
-            //-   moveGallery(1);
-            //- }
-
-            //- btnsDeleteImages.forEach(function (btn, index) {
-            //-   btn.addEventListener("click", function () {
-
-            //-     if (articlesImgs[index].parentElement)
-            //-       articlesImgs[index].parentElement.removeChild(
-            //-         articlesImgs[index]
-            //-       );
-            //-     moveGallery(0);
-            //-     if (articlesImgsContainers.childElementCount == 0) {
-            //-       articlesImgsContainers.innerHTML =
-            //-         "<span style = 'font-weight: 500;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
-            //-       btnPrevImage.parentElement.style.display = "none";
-            //-     }
-            //-   });
-            //- });
           });
           reader.readAsDataURL(file);
         }
