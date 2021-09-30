@@ -239,7 +239,7 @@ a:focus,
 /* .article-img-container {
 } */
 
-.article-img {
+.picture {
     display: none;
     position: relative;
     margin: auto;
@@ -250,7 +250,7 @@ a:focus,
     display: block;
 }
 
-.article-img > img {
+.picture > img {
     max-height: 15rem;
     max-width: 100%;
     border-radius: 6px;

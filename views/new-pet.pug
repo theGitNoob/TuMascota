@@ -7,9 +7,9 @@ block contenido
     h3.main-title Nueva Mascota
     label.btn.btn-add-photo(for="file-selector")
       img(src="/public/img/admin/camera.png" alt="") 
-      | Agregar Fotos
-    section.gallery
-      article.article-img-container
+      | Seleccionar Fotos
+    section.gallery-section
+      article.gallery
       .gallery-move 
         button.btn.btn-prev(type="submit")
           img(src="/public/img/admin/atras.png" alt="") 
@@ -57,11 +57,11 @@ block contenido
           a.btn.btn-cancel(href="/admin/mascotas") Cancelar
   script.
     let opts = document.querySelector("#options"),
-     input = document.querySelector("#animal-type");
+      input = document.querySelector("#animal-type");
     const inputFile = document.querySelector("#file-selector"),
     btnAddPhoto = document.querySelector("btn-add-photo"),
     filesSelected = document.querySelector(".file-selected"),
-    gallery = document.querySelector(".article-img-container"),
+    gallery = document.querySelector(".gallery"),
     btnPrevImage = document.querySelector(".btn-prev"),
     btnNextImage = document.querySelector(".btn-next");
 
@@ -155,7 +155,7 @@ block contenido
 
           reader.addEventListener("load", function (e) {
             const node = document.createElement("div");
-            node.classList.add("article-img");
+            node.classList.add("picture");
             node.innerHTML = `<img src=${reader.result} alt=''> <button type='submit' class='btn btn-delete btn-delete-photo'><img src='/public/img/res/borrar.png'></button>`;
             if (!flag) {
                 node.classList.add("picture-show");

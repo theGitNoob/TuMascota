@@ -5,9 +5,21 @@ block contenido
       img(src="/public/img/admin/atras.png", alt="")
       | Atras
     h3.main-title Editar Accesorio
-    section.flex-container-img
-      if accesorie.images[0]
-        img(src=accesorie.images[0].url class="img-fluid img-thumbnail")
+    label.btn.btn-add-photo(for="file-selector")
+        img(src="/public/img/admin/camera.png" alt="") 
+        | Seleccionar Fotos
+    section.gallery-section
+      article.gallery(id = accesorie._id) 
+        each img in accesorie.images
+          .picture 
+            img(id = img._id src=img.url)
+            button.btn.btn-delete.btn-delete-photo
+              img(src="/public/img/res/borrar.png", alt="") 
+      .gallery-move 
+        button.btn.btn-prev(type="submit")
+          img(src="/public/img/admin/atras.png" alt="") 
+        button.btn.btn-next(type="submit")
+          img(src="/public/img/admin/adelante.png" alt="")
     form(action=`/admin/accesorios/${accesorie._id}?_method=PUT` method='POST' class="form-group" enctype="multipart/form-data")
 
       input(type="text" class="form-input" name="type"  placeholder="Tipo de accesorios" required value=accesorie.type)
@@ -24,30 +36,129 @@ block contenido
 
       input(type="text" class="form-input" name="ownerAccount" placeholder="Cuenta bancaria" value=accesorie.ownerAccount)
 
-      label.btn.select-file(for="file-selector") Seleccionar archivo
-      div.file-selected  No ha seleccionado ningún archivo
+      //- label.btn.select-file(for="file-selector") Seleccionar archivo
+      //- div.file-selected  No ha seleccionado ningún archivo
       input(type="file" id="file-selector" class="form-input" name="images" multiple)
 
       .btn-save-container
         input(type="submit" class="btn btn-save" value="Guardar")
         a.btn.btn-cancel(href="/admin/accesorios") Cancelar
       script.
-        const inputFile = document.querySelector("#file-selector");
-        const filesSelected = document.querySelector(".file-selected");
-        //Esto es para la seleccion de los archivos
-        inputFile.addEventListener("change", function(){
-            filesSelected.innerHTML = "";
-            filesSelected.classList.remove("file-preview");
-            const currentFiles = inputFile.files;
-            if(currentFiles.length == 0){
-              filesSelected.innerHTML = "No ha seleccionado ningún archivo";
+        const inputFile = document.querySelector("#file-selector"),
+          gallery = document.querySelector(".gallery"),
+          btnAddPhoto = document.querySelector("btn-add-photo"),
+          filesSelected = document.querySelector(".file-selected"),
+          btnPrevImage = document.querySelector(".btn-prev"),
+          btnNextImage = document.querySelector(".btn-next");
+          btnDeleteBD = document.querySelectorAll(".btn-delete-photo");
+
+          //Muestro la 1ra imagen y los botones de movimiento
+          if(gallery.children.length > 0){
+            gallery.firstElementChild.classList.add("picture-show");
+            btnPrevImage.parentElement.style.display = "block";
+          } 
+
+          const deletePhoto = async(ImgId) => {
+              const id = gallery.getAttribute("id");
+              const url = `${id}/image/${ImgId}`;
+              const resp = await fetch(url,{
+                method: 'DELETE'
+              });
+              console.log(resp);
+          }
+          btnDeleteBD.forEach((btn, idx)=>{
+            btn.addEventListener("click", ()=>{
+                
+                const ImgId = gallery.children[idx].firstElementChild.getAttribute("id");
+                deletePhoto(ImgId);
+
+                //- const xhr = new XMLHttpRequest();
+                //- xhr.open("DELETE", url);
+                //- xhr.onload = function(){
+                //-     //Todo
+                //- }
+                //- xhr.send();
+            })
+          })
+
+          //Galeria de imagenes
+          let idxGallery = 0;
+          function moveGallery(dir) {
+              if (!dir) {
+                  let flag = 0;
+                  for (idxGallery; idxGallery >= -1; idxGallery--) {
+                      let node = gallery.children[idxGallery];
+                      if (flag) {
+                          if (idxGallery === -1) {
+                              node = gallery.children[gallery.childElementCount - 1];
+                              idxGallery = gallery.childElementCount - 1;
+                          }
+                          node.classList.add("picture-show");
+                          flag = 0;
+                          break;
+                      }
+                      if (node.classList.contains("picture-show")) {
+                          node.classList.remove("picture-show");
+                          flag = 1;
+                      }
+                  }
+              } else {
+                  let flag = 0;
+                  for (idxGallery; idxGallery <= gallery.children.length; idxGallery++) {
+                      let node = gallery.children[idxGallery];
+                      if (flag) {
+                          if (idxGallery === gallery.children.length) {
+                              node = gallery.children[0];
+                              idxGallery = 0;
+                          }
+                          node.classList.add("picture-show");
+                          flag = 0;
+                          break;
+                      }
+                      if (node.classList.contains("picture-show")) {
+                          node.classList.remove("picture-show");
+                          flag = 1;
+                      }
+                  }
+              }
+          }
+          btnNextImage.addEventListener("click", function () {
+            moveGallery(1);
+          });
+          btnPrevImage.addEventListener("click", function () {
+            moveGallery(0);
+          });
+
+          inputFile.addEventListener("change", function () {
+            let currentFiles = inputFile.files;
+            if ( currentFiles.length === 0 && gallery.childElementCount === 0) {
+              gallery.innerHTML ="<span style = 'font-weight: 600;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
+            } else {
+              if (
+                !gallery.childElementCount ||
+                (currentFiles.length && !gallery.children[0] != "span")
+              ) {
+                gallery.innerHTML = "";
+              }
+              //muestro los botones si hay elementos
+              if(currentFiles.length){
+                btnPrevImage.parentElement.style.display = "block";
+              }
+              let flag = 0;
+              for (let file of currentFiles) {
+                let reader = new FileReader();
+
+                reader.addEventListener("load", function (e) {
+                  const node = document.createElement("div");
+                  node.classList.add("picture");
+                  node.innerHTML = `<img src=${reader.result} alt=''> <button type='submit' class='btn btn-delete btn-delete-photo'><img src='/public/img/res/borrar.png'></button>`;
+                  if (!flag) {
+                      node.classList.add("picture-show");
+                      flag = 1;
+                  }
+                  gallery.appendChild(node);
+                });
+                reader.readAsDataURL(file);
+              }
             }
-            else{
-                let textPreview = "";
-                for(file of currentFiles){
-                  textPreview += `<span>${file.name}</span> `;
-                }
-                filesSelected.innerHTML = `<h4> Ha seleccionado </h4> ${textPreview}`;
-                filesSelected.classList.add("file-preview");
-            }
-        });
+          });
