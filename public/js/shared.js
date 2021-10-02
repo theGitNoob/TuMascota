@@ -22,7 +22,7 @@ function goTopScroll() {
 
 function makeRequest(requestType, url, userData) {
     console.log("ENTRO A SHARED", requestType, url, userData);
-    let xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.open(requestType, url);
     xhr.setRequestHeader("Content-Type", "application/json");
     if (userData) xhr.send(JSON.stringify(userData));

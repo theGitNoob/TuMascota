@@ -83,93 +83,94 @@ html(lang='es')
       img.menu-icon(src='/public/img/res/menu-icon.png' alt)
     nav.nav-menu
       .nav-menu__inner-container
-        img.nav-menu__login-logo(src='/public/img/res/Logo.png' alt)
-        .nav-menu__login
-          .main-header__container-login
-            if user
-              a.login-option.orders-login(href='/ordenes')
-                img(src='/public/img/res/cart.png' alt)
-                span.login-count-msj.orders-msj=user.orders
-              |
-              |
-              .login-option.bell-login
-                img(src='/public/img/res/bell.png' alt)
-                span.login-count-msj.bell-msj=user.newMessages
-              |
-              |
-            if !user
-              .go-login
-                a.btn.btn-go-login(href='/users/login')
-                  img(src='/public/img/res/loginuser.png')
-                  | Acceder
+        .nav-menu__content
+          img.nav-menu__login-logo(src='/public/img/res/Logo.png' alt)
+          .nav-menu__login
+            .main-header__container-login
+              if user
+                a.login-option.orders-login(href='/ordenes')
+                  img(src='/public/img/res/cart.png' alt)
+                  span.login-count-msj.orders-msj=user.orders
+                |
+                |
+                .login-option.bell-login
+                  img(src='/public/img/res/bell.png' alt)
+                  span.login-count-msj.bell-msj=user.newMessages
+                |
+                |
+              if !user
+                .go-login
+                  a.btn.btn-go-login(href='/users/login')
+                    img(src='/public/img/res/loginuser.png')
+                    | Acceder
 
-                a.btn.btn-go-login(href='/users/register')
-                  img(src='/public/img/res/adduserblue.png' alt)
-                  | Registrarse
-            if user
-              .login-option
-                img#avatar-login.avatar-login(src='/public/img/res/avatar.png' alt)
-        .nav-menu__element(class=path === "/" && "nav-menu__element--active")
-          a.nav-menu__link(href='/')
-            img(src='/public/img/res/dog-home.png' alt)
-            span  Inicio
-            
-        .nav-menu__element(class=path.startsWith("/mascotas")  && "nav-menu__element--active")
-          #pet-submenu.nav-menu__link
-            img(src='/public/img/res/pet.png' alt)
-            span  Mascotas 
-            .show-submenu-container
-              img.show-submenu-img(src='/public/img/res/next.png' alt)
-            .submenu
-              ul.submenu-list
-                a.submenu-element(href='/mascotas')
-                  img(src='/public/img/res/dog.png' alt)
-                  | Perros
+                  a.btn.btn-go-login(href='/users/register')
+                    img(src='/public/img/res/adduserblue.png' alt)
+                    | Registrarse
+              if user
+                .login-option
+                  img#avatar-login.avatar-login(src='/public/img/res/avatar.png' alt)
+          .nav-menu__element(class=path === "/" && "nav-menu__element--active")
+            a.nav-menu__link(href='/')
+              img(src='/public/img/res/dog-home.png' alt)
+              span  Inicio
+              
+          .nav-menu__element(class=path.startsWith("/mascotas")  && "nav-menu__element--active")
+            #pet-submenu.nav-menu__link
+              img(src='/public/img/res/pet.png' alt)
+              span  Mascotas 
+              .show-submenu-container
+                img.show-submenu-img(src='/public/img/res/next.png' alt)
+              .submenu
+                ul.submenu-list
+                  a.submenu-element(href='/mascotas')
+                    img(src='/public/img/res/dog.png' alt)
+                    | Perros
 
-                a.submenu-element(href='/mascotas')
-                  img(src='/public/img/res/cat.png' alt)
-                  | Gatos
+                  a.submenu-element(href='/mascotas')
+                    img(src='/public/img/res/cat.png' alt)
+                    | Gatos
 
-                a.submenu-element(href='/mascotas')
-                  img(src='/public/img/res/macaw.png' alt)
-                  | Aves
+                  a.submenu-element(href='/mascotas')
+                    img(src='/public/img/res/macaw.png' alt)
+                    | Aves
 
-                a.submenu-element(href='/mascotas')
-                  img(src='/public/img/res/roedor.png' alt)
-                  | Roedor
+                  a.submenu-element(href='/mascotas')
+                    img(src='/public/img/res/roedor.png' alt)
+                    | Roedor
 
-                a.submenu-element(href='/mascotas')
-                  img(src='/public/img/res/fish.png' alt)
-                  | Peces
+                  a.submenu-element(href='/mascotas')
+                    img(src='/public/img/res/fish.png' alt)
+                    | Peces
 
-                a.submenu-element(href='/mascotas')
-                  img(src='/public/img/res/tortoise.png' alt)
-                  | Otros
+                  a.submenu-element(href='/mascotas')
+                    img(src='/public/img/res/tortoise.png' alt)
+                    | Otros
 
-        .nav-menu__element(class=path.startsWith("/accesorios")  && "nav-menu__element--active")
-          a.nav-menu__link(href='/accesorios')
-            img(src='/public/img/res/accesorios.png' alt)
-            span  Accesorios
-        .nav-menu__element(class=path.startsWith("/servicios")  && "nav-menu__element--active")
-          #services-menu.nav-menu__link
-            img(src='/public/img/res/doctor.png' alt)
-            span  Servicios 
-            .show-submenu-container
-              img.show-submenu-img(src='/public/img/res/next.png' alt)
-            .submenu
-              ul.submenu-list
-                li.submenu-element
-                  img(src='/public/img/res/stethoscope.png' alt)
-                  | Veterinario
+          .nav-menu__element(class=path.startsWith("/accesorios")  && "nav-menu__element--active")
+            a.nav-menu__link(href='/accesorios')
+              img(src='/public/img/res/accesorios.png' alt)
+              span  Accesorios
+          .nav-menu__element(class=path.startsWith("/servicios")  && "nav-menu__element--active")
+            #services-menu.nav-menu__link
+              img(src='/public/img/res/doctor.png' alt)
+              span  Servicios 
+              .show-submenu-container
+                img.show-submenu-img(src='/public/img/res/next.png' alt)
+              .submenu
+                ul.submenu-list
+                  li.submenu-element
+                    img(src='/public/img/res/stethoscope.png' alt)
+                    | Veterinario
 
-        .nav-menu__element.contact-us
-          .nav-menu__link
-            img(src='/public/img/res/phone-blue.png' alt)
-            span  Contáctenos
-        .nav-menu__element.about-us
-          .nav-menu__link
-            img(src='/public/img/res/info.png' alt)
-            span  Acerca De
+          .nav-menu__element.contact-us
+            .nav-menu__link
+              img(src='/public/img/res/phone-blue.png' alt)
+              span  Contáctenos
+          .nav-menu__element.about-us
+            .nav-menu__link
+              img(src='/public/img/res/info.png' alt)
+              span  Acerca De
   != messages()
   block contenido
 

@@ -30,7 +30,7 @@ a:focus,
     text-align: center;
     color: #383535;
     border: none;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1rem;
     padding: 0.6rem 1rem;
     border-radius: 5px;
@@ -52,7 +52,7 @@ a:focus,
     background-color: #007bff;
     font-size: 1.4rem;
     color: white;
-    font-weight: 500;
+    font-weight: 600;
     padding: 1rem;
 }
 
@@ -65,7 +65,7 @@ a:focus,
 
 .nav-link {
     display: block;
-    font-weight: 500;
+    font-weight: 600;
     width: 13rem;
     margin: 1rem auto;
     font-size: 1.1rem;
@@ -129,7 +129,7 @@ a:focus,
     color: white;
     border-radius: 5px 5px 0 0;
     padding: 0.3rem;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .main-table {
@@ -239,7 +239,7 @@ a:focus,
 /* .article-img-container {
 } */
 
-.article-img {
+.picture {
     display: none;
     position: relative;
     margin: auto;
@@ -250,7 +250,7 @@ a:focus,
     display: block;
 }
 
-.article-img > img {
+.picture > img {
     max-height: 15rem;
     max-width: 100%;
     border-radius: 6px;
@@ -343,7 +343,7 @@ a:focus,
     background-color: #2fb5ee;
     border-radius: 4px 4px 0 0;
     padding: 0.4rem;
-    font-weight: 500;
+    font-weight: 600;
 } */
 
 /* .file-selected span {
@@ -421,7 +421,7 @@ a:focus,
 }
 
 .username {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1rem;
     color: #4c4c4c;
     padding: 0.4rem;
@@ -454,7 +454,7 @@ a:focus,
     outline: none;
     border: none;
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 600;
     background-color: #007bff;
     color: #fff;
     border-radius: 6px;
@@ -462,7 +462,7 @@ a:focus,
 }
 
 .select-input option {
-    font-weight: 500;
+    font-weight: 600;
     background-color: #fff;
     color: hsl(0, 0%, 41%);
 }
@@ -540,7 +540,7 @@ a:focus,
 }
 
 .modal-header h3 {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1.1rem;
 }
 
@@ -559,7 +559,7 @@ a:focus,
 
 .flex-container__title {
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     margin-right: 0.6rem;
 }
 
