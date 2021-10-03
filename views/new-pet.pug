@@ -107,25 +107,25 @@ block contenido
         }
     }
       
-    function handleDelete(node){
-        node.lastElementChild.addEventListener("click", function () {
-        //Mover al siguiente
-        for (let p = 0; p < gallery.children.length; p++) {
-            let n = gallery.children[p];
-            if (n.classList.contains("picture-show")) {
-                idxGallery = p == gallery.children.length - 1 ? 0 : p;
-                break;
-            }
-        }
-        gallery.removeChild(node);
+    //- function handleDelete(node){
+    //-     node.lastElementChild.addEventListener("click", function () {
+    //-     //Mover al siguiente
+    //-     for (let p = 0; p < gallery.children.length; p++) {
+    //-         let n = gallery.children[p];
+    //-         if (n.classList.contains("picture-show")) {
+    //-             idxGallery = p == gallery.children.length - 1 ? 0 : p;
+    //-             break;
+    //-         }
+    //-     }
+    //-     gallery.removeChild(node);
 
-        if (gallery.childElementCount == 0) {
-          gallery.innerHTML = "<span style = 'font-weight: 600;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
-          btnPrevImage.parentElement.style.display = "none";
-        }
-        gallery.children[idxGallery].classList.add("picture-show");
-    });
-    } 
+    //-     if (gallery.childElementCount == 0) {
+    //-       gallery.innerHTML = "<span style = 'font-weight: 600;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
+    //-       btnPrevImage.parentElement.style.display = "none";
+    //-     }
+    //-     gallery.children[idxGallery].classList.add("picture-show");
+    //- });
+    //- } 
 
     btnPrevImage.addEventListener("click", function () {
       moveGallery(0);
@@ -156,13 +156,14 @@ block contenido
           reader.addEventListener("load", function (e) {
             const node = document.createElement("div");
             node.classList.add("picture");
-            node.innerHTML = `<img src=${reader.result} alt=''> <button type='submit' class='btn btn-delete btn-delete-photo'><img src='/public/img/res/borrar.png'></button>`;
+            node.innerHTML = `<img src=${reader.result} alt=''>`;
             if (!flag) {
                 node.classList.add("picture-show");
+                idxGallery = 0;
                 flag = 1;
             }
             gallery.appendChild(node);
-            handleDelete(node);
+            //- handleDelete(node);
           });
           reader.readAsDataURL(file);
         }

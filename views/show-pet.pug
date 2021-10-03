@@ -20,14 +20,14 @@ block contenido
           img(src="/public/img/admin/atras.png" alt="") 
         button.btn.btn-next(type="submit")
           img(src="/public/img/admin/adelante.png" alt="")
-    form(action=`/admin/mascotas/${pet._id}?_method=PUT` method='POST' class="form-group" enctype="multipart/form-data")
+    form(id = "edit-pet" action=`/admin/mascotas/${pet._id}?_method=PUT` method='POST' class="form-group" enctype="multipart/form-data")
 
       input(type="text" class="form-input" name="type" placeholder="Tipo de animal"  value=pet.type.toUpperCase())
 
       input(type="text" class="form-input" name="breed" placeholder="Raza" value=pet.breed)
 
-      select.form-input(name="sex")
-        option(value="") Selecciona el Sexo
+      select.form-input(name="sex" value = pet.sex)
+        //- option(value=pet.sex) Selecciona el Sexo
         option(value="Masculino") Masculino
         option(value="Femenino") Femenino
 
@@ -54,12 +54,43 @@ block contenido
         a.btn.btn-cancel(href="/admin/mascotas") Cancelar
       script.
         const inputFile = document.querySelector("#file-selector"),
+          formEditPet = document.querySelector("#edit-pet");
+          inputsData = document.querySelectorAll(".form-input");
+          btnConfirm = document.querySelector(".btn-save");
           gallery = document.querySelector(".gallery"),
           btnAddPhoto = document.querySelector("btn-add-photo"),
           filesSelected = document.querySelector(".file-selected"),
           btnPrevImage = document.querySelector(".btn-prev"),
           btnNextImage = document.querySelector(".btn-next");
           btnDeleteBD = document.querySelectorAll(".btn-delete-photo");
+
+          function handleForm(){
+              const formData = new FormData();
+              for(let img of inputFile.files){
+                formData.append("images",img);
+              }
+              inputsData.forEach((el)=>{
+                  if(el.name != "images")
+                  {
+                    formData.append(el.name, el.value);
+                  }
+              });
+              const url = `/admin/mascotas/${gallery.getAttribute("id")}`;
+              const resp = fetch(url,{
+                method: "PUT",
+                body: formData,
+              }).then(result => {
+                  console.log('Success:', result);
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                });
+          }
+
+          formEditPet.addEventListener("submit", (e)=>{
+              e.preventDefault();
+              handleForm();
+          });
 
           //Muestro la 1ra imagen y los botones de movimiento
           gallery.firstElementChild.classList.add("picture-show");
@@ -75,16 +106,8 @@ block contenido
           }
           btnDeleteBD.forEach((btn, idx)=>{
             btn.addEventListener("click", ()=>{
-                
                 const ImgId = gallery.children[idx].firstElementChild.getAttribute("id");
                 deletePhoto(ImgId);
-
-                //- const xhr = new XMLHttpRequest();
-                //- xhr.open("DELETE", url);
-                //- xhr.onload = function(){
-                //-     //Todo
-                //- }
-                //- xhr.send();
             })
           })
 
