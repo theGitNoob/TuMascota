@@ -131,7 +131,7 @@ router
     ],
 
     async (req, res, next) => {
-      const id = req.params.id;
+      //TODO:Cambiar la ruta para que acepte un parametro que indique si deseo eliminar las fotos antiguas
 
       try {
         const errors = validateResults(req);
@@ -237,15 +237,15 @@ router.route("/:id/image/:imgId/").delete(async (req, res, next) => {
       return next();
     }
 
-    img.remove();
+    await img.remove();
 
     await fs.unlink(`.${img.url}`);
 
     await pet.save();
 
     res.end();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    next(error);
   }
 });
 

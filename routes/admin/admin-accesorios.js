@@ -219,12 +219,13 @@ router.route("/:id/image/:imgId/").delete(async (req, res, next) => {
 
     await img.remove();
 
-    await accesorie.save();
     await fs.unlink(`.${img.url}`);
 
+    await accesorie.save();
+
     res.end();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    next(error);
   }
 });
 
