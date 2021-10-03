@@ -84,7 +84,7 @@ router
         await newPet.addImages(images, "mascotas");
         await newPet.save();
 
-        res.redirect("/admin/mascotas/");
+        res.end();
       } catch (error) {
         next(error);
       }
@@ -179,7 +179,7 @@ router
 
         await pet.updateOne({ ...data, images: pet.images }).exec();
 
-        res.redirect("/admin/mascotas/");
+        return res.end();
       } catch (err) {
         next(err);
       }
@@ -214,8 +214,7 @@ router
       await pet.deleteImages(pet.images);
       await pet.remove();
 
-      // res.status(200).json({ pet, orders });
-      res.redirect("/admin/mascotas");
+      return res.end();
     } catch (error) {
       next(error);
     }
@@ -243,7 +242,7 @@ router.route("/:id/image/:imgId/").delete(async (req, res, next) => {
 
     await pet.save();
 
-    res.end();
+    return res.end();
   } catch (error) {
     next(error);
   }
@@ -263,8 +262,11 @@ router.route("/:id/images/").delete(async (req, res, next) => {
     let arr = pet.images.map(({ url }) => `./${url}`);
 
     await deleteFiles(arr);
+
     pet.images = [];
+
     await pet.save();
+
     res.end();
   } catch (err) {
     console.error(err);

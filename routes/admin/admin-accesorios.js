@@ -71,7 +71,7 @@ router
         await newAccesorie.addImages(images, "accesorios");
         await newAccesorie.save();
 
-        res.redirect("/admin/accesorios");
+        res.end();
       } catch (error) {
         next(error);
       }
@@ -156,10 +156,10 @@ router
         }
 
         await accesorie.addImages(images, "accesorios");
-        await accesorie.updateOne({ ...data, images: accesorie.images }).exec();
-        res.redirect("/admin/accesorios");
 
-        //resturn.res.end()
+        await accesorie.updateOne({ ...data, images: accesorie.images }).exec();
+
+        return res.end();
       } catch (err) {
         next(err);
       }
@@ -194,8 +194,7 @@ router
       await accesorie.deleteImages(accesorie.images);
       await accesorie.remove();
 
-      // res.status(200).json({ pet, orders });
-      res.redirect("/admin/accesorios");
+      return res.end();
     } catch (error) {
       next(error);
     }
@@ -223,7 +222,7 @@ router.route("/:id/image/:imgId/").delete(async (req, res, next) => {
 
     await accesorie.save();
 
-    res.end();
+    return res.end();
   } catch (error) {
     next(error);
   }
