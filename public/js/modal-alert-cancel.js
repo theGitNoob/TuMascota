@@ -12,7 +12,7 @@ function animarModalAlert() {
     mostrarModal(modalCanceledBack, modalCanceled, 1);
 }
 
-document.addEventListener("click", (e) => {
+document.addEventListener("click", function (e) {
     switch (e.target) {
         case modalCanceledBack:
             mostrarModal(modalCanceledBack, modalCanceled, 0);

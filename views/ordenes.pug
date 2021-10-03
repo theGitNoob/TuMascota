@@ -120,36 +120,33 @@ block contenido
                 td.order-section__column(data-header='Cancelar')
                   button.btn.cancel-order(type='submit')
                     img(src='/public/img/res/borrar.png' alt)
-        #modal-back-alert.modal-back
-          #modal-alert.modal.modal-alert
-            .modal__body.modal-body__alert
-              .alert-icon
-                span.alert-icon-long
-                span.alert-icon-short  
-              span.alert-text.
-                
-                ¿Está seguro que desea cancelar la orden?
-              .btn-alert-container
-                button.btn-alert.btn-alert-cancel.
+  #modal-back-alert.modal-back
+    #modal-alert.modal.modal-alert
+      .modal__body.modal-body__alert
+        .alert-icon
+          span.alert-icon-long
+          span.alert-icon-short  
+        span.alert-text.
+          
+          ¿Está seguro que desea cancelar la orden?
+        .btn-alert-container
+          button.btn-alert.btn-alert-cancel.
+            No
+          button.btn-alert.btn-alert-confirm.
+            Si
 
-                  No
+        //- #modal-back-completed.modal-back
+        //-   #modal-completed.modal.modal-completed
+        //-     .modal__body.modal-body__completed
+        //-       .success-checkmark
+        //-         .check-icon
+        //-           span.icon-line.line-tip
+        //-           span.icon-line.line-long
+        //-           .icon-circle
+        //-           .icon-fix
+        //-       span.completed Completado  
 
-                button.btn-alert.btn-alert-confirm.
-
-                  Si
-
-        #modal-back-completed.modal-back
-          #modal-completed.modal.modal-completed
-            .modal__body.modal-body__completed
-              .success-checkmark
-                .check-icon
-                  span.icon-line.line-tip
-                  span.icon-line.line-long
-                  .icon-circle
-                  .icon-fix
-              span.completed Completado  
-
-
+block scripts
   script(src="/public/js/shared.js")
   script(src="/public/js/menu.js")
   script(src="/public/js/ordenes.js")

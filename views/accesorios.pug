@@ -36,8 +36,8 @@ block contenido
                 |
                 |
                 img(src='/public/img/res/basket.png' alt)
-      .modal-back.modal-back-buy-this
-        .modal.modal-buy-this
+      .modal-back.modal-back-buy
+        .modal.modal-buy
           .modal__header Me Interesa
           .modal__body.modal-body__buy
             | Ha seleccionado
@@ -56,19 +56,21 @@ block contenido
               button#cancel-btn-buy.btn.cancel-btn(type='submit') Cancelar
               button#accept-btn-buy.btn.accept-btn(type='submit' form="buy-form") Confirmar
 
-      #modal-back-completed.modal-back
-        #modal-completed.modal.modal-completed
-          .modal-body.modal-body-completed
-            .success-checkmark
-              .check-icon
-                span.icon-line.line-tip
-                span.icon-line.line-long
-                .icon-circle
-                .icon-fix
-            span.completed Completado
+      //- #modal-back-completed.modal-back
+      //-   #modal-completed.modal.modal-completed
+      //-     .modal-body.modal-body-completed
+      //-       .success-checkmark
+      //-         .check-icon
+      //-           span.icon-line.line-tip
+      //-           span.icon-line.line-long
+      //-           .icon-circle
+      //-           .icon-fix
+      //-       span.completed Completado
+block scripts
   script(src="/public/js/shared.js")
   script(src="/public/js/menu.js")
   script(src="/public/js/buy-modal.js")
+  script(src="/public/js/fetch.js")
   script(src="/public/js/user-option.js")
   script(src="/public/js/galeria-articulos.js")
   script(src="/public/js/alert.js")

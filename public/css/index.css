@@ -32,6 +32,8 @@
 .home-gallery {
     text-align: center;
     overflow: hidden;
+    margin: auto;
+    max-width: 60rem;
     border-radius: 6px;
     margin-bottom: 1.6rem;
     transition: all 0.4s ease;
