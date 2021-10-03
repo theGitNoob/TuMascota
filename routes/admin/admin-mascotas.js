@@ -132,7 +132,7 @@ router
 
     async (req, res, next) => {
       //TODO:Cambiar la ruta para que acepte un parametro que indique si deseo eliminar las fotos antiguas
-
+      const { id } = req.params;
       try {
         const errors = validateResults(req);
 
