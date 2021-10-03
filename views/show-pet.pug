@@ -76,7 +76,7 @@ block contenido
                   }
               });
               const url = `/admin/mascotas/${gallery.getAttribute("id")}`;
-              const resp = fetch(url,{
+              fetch(url,{
                 method: "PUT",
                 body: formData,
               }).then(result => {
