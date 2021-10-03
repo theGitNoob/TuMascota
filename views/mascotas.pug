@@ -145,8 +145,21 @@ block contenido
                   |
                   img(src='/public/img/res/basket.png', alt)
 
-      .modal-back.modal-back-buy-this
-        .modal.modal-buy-this
+      #modal-back-need-account.modal-back.modal-back-need-account
+        #modal-need-account.modal
+          .modal__header Me Interesa
+            button.modal-close
+              img.modal-close__icon(src="/public/img/res/close-white.png", alt="")  
+          .modal__body.need-account 
+            h4 Para poder acceder a nuestros artículos necesitas estar registrado
+            .need-account__btn
+              span
+                button.btn.btn-need-account
+                  a(href="/users/register")
+                    img(src="/public/img/res/adduserblue.png", alt="") 
+                    | Registrarte   
+      .modal-back.modal-back-buy
+        .modal.modal-buy
           .modal__header Me Interesa
           .modal__body.modal-body__buy
             | Ha seleccionado
@@ -164,21 +177,21 @@ block contenido
 
             .btns-buy-container
               button#cancel-btn-buy.btn.cancel-btn(type='submit') Cancelar
-
               button#accept-btn-buy.btn.accept-btn(type='submit') Confirmar
-
-      #modal-back-completed.modal-back
-        #modal-completed.modal.modal-completed
-          .modal-body.modal-body-completed
-            .success-checkmark
-              .check-icon
-                span.icon-line.line-tip
-                span.icon-line.line-long
-                .icon-circle
-                .icon-fix
-            span.completed Completado
+              
+      //- #modal-back-completed.modal-back
+      //-   #modal-completed.modal.modal-completed
+      //-     .modal-body.modal-body-completed
+      //-       .success-checkmark
+      //-         .check-icon
+      //-           span.icon-line.line-tip
+      //-           span.icon-line.line-long
+      //-           .icon-circle
+      //-           .icon-fix
+      //-       span.completed Completado
   //- script(src="/public/js/mascotas.js") 
-
+block scripts
+  script(src="/public/js/shared.js")
   script(src="/public/js/menu.js")
   script(src="/public/js/buy-modal.js")
   script(src="/public/js/fetch.js")

@@ -41,15 +41,15 @@ function mostrarModal(modalback, modal, state) {
 		completado en modal-completed.js */
         setTimeout(function () {
             modal.classList.add("hide-modal");
-            setTimeout(() => {
+            setTimeout(function () {
                 modalback.classList.remove("show-modal-back");
                 modal.classList.remove("show-modal");
                 modal.classList.remove("hide-modal");
             }, 650);
         }, 400);
     } else if (state) {
-        modalback.classList.toggle("show-modal-back");
-        modal.classList.toggle("show-modal");
+        modalback.classList.add("show-modal-back");
+        modal.classList.add("show-modal");
         if (modalback.classList.contains("show-modal-back") && modal.classList.contains("show-modal")) {
             modalback.style.zIndex = "9";
             modal.style.zIndex = "9";

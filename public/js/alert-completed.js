@@ -3,21 +3,21 @@ const modalCompleted = modalBackCompleted.firstElementChild;
 const succesCheckMark = document.querySelector(".success-checkmark");
 
 function animCompleted() {
-  succesCheckMark.style.display = "none";
+    succesCheckMark.style.display = "none";
 
-  function animarModal() {
-    mostrarModal(modalBackCompleted, modalCompleted);
-  }
-  setTimeout(() => {
-    animarModal();
-  }, 650);
+    function animarModal() {
+        mostrarModal(modalBackCompleted, modalCompleted);
+    }
+    setTimeout(function () {
+        animarModal();
+    }, 850);
 
-  setTimeout(() => {
-    succesCheckMark.style.display = "block";
-  }, 1050);
+    setTimeout(function () {
+        succesCheckMark.style.display = "block";
+    }, 1050);
 
-  setTimeout(() => {
-    animarModal();
-    // document.location.reload();
-  }, 2300);
+    setTimeout(function () {
+        animarModal();
+        document.location.reload();
+    }, 2300);
 }
