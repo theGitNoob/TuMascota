@@ -8,6 +8,7 @@ const {
   passwordsMatch,
   validateResults,
   isValidLastName,
+  isValidPhone,
 } = require("../helpers/validators");
 
 const router = Router();
@@ -70,7 +71,7 @@ router
         "password",
         "La contraseña no debe tener mas de 50 caracteres"
       ).isLength({ max: 50 }),
-      check("phone", "El télefono es obligatorio").notEmpty(),
+      check("phone").custom(isValidPhone),
       check("address", "La dirección es obligatoria").notEmpty(),
       check("password2").custom(passwordsMatch),
     ],
