@@ -84,7 +84,7 @@ block contenido
                 td.order-section__column(data-header='Cantidad')=orden.cnt
                 td.order-section__column(data-header='Fecha del Pedido')=orden.fullDate
                 td.order-section__column.order-section__state(data-header='Estado') 
-                  span.order-state(data-state=orden.state)=orden.state
+                  span.order-state(data-state=orden.state)=orden.getState()
                 td.order-section__column(data-header='Cancelar')
                   button.btn.cancel-order(type='submit')
                     img(src='/public/img/res/borrar.png' alt)
@@ -116,7 +116,7 @@ block contenido
                 td.order-section__column(data-header='Cantidad')=orden.cnt
                 td.order-section__column(data-header='Fecha del Pedido')=orden.fullDate
                 td.order-section__column.order-section__state(data-header='Estado')
-                  span.order-state(data-state=orden.state)=orden.state
+                  span.order-state(data-state=orden.state)=orden.getState()
                 td.order-section__column(data-header='Cancelar')
                   button.btn.cancel-order(type='submit')
                     img(src='/public/img/res/borrar.png' alt)

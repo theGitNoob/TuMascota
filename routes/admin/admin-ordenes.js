@@ -83,9 +83,9 @@ router
       }
 
       let article =
-        order.articleType === "mascota"
-          ? await Pet.findById(order.articleId).exec()
-          : await Accesorie.findById(order.articleId).exec();
+        order.type === "pet"
+          ? await Pet.findById(order.pet).exec()
+          : await Accesorie.findById(order.accesorie).exec();
 
       let user = await User.findById(order.user).exec();
 
@@ -94,6 +94,7 @@ router
         case "aproved":
           article.cnt += order.cnt;
           article.stagedCnt -= order.cnt;
+          article.status = "available";
           break;
         case "completed":
           break;

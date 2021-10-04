@@ -156,6 +156,8 @@ server.listen(process.env.PORT, (err) => {
   console.log("Servidor corriendo en el puerto 8080");
 });
 
+//TODO:Volver a poner en funcionamiento socket.io
+
 //TODO:Apr3nder a usar Bluerbird, async, PM2, Cluster
 //TODO:Cambiar las variables de entorno cuando la app este en produccion
 //TODO:Entender el XSS y como prevenirlo

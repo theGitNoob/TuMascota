@@ -76,7 +76,7 @@ block contenido
                         input.btn.btn-update(type="submit" value="Actualizar")
 
                     td.table-cell(data-header="Eliminar")            
-                      form(action=`/admin/mascotas/prueba?_method=DELETE` method="POST" class="link-container delete-form" )
+                      form(action=`/admin/ordenes/${order.id}?_method=DELETE` method="POST" class="link-container delete-form" )
                         button(type="submit" class="btn btn-delete")  
                           img(src="/public/img/res/borrar.png")
                   tr
@@ -119,7 +119,7 @@ block contenido
                             option(selected value = "completed") Completada
                         input.btn.btn-update(type="submit" value="Actualizar")
                     td.table-cell(data-header="Eliminar")            
-                      form(action=`/admin/mascotas/prueba?_method=DELETE` method="POST" class="delete-form" )
+                      form(action=`/admin/ordenes/${order.id}?_method=DELETE` method="POST" class="delete-form" )
                         button(type="submit" class="btn btn-delete")  
                           img(src="/public/img/res/borrar.png") 
                   tr
