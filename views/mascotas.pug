@@ -1,5 +1,6 @@
 extends ./layout
 block contenido
+ 
   main#main
     section.main-section.mar10
       .main-section-title
@@ -27,7 +28,7 @@ block contenido
               |
               |
               label(for='perro')
-                input#perro.checkbox-input(type='checkbox' name='perro')
+                input#perro.checkbox-input(type='checkbox' name='perro' checked=perro)
                 span.my-checkbox
             |
             |
@@ -40,7 +41,7 @@ block contenido
               |
               |
               label(for='gato')
-                input#gato.checkbox-input(type='checkbox' name='gato')
+                input#gato.checkbox-input(type='checkbox' name='gato' checked=gato)
                 span.my-checkbox
             |
             |
@@ -53,7 +54,7 @@ block contenido
               |
               |
               label(for='ave')
-                input#ave.checkbox-input(type='checkbox' name='ave')
+                input#ave.checkbox-input(type='checkbox' name='ave' checked=ave)
                 span.my-checkbox
           |
           |
@@ -67,7 +68,7 @@ block contenido
               |
               |
               label(for='roedor')
-                input#roedor.checkbox-input(type='checkbox' name='roedor')
+                input#roedor.checkbox-input(type='checkbox' name='roedor' checked=roedor)
                 span.my-checkbox
             |
             |
@@ -80,7 +81,7 @@ block contenido
               |
               |
               label(for='pez')
-                input#pez.checkbox-input(type='checkbox' name='pez')
+                input#pez.checkbox-input(type='checkbox' name='pez' checked=pez)
                 span.my-checkbox
             |
             |
@@ -93,7 +94,7 @@ block contenido
               |
               |
               label(for='otros')
-                input#otros.checkbox-input(type='checkbox' name='otros')
+                input#otros.checkbox-input(type='checkbox' name='otros' checked=otros)
                 span.my-checkbox
 
           .filter-form__submit
@@ -197,6 +198,15 @@ block scripts
   script(src="/public/js/fetch.js")
   script(src="/public/js/user-option.js")
   script(src="/public/js/mascotas.js")
+  script(src="/public/js/galeria-articulos.js")
+  script(src="/public/js/alert.js")
+  script(src="/public/js/modal-completed.js")
+
+//- block  footerria-articulos.js")
+  script(src="/public/js/alert.js")
+  script(src="/public/js/modal-completed.js")
+
+//- block  footer")
   script(src="/public/js/galeria-articulos.js")
   script(src="/public/js/alert.js")
   script(src="/public/js/modal-completed.js")
