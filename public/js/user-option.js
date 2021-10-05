@@ -56,6 +56,21 @@ function fromNewToOld() {
 let contBellOpen = 0;
 notifications.forEach(function (not) {
   not.addEventListener("click", function () {
+    let messages = document.querySelectorAll("li.bell-submenu__element--new");
+    messages = Array.from(messages);
+
+    messages = messages.map(function (elem) {
+      return elem.id;
+    });
+
+    if (messages.length) {
+      let data = { messages };
+      let xhr = new XMLHttpRequest();
+      xhr.open("PATCH", "/user/messages/");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify(data));
+    }
+
     /*Aqui hago q se muestre el div de mostrar todas las notificaciones*/
     showAllNotifications.style.display = "block";
     if (

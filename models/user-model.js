@@ -4,7 +4,7 @@ const { model, Schema } = require("mongoose");
 const messageSchema = Schema({
   msg: { type: String, required: true },
   date: { type: Date, default: Date.now },
-  state: { type: String, default: "new" },
+  state: { type: String, default: "new", enum: ["new", "old"] },
 });
 
 messageSchema.virtual("fullDate").get(function () {

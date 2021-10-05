@@ -42,16 +42,20 @@ router.delete("/messages/:id", async (req, res, next) => {
 });
 
 router.patch("/messages/", async (req, res, next) => {
+  const { messages } = req.body;
+
   try {
     let user = req.user;
 
-    user.messages.forEach((msg) => (msg.state = "old"));
-
-    user.newMessages = 0;
+    messages.forEach((messageId) => {
+      let userMessage = user.messages.id(messageId);
+      userMessage.state = "old";
+      if (user.newMessages > 0) user.newMessages--;
+    });
 
     await user.save();
 
-    res.status(200).end();
+    res.end();
   } catch (err) {
     next(err);
   }
