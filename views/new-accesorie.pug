@@ -10,13 +10,14 @@ block contenido
       | Seleccionar Foto
     section.gallery-section
       article.gallery
+        span(style = 'font-weight: 600;color: #4c4c4c;') No ha seleccionado ninguna foto
       .gallery-move 
         button.btn.btn-prev(type="submit")
           img(src="/public/img/admin/atras.png" alt="") 
         button.btn.btn-next(type="submit")
           img(src="/public/img/admin/adelante.png" alt="")
     article.form-container
-      form(action="/admin/accesorios/" method='POST' class="form-group" enctype="multipart/form-data")
+      form(id="create-article" action="/admin/accesorios/" method='POST' class="form-group" enctype="multipart/form-data")
 
         input(type="text" class="form-input" name="type" placeholder="Tipo de accesorio" required)
 
@@ -39,11 +40,40 @@ block contenido
           a.btn.btn-cancel(href="/admin/accesorios") Cancelar
   script.
    const inputFile = document.querySelector("#file-selector"),
+     formCreateArticle = document.querySelector("#create-article"),
+     inputsData = document.querySelectorAll(".form-input"),
      btnAddPhoto = document.querySelector("btn-add-photo"),
      filesSelected = document.querySelector(".file-selected"),
      gallery = document.querySelector(".gallery"),
      btnPrevImage = document.querySelector(".btn-prev"),
      btnNextImage = document.querySelector(".btn-next");
+
+    function handleForm(){
+        const formData = new FormData();
+        for(let img of inputFile.files){
+          formData.append("images",img);
+        }
+        inputsData.forEach((el)=>{
+            if(el.name != "images")
+            {
+              formData.append(el.name, el.value);
+            }
+        });
+        const url = `/admin/accesorios/`;
+        fetch(url,{
+          method: "POST",
+          body: formData,
+        }).then(result => {
+            if(result.ok)
+              window.location.reload();
+          })
+    } 
+
+    formCreateArticle.addEventListener("submit", (e)=>{
+        e.preventDefault();
+        if(gallery.firstElementChild.tagName !== "SPAN")
+          handleForm();
+    });
 
     //Galeria de imagenes
     let idxGallery = 0;
