@@ -204,10 +204,12 @@ block contenido
           if(!petsTables[index].classList.contains("show-table")){
             petsTables[index].classList.add("show-table");
             btn.innerHTML = "Mascotas <div class = 'underline'></div>";
+            btn.style.backgroundColor = "#2fb5ee";
           }
           else{
             petsTables[index].classList.remove("show-table");
             btn.innerHTML = "Mascotas";
+            btn.style.backgroundColor = "#007bff";
           }
         });
       });
@@ -215,10 +217,12 @@ block contenido
         btn.addEventListener("click",function(){
           if(!articlesTables[index].classList.contains("show-table")){
             articlesTables[index].classList.add("show-table");
+            btn.style.backgroundColor = "#2fb5ee";
             btn.innerHTML = "Accesorios <div class = 'underline'></div>";
           }
           else{
             articlesTables[index].classList.remove("show-table");
+            btn.style.backgroundColor = "#007bff";
             btn.innerHTML = "Accesorios";
           }
         });
