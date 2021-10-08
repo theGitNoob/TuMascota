@@ -450,7 +450,14 @@ a:focus,
     background-color: #fff;
 }
 
-.select-input {
+.no-orders-cell {
+    padding: 1rem;
+    color: #4c4c4c;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* .select-input {
     font-family: inherit;
     padding: 0.4rem;
     outline: none;
@@ -467,6 +474,20 @@ a:focus,
     font-weight: 600;
     background-color: #fff;
     color: hsl(0, 0%, 41%);
+} */
+
+.radio-group input[type="radio"] {
+    margin: 0 0.3rem;
+    cursor: pointer;
+    border-radius: 50%;
+}
+.radio-group input[type="radio"]:focus {
+    box-shadow: 0 0 0 0.05rem rgba(13, 110, 253, 0.25);
+}
+.radio-group label {
+    font-weight: 600;
+    color: #4c4c4c;
+    cursor: pointer;
 }
 
 .btn-update {
