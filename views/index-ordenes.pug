@@ -4,27 +4,30 @@ block contenido
     h3.main-title Listado de las órdenes de los usuarios
     article.main-container 
       //-Esto es ordenados por nombre de usuario
-      - ordenes.sort(function(a,b){
-      - return (a.user.username < b.user.username) ? -1 : (a.user.username > b.user.username) ? 1 : 0;
-      - });
-      //- Aqui guardo en el arreglo userList en cada posicion un arreglo con el nombre de usuario en la 1ra posicion y en la 2da posicion todas las ordenes asociadas a ese nombre de usuario, y asi hago lo mismo con cada usuario que tenga ordenes.
-      //-De esta manera userList: 
-      //- [0] [Jmlopez, ordenes...] 
-      //- [1] [Rafa01, ordenes...] 
-      //- [2] [Malopez, ordenes...] 
-      - let userList = [], cont = 0;
-      - let currentUser = ordenes[0].user.username;
-      - userList.push([currentUser]);
-      - for(val of ordenes){
-      -   if(val.user.username == currentUser){
-      -       userList[cont].push(val);
-      -   }
-      -  else{
-      -       cont++;
-      -       currentUser = val.user.username;
-      -       userList.push([currentUser, val]);    
-      -   }
-      -} 
+      -let userList = [];
+      if ordenes.length
+        - console.log(ordenes, ordenes.length, "wii")
+        - ordenes.sort(function(a,b){
+        - return (a.user.username < b.user.username) ? -1 : (a.user.username > b.user.username) ? 1 : 0;
+        - });
+        //- Aqui guardo en el arreglo userList en cada posicion un arreglo con el nombre de usuario en la 1ra posicion y en la 2da posicion todas las ordenes asociadas a ese nombre de usuario, y asi hago lo mismo con cada usuario que tenga ordenes.
+        //-De esta manera userList: 
+        //- [0] [Jmlopez, ordenes...] 
+        //- [1] [Rafa01, ordenes...] 
+        //- [2] [Malopez, ordenes...] 
+        - userList = [], cont = 0;
+        - let currentUser = ordenes[0].user.username;
+        - userList.push([currentUser]);
+        - for(val of ordenes){
+        -   if(val.user.username == currentUser){
+        -       userList[cont].push(val);
+        -   }
+        -  else{
+        -       cont++;
+        -       currentUser = val.user.username;
+        -       userList.push([currentUser, val]);    
+        -   }
+        -}
       each user in userList
         input( class="hidden-input-username" type = "hidden" value = `${user[0]}`)
         input( class="hidden-input-name" type = "hidden" value = `${user[1].user.name}`)
@@ -60,29 +63,44 @@ block contenido
                       a.btn.btn-go-article(href=`/admin/mascotas/${order.pet}`) Ver Mascota
                     td.table-cell(data-header="Estado") 
                       form.update-state-form(action=`/admin/ordenes/${order._id}?_method=PUT` method="POST")
-                        select.select-input(name="state")
+                        .radio-group
                           if order.state == "pendient"
-                            option(selected value = "pendient") Pendiente
-                            option(value = "aproved") Aprobada
-                            option(value = "completed") Completada
+                            input(id = "pendient" type="radio" name = "state" value="pendient" checked autocompleted)
+                          else 
+                            input(id = "pendient" type="radio" name = "state" value="pendient")
+                          label(for="pendient") Pendiente   
+                        .radio-group 
                           if order.state == "aproved"
-                            option(value = "pendient") Pendiente
-                            option(selected value = "aproved") Aprobada
-                            option(value = "completed") Completada
-                          if order.state == "completed"
-                            option(value = "pendient") Pendiente
-                            option(value = "aproved") Aprobada
-                            option(selected value = "completed") Completada
+                            input(id = "aproved" type="radio" name = "state" value="aproved" checked autocompleted)  
+                          else 
+                            input(id = "aproved" type="radio" name = "state" value="aproved")  
+                          label(for="aproved") Aprobada   
+                        .radio-group 
+                          input(id = "completed" type="radio" name = "state" value="completed") 
+                          label(for="completed") Completada   
+                        //- select.select-input(name="state")
+                        //-   if order.state == "pendient"
+                        //-     option(selected value = "pendient") Pendiente
+                        //-     option(value = "aproved") Aprobada
+                        //-     option(value = "completed") Completada
+                        //-   if order.state == "aproved"
+                        //-     option(value = "pendient") Pendiente
+                        //-     option(selected value = "aproved") Aprobada
+                        //-     option(value = "completed") Completada
+                        //-   if order.state == "completed"
+                        //-     option(value = "pendient") Pendiente
+                        //-     option(value = "aproved") Aprobada
+                        //-     option(selected value = "completed") Completada
                         input.btn.btn-update(type="submit" value="Actualizar")
 
                     td.table-cell(data-header="Eliminar")            
                       form(action=`/admin/ordenes/${order.id}?_method=DELETE` method="POST" class="link-container delete-form" )
                         button(type="submit" class="btn btn-delete")  
                           img(src="/public/img/res/borrar.png")
-                  tr
-                    td(colspan = "7")  
-                      form(action=`/admin/ordenes/${order._id}?_method=PUT` method="POST" class="form-mark-as-sold")
-                        input.btn.btn-mark-as-sold(type="submit" value="Marcar como vendido")               
+                  //- tr
+                  //-   td(colspan = "7")  
+                  //-     form(action=`/admin/ordenes/${order._id}?_method=PUT` method="POST" class="form-mark-as-sold")
+                  //-       input.btn.btn-mark-as-sold(type="submit" value="Marcar como vendido")               
         section.table-container.articles-table
           h3.table-title Listado de Accesorios
           table.main-table 
@@ -104,28 +122,44 @@ block contenido
                       a.btn.btn-go-article(href=`/admin/accesorios/${order.accesorie}`) Ver Articulo
                     td.table-cell(data-header="Estado") 
                       form.update-state-form(action=`/admin/ordenes/${order._id}?_method=PUT` method="POST")
-                        select.select-input(name="state")
+                        .radio-group
                           if order.state == "pendient"
-                            option(selected value = "pendient") Pendiente
-                            option(value = "aproved") Aprobada
-                            option(value = "completed") Completada
+                            input(id = "pendient" type="radio" name = "state" value="pendient" checked autocompleted)
+                          else 
+                            input(id = "pendient" type="radio" name = "state" value="pendient")
+                          label(for="pendient") Pendiente   
+                        .radio-group 
                           if order.state == "aproved"
-                            option(value = "pendient") Pendiente
-                            option(selected value = "aproved") Aprobada
-                            option(value = "completed") Completada
-                          if order.state == "completed"
-                            option(value = "pendient") Pendiente
-                            option(value = "aproved") Aprobada
-                            option(selected value = "completed") Completada
+                            input(id = "aproved" type="radio" name = "state" value="aproved" checked autocompleted)  
+                          else 
+                            input(id = "aproved" type="radio" name = "state" value="aproved")  
+                          label(for="aproved") Aprobada   
+                        .radio-group 
+                          input(id = "completed" type="radio" name = "state" value="completed") 
+                          label(for="completed") Completada  
+                         
+                        //- select.select-input(name="state")
+                        //-   if order.state == "pendient"
+                        //-     option(selected value = "pendient") Pendiente
+                        //-     option(value = "aproved") Aprobada
+                        //-     option(value = "completed") Completada
+                        //-   if order.state == "aproved"
+                        //-     option(value = "pendient") Pendiente
+                        //-     option(selected value = "aproved") Aprobada
+                        //-     option(value = "completed") Completada
+                        //-   if order.state == "completed"
+                        //-     option(value = "pendient") Pendiente
+                        //-     option(value = "aproved") Aprobada
+                        //-     option(selected value = "completed") Completada
                         input.btn.btn-update(type="submit" value="Actualizar")
                     td.table-cell(data-header="Eliminar")            
                       form(action=`/admin/ordenes/${order.id}?_method=DELETE` method="POST" class="delete-form" )
                         button(type="submit" class="btn btn-delete")  
                           img(src="/public/img/res/borrar.png") 
-                  tr
-                    td(colspan = "7")  
-                      form(action=`/admin/ordenes/${order._id}?_method=PUT` method="POST" class="form-mark-as-sold")
-                        input.btn.btn-mark-as-sold(type="submit" value="Marcar como vendido") 
+                  //- tr
+                    //- td(colspan = "7")  
+                      //- form(action=`/admin/ordenes/${order._id}?_method=PUT` method="POST" class="form-mark-as-sold")
+                        //- input.btn.btn-mark-as-sold(type="submit" value="Marcar como vendido") 
     .modal-back  
       .modal 
         .modal-header 
@@ -153,15 +187,19 @@ block contenido
     script.
       const petsTables = document.querySelectorAll(".pets-table"),
         articlesTables = document.querySelectorAll(".articles-table"),
+        petsTablesBody = document.querySelectorAll(".pets-table .main-table__body"),
+        articlesTablesBody = document.querySelectorAll(".articles-table .main-table__body"),
         btnPetsTables = document.querySelectorAll(".btn-pets"),
         btnArticlesTable = document.querySelectorAll(".btn-articles"),
         mainContainer = document.querySelector(".main-container"),
+
         hiddenUsername = document.querySelectorAll(".hidden-input-username"),
         hiddenName = document.querySelectorAll(".hidden-input-name"),
         hiddenLastname = document.querySelectorAll(".hidden-input-lastname"),
         hiddenPhone = document.querySelectorAll(".hidden-input-phone"),
         hiddenAddress = document.querySelectorAll(".hidden-input-address"),
         hiddenEmail = document.querySelectorAll(".hidden-input-email"),
+
         modalBack = document.querySelector(".modal-back"),
         modalUsername = document.querySelector("#modal-username"),
         modalName = document.querySelector("#modal-name"),
@@ -170,6 +208,7 @@ block contenido
         modalAddress = document.querySelector("#modal-address"),
         modalEmail = document.querySelector("#modal-email"),
         closeModal = document.querySelector(".close-modal"),
+
         users = document.querySelectorAll(".username");
 
 
@@ -194,20 +233,31 @@ block contenido
       });
 
 
-      if(mainContainer.childElementCount == 0)
+      if(!mainContainer.childElementCount)
       {
-        mainContainer.innerHTML = "<h3 style='margin: 1rem; color: #007bff'>No hay ninguna orden registrada actualmente </h3>";
+        mainContainer.innerHTML = "<h3 style='margin: 1rem; color: #4c4c4c; font-weight: 600;'>No hay ninguna orden registrada actualmente </h3>";
       }
+      petsTablesBody.forEach((tb)=>{
+        if(!tb.childElementCount)
+          tb.innerHTML = "<tr> <td class = 'no-orders-cell' colspan = '6'>No hay ninguna orden de mascotas registrada actualmente para este usuario <td> </tr>";
+      })
+      console.log(petsTablesBody, articlesTablesBody)
+      articlesTablesBody.forEach((tb)=>{
+        if(!tb.childElementCount)
+          tb.innerHTML = "<tr> <td class = 'no-orders-cell' colspan = '6'>No hay ninguna orden de accesorios registrada actualmente para este usuario <td> </tr>";
+      })
 
       btnPetsTables.forEach(function(btn, index){
         btn.addEventListener("click",function(){
           if(!petsTables[index].classList.contains("show-table")){
             petsTables[index].classList.add("show-table");
             btn.innerHTML = "Mascotas <div class = 'underline'></div>";
+            btn.style.backgroundColor = "#2fb5ee";
           }
           else{
             petsTables[index].classList.remove("show-table");
             btn.innerHTML = "Mascotas";
+            btn.style.backgroundColor = "#007bff";
           }
         });
       });
@@ -215,10 +265,12 @@ block contenido
         btn.addEventListener("click",function(){
           if(!articlesTables[index].classList.contains("show-table")){
             articlesTables[index].classList.add("show-table");
+            btn.style.backgroundColor = "#2fb5ee";
             btn.innerHTML = "Accesorios <div class = 'underline'></div>";
           }
           else{
             articlesTables[index].classList.remove("show-table");
+            btn.style.backgroundColor = "#007bff";
             btn.innerHTML = "Accesorios";
           }
         });

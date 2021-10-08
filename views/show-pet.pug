@@ -4,7 +4,7 @@ block contenido
     button.btn.btn-go-back(onclick = "window.history.back()") 
       img(src="/public/img/admin/atras.png" alt="")
       | Atras
-    h3.main-title Editar Accesorio
+    h3.main-title Editar Mascota
     label.btn.btn-add-photo(for="file-selector")
       img(src="/public/img/admin/camera.png" alt="") 
       | Seleccionar Fotos
@@ -26,10 +26,13 @@ block contenido
 
       input(type="text" class="form-input" name="breed" placeholder="Raza" value=pet.breed)
 
-      select.form-input(name="sex" value = pet.sex)
-        //- option(value=pet.sex) Selecciona el Sexo
-        option(value="Masculino") Masculino
-        option(value="Femenino") Femenino
+      select.form-input(name="sex")
+        if pet.sex === "Masculino"
+          option(value="Masculino" selected) Masculino
+          option(value="Femenino") Femenino
+        if pet.sex === "Femenino"
+          option(value="Masculino") Masculino
+          option(value="Femenino" selected) Femenino
 
       input(type="text" class="form-input" name="price" placeholder="Precio" value=pet.price)
 
@@ -62,7 +65,6 @@ block contenido
           filesSelected = document.querySelector(".file-selected"),
           btnPrevImage = document.querySelector(".btn-prev"),
           btnNextImage = document.querySelector(".btn-next");
-          btnDeleteBD = document.querySelectorAll(".btn-delete-photo");
 
           function handleForm(){
               const formData = new FormData();
@@ -80,37 +82,63 @@ block contenido
                 method: "PUT",
                 body: formData,
               }).then(result => {
-                  console.log('Success:', result);
+                  if(result.ok)
+                    window.location.reload();
                 })
-                .catch(error => {
-                  console.error('Error:', error);
-                });
-          }
+          } 
 
           formEditPet.addEventListener("submit", (e)=>{
               e.preventDefault();
-              handleForm();
+              if(gallery.firstElementChild.tagName !== "SPAN")
+                handleForm();
           });
 
           //Muestro la 1ra imagen y los botones de movimiento
-          gallery.firstElementChild.classList.add("picture-show");
-          btnPrevImage.parentElement.style.display = "block";
+          if(gallery.children.length > 0){
+            gallery.firstElementChild.classList.add("picture-show");
+            btnPrevImage.parentElement.style.display = "block";
+          } 
+
+          function handleDelete(node){
+              //Mover al siguiente
+              for (let p = 0; p < gallery.children.length; p++) {
+                  let n = gallery.children[p];
+                  if (n.classList.contains("picture-show")) {
+                      idxGallery = p == gallery.children.length - 1 ? 0 : p;
+                      break;
+                  }
+              }
+              gallery.removeChild(node);
+              if (gallery.childElementCount == 0) {
+                gallery.innerHTML = "<span style = 'font-weight: 600;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
+                btnPrevImage.parentElement.style.display = "none";
+              }
+              gallery.children[idxGallery].classList.add("picture-show");
+             
+          } 
 
           const deletePhoto = async(ImgId) => {
               const id = gallery.getAttribute("id");
               const url = `${id}/image/${ImgId}`;
               const resp = await fetch(url,{
                 method: 'DELETE'
-              });
-              console.log(resp);
+              })
+              if(resp.ok)
+                return true;
+              return false;
+              //- console.log(resp);
           }
-          btnDeleteBD.forEach((btn, idx)=>{
-            btn.addEventListener("click", ()=>{
-                const ImgId = gallery.children[idx].firstElementChild.getAttribute("id");
-                deletePhoto(ImgId);
-            })
-          })
-
+          for(let ch of gallery.children){
+            const btn = ch.lastElementChild;
+            if(btn.tagName === 'BUTTON'){
+              btn.addEventListener("click", ()=>{
+                const ImgId = ch.firstElementChild.getAttribute("id");
+                if(deletePhoto(ImgId)){
+                  handleDelete(ch);
+                }
+               });
+            }
+          }
           //Galeria de imagenes
           let idxGallery = 0;
           function moveGallery(dir) {
@@ -152,6 +180,7 @@ block contenido
                   }
               }
           }
+
           btnNextImage.addEventListener("click", function () {
             moveGallery(1);
           });
@@ -181,7 +210,7 @@ block contenido
                 reader.addEventListener("load", function (e) {
                   const node = document.createElement("div");
                   node.classList.add("picture");
-                  node.innerHTML = `<img src=${reader.result} alt=''> <button type='submit' class='btn btn-delete btn-delete-photo'><img src='/public/img/res/borrar.png'></button>`;
+                  node.innerHTML = `<img src=${reader.result} alt=''>`;
                   if (!flag) {
                       node.classList.add("picture-show");
                       flag = 1;

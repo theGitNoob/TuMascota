@@ -2,10 +2,14 @@ No dar soporte en IE7 y IE8
 
 General:
 -Arreglar notificaciones
--modal de need account
+
 
 Admin: 
--editar articulo
+-ordenes:
+    -cambiar un poco el estilo
+    -arreglar que la pagina no de error al renderizar cuando no tengas ordenes
+-editar articulo:
+    -terminar parte de eliminar foto
 
 Al Final:
 Añadir prefijos de los navegadores para:

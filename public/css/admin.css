@@ -417,7 +417,7 @@ a:focus,
     align-items: center;
     flex-wrap: wrap;
     margin: 1rem 0.6rem;
-    border-bottom: 2px solid #f26422;
+    border-bottom: 2px solid #2fb5ee;
 }
 
 .username {
@@ -425,6 +425,7 @@ a:focus,
     font-size: 1rem;
     color: #4c4c4c;
     padding: 0.4rem;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
 }
 
 .order-selection {
@@ -435,10 +436,11 @@ a:focus,
 .btn-articles {
     padding: 0.3rem 0.6rem;
     margin: 0.6rem 0;
-    background-color: #f26422;
+    background-color: #007bff;
     color: #fff;
     width: 100%;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    font-weight: 400;
 }
 
 .btn-pets .underline,
@@ -448,7 +450,14 @@ a:focus,
     background-color: #fff;
 }
 
-.select-input {
+.no-orders-cell {
+    padding: 1rem;
+    color: #4c4c4c;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* .select-input {
     font-family: inherit;
     padding: 0.4rem;
     outline: none;
@@ -465,6 +474,20 @@ a:focus,
     font-weight: 600;
     background-color: #fff;
     color: hsl(0, 0%, 41%);
+} */
+
+.radio-group input[type="radio"] {
+    margin: 0 0.3rem;
+    cursor: pointer;
+    border-radius: 50%;
+}
+.radio-group input[type="radio"]:focus {
+    box-shadow: 0 0 0 0.05rem rgba(13, 110, 253, 0.25);
+}
+.radio-group label {
+    font-weight: 600;
+    color: #4c4c4c;
+    cursor: pointer;
 }
 
 .btn-update {
