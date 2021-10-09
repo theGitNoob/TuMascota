@@ -17,14 +17,17 @@
 
 .login-section__container {
     width: 100%;
+    -webkit-border-radius: 3px;
     border-radius: 3px;
     background-color: #fff;
+    -webkit-box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
     box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
     margin: 3.2rem auto;
     position: relative;
 }
 
 .login-section__header {
+    -webkit-border-radius: 3px 3px 0 0;
     border-radius: 3px 3px 0 0;
     color: #fff;
     font-size: 1rem;
@@ -40,15 +43,20 @@
 .logo-user {
     position: absolute;
     padding: 0.5rem;
+    -webkit-border-radius: 50%;
     border-radius: 50%;
     line-height: 1rem;
     background-color: #1d3f52;
     top: -2.7rem;
     left: 50%;
+    -webkit-transform: translate(-50%);
+    -ms-transform: translate(-50%);
+    -o-transform: translate(-50%);
     transform: translate(-50%);
 }
 .logo-user img {
     border: 2px solid white;
+    -webkit-border-radius: 50%;
     border-radius: 50%;
     width: 4rem;
 }
@@ -63,8 +71,10 @@
     text-align: justify;
     color: white;
     padding: 0.7rem 0.5rem;
+    -webkit-border-radius: 3px;
     border-radius: 3px;
     margin: 1rem 0.6rem;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26), 0 2px 10px 0 rgba(0, 0, 0, 0.22);
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26), 0 2px 10px 0 rgba(0, 0, 0, 0.22);
 }
 
@@ -75,6 +85,7 @@
     margin-right: 0.4rem;
     padding: 0.1rem 0.6rem;
     border: 2px solid white;
+    -webkit-border-radius: 50%;
     border-radius: 50%;
     color: white;
 }
@@ -103,6 +114,8 @@
     background: white;
     border: none;
     border-bottom: 2px solid #e6e6e6;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
     font-size: 1rem;
 }
@@ -128,6 +141,8 @@
     top: 15%;
     left: 2.8rem;
     cursor: text;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
 }
 
@@ -199,6 +214,7 @@
 }
 
 .login-section__form input[type="submit"]:hover {
+    -webkit-box-shadow: none;
     box-shadow: none;
 }
 
@@ -223,6 +239,7 @@
 }
 
 .my-checkbox {
+    -webkit-box-shadow: none;
     box-shadow: none;
     vertical-align: middle;
     width: 1.3rem;
@@ -244,6 +261,8 @@
     text-decoration: none;
     color: #747474;
     font-size: 1rem;
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
     /* font-weight: bold; */
 }
@@ -265,6 +284,8 @@
     font-weight: 600;
     text-decoration: none;
     color: #208cff;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
     transition: 0.3s;
 }
 
@@ -290,7 +311,9 @@
     background-color: #fff;
     display: none;
     margin: auto;
+    -webkit-border-radius: 3px;
     border-radius: 3px;
+    -webkit-box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
     color: #444;
     text-align: center;
@@ -301,6 +324,7 @@
     background-color: #208cff;
     padding: 0.2rem 0.1rem;
     font-weight: 600;
+    -webkit-border-radius: 3px 3px 0 0;
     border-radius: 3px 3px 0 0;
     font-size: 1.2rem;
     color: white;
@@ -333,15 +357,47 @@
     width: 4rem;
     display: block;
     margin: 0.4rem auto;
+    -webkit-animation: anim-email 1s ease infinite;
+    -o-animation: anim-email 1s ease infinite;
     animation: anim-email 1s ease infinite;
+}
+
+@-webkit-keyframes anim-email {
+    0%,
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    30% {
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+}
+
+@-o-keyframes anim-email {
+    0%,
+    100% {
+        -webkit-transform: scale(1);
+        -o-transform: scale(1);
+        transform: scale(1);
+    }
+    30% {
+        -webkit-transform: scale(1.2);
+        -o-transform: scale(1.2);
+        transform: scale(1.2);
+    }
 }
 
 @keyframes anim-email {
     0%,
     100% {
+        -webkit-transform: scale(1);
+        -o-transform: scale(1);
         transform: scale(1);
     }
     30% {
+        -webkit-transform: scale(1.2);
+        -o-transform: scale(1.2);
         transform: scale(1.2);
     }
 }
@@ -365,6 +421,7 @@
 }
 
 .btn__send-email:hover {
+    -webkit-box-shadow: none;
     box-shadow: none;
 }
 
