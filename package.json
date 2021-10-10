@@ -35,9 +35,9 @@
     "uuid": "^8.3.2",
     "validator": "^13.6.0"
   },
-  "start": "nodemon --trace-sync-io --trace-warnings app.js",
   "scripts": {
-    "start": "nodemon --trace-warnings app.js",
+    "start-dev": "sudo nodemon --trace-warnings app.js",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "theGitNoob",

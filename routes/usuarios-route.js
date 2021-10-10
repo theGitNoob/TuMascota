@@ -129,7 +129,7 @@ router
             createdAt: Date.now(),
           }).save();
 
-          const link = `http://${process.env.URL}/users/reset_password?token=${resetToken}&id=${user._id}`;
+          const link = `${process.env.URL}}/users/reset_password?token=${resetToken}&id=${user._id}`;
           console.log(link);
 
           const message = {

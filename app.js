@@ -2,10 +2,12 @@
 require("dotenv").config();
 require("./config/db-config")();
 const express = require("express");
+const { readFileSync } = require("fs");
 const logger = require("morgan");
-// let compression = require("compression");
+const spdy = require("spdy");
+let compression = require("compression");
 let session = require("express-session");
-let methodOverride = require("method-override");
+const methodOverride = require("method-override");
 const { checkAuth, noAuth } = require("./middlewares/session-middleware");
 const adminRouter = require("./routes/admin/admin-routes");
 const usersRouter = require("./routes/usuarios-route");
@@ -14,17 +16,24 @@ const petsRouter = require("./routes/mascotas");
 const orders = require("./routes/ordenes");
 const accesories = require("./routes/accesorios");
 const passport = require("passport");
-let flash = require("connect-flash");
-let app = express();
-let http = require("http");
-var server = http.createServer(app);
-let io = require("socket.io")(server);
+const flash = require("connect-flash");
+const app = express();
+
 let passportSocketIo = require("passport.socketio");
 let redis = require("redis");
 let RedisStore = require("connect-redis")(session);
 let cookieParser = require("cookie-parser");
 let helmet = require("helmet");
-const { userModel } = require("./models/user-model");
+
+const options = {
+  key: readFileSync(__dirname + "/certs/server.key"),
+  cert: readFileSync(__dirname + "/certs/server.cert"),
+};
+
+const server = spdy.createServer(options, app);
+let io = require("socket.io")(server);
+
+app.use(compression({ level: 9 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //
@@ -111,12 +120,15 @@ app.get("/", async (req, res, next) => {
 });
 
 app.use("/users", noAuth, usersRouter);
+
 app.use("/user", checkAuth, userRouter);
 
 app.use("/mascotas", petsRouter);
+
 app.use("/accesorios", accesories);
 
 app.use("/ordenes", orders);
+
 // app.use("/servicios", services);
 
 app.use(
@@ -153,10 +165,11 @@ app.use(function (err, req, res, next) {
 });
 
 server.listen(process.env.PORT, (err) => {
-  console.log("Servidor corriendo en el puerto 8080");
+  console.log("Servidor corriendo en el puerto:", process.env.PORT);
 });
 
 //TODO:Volver a poner en funcionamiento socket.io
+//TODO:Add csrf
 
 //TODO:Apr3nder a usar Bluerbird, async, PM2, Cluster
 //TODO:Cambiar las variables de entorno cuando la app este en produccion

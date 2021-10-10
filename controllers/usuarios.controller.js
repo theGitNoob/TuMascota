@@ -61,7 +61,7 @@ const registerUser = async (req, res, next) => {
     newUser.password = hash;
     newUser.verifyURL = newUser._id + randomBytes;
 
-    const link = `http://${process.env.URL}/users/verify/${newUser.verifyURL}`;
+    const link = `${process.env.URL}}/users/verify/${newUser.verifyURL}`;
 
     const message = {
       from: process.env.MAIL_USER,
@@ -113,7 +113,7 @@ const sendEmail = async (req, res, next) => {
         .json({ msg: "El nombre de usuario o la contraseña son incorrectos" });
     }
 
-    const link = `http://${process.env.URL}/users/verify/${user.verifyURL}`;
+    const link = `${process.env.URL}}/users/verify/${user.verifyURL}`;
 
     const message = {
       from: process.env.MAIL_USER,
