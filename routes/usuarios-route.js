@@ -121,7 +121,7 @@ router
 
           const resetToken = await genRandomBytes(32);
 
-          const hash = await bcrypt.hash(resetToken, 10);
+          const hash = await bcrypt.hash(resetToken, process.env.SALT);
 
           await new Token({
             userId: user._id,
@@ -187,7 +187,7 @@ router
           return res.json("El link no es válido o puede haber expirado");
         }
 
-        const hash = await bcrypt.hash(password, 10);
+        const hash = await bcrypt.hash(password, process.env.SALT);
         await User.findByIdAndUpdate(id, { password: hash }).exec();
         await resetToken.remove();
 

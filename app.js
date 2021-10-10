@@ -38,7 +38,8 @@ app.use(compression({ level: 9 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //
-// app.use(helmet());
+app.use(helmet());
+
 app.use(
   "/public",
   express.static("public", {
@@ -55,11 +56,12 @@ app.set("view engine", "pug"); //establece el motor de vistas a usar
 let sessionStore = new RedisStore({ client: redis.createClient() });
 
 let expressSession = session({
-  secret: "123the cat is falling in love",
+  secret: process.env.SECRET,
   resave: false,
   name: "sessionID",
   saveUninitialized: false,
   cookie: {
+    secure: true,
     maxAge: 18000000,
     sameSite: true,
   },
@@ -75,7 +77,7 @@ io.use(
   passportSocketIo.authorize({
     cookieParser: cookieParser,
     key: "sessionID",
-    secret: "123the cat is falling in love",
+    secret: process.env.SECRET,
     store: sessionStore,
     passport: passport,
   })
@@ -168,7 +170,7 @@ app.use(function (err, req, res, next) {
 server.listen(process.env.PORT, (err) => {
   console.log("Servidor corriendo en el puerto:", process.env.PORT);
 });
-
+//TODO: Testear la app con snyk
 //TODO:Volver a poner en funcionamiento socket.io
 //TODO:Add csrf
 

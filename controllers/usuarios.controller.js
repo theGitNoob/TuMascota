@@ -54,7 +54,7 @@ const registerUser = async (req, res, next) => {
     let newUser = new User(user);
 
     const [hash, randomBytes] = await Promise.all([
-      bcrypt.hash(newUser.password, 10),
+      bcrypt.hash(newUser.password, process.env.SALT),
       genRandomBytes(16),
     ]);
 
