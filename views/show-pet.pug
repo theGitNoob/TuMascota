@@ -50,7 +50,7 @@ block contenido
 
       //- label.btn.select-file(for="file-selector") Seleccionar archivo
       //- div.file-selected  No ha seleccionado ningún archivo
-      input.form-input(type="file" id="file-selector" multiple  name="images" accept="image/*" )
+      input.form-input(type="file" id="file-selector" multiple name="images" accept="image/*")
 
       .btn-save-container
         input(type="submit" class="btn btn-save" value="Guardar")
@@ -126,7 +126,6 @@ block contenido
               if(resp.ok)
                 return true;
               return false;
-              //- console.log(resp);
           }
           for(let ch of gallery.children){
             const btn = ch.lastElementChild;
@@ -180,7 +179,6 @@ block contenido
                   }
               }
           }
-
           btnNextImage.addEventListener("click", function () {
             moveGallery(1);
           });
@@ -221,23 +219,3 @@ block contenido
               }
             }
           });
-
-
-        //- const filesSelected = document.querySelector(".file-selected");
-        //- //Esto es para la seleccion de los archivos
-        //- inputFile.addEventListener("change", function(){
-        //-   filesSelected.innerHTML = "";
-        //-   filesSelected.classList.remove("file-preview");
-        //-   const currentFiles = inputFile.files;
-        //-   if(currentFiles.length == 0){
-        //-     filesSelected.innerHTML = "No ha seleccionado ningún archivo";
-        //-   }
-        //-   else{
-        //-     let textPreview = "";
-        //-     for(file of currentFiles){
-        //-       textPreview += `<span>${file.name}</span> `;
-        //-     }
-        //-     filesSelected.innerHTML = `<h4> Ha seleccionado </h4> ${textPreview}`;
-        //-     filesSelected.classList.add("file-preview");
-        //-   }
-        //- });

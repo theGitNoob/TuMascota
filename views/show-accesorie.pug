@@ -38,7 +38,7 @@ block contenido
 
       //- label.btn.select-file(for="file-selector") Seleccionar archivo
       //- div.file-selected  No ha seleccionado ningún archivo
-      input(type="file" id="file-selector" class="form-input" name="images" multiple)
+      input.form-iput(type="file" id="file-selector" multiple name="images" accept="image/*")
 
       .btn-save-container
         input(type="submit" class="btn btn-save" value="Guardar")
@@ -110,7 +110,10 @@ block contenido
               const url = `${id}/image/${ImgId}`;
               const resp = await fetch(url,{
                 method: 'DELETE'
-              });
+              })
+              if(resp.ok)
+                return true;
+              return false;
           }
           for(let ch of gallery.children){
             const btn = ch.lastElementChild;

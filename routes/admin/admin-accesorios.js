@@ -3,7 +3,12 @@ let router = require("express").Router();
 const { check } = require("express-validator");
 let fs = require("fs/promises");
 let multer = require("multer");
-const { imageUploaded, validateResults } = require("../../helpers/validators");
+const {
+  imageUploaded,
+  validateResults,
+  isValidPhone,
+  isValidName,
+} = require("../../helpers/validators");
 const upload = multer({ dest: "./uploads/" });
 let Accesorie = require("../../models/accesorie-model");
 const Order = require("../../models/order-model");
@@ -26,14 +31,8 @@ router
     [
       check("type", "El tipo de accesorio no debe estar vacío").notEmpty(),
       check("price", "El precio no debe estar vacío").notEmpty(),
-      check(
-        "ownerPhone",
-        "El numero de telefono del dueño no debe estar vacío"
-      ).notEmpty(),
-      check(
-        "ownerName",
-        "El nombre del propietario no debe estar vacío"
-      ).notEmpty(),
+      check("ownerPhone").custom(isValidPhone),
+      check("ownerName").custom(isValidName),
       check("images").custom(imageUploaded),
     ],
     async (req, res, next) => {
@@ -41,7 +40,7 @@ router
         const errors = validateResults(req);
 
         if (!errors.isEmpty()) {
-          return res.json(errors.array());
+          return res.status(400).json(errors.array());
         }
 
         const {
@@ -107,14 +106,8 @@ router
     [
       check("type", "El tipo de accesorio no debe estar vacío").notEmpty(),
       check("price", "El precio no debe estar vacío").notEmpty(),
-      check(
-        "ownerPhone",
-        "El numero de telefono del dueño no debe estar vacío"
-      ).notEmpty(),
-      check(
-        "ownerName",
-        "El nombre del propietario no debe estar vacío"
-      ).notEmpty(),
+      check("ownerPhone").custom(isValidPhone),
+      check("ownerName").custom(isValidName),
     ],
     async (req, res, next) => {
       const { id } = req.params;
@@ -123,7 +116,7 @@ router
         const errors = validateResults(req);
 
         if (!errors.isEmpty()) {
-          return res.json(errors.array());
+          return res.status(400).json(errors.array());
         }
 
         const {

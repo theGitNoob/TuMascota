@@ -97,7 +97,7 @@ router
       };
 
       if (password) {
-        password = await bcrypt.hash(password, process.env.SALT);
+        password = await bcrypt.hash(password, Number(process.env.SALT));
         newData.password = password;
       }
 

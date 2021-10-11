@@ -121,7 +121,7 @@ router
 
           const resetToken = await genRandomBytes(32);
 
-          const hash = await bcrypt.hash(resetToken, process.env.SALT);
+          const hash = await bcrypt.hash(resetToken, Number(process.env.SALT));
 
           await new Token({
             userId: user._id,
@@ -129,7 +129,7 @@ router
             createdAt: Date.now(),
           }).save();
 
-          const link = `${process.env.URL}}/users/reset_password?token=${resetToken}&id=${user._id}`;
+          const link = `${process.env.URL}/users/reset_password?token=${resetToken}&id=${user._id}`;
           console.log(link);
 
           const message = {
@@ -158,12 +158,15 @@ router
   })
   .put(
     [
+      check("id", "El link no es válido o puede haber expirado").isMongoId(),
       check("password", "La contraseña no debe estar vacía").notEmpty(),
+      check("password", "La contraseña es demasiado corta").isLength({
+        min: 8,
+      }),
       check(
         "password",
         "La contraseña no debe tener mas de 50 caracteres"
       ).isLength({ max: 50 }),
-      check("id", "El link no es válido o puede haber expirado").isMongoId(),
       check("password2").custom(passwordsMatch),
       check("token", "El link no es válido o puede haber expirado").notEmpty(),
     ],
@@ -172,31 +175,37 @@ router
         const errors = validateResults(req);
         const { token, id, password } = req.body;
         if (!errors.isEmpty()) {
-          return res.json(errors.array());
+          console.log(token, id, password);
+          return res.status(400).json(errors.array());
         }
 
         const resetToken = await Token.findOne({ userId: id });
-
+        console.log(resetToken);
         if (!resetToken) {
-          return res.json("El link no es válido o puede haber expirado");
+          console.log("rafa");
+          return res
+            .status(400)
+            .json("El link no es válido o puede haber expirado");
         }
 
         const isValid = await bcrypt.compare(token, resetToken.token);
 
         if (!isValid) {
-          return res.json("El link no es válido o puede haber expirado");
+          return res
+            .status(400)
+            .json("El link no es válido o puede haber expirado");
         }
 
-        const hash = await bcrypt.hash(password, process.env.SALT);
+        const hash = await bcrypt.hash(password, Number(process.env.SALT));
         await User.findByIdAndUpdate(id, { password: hash }).exec();
         await resetToken.remove();
 
-        req.flash(
-          "alert alert-success",
-          "Su contraseña ha sido cambiada correctamente"
-        );
+        // req.flash(
+        //   "alert alert-success",
+        //   "Su contraseña ha sido cambiada correctamente"
+        // );
 
-        res.redirect("/users/login");
+        return res.end();
       } catch (err) {
         next(err);
       }

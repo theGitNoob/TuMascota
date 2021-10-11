@@ -54,14 +54,14 @@ const registerUser = async (req, res, next) => {
     let newUser = new User(user);
 
     const [hash, randomBytes] = await Promise.all([
-      bcrypt.hash(newUser.password, process.env.SALT),
+      bcrypt.hash(newUser.password, Number(process.env.SALT)),
       genRandomBytes(16),
     ]);
 
     newUser.password = hash;
     newUser.verifyURL = newUser._id + randomBytes;
 
-    const link = `${process.env.URL}}/users/verify/${newUser.verifyURL}`;
+    const link = `${process.env.URL}/users/verify/${newUser.verifyURL}`;
 
     const message = {
       from: process.env.MAIL_USER,
@@ -113,7 +113,7 @@ const sendEmail = async (req, res, next) => {
         .json({ msg: "El nombre de usuario o la contraseña son incorrectos" });
     }
 
-    const link = `${process.env.URL}}/users/verify/${user.verifyURL}`;
+    const link = `${process.env.URL}/users/verify/${user.verifyURL}`;
 
     const message = {
       from: process.env.MAIL_USER,
