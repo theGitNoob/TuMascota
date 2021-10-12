@@ -93,7 +93,7 @@ router
   .get((req, res, next) => {
     res.render("forgot-password");
   })
-  .post([check("email").custom(isValidEmail)], async (req, res, next) => {
+  .post([check("email").custom(emailNotExist)], async (req, res, next) => {
     try {
       const errors = validateResults(req);
       const { email } = req.body;
@@ -101,16 +101,16 @@ router
         return res.status(400).json({ errors: errors.array() });
       } else {
         //TODO: Alertar que es link expira en 3h
-        const user = await User.findOne({ email });
-        let token = await Token.findOne({ userId: user._id });
+        const user = await User.findOne({ email }).exec();
+        let token = await Token.findOne({ userId: user._id }).exec();
 
         if (token) {
-          await token.deleteOne();
+          await token.remove();
         }
 
         const resetToken = await genRandomBytes(32);
 
-        const hash = await bcrypt.hash(resetToken, Number(process.env.SALT));
+        const hash = await bcrypt.hash(resetToken, parseInt(process.env.SALT));
 
         await new Token({
           userId: user._id,
@@ -127,7 +127,9 @@ router
           text: "Por favor siga el siguiente enlace",
           html: getForgetHtml(link),
         };
-        transporter.sendMail(message, (error) => {});
+        transporter.sendMail(message, (error) => {
+          if (error) console.error(error);
+        });
 
         return res.end();
       }
@@ -157,7 +159,7 @@ router
           return res.status(400).json(errors.array());
         }
 
-        const resetToken = await Token.findOne({ userId: id });
+        const resetToken = await Token.findOne({ userId: id }).exec();
         if (!resetToken) {
           return res
             .status(400)
@@ -165,14 +167,13 @@ router
         }
 
         const isValid = await bcrypt.compare(token, resetToken.token);
-
         if (!isValid) {
           return res
             .status(400)
             .json("El link no es válido o puede haber expirado");
         }
 
-        const hash = await bcrypt.hash(password, Number(process.env.SALT));
+        const hash = await bcrypt.hash(password, parseInt(process.env.SALT));
 
         await User.findByIdAndUpdate(id, { password: hash }).exec();
         await resetToken.remove();
