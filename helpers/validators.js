@@ -21,6 +21,23 @@ const isValidEmail = async (email = "", req) => {
   } else return true;
 };
 
+const emailNotExist = async (email = "", req) => {
+  if (!isEmail(email)) {
+    throw new Error("El correo no es válido");
+  }
+  const exists = await User.findOne({ email })
+    .exec()
+    .catch((err) => {
+      if (err) {
+        //TODO:...
+        console.error(err);
+      }
+    });
+  if (!exists) {
+    throw new Error(`No hay ninguna cuenta asociada a este correo`);
+  } else return true;
+};
+
 const validateUsername = async (username = "", req) => {
   if (!username) {
     throw new Error("El nombre de usuario es obligatorio");
@@ -135,6 +152,7 @@ const isValidPhone = (phone = "") => {
 module.exports = {
   isValidEmail,
   passwordsMatch,
+  emailNotExist,
   validateUsername,
   validateResults,
   imageUploaded,
