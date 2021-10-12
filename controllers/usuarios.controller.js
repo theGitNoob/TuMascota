@@ -35,6 +35,7 @@ const logUser = async (req, res, next) => {
 const registerUser = async (req, res, next) => {
   try {
     const result = validateResults(req);
+
     const { name, username, password, phone, email, lastname, address } =
       req.body;
 
@@ -47,6 +48,7 @@ const registerUser = async (req, res, next) => {
       email,
       address,
     };
+
     if (!result.isEmpty()) {
       return res.status(400).json(result.array());
     }

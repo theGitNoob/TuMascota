@@ -1,20 +1,13 @@
 const { validationResult } = require("express-validator");
-const {
-  isNumeric,
-  isLength,
-  isEmpty,
-  isAlpha,
-  isEmail,
-  isMon,
-} = require("validator");
+const { isNumeric, isLength, isEmpty, isAlpha, isEmail } = require("validator");
 const { getCleanName } = require("../helpers/string-helper");
 const User = require("../models/user-model");
 
-const validEmail = async (email = "", req) => {
+const isValidEmail = async (email = "", req) => {
   if (!isEmail(email)) {
     throw new Error("El correo no es válido");
   }
-  //FIXME:Hacer que envie un status 500 en caso de ocurrin un error al hacer el lookup en la db
+  //FIXME:Hacer que envie un status 500 en caso de ocurra un error al hacer el lookup en la db
   const exists = await User.findOne({ email })
     .exec()
     .catch((err) => {
@@ -53,20 +46,6 @@ const validateUsername = async (username = "", req) => {
 const passwordsMatch = (password2, { req }) => {
   if (password2 !== req.body.password) {
     throw new Error("Las contraseñas no coinciden");
-  } else return true;
-};
-
-const emailNotExist = async (email = "", req) => {
-  const exists = await User.findOne({ email })
-    .exec()
-    .catch((err) => {
-      if (err) {
-        //TODO:...
-        console.error(err);
-      }
-    });
-  if (!exists) {
-    throw new Error(`No hay ninguna cuenta asociada a este correo`);
   } else return true;
 };
 
@@ -129,23 +108,34 @@ const isValidLastName = (lastname = "") => {
   return true;
 };
 
-const isValidPassword = (password) => {};
+const isValidPassword = (password = "") => {
+  if (!isLength(password, { max: 50 })) {
+    throw new Error("La contraseña no debe tener mas de 50 caracteres");
+  }
+
+  if (!isLength(password, { min: 6 })) {
+    throw new Error("contraseña es demasiado corta");
+  }
+
+  return true;
+};
 
 const isValidPhone = (phone = "") => {
   if (!phone) {
     throw new Error("El número de télefono es obligatorio");
   }
+
   if (!isNumeric(phone) || phone.length < 8) {
     throw new Error("El número de télefono no es válido");
   }
+
   return true;
 };
 
 module.exports = {
-  validEmail,
+  isValidEmail,
   passwordsMatch,
   validateUsername,
-  emailNotExist,
   validateResults,
   imageUploaded,
   isValidName,

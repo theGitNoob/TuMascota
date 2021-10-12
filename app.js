@@ -180,6 +180,9 @@ app.use(function (err, req, res, next) {
 server.listen(process.env.PORT, (err) => {
   console.log("Servidor corriendo en el puerto:", process.env.PORT);
 });
+
+//TODO:Redirect admin users to admin/ when loggin
+
 //TODO: Testear la app con snyk
 //TODO:Volver a poner en funcionamiento socket.io
 //TODO:Add csrf

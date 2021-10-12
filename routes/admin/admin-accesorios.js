@@ -23,7 +23,7 @@ router
         seccion: "de accesorios",
       });
     } catch (err) {
-      console.error(err);
+      next(err);
     }
   })
   .post(
@@ -31,6 +31,7 @@ router
     [
       check("type", "El tipo de accesorio no debe estar vacío").notEmpty(),
       check("price", "El precio no debe estar vacío").notEmpty(),
+      check("cnt", "La cantidad debe ser un numero").isNumeric(),
       check("ownerPhone").custom(isValidPhone),
       check("ownerName").custom(isValidName),
       check("images").custom(imageUploaded),
@@ -106,6 +107,7 @@ router
     [
       check("type", "El tipo de accesorio no debe estar vacío").notEmpty(),
       check("price", "El precio no debe estar vacío").notEmpty(),
+      check("cnt", "La cantidad debe ser un numero").isNumeric(),
       check("ownerPhone").custom(isValidPhone),
       check("ownerName").custom(isValidName),
     ],
@@ -163,7 +165,7 @@ router
 
     const errors = validateResults(req);
     if (!errors.isEmpty()) {
-      return res.status(401).end();
+      return res.status(400).end();
     }
 
     try {

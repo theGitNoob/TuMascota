@@ -9,6 +9,8 @@ const {
   validateResults,
   isValidLastName,
   isValidPhone,
+  isValidName,
+  isValidPassword,
 } = require("../helpers/validators");
 
 const router = Router();
@@ -68,13 +70,9 @@ router
   })
   .put(
     [
-      check("name", "El nombre es obligatorio").notEmpty(),
+      check("name").custom(isValidName),
       check("lastname").custom(isValidLastName),
-      check("name", "El nombre solo debe contener letras").isAlpha(),
-      check(
-        "password",
-        "La contraseña no debe tener mas de 50 caracteres"
-      ).isLength({ max: 50 }),
+      check("password").custom(isValidPassword),
       check("phone").custom(isValidPhone),
       check("address", "La dirección es obligatoria").notEmpty(),
       check("password2").custom(passwordsMatch),

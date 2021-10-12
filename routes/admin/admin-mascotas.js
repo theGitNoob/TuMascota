@@ -37,6 +37,7 @@ router
     [
       check("type", "El tipo de mascota no debe estar vacío").notEmpty(),
       check("price", "El precio no debe estar vacío").notEmpty(),
+      check("cnt", "La cantidad debe ser un numero").isNumeric(),
       check("ownerPhone").custom(isValidPhone),
       check("ownerName").custom(isValidName),
       check("images").custom(imageUploaded),
@@ -118,12 +119,12 @@ router
     [
       check("type", "El tipo de mascota no debe estar vacío").notEmpty(),
       check("price", "El precio no debe estar vacío").notEmpty(),
+      check("cnt", "La cantidad debe ser un numero").isNumeric(),
       check("ownerPhone").custom(isValidPhone),
       check("ownerName").custom(isValidName),
     ],
 
     async (req, res, next) => {
-      //TODO:Cambiar la ruta para que acepte un parametro que indique si deseo eliminar las fotos antiguas
       const { id } = req.params;
       try {
         const errors = validateResults(req);
@@ -182,7 +183,7 @@ router
 
     const errors = validateResults(req);
     if (!errors.isEmpty()) {
-      return res.status(401).end();
+      return res.status(400).end();
     }
 
     try {
