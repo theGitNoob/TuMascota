@@ -8,7 +8,7 @@ block contenido
 
           .underline
             span
-            img(src='/public/img/res/pata.png' alt)
+            img(src='/public/img/res/pata.webp' alt)
             span
 
       section.filter
@@ -16,12 +16,12 @@ block contenido
         button.btn.filter-btn
           | Filtrar por 
 
-          img(src='/public/img/res/next.png' alt)
+          img(src='/public/img/res/next.webp' alt)
         form.filter-form(action)
           .group-filter
             .group-filter__element
               label.filter-element(for='perro')
-                img(src='/public/img/res/dog.png' alt)
+                img(src='/public/img/res/dog.webp' alt)
                 |
                 |
                 | Perro
@@ -34,7 +34,7 @@ block contenido
             |
             .group-filter__element
               label.filter-element(for='gato')
-                img(src='/public/img/res/cat.png' alt)
+                img(src='/public/img/res/cat.webp' alt)
                 |
                 |
                 | Gato
@@ -47,7 +47,7 @@ block contenido
             |
             .group-filter__element
               label.filter-element(for='ave')
-                img(src='/public/img/res/macaw.png' alt)
+                img(src='/public/img/res/macaw.webp' alt)
                 |
                 |
                 | Aves
@@ -61,7 +61,7 @@ block contenido
           .group-filter
             .group-filter__element
               label.filter-element(for='roedor')
-                img(src='/public/img/res/roedor.png' alt)
+                img(src='/public/img/res/roedor.webp' alt)
                 |
                 |
                 | Roedor
@@ -74,7 +74,7 @@ block contenido
             |
             .group-filter__element
               label.filter-element(for='pez')
-                img(src='/public/img/res/fish.png' alt)
+                img(src='/public/img/res/fish.webp' alt)
                 |
                 |
                 | Peces
@@ -87,7 +87,7 @@ block contenido
             |
             .group-filter__element
               label.filter-element(for='otros')
-                img(src='/public/img/res/tortoise.png' alt)
+                img(src='/public/img/res/tortoise.webp' alt)
                 |
                 |
                 | Otros
@@ -100,64 +100,66 @@ block contenido
           .filter-form__submit
             input.btn.filter-btn-sub(type='submit' value='Filtrar')
       .flex-container.pet-flex
-        for mascota in mascotas
-          article.article-container.mar10(id=mascota.id)
-            .article-header
-              h4.article-name=mascota.type
-            .article-img-container.pet-image
-              if mascota.images[0]
-                img.article-img(alt='Mascota' src=mascota.images[0].url)
-            .article-info
-              .article-description
-                ul.article-info-list
-                  li.article-info-back.article-info-element
-                    span.article-info-title(data-pet-breed=mascota.breed)   Raza:  
-                    |  #{mascota.breed}
-                  |
-                  |
-                  li.article-info-back.article-info-element
-                    span.article-info-title Sexo:  
-                    |  #{mascota.sex}
-                  |
-                  |
-                  li.article-info-back.article-info-element
-                    span.article-info-title Fecha de Nacimiento:    
-                    |  #{mascota.birthDay}
-                  |
-                  |
-                  li.article-info-element
-                    span.article-info-title Descripción:  
-                    p.article-info-back=mascota.description
-                  |
-                  |
-                  li.article-info-back.article-info-element
-                    span.article-info-title Cantidad:  
-                    | #{mascota.cnt}
-                  |
-                  |
-                  li.article-info-back.article-info-element
-                    span.article-info-title Precio:  
-                    span.price=mascota.price +'$'
-              .container-btn-buy
-                .btn-buy
-                  input(type='hidden' value=mascota.cnt id=mascota._id)
-                  span Me Interesa
-                  |
-                  |
-                  img(src='/public/img/res/basket.png', alt)
-
+        if mascotas.length > 0
+          for mascota in mascotas
+            article.article-container.mar10(id=mascota.id)
+              .article-header
+                h4.article-name=mascota.type
+              .article-img-container.pet-image
+                if mascota.images[0]
+                  img.article-img(alt='Mascota' src=mascota.images[0].url)
+              .article-info
+                .article-description
+                  ul.article-info-list
+                    li.article-info-back.article-info-element
+                      span.article-info-title(data-pet-breed=mascota.breed)   Raza:  
+                      |  #{mascota.breed}
+                    |
+                    |
+                    li.article-info-back.article-info-element
+                      span.article-info-title Sexo:  
+                      |  #{mascota.sex}
+                    |
+                    |
+                    li.article-info-back.article-info-element
+                      span.article-info-title Fecha de Nacimiento:    
+                      |  #{mascota.birthDay}
+                    |
+                    |
+                    li.article-info-element
+                      span.article-info-title Descripción:  
+                      p.article-info-back=mascota.description
+                    |
+                    |
+                    li.article-info-back.article-info-element
+                      span.article-info-title Cantidad:  
+                      | #{mascota.cnt}
+                    |
+                    |
+                    li.article-info-back.article-info-element
+                      span.article-info-title Precio:  
+                      span.price=mascota.price +' CUP'
+                .container-btn-buy
+                  .btn-buy
+                    input(type='hidden' value=mascota.cnt id=mascota._id)
+                    span Me Interesa
+                    |
+                    |
+                    img(src='/public/img/res/basket.webp', alt)
+        else 
+          h3.no-articles No tenemos accesorios disponibles actualmente
       #modal-back-need-account.modal-back.modal-back-need-account
         #modal-need-account.modal
           .modal__header Me Interesa
             button.modal-close
-              img.modal-close__icon(src="/public/img/res/close-white.png", alt="")  
+              img.modal-close__icon(src="/public/img/res/close-white.webp", alt="")  
           .modal__body.need-account 
             h4 Para poder acceder a nuestros artículos necesitas estar registrado
             .need-account__btn
               span
                 button.btn.btn-need-account
                   a(href="/users/register")
-                    img(src="/public/img/res/adduserblue.png", alt="") 
+                    img(src="/public/img/res/adduserblue.webp", alt="") 
                     | Registrarte   
       .modal-back.modal-back-buy
         .modal.modal-buy

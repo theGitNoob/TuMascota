@@ -15,15 +15,20 @@
     font-size: 1.3rem;
 }
 
-.main-section-title p {
+/* .main-section-title p {
     font-size: 1rem;
     color: #6f6666;
     text-align: justify;
-}
+} */
 
-.main-section-title span {
+/* .main-section-title span {
     font-weight: bold;
     color: #007bff;
+} */
+.no-articles {
+    font-size: 1rem;
+    color: #4c4c4c;
+    font-weight: 600;
 }
 
 .article-container {
@@ -96,8 +101,8 @@
 }
 
 .article-info-back {
-    -webkit-box-shadow: 0 0 8px rgb(0, 0, 0, 0.18);
-    box-shadow: 0 0 8px rgb(0, 0, 0, 0.18);
+    -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
     -webkit-border-radius: 4px;
     border-radius: 4px;
     padding: 0.3rem;
