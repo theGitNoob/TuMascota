@@ -22,12 +22,11 @@ router
   .put(async (req, res, next) => {
     try {
       const { state } = req.body;
+      const { id } = req.params;
 
-      let order = await Order.findById(req.params.id);
+      let order = await Order.findById(id).exec();
       if (!order) {
-        // req.flash("alert alert-danger", "El articulo ya no existe");
-        // res.redirect("/admin/ordenes/");
-        return res.status(400).json({ msg: "La orden ya no existe" });
+        return res.status(404).end();
       }
 
       if (order.state == state) {
@@ -67,8 +66,7 @@ router
       await user.save();
       await order.save();
 
-      // return res.end();
-      return res.redirect("/admin/ordenes");
+      return res.end();
     } catch (err) {
       next(err);
     }
@@ -79,7 +77,7 @@ router
       let order = await Order.findById(req.params.id).exec();
 
       if (!order) {
-        return res.status(404).json({ msg: "La orden ya no existe" });
+        return res.status(404).end();
       }
 
       let article =
@@ -102,7 +100,13 @@ router
           return res.status(400).json({ msg: "El estado no es vàlido" });
       }
 
-      user.orders--;
+      user.messages.push({
+        msg: "Su órden ha sido cancelada por los administradores, para más información contáctenos",
+      });
+
+      user.newMessages++;
+
+      if (user.orders > 0) user.orders--;
 
       await order.deleteOne();
       await article.save({ validateModifiedOnly: true });
