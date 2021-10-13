@@ -185,6 +185,7 @@ router
           order.user.messages.push({
             msg: "Su órden ha sido cancelada porque no disponemos del accesorio solicitado, para más información contáctenos",
           });
+          order.user.newMessages++;
           await order.user.save();
           await order.remove();
         }
