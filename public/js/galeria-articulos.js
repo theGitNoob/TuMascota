@@ -2,7 +2,7 @@ let galleryArticles = document.createElement("section");
 galleryArticles.classList.add("modal-back");
 galleryArticles.classList.add("modal-gallery-back");
 galleryArticles.innerHTML =
-    "<div class='modal modal-gallery'> <div class='modal-gallery__image-container'> <img class='modal-gallery__image' src='' alt=''> </div> </div><button class='modal-close' type='submit'> <img class='modal-close__icon' src='public/img/res/close-white.png'> </button><div class='modal-gallery__pictures-list'> </div>";
+    "<div class='modal modal-gallery'> <div class='modal-gallery__image-container'> <img class='modal-gallery__image' src='' alt=''> </div> </div><button class='modal-close' type='submit'> <img class='modal-close__icon' src='public/img/res/close-white.webp'> </button><div class='modal-gallery__pictures-list'> </div>";
 document.body.appendChild(galleryArticles);
 
 // aqui selecciono todas las imagenes de la seccion mascotas o accesorios

@@ -7,13 +7,13 @@ block contenido
 
         .underline
           span
-          img(src='/public/img/res/pata.png' alt)
+          img(src='/public/img/res/pata.webp' alt)
           span
       .login-section__container
         .login-section__header
         .logo-user
-          img(src='/public/img/login/user.png' alt)
-        img.login-section__logo(src='/public/img/res/Logo.png' alt)
+          img(src='/public/img/login/user.webp' alt)
+        img.login-section__logo(src='/public/img/res/Logo.webp' alt)
         p.
 
           Usaremos los datos introducidos aquí para ponernos en contacto con usted.
@@ -21,57 +21,57 @@ block contenido
         form#modify-user-form.login-section__form.login-section__form--register(action='/user/modify_profile?_method=PUT' method='post')
           .form-container
             label.form-container__img(for='name')
-              img(src='/public/img/login/datos.png' alt)
+              img(src='/public/img/login/datos.webp' alt)
             |
             |
             input#name(autofocus type='text' name='name' value=user.name required)
             label.placeholder.move-placeholder(for='name') Nombre(s)
           .form-container
             label.form-container__img(for='lastname')
-              img(src='/public/img/login/datos.png' alt)
+              img(src='/public/img/login/datos.webp' alt)
             |
             |
             input#lastname(type='text' name='lastname' value=user.lastname required)
             label.placeholder(for='lastname') Apellido(s)
           .form-container
             label.form-container__img(for='phone')
-              img(src='/public/img/login/phone.png' alt)
+              img(src='/public/img/login/phone.webp' alt)
             |
             |
             input#phone(type='tel' name='phone' maxlength='8' value=user.phone required)
             label.placeholder(for='phone') Número de Teléfono
           .form-container
             label.form-container__img(for='address')
-              img(src='/public/img/login/address.png' alt)
+              img(src='/public/img/login/address.webp' alt)
             |
             |
             input#address(name='address' value=user.address required)
             label.placeholder(for='address') Dirección
           .form-container
             label.form-container__img(for='username')
-              img(src='/public/img/login/user-input.png' alt)
+              img(src='/public/img/login/user-input.webp' alt)
             |
             |
             input#username(type='text' name='username' value=user.username required)
             label.placeholder(for='username') Nombre de Usuario
           .form-container
             label.form-container__img(for='password')
-              img(src='/public/img/login/password.png' alt)
+              img(src='/public/img/login/password.webp' alt)
             |
             |
             input#password.password(type='password' name='password')
             label.placeholder(for='password') Contraseña
             span#show-password.show-password
-              img(src='/public/img/login/show-eye.png' alt)
+              img(src='/public/img/login/show-eye.webp' alt)
           .form-container
             label.form-container__img(for='confirm_password')
-              img(src='/public/img/login/password.png' alt)
+              img(src='/public/img/login/password.webp' alt)
             |
             |
             input#confirm-password.password(type='password' name='password2')
             label.placeholder(for='confirm-password') Confirmar Contraseña
             span#confirm-show-password.show-password
-              img(src='/public/img/login/show-eye.png' alt)
+              img(src='/public/img/login/show-eye.webp' alt)
           label(for='checkbox')
             input#checkbox.checkbox-input(type='checkbox' name='notify' checked=user.receiveNotification)
             |

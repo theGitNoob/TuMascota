@@ -8,42 +8,42 @@ html(lang='en')
     link(rel='stylesheet' href='/public/css/shared.css')
     link(rel='stylesheet' href='/public/css/log-in.css')
     link(rel='stylesheet' href='/public/css/alert-style.css')
-    link(rel='icon' href='/public/img/res/shop.png')
+    link(rel='icon' href='/public/img/res/shop.webp')
   body
     header.main-header
       .main-header__container
         a.logo(href='/')
-          img.logo__img(src='/public/img/res/Logo.png' alt)
+          img.logo__img(src='/public/img/res/Logo.webp' alt)
     main#main
       section#login-section.login-section
         h3.login-section__title
           | Inciar Sesión
           .underline
             span
-            img(src='/public/img/res/pata.png' alt)
+            img(src='/public/img/res/pata.webp' alt)
             span
         .login-section__container
           .login-section__header
           .logo-user
-            img(src='/public/img/login/user.png' alt)
-          img.login-section__logo(src='/public/img/res/Logo.png' alt)
+            img(src='/public/img/login/user.webp' alt)
+          img.login-section__logo(src='/public/img/res/Logo.webp' alt)
           form#login-form.login-section__form(action='/users/login' method='post')
             .form-container
               label.form-container__img(for='username')
-                img(src='/public/img/login/user-input.png' alt)
+                img(src='/public/img/login/user-input.webp' alt)
               |
               |
               input#username(autofocus type='text' name='username' required)
               label.placeholder.move-placeholder(for='username') Nombre de usuario
             .form-container
               label.form-container__img(for='password')
-                img(src='/public/img/login/password.png' alt)
+                img(src='/public/img/login/password.webp' alt)
               |
               |
               input#password.password(type='password' name='password' required)
               label.placeholder(for='password') Contraseña
               span#show-password.show-password
-                img(src='/public/img/login/show-eye.png' alt)
+                img(src='/public/img/login/show-eye.webp' alt)
             .forgot-password
               a(href='/users/forgot_password') ¿olvidaste la contraseña?
             input.btn(type='submit' value='Acceder')
@@ -56,7 +56,7 @@ html(lang='en')
         #back-email-send.send-email
           .send-email__header Recuperar Contraseña
           .send-email__title
-            img(src='/public/img/login/confirm-email.png' alt)
+            img(src='/public/img/login/confirm-email.webp' alt)
           h4 Revisa tu correo electrónico
           p.send-email__info
             | Hemos enviado un correo electrónico a su buzón
@@ -66,15 +66,15 @@ html(lang='en')
           span.line-login Si no encuentra el correo, revise su bandeja spam
   footer.main-footer
     .main-footer__logo
-      img(src='/public/img/res/Logo.png' alt)
+      img(src='/public/img/res/Logo.webp' alt)
       strong.copyright © 2021- Todos los derechos reservados
     .main-footer__social-media
       a(href='#')
-        img(src='/public/img/res/facebook.png' alt)
+        img(src='/public/img/res/facebook.webp' alt)
       a(href='#')
-        img(src='/public/img/res/whatsapp.png' alt)
+        img(src='/public/img/res/whatsapp.webp' alt)
       a(href='#')
-        img(src='/public/img/res/telegram.png' alt)
+        img(src='/public/img/res/telegram.webp' alt)
     |
     |
     .main-footer__info
@@ -115,14 +115,14 @@ html(lang='en')
             | Contáctanos
             |
             |
-            img(src='/public/img/res/phone-blue.png' alt)
+            img(src='/public/img/res/phone-blue.webp' alt)
           |
           |
           li.main-footer__item.about-us
             | Acerca De
             |
             |
-            img(src='/public/img/res/info.png' alt) 
+            img(src='/public/img/res/info.webp' alt) 
       |
       |
       .main-footer__element
@@ -132,24 +132,24 @@ html(lang='en')
             | Facebook
             |
             |
-            img(src='/public/img/res/facebook.png' alt)
+            img(src='/public/img/res/facebook.webp' alt)
           |
           |
           li.main-footer__item
             | Whatsapp
             |
             |
-            img(src='/public/img/res/whatsapp.png' alt)
+            img(src='/public/img/res/whatsapp.webp' alt)
           |
           |
           li.main-footer__item
             | Telegram
             |
             |
-            img(src='/public/img/res/telegram.png' alt)
+            img(src='/public/img/res/telegram.webp' alt)
   .go-top
     a(href='#main')
-      img.go-top-icon(src='/public/img/res/next.png' alt)
+      img.go-top-icon(src='/public/img/res/next.webp' alt)
   //  modal contact-us 
   #modal-back-contact.modal-back
     #modal-contact.modal
@@ -157,30 +157,30 @@ html(lang='en')
         | Contactános
         
         button.modal-close(type='submit')
-          img.modal-close__icon(src='/public/img/res/close-white.png' alt)
+          img.modal-close__icon(src='/public/img/res/close-white.webp' alt)
       .modal__body
         h4.modal-body__header.
           ¿Tienes alguna pregunta? Contáctanos:
         .modal__contact-us
           .modal__contact-us-element
-            img(src='/public/img/res/mail.png' alt)
+            img(src='/public/img/res/mail.webp' alt)
             |
             |
             span tumascota@nauta.cu
           .modal__contact-us-element
-            img(src='/public/img/res/whatsapp.png' alt)
+            img(src='/public/img/res/whatsapp.webp' alt)
             |
             |
             span 58156518
           .modal__contact-us-element.modal__contact-us-facebook
             a(href='#')
-              img(src='/public/img/res/facebook.png' alt)
+              img(src='/public/img/res/facebook.webp' alt)
             |
             |
             span TuMascota
           .modal__contact-us-element.modal__contact-us-telegram
             a(href='#')
-              img(src='/public/img/res/telegram.png' alt)
+              img(src='/public/img/res/telegram.webp' alt)
               |
               |
               span TuMascota
@@ -189,17 +189,17 @@ html(lang='en')
       .modal__header  Acerca de
 
         button.modal-close(type='submit')
-          img.modal-close__icon(src='/public/img/res/close-white.png' alt)
+          img.modal-close__icon(src='/public/img/res/close-white.webp' alt)
       .modal__body
         h4.modal-body__header Creado y Desarrollado en Las Tunas por:
         .modal__container-us
           .avatar-rafa
-            img(src='/public/img/res/avatar-rafa.png' alt)
+            img(src='/public/img/res/avatar-rafa.webp' alt)
             span.name Rafael Acosta Márquez
           |
           |
           .avatar-jesus
-            img(src='/public/img/res/avatar-jesus.png' alt)
+            img(src='/public/img/res/avatar-jesus.webp' alt)
             span.name Jesús Manuel López Ponce
         .avatar-abraham
           h4.modal-body__header.

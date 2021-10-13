@@ -20,36 +20,36 @@ html(lang='es')
     link(rel='stylesheet' href='/public/css/log-in.css')    
     link(rel='stylesheet' href='/public/css/buy-style.css') 
     //- <link rel="stylesheet" href="/public/css/log-in.css" /> 
-    link(rel='icon' href='/public/img/res/shop.png')
+    link(rel='icon' href='/public/img/res/shop.webp')
   body
     header.main-header
       .main-header__container
         a.logo(href='/')
-          img.logo__img(src='/public/img/res/Logo.png' alt)
+          img.logo__img(src='/public/img/res/Logo.webp' alt)
         .main-header__container-login
           if user
             a.login-option.orders-login(href='/ordenes')
-              img(src='/public/img/res/cart.png' alt)
+              img(src='/public/img/res/cart.webp' alt)
               span.login-count-msj.orders-msj=user.orders
             |
             |
             #bell-login.login-option.bell-login
-              img(src='/public/img/res/bell.png' alt)
+              img(src='/public/img/res/bell.webp' alt)
               span.login-count-msj.bell-msj=user.newMessages
             |
             |
           if !user
             .go-login
               a.btn.btn-go-login(href='/users/login')
-                img(src='/public/img/res/loginuser.png')
+                img(src='/public/img/res/loginuser.webp')
                 | Acceder
 
               a.btn.btn-go-login(href='/users/register')
-                img(src='/public/img/res/adduserblue.png' alt)
+                img(src='/public/img/res/adduserblue.webp' alt)
                 | Registrarse
           if user
             .login-option
-              img#avatar-login.avatar-login(src='/public/img/res/avatar.png' alt)
+              img#avatar-login.avatar-login(src='/public/img/res/avatar.webp' alt)
     if user
       article.account-menu__container
         section#account-section.account-section
@@ -57,12 +57,12 @@ html(lang='es')
             li.account-submenu__element--title Cuenta
             li.account-submenu__element
               a(href='/user/modify_profile')
-                img(src='/public/img/res/settings.png' alt)
+                img(src='/public/img/res/settings.webp' alt)
                 | Modificar Perfil
 
             li.account-submenu__element
               a(href='/user/logout')
-                img(src='/public/img/res/log-out.png' alt)
+                img(src='/public/img/res/log-out.webp' alt)
                 | Salir
 
         article#bell-section.bell-section
@@ -78,119 +78,119 @@ html(lang='es')
                   li.bell-submenu__element(class=state id=msg._id)=msg.msg
                     span.bell-time=msg.fullDate
                     span.remove-notifications
-                      img(src='/public/img/res/three-dots.png' alt)
-                      img(src='/public/img/res/trash.png' alt)
+                      img(src='/public/img/res/three-dots.webp' alt)
+                      img(src='/public/img/res/trash.webp' alt)
                   
           .show-all-notifications.
 
             Ver todas las notificaciones
 
     .menu-icon__container
-      img.menu-icon(src='/public/img/res/menu-icon.png' alt)
+      img.menu-icon(src='/public/img/res/menu-icon.webp' alt)
     nav.nav-menu
       .nav-menu__inner-container
         .nav-menu__content
-          img.nav-menu__login-logo(src='/public/img/res/Logo.png' alt)
+          img.nav-menu__login-logo(src='/public/img/res/Logo.webp' alt)
           .nav-menu__login
             .main-header__container-login
               if user
                 a.login-option.orders-login(href='/ordenes')
-                  img(src='/public/img/res/cart.png' alt)
+                  img(src='/public/img/res/cart.webp' alt)
                   span.login-count-msj.orders-msj=user.orders
                 |
                 |
                 .login-option.bell-login
-                  img(src='/public/img/res/bell.png' alt)
+                  img(src='/public/img/res/bell.webp' alt)
                   span.login-count-msj.bell-msj=user.newMessages
                 |
                 |
               if !user
                 .go-login
                   a.btn.btn-go-login(href='/users/login')
-                    img(src='/public/img/res/loginuser.png')
+                    img(src='/public/img/res/loginuser.webp')
                     | Acceder
 
                   a.btn.btn-go-login(href='/users/register')
-                    img(src='/public/img/res/adduserblue.png' alt)
+                    img(src='/public/img/res/adduserblue.webp' alt)
                     | Registrarse
               if user
                 .login-option
-                  img#avatar-login.avatar-login(src='/public/img/res/avatar.png' alt)
+                  img#avatar-login.avatar-login(src='/public/img/res/avatar.webp' alt)
           .nav-menu__element(class=path === "/" && "nav-menu__element--active")
             a.nav-menu__link(href='/')
-              img(src='/public/img/res/dog-home.png' alt)
+              img(src='/public/img/res/dog-home.webp' alt)
               span  Inicio
               
           .nav-menu__element(class=path.startsWith("/mascotas")  && "nav-menu__element--active")
             #pet-submenu.nav-menu__link
-              img(src='/public/img/res/pet.png' alt)
+              img(src='/public/img/res/pet.webp' alt)
               span  Mascotas 
               .show-submenu-container
-                img.show-submenu-img(src='/public/img/res/next.png' alt)
+                img.show-submenu-img(src='/public/img/res/next.webp' alt)
               .submenu
                 ul.submenu-list
                   a.submenu-element(href='/mascotas')
-                    img(src='/public/img/res/dog.png' alt)
+                    img(src='/public/img/res/dog.webp' alt)
                     | Perros
 
                   a.submenu-element(href='/mascotas')
-                    img(src='/public/img/res/cat.png' alt)
+                    img(src='/public/img/res/cat.webp' alt)
                     | Gatos
 
                   a.submenu-element(href='/mascotas')
-                    img(src='/public/img/res/macaw.png' alt)
+                    img(src='/public/img/res/macaw.webp' alt)
                     | Aves
 
                   a.submenu-element(href='/mascotas')
-                    img(src='/public/img/res/roedor.png' alt)
+                    img(src='/public/img/res/roedor.webp' alt)
                     | Roedor
 
                   a.submenu-element(href='/mascotas')
-                    img(src='/public/img/res/fish.png' alt)
+                    img(src='/public/img/res/fish.webp' alt)
                     | Peces
 
                   a.submenu-element(href='/mascotas')
-                    img(src='/public/img/res/tortoise.png' alt)
+                    img(src='/public/img/res/tortoise.webp' alt)
                     | Otros
 
           .nav-menu__element(class=path.startsWith("/accesorios")  && "nav-menu__element--active")
             a.nav-menu__link(href='/accesorios')
-              img(src='/public/img/res/accesorios.png' alt)
+              img(src='/public/img/res/accesorios.webp' alt)
               span  Accesorios
           .nav-menu__element(class=path.startsWith("/servicios")  && "nav-menu__element--active")
             #services-menu.nav-menu__link
-              img(src='/public/img/res/doctor.png' alt)
+              img(src='/public/img/res/doctor.webp' alt)
               span  Servicios 
               .show-submenu-container
-                img.show-submenu-img(src='/public/img/res/next.png' alt)
+                img.show-submenu-img(src='/public/img/res/next.webp' alt)
               .submenu
                 ul.submenu-list
                   li.submenu-element
-                    img(src='/public/img/res/stethoscope.png' alt)
+                    img(src='/public/img/res/stethoscope.webp' alt)
                     | Veterinario
 
           .nav-menu__element.contact-us
             .nav-menu__link
-              img(src='/public/img/res/phone-blue.png' alt)
+              img(src='/public/img/res/phone-blue.webp' alt)
               span  Contáctenos
           .nav-menu__element.about-us
             .nav-menu__link
-              img(src='/public/img/res/info.png' alt)
+              img(src='/public/img/res/info.webp' alt)
               span  Acerca De
   != messages()
   block contenido
 
   footer.main-footer
     .main-footer__logo
-      img(src='/public/img/res/Logo.png' alt)
+      img(src='/public/img/res/Logo.webp' alt)
       strong.copyright © 2021- Todos los derechos reservados
     .main-footer__social-media
       a(href='#')
-        img(src='/public/img/res/facebook.png' alt)
+        img(src='/public/img/res/facebook.webp' alt)
       a(href='#')
-        img(src='/public/img/res/whatsapp.png' alt)
+        img(src='/public/img/res/whatsapp.webp' alt)
       a(href='#')
-        img(src='/public/img/res/telegram.png' alt)
+        img(src='/public/img/res/telegram.webp' alt)
     |
     |
     .main-footer__info
@@ -231,14 +231,14 @@ html(lang='es')
             | Contáctanos
             |
             |
-            img(src='/public/img/res/phone-blue.png' alt)
+            img(src='/public/img/res/phone-blue.webp' alt)
           |
           |
           li.main-footer__item.about-us
             | Acerca De
             |
             |
-            img(src='/public/img/res/info.png' alt) 
+            img(src='/public/img/res/info.webp' alt) 
       |
       |
       .main-footer__element
@@ -248,24 +248,24 @@ html(lang='es')
             | Facebook
             |
             |
-            img(src='/public/img/res/facebook.png' alt)
+            img(src='/public/img/res/facebook.webp' alt)
           |
           |
           li.main-footer__item
             | Whatsapp
             |
             |
-            img(src='/public/img/res/whatsapp.png' alt)
+            img(src='/public/img/res/whatsapp.webp' alt)
           |
           |
           li.main-footer__item
             | Telegram
             |
             |
-            img(src='/public/img/res/telegram.png' alt)
+            img(src='/public/img/res/telegram.webp' alt)
   .go-top
     a(href='#main')
-      img.go-top-icon(src='/public/img/res/next.png' alt)
+      img.go-top-icon(src='/public/img/res/next.webp' alt)
   //  modal contact-us 
   #modal-back-contact.modal-back
     #modal-contact.modal
@@ -273,30 +273,30 @@ html(lang='es')
         | Contactános
         
         button.modal-close(type='submit')
-          img.modal-close__icon(src='/public/img/res/close-white.png' alt)
+          img.modal-close__icon(src='/public/img/res/close-white.webp' alt)
       .modal__body
         h4.modal-body__header.
           ¿Tienes alguna pregunta? Contáctanos:
         .modal__contact-us
           .modal__contact-us-element
-            img(src='/public/img/res/mail.png' alt)
+            img(src='/public/img/res/mail.webp' alt)
             |
             |
             span tumascota@nauta.cu
           .modal__contact-us-element
-            img(src='/public/img/res/whatsapp.png' alt)
+            img(src='/public/img/res/whatsapp.webp' alt)
             |
             |
             span 58156518
           .modal__contact-us-element.modal__contact-us-facebook
             a(href='#')
-              img(src='/public/img/res/facebook.png' alt)
+              img(src='/public/img/res/facebook.webp' alt)
             |
             |
             span TuMascota
           .modal__contact-us-element.modal__contact-us-telegram
             a(href='#')
-              img(src='/public/img/res/telegram.png' alt)
+              img(src='/public/img/res/telegram.webp' alt)
               |
               |
               span TuMascota
@@ -304,17 +304,17 @@ html(lang='es')
     #modal-about.modal
       .modal__header  Acerca de
         button.modal-close(type='submit')
-          img.modal-close__icon(src='/public/img/res/close-white.png' alt)
+          img.modal-close__icon(src='/public/img/res/close-white.webp' alt)
       .modal__body
         h4.modal-body__header Creado y Desarrollado en Las Tunas por:
         .modal__container-us
           .avatar-rafa
-            img(src='/public/img/res/avatar-rafa.png' alt)
+            img(src='/public/img/res/avatar-rafa.webp' alt)
             span.name Rafael Acosta Márquez
           |
           |
           .avatar-jesus
-            img(src='/public/img/res/avatar-jesus.png' alt)
+            img(src='/public/img/res/avatar-jesus.webp' alt)
             span.name Jesús Manuel López Ponce
         .avatar-abraham
           h4.modal-body__header.
