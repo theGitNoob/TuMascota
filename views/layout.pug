@@ -72,7 +72,8 @@ html(lang='es')
           section.bell-submenu
             .bell-submenu__inner-container
               ul.bell-submenu__list
-                for msg in user.messages
+                -for (let i = user.messages.length-1; i >=0; i--)
+                  -msg = user.messages[i]
                   -const state = (msg.state == "new")?"bell-submenu__element--new" :"bell-submenu__element--old";
                   li.bell-submenu__element(class=state id=msg._id)=msg.msg
                     span.bell-time=msg.fullDate
