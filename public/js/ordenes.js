@@ -14,7 +14,6 @@ const articleTable = document.querySelector(".order-section--article");
 const mediaQuery = window.matchMedia("(min-width: 50rem)");
 
 /*Esto es para filtrar las ordenes*/
-
 function filtrarOrdenes(fil) {
     orderStates.forEach(function (ord) {
         if (fil.getAttribute("data-state") === "pendient") {
@@ -54,6 +53,7 @@ function filtrarOrdenes(fil) {
     });
 }
 
+//Determinar si tienen mascotas o articulos en las ordenes
 function checkTable(table, fil) {
     const tableRows = table.children[1].childNodes;
     let flag = 0,
@@ -94,15 +94,32 @@ function checkTable(table, fil) {
     }
 }
 
+function changeFilter(f) {
+    console.log("pepe");
+    for (c of f.parentElement.childNodes) {
+        if (c.hasAttribute) {
+            if (!mediaQuery.matches && c.firstElementChild.tagName === "SPAN") c.firstElementChild.textContent = "";
+            c.classList.remove("active");
+        }
+    }
+    f.classList.add("active");
+    if (!mediaQuery.matches) {
+        if (f.getAttribute("data-state") === "pendient") {
+            f.firstElementChild.textContent = "Pendientes";
+        } else if (f.getAttribute("data-state") === "aproved") {
+            f.firstElementChild.textContent = "Aprobadas";
+        } else if (f.getAttribute("data-state") === "completed") {
+            f.firstElementChild.textContent = "Completadas";
+        }
+    }
+    filtrarOrdenes(f);
+    checkTable(petTable, f);
+    checkTable(articleTable, f);
+}
+
 filtros.forEach(function (f) {
     f.addEventListener("click", function () {
-        for (c of f.parentElement.childNodes) {
-            if (c.hasAttribute) c.classList.remove("active");
-        }
-        f.classList.add("active");
-        filtrarOrdenes(f);
-        checkTable(petTable, f);
-        checkTable(articleTable, f);
+        changeFilter(f);
     });
 });
 

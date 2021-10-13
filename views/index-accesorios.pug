@@ -3,14 +3,13 @@ block contenido
   main.main-admin
     .container-btn 
       a.btn.btn-add(href="/admin/accesorios/new")
-        img(src="/public/img/admin/add.png") 
+        img(src="/public/img/admin/add.webp") 
         | Añadir Accessorio
     article.table-container 
       h3.table-title Listado de accesorios
       table.main-table 
         thead.main-table__header 
           th.table-cell.table-cell--header Tipo 
-          th.table-cell.table-cell--header Raza  
           th.table-cell.table-cell--header Precio 
           th.table-cell.table-cell--header Cantidad
           th.table-cell.table-cell--header Editar 
@@ -19,19 +18,40 @@ block contenido
           for accesorio in accesorios
             tr.table-row 
               td.table-cell(data-header="Tipo") #{accesorio.type}
-              td.table-cell(data-header="Raza") #{accesorio.breed}
               td.table-cell(data-header="Precio") #{accesorio.price}
               td.table-cell(data-header="Cantidad") #{accesorio.cnt}
               td.table-cell(data-header="Editar") 
                 a(href="/admin/accesorios/"+accesorio._id class="btn btn-edit") 
-                  img(src="/public/img/admin/edit.png") 
+                  img(src="/public/img/admin/edit.webp") 
               td.table-cell(data-header="Eliminar")             
-                form(action=`/admin/accesorios/${accesorio._id}?_method=DELETE` method="POST" class="link-container delete-form" )
+                form(data-articleId=accesorio._id action=`/admin/accesorios/${accesorio._id}?_method=DELETE` method="POST" class="link-container delete-form" )
                   button(type="submit" class="btn btn-delete")  
-                    img(src="/public/img/res/borrar.png")
+                    img(src="/public/img/res/borrar.webp")
       script.
         const mainTable = document.querySelector(".main-table");
         const mainTableBody = document.querySelector(".main-table__body");
+        const deleteForm = document.querySelectorAll(".delete-form");
+
+        const deleteArticle = async (id) => {
+          const url = `/admin/accesorios/${id}`;
+          const resp = await fetch(url, {
+            method: "DELETE",
+            credentials: 'same-origin'
+          }).then((resp)=>{
+            if(resp.ok)
+              window.location.reload();
+          })
+
+        };
+
+        deleteForm.forEach((form)=>{
+          form.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            deleteArticle(form.getAttribute("data-articleId"));
+          });
+        })
+
+
         if(mainTableBody.childElementCount == 0)
           mainTable.innerHTML = `<span class='no-elements'>No hay accesorios actualmente</span>`;
 

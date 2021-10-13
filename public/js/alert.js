@@ -11,7 +11,7 @@ function addAlert(state, textArray) {
         const alertNode = document.createElement("div");
         alertNode.classList.add("alert-message");
         alertNode.innerHTML =
-            "<div class='alert-message__icon-container'><div class='alert-message__color'></div><img class='alert-message__icon' src='' alt='' /></div><div class='alert-message__text'><strong>Completado!</strong><p>Cuenta creada satisfactoriamente</p></div><div class='alert-message__close'><img src='/public/img/res/close.png' alt='' /></div>";
+            "<div class='alert-message__icon-container'><div class='alert-message__color'></div><img class='alert-message__icon' src='' alt='' /></div><div class='alert-message__text'><strong>Completado!</strong><p>Cuenta creada satisfactoriamente</p></div><div class='alert-message__close'><img src='/public/img/res/close.webp' alt='' /></div>";
         alertNodeContainer.appendChild(alertNode);
     }
     const alertMessage = document.querySelectorAll(".alert-message");
@@ -22,15 +22,15 @@ function addAlert(state, textArray) {
 
     function setAlertStyle(alert, cont) {
         if (alert.getAttribute("data-alert-state") === "success") {
-            alertMessageImg[cont].src = "/public/img/res/success.png";
+            alertMessageImg[cont].src = "/public/img/res/success.webp";
             alertStrong[cont].textContent = "Completado!";
         }
         if (alert.getAttribute("data-alert-state") === "error") {
-            alertMessageImg[cont].src = "/public/img/res/error.png";
+            alertMessageImg[cont].src = "/public/img/res/error.webp";
             alertStrong[cont].textContent = "Error!";
         }
         if (alert.getAttribute("data-alert-state") === "warning") {
-            alertMessageImg[cont].src = "/public/img/res/warning.png";
+            alertMessageImg[cont].src = "/public/img/res/warning.webp";
             alertStrong[cont].textContent = "Advertencia!";
         }
     }

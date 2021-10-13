@@ -6,37 +6,33 @@ block contenido
         h3.login-section__title Órdenes
           .underline
             span
-            img(src='public/img/res/pata.png' alt)
+            img(src='public/img/res/pata.webp' alt)
             span
       section.order-alert
-        img(src='/public/img/res/atencion.png' alt)
+        img(src='/public/img/res/atencion.webp' alt)
         .order-alert__content
           span.order-alert__info.
 
             Usted no podrá cancelar las órdenes aprobadas
-
+      .contact-btns 
+        a(href="tel:+5358156518") 
+          img(src="/public/img/res/phone-blue.webp", alt="")
+          | Llámanos al 
+          strong  +5358156518
+        a(href="mailto:tumascota@nauta.cu")  
+          img(src="/public/img/res/mail.webp", alt="")
+          | Escribénos a 
+          strong tumascota@nauta.cu
       .filter-orders-menu
-        span.active.order-state.filter-order(data-state='pendient')
-          | Pendientes
-          |
-          |
-          img.pendient(src='/public/img/res/pendiente.png' alt)
-        |
-        |
-        span.order-state.filter-order(data-state='aproved')
-          | Aprobadas
-          |
-          |
-          img(src='/public/img/res/completadas.png' alt)
-        |
-        |
-        span.order-state.filter-order(data-state='completed')
-          | Completadas
-          |
-          |
-          img(src='/public/img/res/checked.png' alt)
-        |
-        |
+        button.active.order-state.filter-order(data-state='pendient')
+          span Pendientes 
+          img.pendient(src='/public/img/res/pendiente.webp' alt)
+        button.order-state.filter-order(data-state='aproved')
+          span Aprobadas
+          img(src='/public/img/res/completadas.webp' alt)
+        button.order-state.filter-order(data-state='completed')
+          span Completadas
+          img(src='/public/img/res/checked.webp' alt)
       section.order-section
         h1.order-section__title Listado de Mascotas
         table.order-section__table.order-section--pet
@@ -87,7 +83,7 @@ block contenido
                   span.order-state(data-state=orden.state)=orden.getState()
                 td.order-section__column(data-header='Cancelar')
                   button.btn.cancel-order(type='submit')
-                    img(src='/public/img/res/borrar.png' alt)
+                    img(src='/public/img/res/borrar.webp' alt)
               |
               |
       // Ordenes de accesorios
@@ -119,7 +115,7 @@ block contenido
                   span.order-state(data-state=orden.state)=orden.getState()
                 td.order-section__column(data-header='Cancelar')
                   button.btn.cancel-order(type='submit')
-                    img(src='/public/img/res/borrar.png' alt)
+                    img(src='/public/img/res/borrar.webp' alt)
   #modal-back-alert.modal-back
     #modal-alert.modal.modal-alert
       .modal__body.modal-body__alert

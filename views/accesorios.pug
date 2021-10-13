@@ -4,38 +4,40 @@ block contenido
     section.main-section.mar10
       .main-section-title
         h3 Accesorios
-
            .underline
               span
-              img(src='public/img/res/pata.png' alt)
+              img(src='public/img/res/pata.webp' alt)
               span
       .flex-container
-        for accesorio in accesorios
-          article.article-container.mar10(id=accesorio._id)
-            .article-header
-              h4.article-name=accesorio.type
-            .article-img-container
-              img.article-img(alt='accesorio' src=accesorio.images[0].url)
-            .article-info
-              .article-description
-                span.article-info-title Descripción:
-                p.article-info-back=accesorio.description 
+        if accesorios.length > 0
+          for accesorio in accesorios
+            article.article-container.mar10(id=accesorio._id)
+              .article-header
+                h4.article-name=accesorio.type
+              .article-img-container
+                img.article-img(alt='accesorio' src=accesorio.images[0].url)
+              .article-info
+                .article-description
+                  span.article-info-title Descripción:
+                  p.article-info-back=accesorio.description 
 
-                span.article-info-back
+                  span.article-info-back
+                    |
+                    span.article-info-title Cantidad: 
+                    | #{accesorio.cnt} 
+                  .article-price.article-info-back
+                    span.article-info-title Precio: 
+                    span.price=accesorio.price+' CUP'
                   |
-                  span.article-info-title Cantidad: 
-                  | #{accesorio.cnt} 
-                .article-price.article-info-back
-                  span.article-info-title Precio: 
-                  span.price=accesorio.price+'$'
-                |
-                |
-              .btn.btn-buy
-                input(type='hidden' value=accesorio.cnt)
-                span Me Interesa
-                |
-                |
-                img(src='/public/img/res/basket.png' alt)
+                  |
+                .btn.btn-buy
+                  input(type='hidden' value=accesorio.cnt)
+                  span Me Interesa
+                  |
+                  |
+                  img(src='/public/img/res/basket.webp' alt)
+        else 
+          h3.no-articles No tenemos accesorios disponibles actualmente
       .modal-back.modal-back-buy
         .modal.modal-buy
           .modal__header Me Interesa

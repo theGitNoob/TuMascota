@@ -3,7 +3,7 @@ block contenido
   main.main-admin
     .container-btn 
       a.btn.btn-add(href="/admin/mascotas/new")
-        img(src="/public/img/admin/add.png") 
+        img(src="/public/img/admin/add.webp") 
         | Añadir Mascota
     article.table-container 
       h3.table-title Listado de Mascotas
@@ -24,14 +24,34 @@ block contenido
               td.table-cell(data-header="Cantidad") #{mascota.cnt}
               td.table-cell(data-header="Editar") 
                 a(href="/admin/mascotas/"+mascota._id class="btn btn-edit") 
-                  img(src="/public/img/admin/edit.png") 
+                  img(src="/public/img/admin/edit.webp") 
               td.table-cell(data-header="Eliminar")             
-                form(action=`/admin/mascotas/${mascota._id}?_method=DELETE` method="POST" class="link-container delete-form" )
+                form(data-articleId=mascota._id action=`/admin/mascotas/${mascota._id}?_method=DELETE` method="POST" class="link-container delete-form" )
                   button(type="submit" class="btn btn-delete")  
-                    img(src="/public/img/res/borrar.png")
+                    img(src="/public/img/res/borrar.webp")
       script.
         const mainTable = document.querySelector(".main-table");
         const mainTableBody = document.querySelector(".main-table__body");
+          const deleteForm = document.querySelectorAll(".delete-form");
+
+        const deleteArticle = async (id) => {
+          const url = `/admin/mascotas/${id}`;
+          const resp = await fetch(url, {
+            method: "DELETE",
+            credentials: 'same-origin'
+          }).then((resp)=>{
+            if(resp.ok)
+              window.location.reload();
+          })
+
+        };
+
+        deleteForm.forEach((form)=>{
+          form.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            deleteArticle(form.getAttribute("data-articleId"));
+          });
+        })
         if(mainTableBody.childElementCount == 0)
           mainTable.innerHTML = `<span class='no-elements'>No hay mascotas actualmente</span>`;
 
