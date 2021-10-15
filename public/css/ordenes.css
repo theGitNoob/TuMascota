@@ -30,6 +30,11 @@
     padding: 0.3rem 0.5rem;
     color: #4c4c4c;
     vertical-align: middle;
+    transition: transform 0.3s ease;
+}
+
+.contact-btns a:hover {
+    transform: scale(1.1);
 }
 
 .contact-btns img {
