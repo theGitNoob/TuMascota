@@ -134,8 +134,8 @@
 
 .order-section {
     margin: 1.8rem auto;
-    -webkit-box-shadow: 0 0 10px rgb(0, 0, 0, 0.4);
-    box-shadow: 0 0 10px rgb(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
     -webkit-border-radius: 5px;
     border-radius: 5px;
 }
