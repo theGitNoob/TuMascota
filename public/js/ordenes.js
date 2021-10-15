@@ -137,7 +137,7 @@ window.addEventListener("resize", function () {
 filtros[0].click();
 
 /*Esto es para la alerta de cancelar*/
-let orderBtnActive;
+var orderBtnActive;
 
 btnCancelOrder.forEach(function (btn) {
     btn.addEventListener("click", function () {
@@ -146,7 +146,7 @@ btnCancelOrder.forEach(function (btn) {
     });
 });
 
-btnAcceptModal = document.querySelector(".btn-alert-confirm");
+var btnAcceptModal = document.querySelector(".btn-alert-confirm");
 
 function removeOrderCheck() {
     //Con esto voy hasta el padre del boton que le di click, para saber a q orden me refiero

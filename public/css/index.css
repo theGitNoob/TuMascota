@@ -197,8 +197,8 @@
     max-width: 44rem;
     -webkit-border-radius: 6px;
     border-radius: 6px;
-    -webkit-box-shadow: 0 0 8px rgb(0, 0, 0, 0.15);
-    box-shadow: 0 0 8px rgb(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
 }
 
 .home-articles__picture {
@@ -219,6 +219,7 @@
 .home-articles__picture img {
     display: inline-block;
     width: 19rem;
+    max-width: 100%;
     vertical-align: middle;
     padding: 0.6rem;
     margin: 0 0.5rem;
@@ -242,7 +243,7 @@
 .home-articles__container p {
     margin: 1.8rem 0;
     font-size: 1.2rem;
-    width: 20rem;
+    max-width: 20rem;
 }
 
 .home-articles__btn {
