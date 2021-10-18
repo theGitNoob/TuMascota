@@ -34,14 +34,10 @@ app.use(compression({ level: 9 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //
 
-app.use(
+//Configure contentSecurityPolicy to be used with xmlhttpreq
+TODO: app.use(
   helmet({
-    contentSecurityPolicy: {
-      useDefaults: true,
-      directives: {
-        "script-src": ["'self'", "'unsafe-inline'"],
-      },
-    },
+    contentSecurityPolicy: false,
   })
 );
 
