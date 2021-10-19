@@ -297,7 +297,6 @@ a:focus,
     border-radius: 6px 6px 0 0;
     font-weight: 600;
     padding: 0.5rem;
-    text-transform: uppercase;
     border-bottom: 1px solid #ccc;
 }
 
@@ -404,7 +403,7 @@ a:focus,
 .no-notifications,
 .no-new-notifications {
     text-align: center;
-    font-weight: bold;
+    font-weight: 600;
     display: block;
     font-size: 0.9rem;
     -webkit-border-radius: 0;
