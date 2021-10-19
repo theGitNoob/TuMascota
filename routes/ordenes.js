@@ -209,7 +209,7 @@ router.route("/:id").delete(async (req, res, next) => {
       article.status = "available";
     }
 
-    if (user.order > 0) user.orders--;
+    if (user.orders > 0) user.orders--;
     await order.remove();
     await article.save({ validateModifiedOnly: true });
     await user.save();
