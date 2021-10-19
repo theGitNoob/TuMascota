@@ -201,7 +201,7 @@ router
           if (order.user.orders > 0) order.user.orders--;
 
           order.user.messages.push({
-            msg: "Su órden ha sido cancelada porque no disponemos de las mascota solicitada, para más información contáctenos",
+            msg: "Su órden ha sido cancelada porque no disponemos de la mascota solicitada, para más información contáctenos",
           });
 
           order.user.newMessages++;

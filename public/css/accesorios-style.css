@@ -4,7 +4,7 @@
 
 .main-section {
     text-align: center;
-    margin: 1.5rem 0.5rem;
+    margin: 1.5rem 1rem;
 }
 
 .main-section-title h3 {
@@ -19,22 +19,16 @@
     font-size: 1rem;
     color: #6f6666;
     text-align: justify;
-}
+} */
 
-.main-section-title span {
+/* .main-section-title span {
     font-weight: bold;
     color: #007bff;
 } */
-
 .no-articles {
-    font-size: 1.3rem;
-    color: #636363;
+    font-size: 1rem;
+    color: #4c4c4c;
     font-weight: 600;
-    margin: 2rem;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    padding: 1rem;
-    -webkit-border-radius: 20px;
-    border-radius: 20px;
 }
 
 .article-container {

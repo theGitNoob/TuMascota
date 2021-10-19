@@ -4,7 +4,6 @@ require("./config/db-config")();
 const express = require("express");
 const { readFileSync } = require("fs");
 const logger = require("morgan");
-const spdy = require("spdy");
 let compression = require("compression");
 let session = require("express-session");
 const methodOverride = require("method-override");
@@ -16,6 +15,7 @@ const petsRouter = require("./routes/mascotas");
 const orders = require("./routes/ordenes");
 const accesories = require("./routes/accesorios");
 const passport = require("passport");
+const http = require("http");
 const flash = require("connect-flash");
 const app = express();
 
@@ -25,12 +25,7 @@ let RedisStore = require("connect-redis")(session);
 let cookieParser = require("cookie-parser");
 let helmet = require("helmet");
 
-const options = {
-  key: readFileSync(__dirname + "/certs/server.key"),
-  cert: readFileSync(__dirname + "/certs/server.cert"),
-};
-
-const server = spdy.createServer(options, app);
+const server = http.createServer(app);
 
 let io = require("socket.io")(server);
 
@@ -39,29 +34,24 @@ app.use(compression({ level: 9 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //
 
-app.use(
+//Configure contentSecurityPolicy to be used with xmlhttpreq
+TODO: app.use(
   helmet({
-    contentSecurityPolicy: {
-      useDefaults: true,
-      directives: {
-        "script-src": ["'self'", "'unsafe-inline'"],
-      },
-    },
+    contentSecurityPolicy: false,
   })
 );
 
-app.use(
-  "/public",
-  express.static("public", {
-    // maxAge: "10h", //con esta opcion puedo definir la duracion del los archivos en cache super rapido
-  })
-);
+// app.use(
+//   "/public",
+//   express.static("public", {
+//     maxAge: "1d", //con esta opcion puedo definir la duracion del los archivos en cache super rapido
+//   })
+// );
 
 app.use(logger("dev"));
 app.use(methodOverride("_method"));
 
 app.set("view engine", "pug"); //establece el motor de vistas a usar
-// app.disable("x-powered-by");
 
 let sessionStore = new RedisStore({ client: redis.createClient() });
 
@@ -71,7 +61,7 @@ let expressSession = session({
   name: "sessionID",
   saveUninitialized: false,
   cookie: {
-    secure: true,
+    // secure: true,
     maxAge: 18000000,
     sameSite: true,
   },
@@ -190,4 +180,3 @@ server.listen(process.env.PORT, (err) => {
 //TODO:Apr3nder a usar Bluerbird, async, PM2, Cluster
 //TODO:Cambiar las variables de entorno cuando la app este en produccion
 //TODO:Entender el XSS y como prevenirlo
-//FIXME:Arreglar el error en new-pet y new-accesorie que hace que al eliminar las fotos aun se envien
