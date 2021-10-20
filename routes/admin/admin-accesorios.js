@@ -8,6 +8,7 @@ const {
   validateResults,
   isValidPhone,
   isValidName,
+  validatePrice,
 } = require("../../helpers/validators");
 const upload = multer({ dest: "./uploads/" });
 let Accesorie = require("../../models/accesorie-model");
@@ -30,7 +31,7 @@ router
     upload.array("images"),
     [
       check("type", "El tipo de accesorio no debe estar vacío").notEmpty(),
-      check("price", "El precio no debe estar vacío").notEmpty(),
+      check("price").custom(validatePrice),
       check("cnt", "La cantidad debe ser un numero").isNumeric(),
       check("ownerPhone").custom(isValidPhone),
       check("ownerName").custom(isValidName),
@@ -106,7 +107,7 @@ router
     upload.array("images"),
     [
       check("type", "El tipo de accesorio no debe estar vacío").notEmpty(),
-      check("price", "El precio no debe estar vacío").notEmpty(),
+      check("price").custom(validatePrice),
       check("cnt", "La cantidad debe ser un numero").isNumeric(),
       check("ownerPhone").custom(isValidPhone),
       check("ownerName").custom(isValidName),

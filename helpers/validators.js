@@ -43,6 +43,10 @@ const validateUsername = async (username = "", req) => {
     throw new Error("El nombre de usuario es obligatorio");
   }
 
+  if (username.includes("")) {
+    throw new Error("El nombre de usuario no debe tener espacios en blancos");
+  }
+
   if (!isLength(username, { max: 50 })) {
     throw new Error("El nombre de usuario es demasiado largo");
   }
@@ -149,6 +153,16 @@ const isValidPhone = (phone = "") => {
   return true;
 };
 
+const validatePrice = (price) => {
+  if (isEmpty(price)) {
+    throw new Error("El precio no debe estar vacío");
+  } else if (isNumeric(price)) {
+    throw new Error("El precio debe ser un número");
+  }
+
+  return true;
+};
+
 module.exports = {
   isValidEmail,
   passwordsMatch,
@@ -160,4 +174,5 @@ module.exports = {
   isValidLastName,
   isValidPhone,
   isValidPassword,
+  validatePrice,
 };
