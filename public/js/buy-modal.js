@@ -8,33 +8,36 @@ const modalBuy = modalBackBuy.firstElementChild;
 const acceptBtnBuy = document.querySelector("#accept-btn-buy");
 const cancelBtnBuy = document.querySelector("#cancel-btn-buy");
 
-let buyCnt = modalBackBuy.querySelector(".spin-box-buy");
+var buyCnt = modalBackBuy.querySelector(".spin-box-buy");
 const plusBtn = document.querySelector(".plus-btn");
 const lessBtn = document.querySelector(".less-btn");
 
 const articlesNames = document.querySelectorAll(".article-name");
 const modalArticleType = document.querySelector("#modal-article-type");
 const modalPetBreed = document.querySelector("#modal-pet-breed");
-const dataPetBreed = document.querySelectorAll(".article-info-title[data-pet-breed]");
+const dataPetBreed = document.querySelectorAll(
+    ".article-info-title[data-pet-breed]"
+);
 const maxCount = document.querySelector("#max-cnt");
 
 buyCnt.addEventListener("change", function () {
-    let parseValue = parseInt(buyCnt.value);
-    let parseValueMax = parseInt(buyCnt.getAttribute("max"));
+    var parseValue = parseInt(buyCnt.value);
+    var parseValueMax = parseInt(buyCnt.getAttribute("max"));
     if (parseValue >= parseValueMax) {
         buyCnt.value = buyCnt.max;
     }
 });
 
 plusBtn.addEventListener("click", function () {
-    let parseValue = parseInt(buyCnt.value);
-    let parseValueMax = parseInt(buyCnt.getAttribute("max"));
+    var parseValue = parseInt(buyCnt.value);
+    var parseValueMax = parseInt(buyCnt.getAttribute("max"));
 
-    if (parseValue + 1 <= parseValueMax) buyCnt.value = parseInt(buyCnt.value) + 1;
+    if (parseValue + 1 <= parseValueMax)
+        buyCnt.value = parseInt(buyCnt.value) + 1;
 });
 
 lessBtn.addEventListener("click", function () {
-    let parseValue = parseInt(buyCnt.value);
+    var parseValue = parseInt(buyCnt.value);
 
     if (parseValue > 1) {
         buyCnt.value = parseInt(buyCnt.value) - 1;
@@ -49,9 +52,11 @@ function confirmBuyCheck(article) {
     };
     // console.log(articleData);
     const location = window.location.pathname;
-    let xhr;
-    if (location === "/mascotas") xhr = makeRequest("POST", "/ordenes/mascotas", articleData);
-    else if (location === "/accesorios") xhr = makeRequest("POST", "/ordenes/accesorios", articleData);
+    var xhr;
+    if (location === "/mascotas")
+        xhr = makeRequest("POST", "/ordenes/mascotas", articleData);
+    else if (location === "/accesorios")
+        xhr = makeRequest("POST", "/ordenes/accesorios", articleData);
 
     xhr.onload = function () {
         console.log(xhr.response);
@@ -76,36 +81,70 @@ function confirmBuyCheck(article) {
     };
 }
 
-let btnBuyActive;
+var btnBuyActive;
 acceptBtnBuy.addEventListener("click", function (event) {
     event.preventDefault();
-    let currentArticle = btnBuyActive;
+    var currentArticle = btnBuyActive;
     while (!currentArticle.classList.contains("article-container")) {
         currentArticle = currentArticle.parentNode;
     }
     confirmBuyCheck(currentArticle);
 });
 
-btnBuyArr.forEach(function (btnBuy, ind) {
+for (var idx = 0; idx < btnBuyArr.length; idx++) {
+    var btnBuy = btnBuyArr[idx];
     btnBuy.addEventListener("click", function (e) {
         btnBuyActive = btnBuy;
-        if (e.target.getAttribute("class") === "btn-buy") {
+        if (e.target.classList.contains("btn-buy")) {
             buyCnt.setAttribute("max", e.target.firstElementChild.value);
-            maxCount.innerText = " ( " + e.target.firstElementChild.value + " ) ";
+            maxCount.innerText =
+                " ( " + e.target.firstElementChild.value + " ) ";
         } else {
-            buyCnt.setAttribute("max", e.target.parentNode.firstElementChild.value);
-            maxCount.innerText = " ( " + e.target.parentNode.firstElementChild.value + " ) ";
+            buyCnt.setAttribute(
+                "max",
+                e.target.parentNode.firstElementChild.value
+            );
+            maxCount.innerText =
+                " ( " + e.target.parentNode.firstElementChild.value + " ) ";
         }
 
         modalArticleType.innerText = " un " + articlesNames[ind].innerText;
         if (modalPetBreed) {
-            modalPetBreed.innerText = dataPetBreed[ind].getAttribute("data-pet-breed");
+            modalPetBreed.innerText =
+                dataPetBreed[ind].getAttribute("data-pet-breed");
         }
 
         mostrarModal(modalBackBuy, modalBuy, 1);
         buyCnt.value = 1;
     });
-});
+}
+
+// btnBuyArr.forEach(function (btnBuy, ind) {
+//     btnBuy.addEventListener("click", function (e) {
+//         btnBuyActive = btnBuy;
+//         if (e.target.getAttribute("class") === "btn-buy") {
+//             buyCnt.setAttribute("max", e.target.firstElementChild.value);
+//             maxCount.innerText =
+//                 " ( " + e.target.firstElementChild.value + " ) ";
+//         } else {
+//             buyCnt.setAttribute(
+//                 "max",
+//                 e.target.parentNode.firstElementChild.value
+//             );
+//             maxCount.innerText =
+//                 " ( " + e.target.parentNode.firstElementChild.value + " ) ";
+//         }
+
+//         modalArticleType.innerText = " un " + articlesNames[ind].innerText;
+//         if (modalPetBreed) {
+//             modalPetBreed.innerText =
+//                 dataPetBreed[ind].getAttribute("data-pet-breed");
+//         }
+
+//         mostrarModal(modalBackBuy, modalBuy, 1);
+//         buyCnt.value = 1;
+//     });
+// });
 // } else {
 //     btnBuyArr.forEach(function (btn) {
 //         btn.addEventListener("click", function () {

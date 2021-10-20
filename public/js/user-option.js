@@ -24,7 +24,9 @@ const menuAccount = document.querySelector("#account-section");
 const bellSection = document.querySelector("#bell-section");
 const bellElements = bellSection.querySelectorAll(".bell-submenu__element");
 const removeBell = bellSection.querySelectorAll(".remove-notifications");
-const showAllNotifications = bellSection.querySelector(".show-all-notifications");
+const showAllNotifications = bellSection.querySelector(
+    ".show-all-notifications"
+);
 
 // menuGoLogin[0].style.display = "none";
 // menuGoLogin[1].style.display = "none";
@@ -54,11 +56,16 @@ function fromNewToOld() {
 var contBellOpen = 0;
 notifications.forEach(function (not) {
     not.addEventListener("click", function () {
-        const messagesNodes = document.querySelectorAll("li.bell-submenu__element--new");
+        const messagesNodes = document.querySelectorAll(
+            "li.bell-submenu__element--new"
+        );
         // messages = Array.from(messages);
-        const messages = Array.prototype.map.call(messagesNodes, function (elem) {
-            return elem.id;
-        });
+        const messages = Array.prototype.map.call(
+            messagesNodes,
+            function (elem) {
+                return elem.id;
+            }
+        );
 
         // messages = messages.map(function (elem) {
         //   return elem.id;
@@ -74,7 +81,11 @@ notifications.forEach(function (not) {
 
         /*Aqui hago q se muestre el div de mostrar todas las notificaciones*/
         showAllNotifications.style.display = "block";
-        if (bellSubMenuList.firstElementChild.classList.contains("no-new-notifications"))
+        if (
+            bellSubMenuList.firstElementChild.classList.contains(
+                "no-new-notifications"
+            )
+        )
             bellSubMenuList.firstElementChild.style.display = "block";
         /*Aqui reviso si tienes notifiaciones*/
         bellSection.classList.toggle("show-login-menu");
@@ -89,7 +100,7 @@ notifications.forEach(function (not) {
         if (bellSection.classList.contains("show-login-menu")) {
             bellElements.forEach(function (el, cont) {
                 el.classList.add("anim-bell-scale");
-                let calcDelay = 300 + cont * 60;
+                var calcDelay = 300 + cont * 60;
                 el.style.animationDelay = calcDelay.toString() + "ms";
                 // console.log(el.style.animationDelay, cont);
                 if (el.classList.contains("bell-submenu__element--old")) {
@@ -116,7 +127,9 @@ notifications.forEach(function (not) {
 });
 
 /*Selecciono todos los botones de borrar*/
-const deleteBell = document.querySelectorAll(".remove-notifications > img:last-child");
+const deleteBell = document.querySelectorAll(
+    ".remove-notifications > img:last-child"
+);
 
 /*Animacion de los botones de borrar notificaciones*/
 removeBell.forEach(function (btn) {
@@ -138,22 +151,30 @@ removeBell.forEach(function (btn) {
 /*Asignar Heigth a las notificaciones*/
 const bellSubMenuList = bellSection.querySelector(".bell-submenu__list");
 function checkHeight() {
-    let sumHeight = 0;
+    var sumHeight = 0;
     bellElements.forEach(function (el) {
         elementStyle = getComputedStyle(el);
         if (parseInt(elementStyle.height) > 0 && el.style.display === "block") {
-            sumHeight += parseFloat(elementStyle.height) + parseFloat(elementStyle.marginTop) * 2;
+            sumHeight +=
+                parseFloat(elementStyle.height) +
+                parseFloat(elementStyle.marginTop) * 2;
         }
     });
 
     if (bellSubMenuList.firstElementChild) {
         if (
-            bellSubMenuList.firstElementChild.classList.contains("no-new-notifications") ||
-            (bellSubMenuList.firstElementChild.classList.contains("no-notifications") &&
+            bellSubMenuList.firstElementChild.classList.contains(
+                "no-new-notifications"
+            ) ||
+            (bellSubMenuList.firstElementChild.classList.contains(
+                "no-notifications"
+            ) &&
                 bellSubMenuList.childElementCount > 0)
         ) {
             if (bellSubMenuList.firstElementChild.style.display !== "none")
-                sumHeight += parseFloat(bellSubMenuList.firstElementChild.style.height);
+                sumHeight += parseFloat(
+                    bellSubMenuList.firstElementChild.style.height
+                );
         }
     }
     bellSubmenu.style.height = sumHeight + 10 + "px";
@@ -163,9 +184,9 @@ function checkHeight() {
 /*Borrar notificaciones*/
 deleteBell.forEach(function (btn) {
     btn.addEventListener("click", function () {
-        let id = btn.parentNode.parentNode.id;
+        const id = btn.parentNode.parentNode.id;
 
-        let req = new XMLHttpRequest();
+        const req = new XMLHttpRequest();
 
         req.open("DELETE", `/user/messages/${id}`);
 
@@ -197,7 +218,11 @@ showAllNotifications.addEventListener("click", function () {
         bellSubmenu.style.borderRadius = "0 0 6px 6px";
     });
     /*checkeo el scroll*/
-    if (bellSubMenuList.firstElementChild.classList.contains("no-new-notifications")) {
+    if (
+        bellSubMenuList.firstElementChild.classList.contains(
+            "no-new-notifications"
+        )
+    ) {
         bellSubMenuList.firstElementChild.style.display = "none";
     }
     checkHeight();
@@ -205,21 +230,32 @@ showAllNotifications.addEventListener("click", function () {
 
 /*Cuando no tienes notifiaciones*/
 function checkBell() {
-    let flag = 0;
+    var flag = 0;
     bellElements.forEach(function (el) {
         if (el.classList.contains("bell-submenu__element--new")) flag = 1;
     });
 
     if (!flag && bellSubMenuList.firstElementChild) {
-        if (!bellSubMenuList.firstElementChild.classList.contains("no-new-notifications")) {
+        if (
+            !bellSubMenuList.firstElementChild.classList.contains(
+                "no-new-notifications"
+            )
+        ) {
             const node = document.createElement("li");
             node.classList.add("bell-submenu__element");
             node.classList.add("no-new-notifications");
             node.style.borderRadius = "0";
             node.style.padding = "0.5rem";
             node.innerHTML = "No tienes notificaciones recientes";
-            if (!bellSubMenuList.firstElementChild.classList.contains("no-notifications")) {
-                bellSubMenuList.insertBefore(node, bellSubMenuList.firstElementChild);
+            if (
+                !bellSubMenuList.firstElementChild.classList.contains(
+                    "no-notifications"
+                )
+            ) {
+                bellSubMenuList.insertBefore(
+                    node,
+                    bellSubMenuList.firstElementChild
+                );
             }
             node.style.height = getComputedStyle(node).height;
         }
@@ -238,7 +274,9 @@ function checkBell() {
         node.style.height = getComputedStyle(node).height;
         // console.log("epepe");
         if (
-            bellSubMenuList.lastElementChild.classList.contains("no-notifications") &&
+            bellSubMenuList.lastElementChild.classList.contains(
+                "no-notifications"
+            ) &&
             bellSubMenuList.childElementCount === 1
         ) {
             showAllNotifications.style.display = "none";
@@ -246,7 +284,9 @@ function checkBell() {
             showAllNotifications.style.display = "block";
         }
         if (
-            bellSubMenuList.lastElementChild.classList.contains("no-notifications") &&
+            bellSubMenuList.lastElementChild.classList.contains(
+                "no-notifications"
+            ) &&
             bellSubMenuList.childElementCount > 1
         ) {
             // console.log("elimine");
@@ -274,7 +314,9 @@ document.addEventListener("click", function (e) {
                 !e.target.classList.contains("bell-submenu__element") &&
                 !e.target.classList.contains("bell-time") &&
                 !e.target.classList.contains("remove-notifications") &&
-                !e.target.parentElement.classList.contains("remove-notifications") &&
+                !e.target.parentElement.classList.contains(
+                    "remove-notifications"
+                ) &&
                 e.target != bellSection.firstElementChild &&
                 e.target != bellSection.lastElementChild
             ) {

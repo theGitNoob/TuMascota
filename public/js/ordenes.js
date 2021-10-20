@@ -1,7 +1,13 @@
-const petOrderState = document.querySelectorAll(".order-section--pet .order-state");
-const articleOrderState = document.querySelectorAll(".order-section--article .order-state");
+const petOrderState = document.querySelectorAll(
+    ".order-section--pet .order-state"
+);
+const articleOrderState = document.querySelectorAll(
+    ".order-section--article .order-state"
+);
 
-const orderStates = document.querySelectorAll(".order-section__table .order-state");
+const orderStates = document.querySelectorAll(
+    ".order-section__table .order-state"
+);
 
 const filtros = document.querySelectorAll(".filter-order");
 
@@ -20,7 +26,8 @@ function filtrarOrdenes(fil) {
         if (fil.getAttribute("data-state") === "pendient") {
             if (mediaQuery.matches) {
                 for (var cnbtn = 0; cnbtn < btnCancelOrder.length; cnbtn++) {
-                    btnCancelOrder[cnbtn].parentElement.style.display = "table-cell";
+                    btnCancelOrder[cnbtn].parentElement.style.display =
+                        "table-cell";
                 }
                 // btnCancelOrder.forEach(function (btn) {
                 //     btn.parentElement.style.display = "table-cell";
@@ -40,8 +47,10 @@ function filtrarOrdenes(fil) {
                 // });
             }
             if (ord.getAttribute("data-state") === "pendient") {
-                if (!mediaQuery.matches) ord.parentElement.parentElement.style.display = "block";
-                else ord.parentElement.parentElement.style.display = "table-row";
+                if (!mediaQuery.matches)
+                    ord.parentElement.parentElement.style.display = "block";
+                else
+                    ord.parentElement.parentElement.style.display = "table-row";
             } else {
                 ord.parentElement.parentElement.style.display = "none";
             }
@@ -58,9 +67,14 @@ function filtrarOrdenes(fil) {
             // deleteColumn.forEach(function (col) {
             //     col.style.display = "none";
             // });
-            if (fil.getAttribute("data-state") === ord.getAttribute("data-state")) {
-                if (!mediaQuery.matches) ord.parentElement.parentElement.style.display = "block";
-                else ord.parentElement.parentElement.style.display = "table-row";
+            if (
+                fil.getAttribute("data-state") ===
+                ord.getAttribute("data-state")
+            ) {
+                if (!mediaQuery.matches)
+                    ord.parentElement.parentElement.style.display = "block";
+                else
+                    ord.parentElement.parentElement.style.display = "table-row";
             } else {
                 ord.parentElement.parentElement.style.display = "none";
             }
@@ -119,7 +133,7 @@ function checkTable(table, fil) {
             }
         }
     }
-    // for (let ch of tableRows) {
+    // for (var ch of tableRows) {
     //     console.log("pepe asdasd  asdasd {ch}", ch);
     //     if (ch.hasAttribute) {
     //         cont++;
@@ -133,7 +147,7 @@ function checkTable(table, fil) {
         if (table.parentElement.lastElementChild.nodeName === "SPAN") {
             table.parentElement.lastElementChild.remove();
         }
-        let node = document.createElement("span");
+        var node = document.createElement("span");
         node.classList.add("no-orders");
         node.innerHTML =
             "Usted no tiene ordenes " +
@@ -143,9 +157,11 @@ function checkTable(table, fil) {
             fil.textContent +
             "</span> <br>";
         if (table === petTable) {
-            node.innerHTML += "<a class = 'btn' href='/mascotas'>Ver Mascotas</a>";
+            node.innerHTML +=
+                "<a class = 'btn' href='/mascotas'>Ver Mascotas</a>";
         } else {
-            node.innerHTML += "<a class = 'btn' href='/accesorios'>Ver Artículos</a>";
+            node.innerHTML +=
+                "<a class = 'btn' href='/accesorios'>Ver Artículos</a>";
         }
         table.parentElement.appendChild(node);
     } else {
@@ -159,7 +175,8 @@ function checkTable(table, fil) {
 function changeFilter(f) {
     for (var c = 0; c < f.parentElement.children.length; c++) {
         var el = f.parentElement.children[c];
-        if (!mediaQuery.matches && el.firstElementChild.tagName === "SPAN") el.firstElementChild.textContent = "";
+        if (!mediaQuery.matches && el.firstElementChild.tagName === "SPAN")
+            el.firstElementChild.textContent = "";
         el.classList.remove("active");
     }
 
@@ -238,7 +255,7 @@ var btnAcceptModal = document.querySelector(".btn-alert-confirm");
 
 function removeOrderCheck() {
     //Con esto voy hasta el padre del boton que le di click, para saber a q orden me refiero
-    let orderId = orderBtnActive;
+    var orderId = orderBtnActive;
     while (orderId.getAttribute("class") !== "order-section__cell") {
         orderId = orderId.parentElement;
     }

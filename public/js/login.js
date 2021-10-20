@@ -53,7 +53,8 @@ if (showpassword) {
                     sh.firstElementChild.src = "/public/img/login/eye.webp";
                 } else if (password[0].getAttribute("type") === "text") {
                     password[0].setAttribute("type", "password");
-                    sh.firstElementChild.src = "/public/img/login/show-eye.webp";
+                    sh.firstElementChild.src =
+                        "/public/img/login/show-eye.webp";
                 }
             } else {
                 if (password[1].getAttribute("type") === "password") {
@@ -61,7 +62,8 @@ if (showpassword) {
                     sh.firstElementChild.src = "/public/img/login/eye.webp";
                 } else if (password[1].getAttribute("type") === "text") {
                     password[1].setAttribute("type", "password");
-                    sh.firstElementChild.src = "/public/img/login/show-eye.webp";
+                    sh.firstElementChild.src =
+                        "/public/img/login/show-eye.webp";
                 }
             }
         });
@@ -120,23 +122,26 @@ if (loginForm) {
         modalLogin.innerHTML = `<div class='modal confirm-login'><div class='modal__header'>Confirmar Cuenta<button type='submit' class='modal-close'><img class='modal-close__icon' src='/public/img/res/close-white.webp' alt=''/></button></div><div class='modal__body modal__body-confirm-login'> <h3>Hola ${usernameInput.value}</h3> <img src='/public/img/login/email-warning.webp' alt='' /><span>Aún no ha confirmado su cuenta en su correo electrónico.</span></div><div class='modal-line-login line-login'>si no le ha llegado el correo a su buzón, presione aquí <button type='submit' id='resend_email' class = 'btn btn__send-email'>Reenviar correo</button></div></div>`;
         if (!document.querySelector(".modal-back-confirm-login")) {
             document.body.appendChild(modalLogin);
-            let closeModal = modalLogin.querySelector(".modal-close");
+            var closeModal = modalLogin.querySelector(".modal-close");
             closeModal.addEventListener("click", function () {
                 mostrarModal(modalLogin, modalLogin.firstElementChild, 0);
             });
             modalLogin.addEventListener("click", function (event) {
-                if (event.target === modalLogin) mostrarModal(modalLogin, modalLogin.firstElementChild, 0);
+                if (event.target === modalLogin)
+                    mostrarModal(modalLogin, modalLogin.firstElementChild, 0);
             });
         }
     }
 
     function confirmAccountCheck() {
         addModalConfirmEmail();
-        const modalBackConfirmLogin = document.querySelector(".modal-back-confirm-login"),
+        const modalBackConfirmLogin = document.querySelector(
+                ".modal-back-confirm-login"
+            ),
             modalConfirmLogin = modalBackConfirmLogin.firstElementChild,
             resendEmail = document.querySelector("#resend_email");
 
-        let userData = {
+        var userData = {
             username: usernameInput.value,
             password: passwordInput.value,
         };
@@ -159,7 +164,7 @@ if (loginForm) {
 
         //Esta es la parte de reenviar correo
         function resendEmailRequest() {
-            let userData = {
+            var userData = {
                 username: usernameInput.value,
                 password: passwordInput.value,
             };
