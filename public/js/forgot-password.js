@@ -1,11 +1,11 @@
 const sendEmail = document.getElementById("send-email"),
-  newPassword = document.getElementById("new-password"),
-  sendEmailBack = document.getElementById("back-email-send"),
-  loginSectionContainer = document.querySelector(".login-section__container"),
-  emailVal = document.getElementById("email-val"),
-  confirmEmailInput = document.getElementById("email"),
-  newPasswordInput = document.getElementById("password"),
-  confirmNewPasswordInput = document.getElementById("confirm-password");
+    newPassword = document.getElementById("new-password"),
+    sendEmailBack = document.getElementById("back-email-send"),
+    loginSectionContainer = document.querySelector(".login-section__container"),
+    emailVal = document.getElementById("email-val"),
+    confirmEmailInput = document.getElementById("email"),
+    newPasswordInput = document.getElementById("password"),
+    confirmNewPasswordInput = document.getElementById("confirm-password");
 
 // const confirmAlert = document.createElement("div");
 // confirmAlert.classList.add("modal-back");
@@ -18,69 +18,69 @@ const sendEmail = document.getElementById("send-email"),
 
 /*Aqui reviso si el email es valido en la parte de olvido la contraseña*/
 function checkValidEmail() {
-  const userData = { email: confirmEmailInput.value };
+    const userData = { email: confirmEmailInput.value };
 
-  const xhr = makeRequest("POST", "/users/forgot_password", userData);
-  xhr.onload = function () {
-    if (xhr.status === 200) {
-      animCompleted(0);
-      setTimeout(changeBack, 2700);
-    } else if (xhr.status === 400) {
-      const errorsMsg = JSON.parse(xhr.response);
-      showErrorsForm(errorsMsg.errors);
-      return false;
-    } else if (xhr.status === 500) {
-      addAlert("error", ["Error Interno del servidor"]);
-    }
-  };
+    const xhr = makeRequest("POST", "/users/forgot_password", userData);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            animCompleted(0);
+            setTimeout(changeBack, 2700);
+        } else if (xhr.status === 400) {
+            const errorsMsg = JSON.parse(xhr.response);
+            showErrorsForm(errorsMsg.errors);
+            return false;
+        } else if (xhr.status === 500) {
+            addAlert("error", ["Error Interno del servidor"]);
+        }
+    };
 }
 
 /*Aqui reviso si hay algun error en la parte de nueva contraseña*/
 function checkValidPassword() {
-  const userData = {
-    password: newPasswordInput.value,
-    password2: confirmNewPasswordInput.value,
-  };
+    const userData = {
+        password: newPasswordInput.value,
+        password2: confirmNewPasswordInput.value,
+    };
 
-  let params = new URLSearchParams(document.location.search);
+    var params = new URLSearchParams(document.location.search);
 
-  params.forEach(function (value, key) {
-    userData[key] = value;
-  });
-  console.log(userData);
-  const xhr = makeRequest("PUT", "/users/reset_password", userData);
-  xhr.onload = function () {
-    if (xhr.status === 200) {
-      animCompleted(0);
-      setTimeout(function () {
-        document.location = "/users/login";
-      }, 2700);
-    } else if (xhr.status === 400) {
-      const errorsMsg = JSON.parse(xhr.response);
-      console.log(errorsMsg);
-      showErrorsForm(errorsMsg);
-    } else if (xhr.status === 500) {
-      addAlert("error", ["Error Interno del servidor"]);
-    }
-  };
+    params.forEach(function (value, key) {
+        userData[key] = value;
+    });
+    console.log(userData);
+    const xhr = makeRequest("PUT", "/users/reset_password", userData);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            animCompleted(0);
+            setTimeout(function () {
+                document.location = "/users/login";
+            }, 2700);
+        } else if (xhr.status === 400) {
+            const errorsMsg = JSON.parse(xhr.response);
+            console.log(errorsMsg);
+            showErrorsForm(errorsMsg);
+        } else if (xhr.status === 500) {
+            addAlert("error", ["Error Interno del servidor"]);
+        }
+    };
 }
 
 function changeBack() {
-  loginSectionContainer.style.display = "none";
-  sendEmailBack.style.display = "block";
-  // emailVal.innerHTML = confirmEmailInput.value;
+    loginSectionContainer.style.display = "none";
+    sendEmailBack.style.display = "block";
+    // emailVal.innerHTML = confirmEmailInput.value;
 }
 
 if (newPassword) {
-  newPassword.addEventListener("click", function (btn) {
-    btn.preventDefault();
-    checkValidPassword();
-  });
+    newPassword.addEventListener("click", function (btn) {
+        btn.preventDefault();
+        checkValidPassword();
+    });
 }
 
 if (sendEmail) {
-  sendEmail.addEventListener("click", function (btn) {
-    btn.preventDefault();
-    checkValidEmail();
-  });
+    sendEmail.addEventListener("click", function (btn) {
+        btn.preventDefault();
+        checkValidEmail();
+    });
 }

@@ -19,7 +19,7 @@ function mostrarMenu() {
     if (navMenu.classList.contains("show-menu")) {
         navMenuElements.forEach(function (el, cont) {
             el.classList.add("anim-element-scale");
-            let calcDelay = 400 + cont * 60;
+            var calcDelay = 400 + cont * 60;
             el.style.animationDelay = calcDelay.toString() + "ms";
             // console.log(el.style.animationDelay, cont);
         });
