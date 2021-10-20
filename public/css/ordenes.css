@@ -22,6 +22,32 @@
     font-weight: 600;
 }
 
+.contact-btns a {
+    text-decoration: none;
+    display: inline-block;
+    margin: 0.3rem 1rem;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+    padding: 0.3rem 0.5rem;
+    color: #4c4c4c;
+    vertical-align: middle;
+    transition: transform 0.3s ease;
+}
+
+.contact-btns a:hover {
+    transform: scale(1.1);
+}
+
+.contact-btns img {
+    width: 1.7rem;
+    height: 1.7rem;
+    margin-right: 0.3rem;
+    vertical-align: middle;
+}
+
+.contact-btns strong {
+    font-weight: 600;
+}
+
 .filter-orders-menu {
     margin: 1.2rem 0.6rem 2.5rem 0.6rem;
 }
@@ -58,6 +84,8 @@
 }
 
 .order-state {
+    font-family: inherit;
+    border: none;
     padding: 0.2rem 0.1rem;
     background-color: #ff5252;
     font-weight: 600;
@@ -111,8 +139,8 @@
 
 .order-section {
     margin: 1.8rem auto;
-    -webkit-box-shadow: 0 0 10px rgb(0, 0, 0, 0.4);
-    box-shadow: 0 0 10px rgb(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
     -webkit-border-radius: 5px;
     border-radius: 5px;
 }

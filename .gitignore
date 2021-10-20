@@ -2,9 +2,11 @@ node_modules
 package-lock.json
 public/img/accesorios/*
 public/img/mascotas/*
+public/css final
 temp
 uploads/*
 build/config.gypi
 .vscode/settings.json
 build/config.gypi
 todo.txt
+todo Front-End.txt

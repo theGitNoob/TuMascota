@@ -1,7 +1,6 @@
 let opts = document.querySelector("#options"),
     input = document.querySelector("#animal-type");
 const inputFile = document.querySelector("#file-selector"),
-    formCreateArticle = document.querySelector(".create-article"),
     inputsData = document.querySelectorAll(".form-input"),
     btnAddPhoto = document.querySelector("btn-add-photo"),
     filesSelected = document.querySelector(".file-selected"),
