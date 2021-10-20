@@ -1,4 +1,5 @@
 const { rename, unlink } = require("fs/promises");
+const { getFileExtension } = require("../helpers/string-helper");
 
 const moveFiles = async (images) => {
   return await Promise.all(
@@ -15,9 +16,7 @@ async function addImages(images, articleType) {
 
   try {
     images.forEach((image) => {
-      const imgExtension = image.originalname.substring(
-        image.originalname.lastIndexOf(".") + 1
-      );
+      const imgExtension = getFileExtension(image.originalname);
 
       const currIdx = this.images.length;
 
