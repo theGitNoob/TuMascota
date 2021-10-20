@@ -72,24 +72,11 @@ for (var btn = 0; btn < contactUs.length; btn++) {
     });
 }
 
-// // contactUs.forEach(function (btn) {
-// //     btn.addEventListener("click", function () {
-// //         mostrarModal(modalBackContact, modalContact, 1);
-// //     });
-// // });
-
 for (var btn = 0; btn < aboutUs.length; btn++) {
     aboutUs[btn].addEventListener("click", function () {
         mostrarModal(modalBackAbout, modalAbout, 1);
     });
 }
-
-// // aboutUs.forEach(function (btn) {
-// //     btn.addEventListener("click", function () {
-// //         mostrarModal(modalBackAbout, modalAbout, 1);
-// //     });
-// // });
-
 for (var btn = 0; btn < closeModal.length; btn++) {
     var el = closeModal[btn];
     el.addEventListener("click", function () {
@@ -98,13 +85,6 @@ for (var btn = 0; btn < closeModal.length; btn++) {
         mostrarModal(backModal, modal, 0);
     });
 }
-// // closeModal.forEach(function (btn) {
-// //   btn.addEventListener("click", function () {
-// //     var backModal = btn.parentElement.parentElement.parentElement;
-// //     var modal = btn.parentElement.parentElement;
-// //     mostrarModal(backModal, modal, 0);
-// //   });
-// // });
 
 document.addEventListener("click", function (e) {
     switch (e.target) {
