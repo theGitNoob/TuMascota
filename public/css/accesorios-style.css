@@ -33,11 +33,12 @@
 
 .article-container {
     max-width: 25rem;
-    -webkit-box-shadow: 0 0 12px rgb(0, 0, 0, 0.36);
-    box-shadow: 0 0 12px rgb(0, 0, 0, 0.36);
+    -webkit-box-shadow: 0 0 12px rgba(0, 0, 0, 0.36);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.36);
     display: inline-block;
     -webkit-border-radius: 6px;
     border-radius: 6px;
+    /* border: 1px solid rgba(0, 0, 0, 0.3); */
     text-align: center;
     position: relative;
     vertical-align: top;

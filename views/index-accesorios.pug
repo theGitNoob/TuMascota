@@ -27,32 +27,7 @@ block contenido
                 form(data-articleId=accesorio._id action=`/admin/accesorios/${accesorio._id}?_method=DELETE` method="POST" class="link-container delete-form" )
                   button(type="submit" class="btn btn-delete")  
                     img(src="/public/img/res/borrar.webp")
-      script.
-        const mainTable = document.querySelector(".main-table");
-        const mainTableBody = document.querySelector(".main-table__body");
-        const deleteForm = document.querySelectorAll(".delete-form");
+      script(src="/public/js/admin-index-articles.js")
 
-        const deleteArticle = async (id) => {
-          const url = `/admin/accesorios/${id}`;
-          const resp = await fetch(url, {
-            method: "DELETE",
-            credentials: 'same-origin'
-          }).then((resp)=>{
-            if(resp.ok)
-              window.location.reload();
-          })
-
-        };
-
-        deleteForm.forEach((form)=>{
-          form.addEventListener("submit",(e)=>{
-            e.preventDefault();
-            deleteArticle(form.getAttribute("data-articleId"));
-          });
-        })
-
-
-        if(mainTableBody.childElementCount == 0)
-          mainTable.innerHTML = `<span class='no-elements'>No hay accesorios actualmente</span>`;
 
 

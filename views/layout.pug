@@ -35,7 +35,7 @@ html(lang='es')
             |
             #bell-login.login-option.bell-login
               img(src='/public/img/res/bell.webp' alt)
-              span.login-count-msj.bell-msj=user.newMessages
+              span.login-count-msj.bell-msj=user.messages.length
             |
             |
           if !user
@@ -67,8 +67,8 @@ html(lang='es')
 
         article#bell-section.bell-section
           h4.bell-section___title
-            | Notificaciones 
-            span.bell-number=user.messages.length
+            | Nuevas Notificaciones 
+            span.bell-number=user.newMessages
           section.bell-submenu
             .bell-submenu__inner-container
               ul.bell-submenu__list
@@ -80,7 +80,7 @@ html(lang='es')
                     span.remove-notifications
                       img(src='/public/img/res/three-dots.webp' alt)
                       img(src='/public/img/res/trash.webp' alt)
-                  
+
           .show-all-notifications.
 
             Ver todas las notificaciones
@@ -120,7 +120,7 @@ html(lang='es')
             a.nav-menu__link(href='/')
               img(src='/public/img/res/dog-home.webp' alt)
               span  Inicio
-              
+
           .nav-menu__element(class=path.startsWith("/mascotas")  && "nav-menu__element--active")
             #pet-submenu.nav-menu__link
               img(src='/public/img/res/pet.webp' alt)
@@ -271,7 +271,7 @@ html(lang='es')
     #modal-contact.modal
       .modal__header
         | Contactános
-        
+
         button.modal-close(type='submit')
           img.modal-close__icon(src='/public/img/res/close-white.webp' alt)
       .modal__body
