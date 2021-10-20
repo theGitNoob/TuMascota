@@ -15,20 +15,29 @@ const mediaQuery = window.matchMedia("(min-width: 50rem)");
 
 /*Esto es para filtrar las ordenes*/
 function filtrarOrdenes(fil) {
-    orderStates.forEach(function (ord) {
+    for (var ods = 0; ods < orderStates.length; ods++) {
+        const ord = orderStates[ods];
         if (fil.getAttribute("data-state") === "pendient") {
             if (mediaQuery.matches) {
-                btnCancelOrder.forEach(function (btn) {
-                    btn.parentElement.style.display = "table-cell";
-                });
-
-                deleteColumn.forEach(function (col) {
-                    col.style.display = "table-cell";
-                });
+                for (var cnbtn = 0; cnbtn < btnCancelOrder.length; cnbtn++) {
+                    btnCancelOrder[cnbtn].parentElement.style.display = "table-cell";
+                }
+                // btnCancelOrder.forEach(function (btn) {
+                //     btn.parentElement.style.display = "table-cell";
+                // });
+                for (var col = 0; col < deleteColumn.length; col++) {
+                    deleteColumn[col].style.display = "table-cell";
+                }
+                // deleteColumn.forEach(function (col) {
+                //     col.style.display = "table-cell";
+                // });
             } else {
-                btnCancelOrder.forEach(function (btn) {
-                    btn.parentElement.style.display = "block";
-                });
+                for (var cnbtn = 0; cnbtn < btnCancelOrder.length; cnbtn++) {
+                    btnCancelOrder[cnbtn].parentElement.style.display = "block";
+                }
+                // btnCancelOrder.forEach(function (btn) {
+                //     btn.parentElement.style.display = "block";
+                // });
             }
             if (ord.getAttribute("data-state") === "pendient") {
                 if (!mediaQuery.matches) ord.parentElement.parentElement.style.display = "block";
@@ -37,12 +46,18 @@ function filtrarOrdenes(fil) {
                 ord.parentElement.parentElement.style.display = "none";
             }
         } else {
-            btnCancelOrder.forEach(function (btn) {
-                btn.parentElement.style.display = "none";
-            });
-            deleteColumn.forEach(function (col) {
-                col.style.display = "none";
-            });
+            for (var cnbtn = 0; cnbtn < btnCancelOrder.length; cnbtn++) {
+                btnCancelOrder[cnbtn].parentElement.style.display = "none";
+            }
+            // btnCancelOrder.forEach(function (btn) {
+            //     btn.parentElement.style.display = "none";
+            // });
+            for (var col = 0; col < deleteColumn.length; col++) {
+                deleteColumn[col].style.display = "none";
+            }
+            // deleteColumn.forEach(function (col) {
+            //     col.style.display = "none";
+            // });
             if (fil.getAttribute("data-state") === ord.getAttribute("data-state")) {
                 if (!mediaQuery.matches) ord.parentElement.parentElement.style.display = "block";
                 else ord.parentElement.parentElement.style.display = "table-row";
@@ -50,22 +65,69 @@ function filtrarOrdenes(fil) {
                 ord.parentElement.parentElement.style.display = "none";
             }
         }
-    });
+    }
+
+    // orderStates.forEach(function (ord) {
+    //     if (fil.getAttribute("data-state") === "pendient") {
+    //         if (mediaQuery.matches) {
+    //             btnCancelOrder.forEach(function (btn) {
+    //                 btn.parentElement.style.display = "table-cell";
+    //             });
+
+    //             deleteColumn.forEach(function (col) {
+    //                 col.style.display = "table-cell";
+    //             });
+    //         } else {
+    //             btnCancelOrder.forEach(function (btn) {
+    //                 btn.parentElement.style.display = "block";
+    //             });
+    //         }
+    //         if (ord.getAttribute("data-state") === "pendient") {
+    //             if (!mediaQuery.matches) ord.parentElement.parentElement.style.display = "block";
+    //             else ord.parentElement.parentElement.style.display = "table-row";
+    //         } else {
+    //             ord.parentElement.parentElement.style.display = "none";
+    //         }
+    //     } else {
+    //         btnCancelOrder.forEach(function (btn) {
+    //             btn.parentElement.style.display = "none";
+    //         });
+    //         deleteColumn.forEach(function (col) {
+    //             col.style.display = "none";
+    //         });
+    //         if (fil.getAttribute("data-state") === ord.getAttribute("data-state")) {
+    //             if (!mediaQuery.matches) ord.parentElement.parentElement.style.display = "block";
+    //             else ord.parentElement.parentElement.style.display = "table-row";
+    //         } else {
+    //             ord.parentElement.parentElement.style.display = "none";
+    //         }
+    //     }
+    // });
 }
 
 //Determinar si tienen mascotas o articulos en las ordenes
 function checkTable(table, fil) {
     const tableRows = table.children[1].childNodes;
-    let flag = 0,
+    var flag = 0,
         cont = 0;
-    for (let ch of tableRows) {
-        if (ch.hasAttribute) {
+    for (var ch = 0; ch < tableRows.length; ch++) {
+        var el = tableRows[ch];
+        if (el.nodeName === "TR") {
             cont++;
-            if (ch.style.display != "none") {
+            if (el.style.display != "none") {
                 flag = 1;
             }
         }
     }
+    // for (let ch of tableRows) {
+    //     console.log("pepe asdasd  asdasd {ch}", ch);
+    //     if (ch.hasAttribute) {
+    //         cont++;
+    //         if (ch.style.display != "none") {
+    //             flag = 1;
+    //         }
+    //     }
+    // }
     if (!flag || !cont) {
         table.style.display = "none";
         if (table.parentElement.lastElementChild.nodeName === "SPAN") {
@@ -95,13 +157,18 @@ function checkTable(table, fil) {
 }
 
 function changeFilter(f) {
-    console.log("pepe");
-    for (c of f.parentElement.childNodes) {
-        if (c.hasAttribute) {
-            if (!mediaQuery.matches && c.firstElementChild.tagName === "SPAN") c.firstElementChild.textContent = "";
-            c.classList.remove("active");
-        }
+    for (var c = 0; c < f.parentElement.children.length; c++) {
+        var el = f.parentElement.children[c];
+        if (!mediaQuery.matches && el.firstElementChild.tagName === "SPAN") el.firstElementChild.textContent = "";
+        el.classList.remove("active");
     }
+
+    // for (c of f.parentElement.childNodes) {
+    //     if (c.hasAttribute) {
+    //         if (!mediaQuery.matches && c.firstElementChild.tagName === "SPAN") c.firstElementChild.textContent = "";
+    //         c.classList.remove("active");
+    //     }
+    // }
     f.classList.add("active");
     if (!mediaQuery.matches) {
         if (f.getAttribute("data-state") === "pendient") {
@@ -117,18 +184,31 @@ function changeFilter(f) {
     checkTable(articleTable, f);
 }
 
-filtros.forEach(function (f) {
-    f.addEventListener("click", function () {
-        changeFilter(f);
+for (var f = 0; f < filtros.length; f++) {
+    var fil = filtros[f];
+    fil.addEventListener("click", function () {
+        changeFilter(this);
     });
-});
+}
+
+// filtros.forEach(function (f) {
+//     f.addEventListener("click", function () {
+//         changeFilter(f);
+//     });
+// });
 
 window.addEventListener("resize", function () {
-    filtros.forEach(function (f) {
-        if (f.classList.contains("active")) {
-            filtrarOrdenes(f);
+    for (var f = 0; f < filtros.length; f++) {
+        var fil = filtros[f];
+        if (fil.classList.contains("active")) {
+            filtrarOrdenes(fil);
         }
-    });
+    }
+    // filtros.forEach(function (f) {
+    //     if (f.classList.contains("active")) {
+    //         filtrarOrdenes(f);
+    //     }
+    // });
 });
 
 /*Esto es para que salgan las pendientes en 1ra instancia, yo lo hago asi para trabajar mas comodo
@@ -139,12 +219,20 @@ filtros[0].click();
 /*Esto es para la alerta de cancelar*/
 var orderBtnActive;
 
-btnCancelOrder.forEach(function (btn) {
+for (cobtn = 0; cobtn < btnCancelOrder.length; cobtn++) {
+    var btn = btnCancelOrder[cobtn];
     btn.addEventListener("click", function () {
         animarModalAlert();
-        orderBtnActive = btn;
+        orderBtnActive = this;
     });
-});
+}
+
+// btnCancelOrder.forEach(function (btn) {
+//     btn.addEventListener("click", function () {
+//         animarModalAlert();
+//         orderBtnActive = btn;
+//     });
+// });
 
 var btnAcceptModal = document.querySelector(".btn-alert-confirm");
 

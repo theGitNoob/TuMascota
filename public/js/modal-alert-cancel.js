@@ -1,7 +1,7 @@
 const modalCanceledBack = document.querySelector("#modal-back-alert"),
     modalCanceled = modalCanceledBack.firstElementChild,
     btnCancelModal = modalCanceled.querySelector(".btn-alert-cancel"),
-    btnAcceptModal = modalCanceled.querySelector(".btn-alert-confirm");
+    btnAcceptModalCanceled = modalCanceled.querySelector(".btn-alert-confirm");
 
 // btnAcceptModal.addEventListener("click", () => {
 //     modalCanceledBack.click();
@@ -17,7 +17,7 @@ document.addEventListener("click", function (e) {
         case modalCanceledBack:
             mostrarModal(modalCanceledBack, modalCanceled, 0);
             break;
-        case btnCancelModal:
+        case btnAcceptModalCanceled:
             mostrarModal(modalCanceledBack, modalCanceled, 0);
     }
 });
