@@ -10,6 +10,7 @@ const {
   imageUploaded,
   isValidPhone,
   isValidName,
+  validatePrice,
 } = require("../../helpers/validators");
 const { deleteFiles } = require("../../helpers/file-helper");
 const Order = require("../../models/order-model");
@@ -36,7 +37,7 @@ router
     upload.array("images"),
     [
       check("type", "El tipo de mascota no debe estar vacío").notEmpty(),
-      check("price", "El precio no debe estar vacío").notEmpty(),
+      check("price").custom(validatePrice),
       check("cnt", "La cantidad debe ser un numero").isNumeric(),
       check("ownerPhone").custom(isValidPhone),
       check("ownerName").custom(isValidName),
@@ -118,7 +119,7 @@ router
     upload.array("images"),
     [
       check("type", "El tipo de mascota no debe estar vacío").notEmpty(),
-      check("price", "El precio no debe estar vacío").notEmpty(),
+      check("price").custom(validatePrice),
       check("cnt", "La cantidad debe ser un numero").isNumeric(),
       check("ownerPhone").custom(isValidPhone),
       check("ownerName").custom(isValidName),
