@@ -11,12 +11,27 @@ html(lang="es")
     if ruta != '/login' & ruta != '/new'
       header(class="main-header")
         h1(class="") Seccion de administracion #{seccion}
+        article.account-options
+          .avatar-login
+            img(src='/public/img/res/avatar.webp' alt)
+          ul.account-submenu
+            li.account-submenu__element
+              a(href='/')
+                img(src="/public/img/admin/volver.png" alt="") 
+                | Volver a Inicio
+            li.account-submenu__element
+              a(href='/user/modify_profile')
+                img(src='/public/img/res/settings.webp' alt) 
+                | Modificar Perfil
+            li.account-submenu__element
+              a(href='/user/logout')
+                img(src='/public/img/res/log-out.webp' alt) 
+                | Salir
         nav(class="nav-menu")
           a(href="/admin/mascotas" class="nav-link") Mascotas 
           a(href="/admin/accesorios" class="nav-link") Accesorios
           a(href="/admin/servicios" class="nav-link") Servicios
           a(href="/admin/ordenes" class="nav-link") Órdenes
-          a(href='/user/logout' class = "nav-link") Salir
   script.
     const navLinks = document.querySelectorAll(".nav-link");
     const loc = window.location.pathname;

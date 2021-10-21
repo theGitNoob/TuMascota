@@ -62,6 +62,73 @@ a:focus,
     padding: 1rem;
 }
 
+.account-options {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.26);
+    border-radius: 6px;
+    margin: 1rem 0.5rem;
+    padding: 0.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    max-width: 26rem;
+}
+
+.avatar-login {
+    width: 100%;
+    background: #007bff;
+    padding: 0.3rem;
+    border-radius: 6px;
+}
+
+.avatar-login > img {
+    width: 2.3rem;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+}
+
+.account-submenu {
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    flex: 1;
+    flex-direction: column;
+}
+
+.account-submenu__element {
+    color: #666666;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.4s ease;
+    margin: 0.3rem 0;
+    padding: 0.4rem;
+}
+
+.account-submenu__element:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}
+
+.account-submenu__element > a {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+    display: flex;
+    align-items: center;
+}
+
+.account-submenu__element:hover {
+    background-color: #e4e4e4;
+    color: #208cff;
+}
+
+.account-submenu__element img {
+    margin: 0 0.7rem;
+    width: 1.6rem;
+}
+
 .nav-menu {
     padding: 1rem;
     margin: 0.6rem 0.6rem;
@@ -697,6 +764,25 @@ a:focus,
 /*FIN MODAL*/
 
 @media (min-width: 430px), (min-width: 26.8rem) {
+    .account-options {
+        max-width: 60rem;
+        margin: 1rem auto;
+    }
+
+    .account-options,
+    .account-submenu {
+        flex-direction: row;
+    }
+    .avatar-login {
+        width: auto;
+    }
+    .account-submenu__element {
+        border-radius: 6px;
+    }
+    .account-submenu__element:not(:last-child) {
+        border-bottom: none;
+    }
+
     .order-selection {
         margin: 0;
     }
