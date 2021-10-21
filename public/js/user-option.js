@@ -58,6 +58,12 @@ for (var n = 0; n < notifications.length; n++) {
         /*Aqui reviso si tienes notifiaciones*/
 
         bellSection.classList.toggle("show-login-menu");
+        // if (!bellSection.classList.contains("show-login-menu"))
+        //     bellSection.classList.add("show-login-menu");
+        // else {
+        //     bellSection.classList.remove("show-login-menu");
+        // }
+
         if (bellSection.classList.contains("show-login-menu")) {
             contBellOpen++;
         }

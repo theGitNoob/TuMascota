@@ -114,40 +114,6 @@ for (var idx = 0; idx < btnBuyArr.length; idx++) {
     });
 }
 
-// btnBuyArr.forEach(function (btnBuy, ind) {
-//     btnBuy.addEventListener("click", function (e) {
-//         btnBuyActive = btnBuy;
-//         if (e.target.getAttribute("class") === "btn-buy") {
-//             buyCnt.setAttribute("max", e.target.firstElementChild.value);
-//             maxCount.innerText =
-//                 " ( " + e.target.firstElementChild.value + " ) ";
-//         } else {
-//             buyCnt.setAttribute(
-//                 "max",
-//                 e.target.parentNode.firstElementChild.value
-//             );
-//             maxCount.innerText =
-//                 " ( " + e.target.parentNode.firstElementChild.value + " ) ";
-//         }
-
-//         modalArticleType.innerText = " un " + articlesNames[ind].innerText;
-//         if (modalPetBreed) {
-//             modalPetBreed.innerText =
-//                 dataPetBreed[ind].getAttribute("data-pet-breed");
-//         }
-
-//         mostrarModal(modalBackBuy, modalBuy, 1);
-//         buyCnt.value = 1;
-//     });
-// });
-// } else {
-//     btnBuyArr.forEach(function (btn) {
-//         btn.addEventListener("click", function () {
-//             mostrarModal(modalBackBuy, modalBuy, 1);
-//         });
-//     });
-// }
-
 document.addEventListener("click", (e) => {
     switch (e.target) {
         case modalBackBuy:

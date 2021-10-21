@@ -22,32 +22,14 @@ function filtrarOrdenes(fil) {
                 for (var cnbtn = 0; cnbtn < btnCancelOrder.length; cnbtn++) {
                     btnCancelOrder[cnbtn].parentElement.style.display = "table-cell";
                 }
-<<<<<<< HEAD
 
                 for (var col = 0; col < deleteColumn.length; col++) {
                     deleteColumn[col].style.display = "table-cell";
                 }
-=======
-                // btnCancelOrder.forEach(function (btn) {
-                //     btn.parentElement.style.display = "table-cell";
-                // });
-                for (var col = 0; col < deleteColumn.length; col++) {
-                    deleteColumn[col].style.display = "table-cell";
-                }
-                // deleteColumn.forEach(function (col) {
-                //     col.style.display = "table-cell";
-                // });
->>>>>>> 5743a938e645e25f89f029a3109f695651955442
             } else {
                 for (var cnbtn = 0; cnbtn < btnCancelOrder.length; cnbtn++) {
                     btnCancelOrder[cnbtn].parentElement.style.display = "block";
                 }
-<<<<<<< HEAD
-=======
-                // btnCancelOrder.forEach(function (btn) {
-                //     btn.parentElement.style.display = "block";
-                // });
->>>>>>> 5743a938e645e25f89f029a3109f695651955442
             }
             if (ord.getAttribute("data-state") === "pendient") {
                 if (!mediaQuery.matches) ord.parentElement.parentElement.style.display = "block";
@@ -59,23 +41,11 @@ function filtrarOrdenes(fil) {
             for (var cnbtn = 0; cnbtn < btnCancelOrder.length; cnbtn++) {
                 btnCancelOrder[cnbtn].parentElement.style.display = "none";
             }
-<<<<<<< HEAD
 
             for (var col = 0; col < deleteColumn.length; col++) {
                 deleteColumn[col].style.display = "none";
             }
 
-=======
-            // btnCancelOrder.forEach(function (btn) {
-            //     btn.parentElement.style.display = "none";
-            // });
-            for (var col = 0; col < deleteColumn.length; col++) {
-                deleteColumn[col].style.display = "none";
-            }
-            // deleteColumn.forEach(function (col) {
-            //     col.style.display = "none";
-            // });
->>>>>>> 5743a938e645e25f89f029a3109f695651955442
             if (fil.getAttribute("data-state") === ord.getAttribute("data-state")) {
                 if (!mediaQuery.matches) ord.parentElement.parentElement.style.display = "block";
                 else ord.parentElement.parentElement.style.display = "table-row";
@@ -84,46 +54,6 @@ function filtrarOrdenes(fil) {
             }
         }
     }
-<<<<<<< HEAD
-=======
-
-    // orderStates.forEach(function (ord) {
-    //     if (fil.getAttribute("data-state") === "pendient") {
-    //         if (mediaQuery.matches) {
-    //             btnCancelOrder.forEach(function (btn) {
-    //                 btn.parentElement.style.display = "table-cell";
-    //             });
-
-    //             deleteColumn.forEach(function (col) {
-    //                 col.style.display = "table-cell";
-    //             });
-    //         } else {
-    //             btnCancelOrder.forEach(function (btn) {
-    //                 btn.parentElement.style.display = "block";
-    //             });
-    //         }
-    //         if (ord.getAttribute("data-state") === "pendient") {
-    //             if (!mediaQuery.matches) ord.parentElement.parentElement.style.display = "block";
-    //             else ord.parentElement.parentElement.style.display = "table-row";
-    //         } else {
-    //             ord.parentElement.parentElement.style.display = "none";
-    //         }
-    //     } else {
-    //         btnCancelOrder.forEach(function (btn) {
-    //             btn.parentElement.style.display = "none";
-    //         });
-    //         deleteColumn.forEach(function (col) {
-    //             col.style.display = "none";
-    //         });
-    //         if (fil.getAttribute("data-state") === ord.getAttribute("data-state")) {
-    //             if (!mediaQuery.matches) ord.parentElement.parentElement.style.display = "block";
-    //             else ord.parentElement.parentElement.style.display = "table-row";
-    //         } else {
-    //             ord.parentElement.parentElement.style.display = "none";
-    //         }
-    //     }
-    // });
->>>>>>> 5743a938e645e25f89f029a3109f695651955442
 }
 
 //Determinar si tienen mascotas o articulos en las ordenes
@@ -140,19 +70,6 @@ function checkTable(table, fil) {
             }
         }
     }
-<<<<<<< HEAD
-
-=======
-    // for (let ch of tableRows) {
-    //     console.log("pepe asdasd  asdasd {ch}", ch);
-    //     if (ch.hasAttribute) {
-    //         cont++;
-    //         if (ch.style.display != "none") {
-    //             flag = 1;
-    //         }
-    //     }
-    // }
->>>>>>> 5743a938e645e25f89f029a3109f695651955442
     if (!flag || !cont) {
         table.style.display = "none";
         if (table.parentElement.lastElementChild.nodeName === "SPAN") {
@@ -188,15 +105,6 @@ function changeFilter(f) {
         el.classList.remove("active");
     }
 
-<<<<<<< HEAD
-=======
-    // for (c of f.parentElement.childNodes) {
-    //     if (c.hasAttribute) {
-    //         if (!mediaQuery.matches && c.firstElementChild.tagName === "SPAN") c.firstElementChild.textContent = "";
-    //         c.classList.remove("active");
-    //     }
-    // }
->>>>>>> 5743a938e645e25f89f029a3109f695651955442
     f.classList.add("active");
     if (!mediaQuery.matches) {
         if (f.getAttribute("data-state") === "pendient") {
@@ -218,15 +126,6 @@ for (var f = 0; f < filtros.length; f++) {
         changeFilter(this);
     });
 }
-<<<<<<< HEAD
-=======
-
-// filtros.forEach(function (f) {
-//     f.addEventListener("click", function () {
-//         changeFilter(f);
-//     });
-// });
->>>>>>> 5743a938e645e25f89f029a3109f695651955442
 
 window.addEventListener("resize", function () {
     for (var f = 0; f < filtros.length; f++) {
@@ -235,14 +134,6 @@ window.addEventListener("resize", function () {
             filtrarOrdenes(fil);
         }
     }
-<<<<<<< HEAD
-=======
-    // filtros.forEach(function (f) {
-    //     if (f.classList.contains("active")) {
-    //         filtrarOrdenes(f);
-    //     }
-    // });
->>>>>>> 5743a938e645e25f89f029a3109f695651955442
 });
 
 /*Esto es para que salgan las pendientes en 1ra instancia, yo lo hago asi para trabajar mas comodo
@@ -260,16 +151,6 @@ for (cobtn = 0; cobtn < btnCancelOrder.length; cobtn++) {
         orderBtnActive = this;
     });
 }
-<<<<<<< HEAD
-=======
-
-// btnCancelOrder.forEach(function (btn) {
-//     btn.addEventListener("click", function () {
-//         animarModalAlert();
-//         orderBtnActive = btn;
-//     });
-// });
->>>>>>> 5743a938e645e25f89f029a3109f695651955442
 
 var btnAcceptModal = document.querySelector(".btn-alert-confirm");
 
