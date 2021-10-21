@@ -17,7 +17,7 @@ document.addEventListener("click", function (e) {
         case modalCanceledBack:
             mostrarModal(modalCanceledBack, modalCanceled, 0);
             break;
-        case btnAcceptModalCanceled:
+        case btnCancelModal:
             mostrarModal(modalCanceledBack, modalCanceled, 0);
     }
 });
