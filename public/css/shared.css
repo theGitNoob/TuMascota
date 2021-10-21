@@ -556,6 +556,11 @@ a:focus,
     display: block;
     cursor: pointer;
     text-decoration: none;
+    font-size: 0.9rem;
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    margin-bottom: 0.3rem;
 }
 
 .account-submenu__element img {
@@ -570,17 +575,6 @@ a:focus,
     color: inherit;
     display: block;
     padding: 0.5rem 0.7rem;
-}
-
-.account-submenu__element {
-    margin-bottom: 0.3rem;
-}
-
-.account-submenu__element {
-    font-size: 0.9rem;
-    -webkit-transition: all 0.4s ease;
-    -o-transition: all 0.4s ease;
-    transition: all 0.4s ease;
 }
 
 .account-submenu__element:hover {

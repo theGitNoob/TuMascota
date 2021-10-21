@@ -10,7 +10,7 @@ const contactUs = document.querySelectorAll(".contact-us");
 const aboutUs = document.querySelectorAll(".about-us");
 
 function goTopScroll() {
-    let scrY = window.pageYOffset;
+    var scrY = window.pageYOffset;
     if (scrY > 200) {
         goTop.style.opacity = "1";
         goTop.style.visibility = "visible";
@@ -30,14 +30,15 @@ function makeRequest(requestType, url, userData) {
     return xhr;
 }
 
-// goTopScroll();
-window.addEventListener("scroll", () => {
+goTopScroll();
+
+window.addEventListener("scroll", function () {
     goTopScroll();
 });
 
 function mostrarModal(modalback, modal, state) {
     if (!state) {
-        /* esto es para que esperes un corto tiempo antes de poder quitar la modal, hay una excepcion en para el modal de 
+        /* esto es para que esperes un corto tiempo antes de poder quitar la modal, hay una excepcion en para el modal de
 		completado en modal-completed.js */
         setTimeout(function () {
             modal.classList.add("hide-modal");
@@ -50,7 +51,10 @@ function mostrarModal(modalback, modal, state) {
     } else if (state) {
         modalback.classList.add("show-modal-back");
         modal.classList.add("show-modal");
-        if (modalback.classList.contains("show-modal-back") && modal.classList.contains("show-modal")) {
+        if (
+            modalback.classList.contains("show-modal-back") &&
+            modal.classList.contains("show-modal")
+        ) {
             modalback.style.zIndex = "9";
             modal.style.zIndex = "9";
         } else {
@@ -60,26 +64,27 @@ function mostrarModal(modalback, modal, state) {
     }
 }
 
-/*Mostrar las modal de contacto y acerca de, funciona tanto desde el menu como desde el footer*/
-contactUs.forEach(function (btn) {
-    btn.addEventListener("click", function () {
+// /*Mostrar las modal de contacto y acerca de, funciona tanto desde el menu como desde el footer*/
+
+for (var btn = 0; btn < contactUs.length; btn++) {
+    contactUs[btn].addEventListener("click", function () {
         mostrarModal(modalBackContact, modalContact, 1);
     });
-});
+}
 
-aboutUs.forEach(function (btn) {
-    btn.addEventListener("click", function () {
+for (var btn = 0; btn < aboutUs.length; btn++) {
+    aboutUs[btn].addEventListener("click", function () {
         mostrarModal(modalBackAbout, modalAbout, 1);
     });
-});
-
-closeModal.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-        let backModal = btn.parentElement.parentElement.parentElement;
-        let modal = btn.parentElement.parentElement;
+}
+for (var btn = 0; btn < closeModal.length; btn++) {
+    var el = closeModal[btn];
+    el.addEventListener("click", function () {
+        const backModal = this.parentElement.parentElement.parentElement;
+        const modal = this.parentElement.parentElement;
         mostrarModal(backModal, modal, 0);
     });
-});
+}
 
 document.addEventListener("click", function (e) {
     switch (e.target) {

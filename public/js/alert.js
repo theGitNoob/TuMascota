@@ -7,7 +7,7 @@ function addAlert(state, textArray) {
     // console.log(textArray);
     /* */
     alertNodeContainer.innerHTML = "";
-    for (let i = 0; i < textArray.length; i++) {
+    for (var i = 0; i < textArray.length; i++) {
         const alertNode = document.createElement("div");
         alertNode.classList.add("alert-message");
         alertNode.innerHTML =
@@ -18,7 +18,9 @@ function addAlert(state, textArray) {
     const alertMessageImg = document.querySelectorAll(".alert-message__icon");
     const alertClose = document.querySelectorAll(".alert-message__close");
     const alertText = document.querySelectorAll(".alert-message__text p");
-    const alertStrong = document.querySelectorAll(".alert-message__text strong");
+    const alertStrong = document.querySelectorAll(
+        ".alert-message__text strong"
+    );
 
     function setAlertStyle(alert, cont) {
         if (alert.getAttribute("data-alert-state") === "success") {
