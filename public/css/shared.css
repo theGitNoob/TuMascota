@@ -720,9 +720,9 @@ a:focus,
     width: 18.2rem;
     height: 100%;
 }
-/* .nav-menu__inner-container::-webkit-scrollbar {
+.nav-menu__inner-container::-webkit-scrollbar {
     display: none;
-} */
+}
 
 .show-menu {
     -webkit-transform: translate(0);

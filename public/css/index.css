@@ -4,7 +4,7 @@
 }
 .home-title {
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: #f26422;
 }
 
@@ -53,6 +53,7 @@
     transition: all 0.4s ease;
     margin: 1.2rem;
     opacity: 0;
+    max-width: 25rem;
 }
 
 .gallery__picture--active {
@@ -315,6 +316,18 @@
     -ms-transform: scale(1.1);
     -o-transform: scale(1.1);
     transform: scale(1.1);
+}
+
+@media (min-width: 28rem), (min-width: 448px) {
+    .home-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 38rem), (min-width: 640px) {
+    .home-gallery__picture {
+        max-width: none;
+    }
 }
 
 @media (min-width: 46rem), (min-width: 736px) {

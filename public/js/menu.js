@@ -5,9 +5,7 @@ const subMenuPet = document.querySelector("#pet-submenu");
 const subMenuServices = document.querySelector("#services-menu");
 const submenuIcon = document.querySelectorAll(".show-submenu-img");
 const submenu = document.querySelectorAll(".submenu");
-const containerHeaderLogin = document.querySelectorAll(
-    ".main-header__container-login"
-);
+const containerHeaderLogin = document.querySelectorAll(".main-header__container-login");
 
 menuIcon.addEventListener("click", mostrarMenu);
 // /*Mostrar el NavMenu*/
@@ -55,8 +53,8 @@ document.addEventListener("click", function (e) {
     if (
         e.target != submenuIcon[0] &&
         e.target != subMenuPet &&
-        e.target != subMenuPet.childNodes[1] &&
-        e.target != subMenuPet.childNodes[3]
+        e.target != subMenuPet.children[0] &&
+        e.target != subMenuPet.children[1]
     ) {
         if (submenu[0].classList.contains("show-submenu")) {
             mostrarSubMenuPet();
@@ -65,8 +63,8 @@ document.addEventListener("click", function (e) {
     if (
         e.target != submenuIcon[1] &&
         e.target != subMenuServices &&
-        e.target != subMenuServices.childNodes[1] &&
-        e.target != subMenuServices.childNodes[3]
+        e.target != subMenuServices.children[0] &&
+        e.target != subMenuServices.children[1]
     ) {
         if (submenu[1].classList.contains("show-submenu")) {
             mostrarSubMenuServices();
@@ -75,6 +73,7 @@ document.addEventListener("click", function (e) {
 });
 
 window.addEventListener("click", function (e) {
+    console.log(e.target);
     if (
         e.target != navMenu &&
         e.target != menuIcon &&
@@ -82,10 +81,10 @@ window.addEventListener("click", function (e) {
         e.target != submenuIcon[1] &&
         e.target != subMenuPet &&
         e.target != subMenuServices &&
-        e.target != subMenuPet.childNodes[1] &&
-        e.target != subMenuPet.childNodes[3] &&
-        e.target != subMenuServices.childNodes[1] &&
-        e.target != subMenuServices.childNodes[3] &&
+        e.target != subMenuPet.children[0] &&
+        e.target != subMenuPet.children[1] &&
+        e.target != subMenuServices.children[0] &&
+        e.target != subMenuServices.children[3] &&
         e.target != submenu[0].childNodes &&
         e.target != submenu[1] &&
         e.target != navMenu.firstElementChild.firstElementChild &&
