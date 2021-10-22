@@ -90,6 +90,14 @@
     color: white;
 }
 
+.login-section__container h4 {
+    /* text-align: left; */
+    font-size: 1.1rem;
+    color: #4c4c4c;
+    text-align: center;
+    font-weight: 600;
+}
+
 .login-section__container > p {
     text-align: center;
     padding: 0.3rem 1rem;
@@ -150,6 +158,8 @@
     text-align: left;
     display: block;
     margin: 0.5rem 0 0 2.3rem;
+    animation: bounce-error 0.5s ease-in-out alternate 2;
+    transform-origin: 50% 50%;
 }
 .input-error img {
     width: 1.3rem;
@@ -161,6 +171,41 @@
     font-weight: 600;
     font-style: oblique;
     font-size: 0.8rem;
+}
+
+@keyframes bounce-error {
+    0%,
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    50% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+}
+@-webkit-keyframes bounce-error {
+    0%,
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    50% {
+        -webkit-transform: scale(1.1);
+
+        transform: scale(1.1);
+    }
+}
+@-o-keyframes bounce-error {
+    0%,
+    100% {
+        -o-transform: scale(1);
+        transform: scale(1);
+    }
+    50% {
+        -o-transform: scale(1.1);
+        transform: scale(1.1);
+    }
 }
 
 .show-password {

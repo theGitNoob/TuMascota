@@ -99,8 +99,8 @@ function checkTable(table, fil) {
 }
 
 function changeFilter(f) {
-    for (var c = 0; c < f.parentElement.children.length; c++) {
-        var el = f.parentElement.children[c];
+    for (var cont = 0; cont < f.parentElement.children.length; cont++) {
+        var el = f.parentElement.children[cont];
         if (!mediaQuery.matches && el.firstElementChild.tagName === "SPAN") el.firstElementChild.textContent = "";
         el.classList.remove("active");
     }
@@ -113,6 +113,17 @@ function changeFilter(f) {
             f.firstElementChild.textContent = "Aprobadas";
         } else if (f.getAttribute("data-state") === "completed") {
             f.firstElementChild.textContent = "Completadas";
+        }
+    } else {
+        for (var cont = 0; cont < f.parentElement.children.length; cont++) {
+            var el = f.parentElement.children[cont];
+            if (el.getAttribute("data-state") === "pendient") {
+                el.firstElementChild.textContent = "Pendientes";
+            } else if (el.getAttribute("data-state") === "aproved") {
+                el.firstElementChild.textContent = "Aprobadas";
+            } else if (el.getAttribute("data-state") === "completed") {
+                el.firstElementChild.textContent = "Completadas";
+            }
         }
     }
     filtrarOrdenes(f);
@@ -131,7 +142,8 @@ window.addEventListener("resize", function () {
     for (var f = 0; f < filtros.length; f++) {
         var fil = filtros[f];
         if (fil.classList.contains("active")) {
-            filtrarOrdenes(fil);
+            console.log("entro");
+            changeFilter(fil);
         }
     }
 });

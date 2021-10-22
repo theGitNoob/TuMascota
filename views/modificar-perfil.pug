@@ -14,6 +14,7 @@ block contenido
         .logo-user
           img(src='/public/img/login/user.webp' alt)
         img.login-section__logo(src='/public/img/res/Logo.webp' alt)
+        h4.user-title Hola! #{user.username}
         p.
 
           Usaremos los datos introducidos aquí para ponernos en contacto con usted.
@@ -47,13 +48,6 @@ block contenido
             |
             input#address(name='address' value=user.address required)
             label.placeholder(for='address') Dirección
-          .form-container
-            label.form-container__img(for='username')
-              img(src='/public/img/login/user-input.webp' alt)
-            |
-            |
-            input#username(type='text' name='username' value=user.username required)
-            label.placeholder(for='username') Nombre de Usuario
           .form-container
             label.form-container__img(for='password')
               img(src='/public/img/login/password.webp' alt)

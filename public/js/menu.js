@@ -73,7 +73,6 @@ document.addEventListener("click", function (e) {
 });
 
 window.addEventListener("click", function (e) {
-    console.log(e.target);
     if (
         e.target != navMenu &&
         e.target != menuIcon &&
@@ -84,7 +83,7 @@ window.addEventListener("click", function (e) {
         e.target != subMenuPet.children[0] &&
         e.target != subMenuPet.children[1] &&
         e.target != subMenuServices.children[0] &&
-        e.target != subMenuServices.children[3] &&
+        e.target != subMenuServices.children[1] &&
         e.target != submenu[0].childNodes &&
         e.target != submenu[1] &&
         e.target != navMenu.firstElementChild.firstElementChild &&

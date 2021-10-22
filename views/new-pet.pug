@@ -10,7 +10,7 @@ block contenido
       | Seleccionar Fotos
     section.gallery-section
       article.gallery
-        span(style = 'font-weight: 600;color: #4c4c4c;') No ha seleccionado ninguna foto
+        span.no-picture-selected No ha seleccionado ninguna foto
       .gallery-move 
         button.btn.btn-prev(type="submit")
           img(src="/public/img/admin/atras.webp" alt="") 
@@ -40,7 +40,7 @@ block contenido
         .form-input-container
           input.form-input(type="text" name="cnt" placeholder="Cantidad" required)
         .form-input-container
-          input.form-input(type="datetime-local" name="birthDay" placeholder="Año-Mes-Dia")
+          input.form-input(type="text" name="birthDay" placeholder="Año-Mes-Dia")
         .form-input-container
           input.form-input(type="text" name="description" placeholder="Descripción")
         .form-input-container
@@ -59,200 +59,6 @@ block contenido
           a.btn.btn-cancel(href="/admin/mascotas") Cancelar
   script(src="/public/js/admin-article.js")
   script(src="/public/js/admin-new-article.js")
-    //- let opts = document.querySelector("#options"),
-    //-   input = document.querySelector("#animal-type");
-    //- const inputFile = document.querySelector("#file-selector"),
-    //- formCreatePet = document.querySelector("#create-pet"),
-    //- inputsData = document.querySelectorAll(".form-input"),
-    //- btnAddPhoto = document.querySelector("btn-add-photo"),
-    //- filesSelected = document.querySelector(".file-selected"),
-    //- gallery = document.querySelector(".gallery"),
-    //- btnPrevImage = document.querySelector(".btn-prev"),
-    //- btnNextImage = document.querySelector(".btn-next");
-
-
-    //- const allinputs = {
-    //-   type: inputsData[0],
-    //-   breed: inputsData[2],
-    //-   sex: inputsData[3],
-    //-   price: inputsData[4],
-    //-   cnt: inputsData[5],
-    //-   birthDay: inputsData[6],
-    //-   description: inputsData[7],
-    //-   ownerName: inputsData[8],
-    //-   ownerPhone: inputsData[9],
-    //-   ownerAccount: inputsData[10],
-    //- };
-
-    //- function cleanInputs() {
-    //-   const inputKeys = Object.values(allinputs);
-    //-   inputKeys.forEach(function (el) {
-    //-     if (el) {
-    //-       console.log(el.parentElement, el);
-    //-       elParent = el.parentElement;
-    //-       if (elParent.lastElementChild.classList.contains("input-error")) {
-    //-         elParent.lastElementChild.remove();
-    //-       }
-    //-     }
-    //-   });
-    //- }
-
-    //- function showErrorsForm(errors) {
-    //-   function addFormError(id, msg) {
-    //-     const node = document.createElement("div");
-    //-     node.classList.add("input-error");
-    //-     node.innerHTML =
-    //-       " <img src='/public/img/login/error-formulario.webp' alt='' /><span class='input-error__text'>" +
-    //-       msg +
-    //-       " </span> ";
-
-
-    //-     if (allinputs[id]) {
-    //-       const inputParent = allinputs[id].parentElement;
-    //-       inputParent.appendChild(node);
-    //-     }
-    //-   }
-    //-   cleanInputs();
-
-    //-   for (er of errors) {
-    //-     addFormError(er.field, er.msg);
-    //-   }
-    //- }
-
-    //- function handleForm(){
-    //-   const formData = new FormData();
-    //-   for(let img of inputFile.files){
-    //-     formData.append("images",img);
-    //-   }
-    //-   inputsData.forEach((el)=>{
-    //-     if(el.name != "images")
-    //-     {
-    //-       formData.append(el.name, el.value);
-    //-     }
-    //-   });
-    //-   const url = `/admin/mascotas/`;
-    //-   fetch(url,{
-    //-     method: "POST",
-    //-     body: formData,
-    //-   }).then(result => {
-    //-     if(result.ok)
-    //-     window.location = "/admin/mascotas";
-    //-     return result.json()
-    //-   } 
-    //-   ).then((data)=> {
-    //-   showErrorsForm(data);
-    //-   console.log(data)
-    //-   })      
-
-    //- } 
-
-    //- formCreatePet.addEventListener("submit", (e)=>{
-    //-   e.preventDefault();
-    //-   if(gallery.firstElementChild.tagName !== "SPAN")
-    //-     handleForm();
-    //- });
-    //- //Galeria de imagenes
-    //- let idxGallery = 0;
-    //- function moveGallery(dir) {
-    //-   if (!dir) {
-    //-     let flag = 0;
-    //-     for (idxGallery; idxGallery >= -1; idxGallery--) {
-    //-       let node = gallery.children[idxGallery];
-    //-       if (flag) {
-    //-         if (idxGallery === -1) {
-    //-           node = gallery.children[gallery.childElementCount - 1];
-    //-           idxGallery = gallery.childElementCount - 1;
-    //-         }
-    //-         node.classList.add("picture-show");
-    //-         flag = 0;
-    //-         break;
-    //-       }
-    //-       if (node.classList.contains("picture-show")) {
-    //-         node.classList.remove("picture-show");
-    //-         flag = 1;
-    //-       }
-    //-     }
-    //-   } else {
-    //-     let flag = 0;
-    //-     for (idxGallery; idxGallery <= gallery.children.length; idxGallery++) {
-    //-       let node = gallery.children[idxGallery];
-    //-       if (flag) {
-    //-         if (idxGallery === gallery.children.length) {
-    //-           node = gallery.children[0];
-    //-           idxGallery = 0;
-    //-         }
-    //-         node.classList.add("picture-show");
-    //-         flag = 0;
-    //-         break;
-    //-       }
-    //-       if (node.classList.contains("picture-show")) {
-    //-         node.classList.remove("picture-show");
-    //-         flag = 1;
-    //-       }
-    //-     }
-    //-   }
-    //- }
-
-
-
-    //- btnPrevImage.addEventListener("click", function () {
-    //-   moveGallery(0);
-    //- });
-    //- btnNextImage.addEventListener("click", function () {
-    //-   moveGallery(1);
-    //- });
-
-    //- inputFile.addEventListener("change", function () {
-    //-   let currentFiles = inputFile.files;
-    //-   if ( currentFiles.length === 0 && gallery.childElementCount === 0) {
-    //-     gallery.innerHTML ="<span style = 'font-weight: 600;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
-    //-   } else {
-    //-     if (
-    //-       !gallery.childElementCount ||
-    //-       (currentFiles.length && !gallery.children[0] != "span")
-    //-     ) {
-    //-       gallery.innerHTML = "";
-    //-     }
-    //-     //muestro los botones si hay elementos
-    //-     if(currentFiles.length){
-    //-       btnPrevImage.parentElement.style.display = "block";
-    //-     }
-    //-     let flag = 0;
-    //-     for (let file of currentFiles) {
-    //-       let reader = new FileReader();
-
-    //-       reader.addEventListener("load", function (e) {
-    //-         const node = document.createElement("div");
-    //-         node.classList.add("picture");
-    //-         node.innerHTML = `<img src=${reader.result} alt=''>`;
-    //-         if (!flag) {
-    //-           node.classList.add("picture-show");
-    //-           idxGallery = 0;
-    //-           flag = 1;
-    //-         }
-    //-         gallery.appendChild(node);
-    //-         //- handleDelete(node);
-    //-       });
-    //-       reader.readAsDataURL(file);
-    //-     }
-    //-   }
-    //- });
-
-    //- opts.addEventListener("click", (e) => {
-    //-   if (e.target.value == "otro") {
-    //-     //- e.target.style = 'display:none';
-    //-     input.style = "";
-    //-     input.setAttribute("name", "type");
-    //-     opts.removeAttribute("name");
-    //-   } else {
-    //-     opts.setAttribute("name", "type");
-    //-     input.removeAttribute("name");
-    //-     input.style = "display:none";
-    //-   }
-    //- });
-
-
-
 
 
 

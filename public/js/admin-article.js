@@ -134,7 +134,7 @@ btnNextImage.addEventListener("click", function () {
 inputFile.addEventListener("change", function () {
     let currentFiles = inputFile.files;
     if (currentFiles.length === 0 && gallery.childElementCount === 0) {
-        gallery.innerHTML = "<span style = 'font-weight: 600;color: #4c4c4c;'>No ha seleccionado ninguna foto </span>";
+        gallery.innerHTML = "<span class = 'no-picture-selected'>No ha seleccionado ninguna foto </span>";
     } else {
         if (!gallery.childElementCount || (currentFiles.length && !gallery.children[0] != "span")) {
             gallery.innerHTML = "";
