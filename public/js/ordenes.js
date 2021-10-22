@@ -22,22 +22,14 @@ function filtrarOrdenes(fil) {
                 for (var cnbtn = 0; cnbtn < btnCancelOrder.length; cnbtn++) {
                     btnCancelOrder[cnbtn].parentElement.style.display = "table-cell";
                 }
-                // btnCancelOrder.forEach(function (btn) {
-                //     btn.parentElement.style.display = "table-cell";
-                // });
+
                 for (var col = 0; col < deleteColumn.length; col++) {
                     deleteColumn[col].style.display = "table-cell";
                 }
-                // deleteColumn.forEach(function (col) {
-                //     col.style.display = "table-cell";
-                // });
             } else {
                 for (var cnbtn = 0; cnbtn < btnCancelOrder.length; cnbtn++) {
                     btnCancelOrder[cnbtn].parentElement.style.display = "block";
                 }
-                // btnCancelOrder.forEach(function (btn) {
-                //     btn.parentElement.style.display = "block";
-                // });
             }
             if (ord.getAttribute("data-state") === "pendient") {
                 if (!mediaQuery.matches) ord.parentElement.parentElement.style.display = "block";
@@ -49,15 +41,11 @@ function filtrarOrdenes(fil) {
             for (var cnbtn = 0; cnbtn < btnCancelOrder.length; cnbtn++) {
                 btnCancelOrder[cnbtn].parentElement.style.display = "none";
             }
-            // btnCancelOrder.forEach(function (btn) {
-            //     btn.parentElement.style.display = "none";
-            // });
+
             for (var col = 0; col < deleteColumn.length; col++) {
                 deleteColumn[col].style.display = "none";
             }
-            // deleteColumn.forEach(function (col) {
-            //     col.style.display = "none";
-            // });
+
             if (fil.getAttribute("data-state") === ord.getAttribute("data-state")) {
                 if (!mediaQuery.matches) ord.parentElement.parentElement.style.display = "block";
                 else ord.parentElement.parentElement.style.display = "table-row";
@@ -66,43 +54,6 @@ function filtrarOrdenes(fil) {
             }
         }
     }
-
-    // orderStates.forEach(function (ord) {
-    //     if (fil.getAttribute("data-state") === "pendient") {
-    //         if (mediaQuery.matches) {
-    //             btnCancelOrder.forEach(function (btn) {
-    //                 btn.parentElement.style.display = "table-cell";
-    //             });
-
-    //             deleteColumn.forEach(function (col) {
-    //                 col.style.display = "table-cell";
-    //             });
-    //         } else {
-    //             btnCancelOrder.forEach(function (btn) {
-    //                 btn.parentElement.style.display = "block";
-    //             });
-    //         }
-    //         if (ord.getAttribute("data-state") === "pendient") {
-    //             if (!mediaQuery.matches) ord.parentElement.parentElement.style.display = "block";
-    //             else ord.parentElement.parentElement.style.display = "table-row";
-    //         } else {
-    //             ord.parentElement.parentElement.style.display = "none";
-    //         }
-    //     } else {
-    //         btnCancelOrder.forEach(function (btn) {
-    //             btn.parentElement.style.display = "none";
-    //         });
-    //         deleteColumn.forEach(function (col) {
-    //             col.style.display = "none";
-    //         });
-    //         if (fil.getAttribute("data-state") === ord.getAttribute("data-state")) {
-    //             if (!mediaQuery.matches) ord.parentElement.parentElement.style.display = "block";
-    //             else ord.parentElement.parentElement.style.display = "table-row";
-    //         } else {
-    //             ord.parentElement.parentElement.style.display = "none";
-    //         }
-    //     }
-    // });
 }
 
 //Determinar si tienen mascotas o articulos en las ordenes
@@ -119,21 +70,12 @@ function checkTable(table, fil) {
             }
         }
     }
-    // for (let ch of tableRows) {
-    //     console.log("pepe asdasd  asdasd {ch}", ch);
-    //     if (ch.hasAttribute) {
-    //         cont++;
-    //         if (ch.style.display != "none") {
-    //             flag = 1;
-    //         }
-    //     }
-    // }
     if (!flag || !cont) {
         table.style.display = "none";
         if (table.parentElement.lastElementChild.nodeName === "SPAN") {
             table.parentElement.lastElementChild.remove();
         }
-        let node = document.createElement("span");
+        var node = document.createElement("span");
         node.classList.add("no-orders");
         node.innerHTML =
             "Usted no tiene ordenes " +
@@ -163,12 +105,6 @@ function changeFilter(f) {
         el.classList.remove("active");
     }
 
-    // for (c of f.parentElement.childNodes) {
-    //     if (c.hasAttribute) {
-    //         if (!mediaQuery.matches && c.firstElementChild.tagName === "SPAN") c.firstElementChild.textContent = "";
-    //         c.classList.remove("active");
-    //     }
-    // }
     f.classList.add("active");
     if (!mediaQuery.matches) {
         if (f.getAttribute("data-state") === "pendient") {
@@ -191,12 +127,6 @@ for (var f = 0; f < filtros.length; f++) {
     });
 }
 
-// filtros.forEach(function (f) {
-//     f.addEventListener("click", function () {
-//         changeFilter(f);
-//     });
-// });
-
 window.addEventListener("resize", function () {
     for (var f = 0; f < filtros.length; f++) {
         var fil = filtros[f];
@@ -204,11 +134,6 @@ window.addEventListener("resize", function () {
             filtrarOrdenes(fil);
         }
     }
-    // filtros.forEach(function (f) {
-    //     if (f.classList.contains("active")) {
-    //         filtrarOrdenes(f);
-    //     }
-    // });
 });
 
 /*Esto es para que salgan las pendientes en 1ra instancia, yo lo hago asi para trabajar mas comodo
@@ -227,18 +152,11 @@ for (cobtn = 0; cobtn < btnCancelOrder.length; cobtn++) {
     });
 }
 
-// btnCancelOrder.forEach(function (btn) {
-//     btn.addEventListener("click", function () {
-//         animarModalAlert();
-//         orderBtnActive = btn;
-//     });
-// });
-
 var btnAcceptModal = document.querySelector(".btn-alert-confirm");
 
 function removeOrderCheck() {
     //Con esto voy hasta el padre del boton que le di click, para saber a q orden me refiero
-    let orderId = orderBtnActive;
+    var orderId = orderBtnActive;
     while (orderId.getAttribute("class") !== "order-section__cell") {
         orderId = orderId.parentElement;
     }

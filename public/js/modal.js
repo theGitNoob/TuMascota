@@ -7,29 +7,30 @@ const modalBuyThis = modalBackBuyThis.firstElementChild;
 const acceptBtnBuy = document.querySelector("#accept-btn-buy");
 const cancelBtnBuy = document.querySelector("#cancel-btn-buy");
 
-let modalBackBuyThisCnt = modalBackBuyThis.querySelector(".spin-box-buy");
+var modalBackBuyThisCnt = modalBackBuyThis.querySelector(".spin-box-buy");
 const plusBtn = document.querySelector(".plus-btn");
 const lessBtn = document.querySelector(".less-btn");
 
-let action = "";
+var action = "";
 
 modalBackBuyThisCnt.addEventListener("change", () => {
-    let parseValue = parseInt(modalBackBuyThisCnt.value);
-    let parseValueMax = parseInt(modalBackBuyThisCnt.getAttribute("max"));
+    var parseValue = parseInt(modalBackBuyThisCnt.value);
+    var parseValueMax = parseInt(modalBackBuyThisCnt.getAttribute("max"));
     if (parseValue >= parseValueMax) {
         modalBackBuyThisCnt.value = modalBackBuyThisCnt.max;
     }
 });
 
 plusBtn.addEventListener("click", () => {
-    let parseValue = parseInt(modalBackBuyThisCnt.value);
-    let parseValueMax = parseInt(modalBackBuyThisCnt.getAttribute("max"));
+    var parseValue = parseInt(modalBackBuyThisCnt.value);
+    var parseValueMax = parseInt(modalBackBuyThisCnt.getAttribute("max"));
 
-    if (parseValue + 1 <= parseValueMax) modalBackBuyThisCnt.value = parseInt(modalBackBuyThisCnt.value) + 1;
+    if (parseValue + 1 <= parseValueMax)
+        modalBackBuyThisCnt.value = parseInt(modalBackBuyThisCnt.value) + 1;
 });
 
 lessBtn.addEventListener("click", () => {
-    let parseValue = parseInt(modalBackBuyThisCnt.value);
+    var parseValue = parseInt(modalBackBuyThisCnt.value);
 
     if (parseValue > 1) {
         modalBackBuyThisCnt.value = parseInt(modalBackBuyThisCnt.value) - 1;
@@ -38,11 +39,11 @@ lessBtn.addEventListener("click", () => {
 acceptBtnBuy.addEventListener("click", (e) => {
     e.preventDefault();
 
-    let buyForm = document.getElementById("buy-form");
-    let node = buyForm.querySelector("input");
-    let data = node.name + "=" + node.value;
+    var buyForm = document.getElementById("buy-form");
+    var node = buyForm.querySelector("input");
+    var data = node.name + "=" + node.value;
 
-    let req = new XMLHttpRequest();
+    var req = new XMLHttpRequest();
 
     req.open("POST", action);
     req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -50,8 +51,8 @@ acceptBtnBuy.addEventListener("click", (e) => {
     req.onload = () => {
         console.log(req.status);
         if (req.status == 200) {
-            let orders = document.querySelector(".login-count-msj.orders-msj");
-            let orderCnt = Number(orders.textContent);
+            var orders = document.querySelector(".login-count-msj.orders-msj");
+            var orderCnt = Number(orders.textContent);
             orderCnt++;
             orders.textContent = orderCnt.toString();
 
@@ -65,13 +66,16 @@ acceptBtnBuy.addEventListener("click", (e) => {
 
 btnBuyArr.forEach((btnBuy) => {
     btnBuy.addEventListener("click", (e) => {
-        let target = e.target;
-        let root = target.getAttribute("class") == "btn-buy" ? target : target.parentNode;
+        var target = e.target;
+        var root =
+            target.getAttribute("class") == "btn-buy"
+                ? target
+                : target.parentNode;
 
-        let cnt = root.firstElementChild.value;
+        var cnt = root.firstElementChild.value;
         modalBackBuyThisCnt.setAttribute("max", cnt);
 
-        let buyForm = document.getElementById("buy-form");
+        var buyForm = document.getElementById("buy-form");
         action = buyForm.action + root.firstElementChild.id;
 
         mostrarModal(modalBackBuyThis, modalBuyThis);

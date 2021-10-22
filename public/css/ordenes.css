@@ -52,8 +52,8 @@
     margin: 1.2rem 0.6rem 2.5rem 0.6rem;
 }
 .filter-order {
-    display: block;
-    width: 100%;
+    display: inline-block;
+    width: auto;
     margin: 0.6rem 0.3rem;
     padding: 0.6rem 0.9rem;
     -webkit-box-shadow: 2px 2px 4px #00000080;
@@ -249,13 +249,6 @@
 } */
 .no-orders > span[data-state="canceled"] {
     color: #ff5252;
-}
-
-@media (min-width: 27rem) {
-    .filter-order {
-        display: inline-block;
-        width: auto;
-    }
 }
 
 @media (min-width: 30rem) {

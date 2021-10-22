@@ -8,7 +8,7 @@ const modalBuy = modalBackBuy.firstElementChild;
 const acceptBtnBuy = document.querySelector("#accept-btn-buy");
 const cancelBtnBuy = document.querySelector("#cancel-btn-buy");
 
-let buyCnt = modalBackBuy.querySelector(".spin-box-buy");
+var buyCnt = modalBackBuy.querySelector(".spin-box-buy");
 const plusBtn = document.querySelector(".plus-btn");
 const lessBtn = document.querySelector(".less-btn");
 
@@ -19,22 +19,22 @@ const dataPetBreed = document.querySelectorAll(".article-info-title[data-pet-bre
 const maxCount = document.querySelector("#max-cnt");
 
 buyCnt.addEventListener("change", function () {
-    let parseValue = parseInt(buyCnt.value);
-    let parseValueMax = parseInt(buyCnt.getAttribute("max"));
+    var parseValue = parseInt(buyCnt.value);
+    var parseValueMax = parseInt(buyCnt.getAttribute("max"));
     if (parseValue >= parseValueMax) {
         buyCnt.value = buyCnt.max;
     }
 });
 
 plusBtn.addEventListener("click", function () {
-    let parseValue = parseInt(buyCnt.value);
-    let parseValueMax = parseInt(buyCnt.getAttribute("max"));
+    var parseValue = parseInt(buyCnt.value);
+    var parseValueMax = parseInt(buyCnt.getAttribute("max"));
 
     if (parseValue + 1 <= parseValueMax) buyCnt.value = parseInt(buyCnt.value) + 1;
 });
 
 lessBtn.addEventListener("click", function () {
-    let parseValue = parseInt(buyCnt.value);
+    var parseValue = parseInt(buyCnt.value);
 
     if (parseValue > 1) {
         buyCnt.value = parseInt(buyCnt.value) - 1;
@@ -49,7 +49,7 @@ function confirmBuyCheck(article) {
     };
     // console.log(articleData);
     const location = window.location.pathname;
-    let xhr;
+    var xhr;
     if (location === "/mascotas") xhr = makeRequest("POST", "/ordenes/mascotas", articleData);
     else if (location === "/accesorios") xhr = makeRequest("POST", "/ordenes/accesorios", articleData);
 
@@ -76,25 +76,32 @@ function confirmBuyCheck(article) {
     };
 }
 
-let btnBuyActive;
+var btnBuyActive;
 acceptBtnBuy.addEventListener("click", function (event) {
     event.preventDefault();
-    let currentArticle = btnBuyActive;
+    var currentArticle = btnBuyActive;
     while (!currentArticle.classList.contains("article-container")) {
         currentArticle = currentArticle.parentNode;
     }
     confirmBuyCheck(currentArticle);
 });
 
-btnBuyArr.forEach(function (btnBuy, ind) {
+for (var idx = 0; idx < btnBuyArr.length; idx++) {
+    var btnBuy = btnBuyArr[idx];
     btnBuy.addEventListener("click", function (e) {
-        btnBuyActive = btnBuy;
-        if (e.target.getAttribute("class") === "btn-buy") {
+        btnBuyActive = this;
+        if (e.target.classList.contains("btn-buy")) {
             buyCnt.setAttribute("max", e.target.firstElementChild.value);
             maxCount.innerText = " ( " + e.target.firstElementChild.value + " ) ";
         } else {
             buyCnt.setAttribute("max", e.target.parentNode.firstElementChild.value);
             maxCount.innerText = " ( " + e.target.parentNode.firstElementChild.value + " ) ";
+        }
+        var ind = 0;
+        for (var it = 0; it < btnBuyArr.length; it++) {
+            if (btnBuyArr[it] == this) {
+                ind = it;
+            }
         }
 
         modalArticleType.innerText = " un " + articlesNames[ind].innerText;
@@ -105,14 +112,7 @@ btnBuyArr.forEach(function (btnBuy, ind) {
         mostrarModal(modalBackBuy, modalBuy, 1);
         buyCnt.value = 1;
     });
-});
-// } else {
-//     btnBuyArr.forEach(function (btn) {
-//         btn.addEventListener("click", function () {
-//             mostrarModal(modalBackBuy, modalBuy, 1);
-//         });
-//     });
-// }
+}
 
 document.addEventListener("click", (e) => {
     switch (e.target) {

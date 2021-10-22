@@ -35,7 +35,7 @@ html(lang='es')
             |
             #bell-login.login-option.bell-login
               img(src='/public/img/res/bell.webp' alt)
-              span.login-count-msj.bell-msj=user.messages.length
+              span#bell-msj.login-count-msj.bell-msj=user.messages.length
             |
             |
           if !user
@@ -68,7 +68,7 @@ html(lang='es')
         article#bell-section.bell-section
           h4.bell-section___title
             | Nuevas Notificaciones 
-            span.bell-number=user.newMessages
+            span#bell-new-msj.bell-number=user.newMessages
           section.bell-submenu
             .bell-submenu__inner-container
               ul.bell-submenu__list

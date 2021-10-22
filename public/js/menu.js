@@ -10,23 +10,22 @@ const containerHeaderLogin = document.querySelectorAll(
 );
 
 menuIcon.addEventListener("click", mostrarMenu);
-
-/*Mostrar el NavMenu*/
+// /*Mostrar el NavMenu*/
 function mostrarMenu() {
     navMenu.classList.toggle("show-menu");
     menuIcon.classList.toggle("hide-menu-icon");
 
     if (navMenu.classList.contains("show-menu")) {
-        navMenuElements.forEach(function (el, cont) {
+        for (var cont = 0; cont < navMenuElements.length; cont++) {
+            const el = navMenuElements[cont];
             el.classList.add("anim-element-scale");
-            let calcDelay = 400 + cont * 60;
+            const calcDelay = 400 + cont * 60;
             el.style.animationDelay = calcDelay.toString() + "ms";
-            // console.log(el.style.animationDelay, cont);
-        });
+        }
     } else {
-        navMenuElements.forEach(function (el) {
-            el.classList.remove("anim-element-scale");
-        });
+        for (var cont = 0; cont < navMenuElements.length; cont++) {
+            navMenuElements[cont].classList.remove("anim-element-scale");
+        }
     }
 
     /*Esto esconde las opciones del header como notificaciones,
@@ -39,7 +38,7 @@ function mostrarMenu() {
         containerHeaderLogin[0].style.opacity = "1";
     }
 }
-/*Mostrar el SubMenu de Mascotas*/
+// /*Mostrar el SubMenu de Mascotas*/
 subMenuPet.addEventListener("click", mostrarSubMenuPet);
 function mostrarSubMenuPet() {
     submenu[0].classList.toggle("show-submenu");
@@ -52,7 +51,7 @@ function mostrarSubMenuServices() {
     submenuIcon[1].classList.toggle("rot-submenu-icon");
 }
 
-document.addEventListener("click", (e) => {
+document.addEventListener("click", function (e) {
     if (
         e.target != submenuIcon[0] &&
         e.target != subMenuPet &&
@@ -75,7 +74,7 @@ document.addEventListener("click", (e) => {
     }
 });
 
-window.addEventListener("click", (e) => {
+window.addEventListener("click", function (e) {
     if (
         e.target != navMenu &&
         e.target != menuIcon &&
