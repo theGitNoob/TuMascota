@@ -30,10 +30,15 @@
     padding: 0.3rem 0.5rem;
     color: #4c4c4c;
     vertical-align: middle;
-    transition: transform 0.3s ease;
+    -webkit-transition: transform 0.2s;
+    -o-transition: transform 0.2s;
+    transition: transform 0.2s;
 }
 
 .contact-btns a:hover {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
     transform: scale(1.1);
 }
 
@@ -56,8 +61,8 @@
     width: auto;
     margin: 0.6rem 0.3rem;
     padding: 0.6rem 0.9rem;
-    -webkit-box-shadow: 2px 2px 4px #00000080;
-    box-shadow: 2px 2px 4px #00000080;
+    -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.502);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.502);
     cursor: pointer;
     -webkit-transition: all 0.5s;
     -o-transition: all 0.5s;

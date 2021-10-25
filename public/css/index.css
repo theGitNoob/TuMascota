@@ -296,6 +296,22 @@
     margin: 0.4rem 0;
 }
 
+.home__contact-us-item a {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+    -webkit-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+.home__contact-us-item a:hover {
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    -o-transform: scale(1.05);
+    transform: scale(1.05);
+}
+
 .home__contact-us-item span {
     display: inline-block;
     vertical-align: middle;
