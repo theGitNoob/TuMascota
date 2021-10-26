@@ -10,7 +10,10 @@ html(lang="es")
   body
     if ruta != '/login' & ruta != '/new'
       header(class="main-header")
-        h1(class="") Seccion de administracion #{seccion}
+        .header-title
+          .logo 
+            img(src="/public/img/res/Logo.webp" alt="")
+          h1(class="") Seccion de administracion #{seccion}
         article.account-options
           .avatar-login
             img(src='/public/img/res/avatar.webp' alt)

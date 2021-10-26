@@ -609,7 +609,7 @@ a:focus,
 /*Cuando no estas Logueado*/
 
 .go-login {
-    width: 14.3rem;
+    width: auto;
     display: inline-block;
 }
 
@@ -617,6 +617,8 @@ a:focus,
     text-align: center;
     display: inline-block;
     padding: 0.2rem 0.5rem;
+    margin: 0 0.3rem;
+    border-radius: 12px;
     font-size: 0.9rem;
     color: white;
     vertical-align: sub;

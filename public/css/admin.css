@@ -54,18 +54,30 @@ a:focus,
     text-align: center;
 }
 
-.main-header h1 {
+.header-title {
     background-color: #007bff;
-    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.header-title img {
+    width: 12rem;
+    margin: 0.8rem;
+}
+
+.header-title h1 {
+    font-size: 1.3rem;
     color: white;
     font-weight: 600;
     padding: 1rem;
+    flex: 1;
 }
 
 .account-options {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.26);
     border-radius: 6px;
-    margin: 1rem 0.5rem;
+    margin: 1rem auto;
     padding: 0.4rem;
     display: flex;
     justify-content: space-between;
@@ -808,7 +820,7 @@ a:focus,
 
 /*FIN MODAL*/
 
-@media (min-width: 430px), (min-width: 26.8rem) {
+@media (min-width: 500px), (min-width: 31.5rem) {
     .account-options {
         max-width: 60rem;
         margin: 1rem auto;
