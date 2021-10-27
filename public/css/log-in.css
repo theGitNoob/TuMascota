@@ -158,12 +158,12 @@
     text-align: left;
     display: block;
     margin: 0.5rem 0 0 2.3rem;
-    animation: bounce-error 0.5s ease-in-out alternate 2;
     transform-origin: 50% 50%;
 }
 .input-error img {
     width: 1.3rem;
     vertical-align: sub;
+    animation: bounce-error 0.4s ease alternate 2;
 }
 .input-error__text {
     vertical-align: middle;
@@ -180,8 +180,8 @@
         transform: scale(1);
     }
     50% {
-        -webkit-transform: scale(1.1);
-        transform: scale(1.1);
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
     }
 }
 @-webkit-keyframes bounce-error {
@@ -191,9 +191,9 @@
         transform: scale(1);
     }
     50% {
-        -webkit-transform: scale(1.1);
+        -webkit-transform: scale(1.2);
 
-        transform: scale(1.1);
+        transform: scale(1.2);
     }
 }
 @-o-keyframes bounce-error {
@@ -203,8 +203,8 @@
         transform: scale(1);
     }
     50% {
-        -o-transform: scale(1.1);
-        transform: scale(1.1);
+        -o-transform: scale(1.2);
+        transform: scale(1.2);
     }
 }
 
