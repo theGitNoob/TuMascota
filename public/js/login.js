@@ -71,23 +71,21 @@ if (inputs) {
 if (showpassword) {
     for (var s = 0; s < showpassword.length; s++) {
         const sh = showpassword[s];
+        console.log(sh);
         sh.addEventListener("click", function () {
-            if (cont === 0) {
-                if (password[0].getAttribute("type") === "password") {
-                    password[0].setAttribute("type", "text");
-                    sh.firstElementChild.src = "/public/img/login/eye.webp";
-                } else if (password[0].getAttribute("type") === "text") {
-                    password[0].setAttribute("type", "password");
-                    sh.firstElementChild.src = "/public/img/login/show-eye.webp";
+            var val = 0;
+            for (var cont = 0; cont < showpassword.length; cont++) {
+                if (showpassword[cont] === this) {
+                    val = cont;
+                    break;
                 }
-            } else {
-                if (password[1].getAttribute("type") === "password") {
-                    password[1].setAttribute("type", "text");
-                    sh.firstElementChild.src = "/public/img/login/eye.webp";
-                } else if (password[1].getAttribute("type") === "text") {
-                    password[1].setAttribute("type", "password");
-                    sh.firstElementChild.src = "/public/img/login/show-eye.webp";
-                }
+            }
+            if (password[val].getAttribute("type") === "password") {
+                password[val].setAttribute("type", "text");
+                sh.firstElementChild.src = "/public/img/login/eye.webp";
+            } else if (password[val].getAttribute("type") === "text") {
+                password[val].setAttribute("type", "password");
+                sh.firstElementChild.src = "/public/img/login/show-eye.webp";
             }
         });
     }

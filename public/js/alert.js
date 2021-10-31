@@ -13,14 +13,13 @@ function addAlert(state, textArray) {
         alertNode.innerHTML =
             "<div class='alert-message__icon-container'><div class='alert-message__color'></div><img class='alert-message__icon' src='' alt='' /></div><div class='alert-message__text'><strong>Completado!</strong><p>Cuenta creada satisfactoriamente</p></div><div class='alert-message__close'><img src='/public/img/res/close.webp' alt='' /></div>";
         alertNodeContainer.appendChild(alertNode);
+        console.log(alertNode);
     }
     const alertMessage = document.querySelectorAll(".alert-message");
     const alertMessageImg = document.querySelectorAll(".alert-message__icon");
     const alertClose = document.querySelectorAll(".alert-message__close");
     const alertText = document.querySelectorAll(".alert-message__text p");
-    const alertStrong = document.querySelectorAll(
-        ".alert-message__text strong"
-    );
+    const alertStrong = document.querySelectorAll(".alert-message__text strong");
 
     function setAlertStyle(alert, cont) {
         if (alert.getAttribute("data-alert-state") === "success") {
@@ -37,22 +36,42 @@ function addAlert(state, textArray) {
         }
     }
     alertNodeContainer.style.display = "block";
-    alertMessage.forEach(function (msg, cont) {
+    for (var cont = 0; cont < alertMessage.length; cont++) {
+        const msg = alertMessage[cont];
         msg.setAttribute("data-alert-state", state);
         setAlertStyle(msg, cont);
-        alertText[cont].textContent = textArray[cont];
+        msg.textContent = textArray[cont];
         // console.log("asdasdadsa", textArray[cont]);
-        alertClose[cont].addEventListener("click", function () {
-            alertMessage[cont].classList.add("close-alert-message");
+        msg.addEventListener("click", function () {
+            for (var al = 0; al < alertMessage.length; al++) {
+                if (alertMessage[al] === this) break;
+            }
+            alertMessage[al].classList.add("close-alert-message");
             setTimeout(function () {
-                alertMessage[cont].style.display = "none";
-                alertNodeContainer.removeChild(alertMessage[cont]);
+                alertMessage[al].style.display = "none";
+                alertNodeContainer.removeChild(alertMessage[al]);
             }, 410);
         });
         setTimeout(function () {
             msg.classList.add("show-alert");
         }, 10);
-    });
+    }
+    // alertMessage.forEach(function (msg, cont) {
+    //     msg.setAttribute("data-alert-state", state);
+    //     setAlertStyle(msg, cont);
+    //     alertText[cont].textContent = textArray[cont];
+    //     // console.log("asdasdadsa", textArray[cont]);
+    //     alertClose[cont].addEventListener("click", function () {
+    //         alertMessage[cont].classList.add("close-alert-message");
+    //         setTimeout(function () {
+    //             alertMessage[cont].style.display = "none";
+    //             alertNodeContainer.removeChild(alertMessage[cont]);
+    //         }, 410);
+    //     });
+    //     setTimeout(function () {
+    //         msg.classList.add("show-alert");
+    //     }, 10);
+    // });
 
     // setTimeout(function () {
 
