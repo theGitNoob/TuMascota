@@ -20,14 +20,22 @@ if (inputs) {
     /*Esto es para cuando tienes guardadas las contraseñas, se mueva el placeholder automaticamente,
     no funciona en chrome pero si en firefox, aun no encuentro solucion*/
     setTimeout(function () {
-        inputs.forEach(function (inp) {
+        for (var i = 0; i < inputs.length; i++) {
+            const inp = inputs[i];
             if (inp.value != "") {
                 inp.nextElementSibling.classList.add("move-placeholder");
             }
-        });
+        }
+
+        // inputs.forEach(function (inp) {
+        //     if (inp.value != "") {
+        //         inp.nextElementSibling.classList.add("move-placeholder");
+        //     }
+        // });
     }, 10);
 
-    inputs.forEach(function (inp) {
+    for (var i = 0; i < inputs.length; i++) {
+        const inp = inputs[i];
         inp.addEventListener("change", function () {
             if (inp.value != "") {
                 inp.nextElementSibling.classList.add("move-placeholder");
@@ -41,33 +49,67 @@ if (inputs) {
                 inp.nextElementSibling.classList.remove("move-placeholder");
             }
         });
-    });
+    }
+
+    // inputs.forEach(function (inp) {
+    //     inp.addEventListener("change", function () {
+    //         if (inp.value != "") {
+    //             inp.nextElementSibling.classList.add("move-placeholder");
+    //         }
+    //     });
+    //     inp.addEventListener("focus", function () {
+    //         inp.nextElementSibling.classList.add("move-placeholder");
+    //     });
+    //     inp.addEventListener("blur", function () {
+    //         if (inp.value === "") {
+    //             inp.nextElementSibling.classList.remove("move-placeholder");
+    //         }
+    //     });
+    // });
 }
 
 if (showpassword) {
-    showpassword.forEach(function (sh, cont) {
+    for (var s = 0; s < showpassword.length; s++) {
+        const sh = showpassword[s];
+        console.log(sh);
         sh.addEventListener("click", function () {
-            if (cont === 0) {
-                if (password[0].getAttribute("type") === "password") {
-                    password[0].setAttribute("type", "text");
-                    sh.firstElementChild.src = "/public/img/login/eye.webp";
-                } else if (password[0].getAttribute("type") === "text") {
-                    password[0].setAttribute("type", "password");
-                    sh.firstElementChild.src =
-                        "/public/img/login/show-eye.webp";
-                }
-            } else {
-                if (password[1].getAttribute("type") === "password") {
-                    password[1].setAttribute("type", "text");
-                    sh.firstElementChild.src = "/public/img/login/eye.webp";
-                } else if (password[1].getAttribute("type") === "text") {
-                    password[1].setAttribute("type", "password");
-                    sh.firstElementChild.src =
-                        "/public/img/login/show-eye.webp";
+            var val = 0;
+            for (var cont = 0; cont < showpassword.length; cont++) {
+                if (showpassword[cont] === this) {
+                    val = cont;
+                    break;
                 }
             }
+            if (password[val].getAttribute("type") === "password") {
+                password[val].setAttribute("type", "text");
+                sh.firstElementChild.src = "/public/img/login/eye.webp";
+            } else if (password[val].getAttribute("type") === "text") {
+                password[val].setAttribute("type", "password");
+                sh.firstElementChild.src = "/public/img/login/show-eye.webp";
+            }
         });
-    });
+    }
+    // showpassword.forEach(function (sh, cont) {
+    //     sh.addEventListener("click", function () {
+    //         if (cont === 0) {
+    //             if (password[0].getAttribute("type") === "password") {
+    //                 password[0].setAttribute("type", "text");
+    //                 sh.firstElementChild.src = "/public/img/login/eye.webp";
+    //             } else if (password[0].getAttribute("type") === "text") {
+    //                 password[0].setAttribute("type", "password");
+    //                 sh.firstElementChild.src = "/public/img/login/show-eye.webp";
+    //             }
+    //         } else {
+    //             if (password[1].getAttribute("type") === "password") {
+    //                 password[1].setAttribute("type", "text");
+    //                 sh.firstElementChild.src = "/public/img/login/eye.webp";
+    //             } else if (password[1].getAttribute("type") === "text") {
+    //                 password[1].setAttribute("type", "password");
+    //                 sh.firstElementChild.src = "/public/img/login/show-eye.webp";
+    //             }
+    //         }
+    //     });
+    // });
 }
 
 const allinputs = {
@@ -82,15 +124,30 @@ const allinputs = {
 };
 
 function cleanInputs() {
-    const inputKeys = Object.values(allinputs);
-    inputKeys.forEach(function (el) {
+    // const inputKeys = Array.prototype.map.call(allinputs, function(elem){
+    //     return elem.
+    // });
+    const inputKeys = [];
+    for (var inp in allinputs) {
+        inputKeys.push(allinputs[inp]);
+    }
+    for (var i = 0; i < inputKeys.length; i++) {
+        const el = inputKeys[i];
         if (el) {
             elParent = el.parentElement;
             if (elParent.lastElementChild.classList.contains("input-error")) {
                 elParent.lastElementChild.remove();
             }
         }
-    });
+    }
+    // inputKeys.forEach(function (el) {
+    //     if (el) {
+    //         elParent = el.parentElement;
+    //         if (elParent.lastElementChild.classList.contains("input-error")) {
+    //             elParent.lastElementChild.remove();
+    //         }
+    //     }
+    // });
 }
 
 function showErrorsForm(errors) {
@@ -109,9 +166,17 @@ function showErrorsForm(errors) {
     }
     cleanInputs();
 
-    for (er of errors) {
+    // test = errors;
+    // console.log(errors);
+
+    for (var e = 0; e < errors.length; e++) {
+        const er = errors[e];
         addFormError(er.field, er.msg);
     }
+
+    // for (er of errors) {
+    //     addFormError(er.field, er.msg);
+    // }
 }
 
 if (loginForm) {
@@ -122,26 +187,23 @@ if (loginForm) {
         modalLogin.innerHTML = `<div class='modal confirm-login'><div class='modal__header'>Confirmar Cuenta<button type='submit' class='modal-close'><img class='modal-close__icon' src='/public/img/res/close-white.webp' alt=''/></button></div><div class='modal__body modal__body-confirm-login'> <h3>Hola ${usernameInput.value}</h3> <img src='/public/img/login/email-warning.webp' alt='' /><span>Aún no ha confirmado su cuenta en su correo electrónico.</span></div><div class='modal-line-login line-login'>si no le ha llegado el correo a su buzón, presione aquí <button type='submit' id='resend_email' class = 'btn btn__send-email'>Reenviar correo</button></div></div>`;
         if (!document.querySelector(".modal-back-confirm-login")) {
             document.body.appendChild(modalLogin);
-            var closeModal = modalLogin.querySelector(".modal-close");
+            const closeModal = modalLogin.querySelector(".modal-close");
             closeModal.addEventListener("click", function () {
                 mostrarModal(modalLogin, modalLogin.firstElementChild, 0);
             });
             modalLogin.addEventListener("click", function (event) {
-                if (event.target === modalLogin)
-                    mostrarModal(modalLogin, modalLogin.firstElementChild, 0);
+                if (event.target === modalLogin) mostrarModal(modalLogin, modalLogin.firstElementChild, 0);
             });
         }
     }
 
     function confirmAccountCheck() {
         addModalConfirmEmail();
-        const modalBackConfirmLogin = document.querySelector(
-                ".modal-back-confirm-login"
-            ),
+        const modalBackConfirmLogin = document.querySelector(".modal-back-confirm-login"),
             modalConfirmLogin = modalBackConfirmLogin.firstElementChild,
             resendEmail = document.querySelector("#resend_email");
 
-        var userData = {
+        const userData = {
             username: usernameInput.value,
             password: passwordInput.value,
         };
@@ -164,7 +226,7 @@ if (loginForm) {
 
         //Esta es la parte de reenviar correo
         function resendEmailRequest() {
-            var userData = {
+            const userData = {
                 username: usernameInput.value,
                 password: passwordInput.value,
             };
@@ -238,7 +300,6 @@ if (modifyUserForm) {
             lastname: lastnameInput.value,
             phone: phoneInput.value,
             address: addressInput.value,
-            username: usernameInput.value,
             password: passwordInput.value,
             password2: confirmPasswordInput.value,
             notify: notifyInput.value,

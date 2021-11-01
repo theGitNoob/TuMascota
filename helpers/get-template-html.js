@@ -1,5 +1,5 @@
 const getConfirmHtml = function (link) {
-  return `<!DOCTYPE html>
+    return `<!DOCTYPE html>
   <html lang="en">
     <head>
       <meta charset="UTF-8" />
@@ -88,7 +88,7 @@ const getConfirmHtml = function (link) {
               <span
                 >Si tiene alguna pregunta puede llamarnos al
                 <strong> 58156518 </strong> o puede escribirnos a
-                <strong class="email">tumascota@nauta.cu</strong>
+                <strong class="email">tumascota.cuba@gmail.com</strong>
               </span>
             </div>
           </section>
@@ -120,7 +120,7 @@ const getConfirmHtml = function (link) {
   `;
 };
 const getForgetHtml = (link) => {
-  return `<!DOCTYPE html>
+    return `<!DOCTYPE html>
   <html lang="en">
     <head>
       <meta charset="UTF-8" />
@@ -214,7 +214,7 @@ const getForgetHtml = (link) => {
                 <strong style="color: #007bff"> 58156518 </strong> o puede
                 escribirnos a
                 <strong class="email" style="color: #007bff"
-                  >tumascota@nauta.cu</strong
+                  >tumascota.cuba@gmail.com</strong
                 >
               </span>
             </div>
@@ -245,6 +245,6 @@ const getForgetHtml = (link) => {
       `;
 };
 module.exports = {
-  getConfirmHtml,
-  getForgetHtml,
+    getConfirmHtml,
+    getForgetHtml,
 };

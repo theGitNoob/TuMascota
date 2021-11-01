@@ -20,7 +20,8 @@ const petsTables = document.querySelectorAll(".pets-table"),
     modalEmail = document.querySelector("#modal-email"),
     closeModal = document.querySelector(".close-modal"),
     users = document.querySelectorAll(".username"),
-    deleteForm = document.querySelectorAll(".delete-form");
+    deleteForm = document.querySelectorAll(".delete-form"),
+    formUpdateState = document.querySelectorAll(".update-state-form");
 
 const deletePhoto = async (id) => {
     const url = `/admin/ordenes/${id}`;
@@ -34,7 +35,6 @@ deleteForm.forEach((form) => {
     form.addEventListener("submit", (e) => {
         e.preventDefault();
         const idForm = form.getAttribute("data-orderId");
-        console.log(idForm);
         const res = window.confirm("Está seguro q desea eliminar este elemento");
         if (res) deletePhoto(idForm);
     });
@@ -60,6 +60,43 @@ closeModal.addEventListener("click", function () {
     modalBack.classList.remove("show-modal");
 });
 
+function updateState(form) {
+    const orderId = form.getAttribute("data-orderId");
+
+    const inputRadio = form.querySelector("input[type='radio']:checked");
+
+    // let inputChecked = inputRadio[0];
+    // inputRadio.forEach(function (inp) {
+    //     if (inp.checked) inputChecked = inp;
+    // });
+    // const userStateData = {
+    //     state: inputChecked.value,
+    // };
+
+    // console.log(inputRadio);
+    const userStateData = new FormData();
+    userStateData.append("state", inputRadio.value);
+
+    const url = `/admin/ordenes/${orderId}`;
+    fetch(url, {
+        method: "PUT",
+        body: userStateData,
+        credentials: "same-origin",
+    }).then((resp) => {
+        if (resp.ok) {
+            window.location.reload;
+        }
+        // console.log(resp);
+    });
+}
+
+formUpdateState.forEach(function (form) {
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        updateState(this);
+    });
+});
+
 if (!mainContainer.childElementCount) {
     mainContainer.innerHTML =
         "<h3 style='margin: 1rem; color: #4c4c4c; font-weight: 600;'>No hay ninguna orden registrada actualmente </h3>";
@@ -69,7 +106,7 @@ petsTablesBody.forEach((tb) => {
         tb.parentElement.innerHTML =
             "<h3 class = 'no-orders-cell'>No hay ninguna orden de mascotas registrada actualmente para este usuario </h3>";
 });
-console.log(petsTablesBody, articlesTablesBody);
+
 articlesTablesBody.forEach((tb) => {
     if (!tb.childElementCount)
         tb.parentElement.innerHTML =

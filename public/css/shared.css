@@ -609,7 +609,7 @@ a:focus,
 /*Cuando no estas Logueado*/
 
 .go-login {
-    width: 14.3rem;
+    width: auto;
     display: inline-block;
 }
 
@@ -617,6 +617,8 @@ a:focus,
     text-align: center;
     display: inline-block;
     padding: 0.2rem 0.5rem;
+    margin: 0 0.3rem;
+    border-radius: 12px;
     font-size: 0.9rem;
     color: white;
     vertical-align: sub;
@@ -1021,6 +1023,11 @@ main {
 }
 .main-footer__social-media a {
     text-decoration: none;
+    display: inline-block;
+}
+.main-footer__social-media a:hover {
+    text-decoration: none;
+    display: inline-block;
 }
 .main-footer__social-media img {
     text-decoration: none;
@@ -1032,6 +1039,12 @@ main {
     display: inline-block;
     text-align: justify;
     display: none;
+}
+
+.main-footer__info a {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 600;
 }
 
 .main-footer__content {
@@ -1200,7 +1213,7 @@ main {
 .modal-body__header {
     text-align: center;
     font-size: 1.1rem;
-    margin: 0.3rem 0;
+    margin: 0.8rem 0;
     color: #4c4c4c;
 }
 
@@ -1248,19 +1261,16 @@ main {
     -webkit-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
+    color: #4c4c4c;
 }
 .modal__contact-us-element a:hover {
-    color: #007bff;
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
 }
 .modal__contact-us-element img {
     margin-right: 0.3rem;
-}
-
-.modal__contact-us-facebook span {
-    color: #118be4;
-}
-.modal__contact-us-telegram span {
-    color: #29b6f6;
 }
 
 /* Fin Modal */

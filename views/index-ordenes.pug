@@ -61,7 +61,7 @@ block contenido
                     td.table-cell(data-header="Acción")  
                       a.btn.btn-go-article(href=`/admin/mascotas/${order.pet}`) Ver Mascota
                     td.table-cell(data-header="Estado") 
-                      form.update-state-form(action=`/admin/ordenes/${order._id}?_method=PUT` method="POST")
+                      form.update-state-form(data-orderId = order._id action=`/admin/ordenes/${order._id}?_method=PUT` method="POST")
                         .radio-group
                           if order.state == "pendient"
                             label(style=`color: #007bff`)    
@@ -98,7 +98,7 @@ block contenido
                         input.btn.btn-update(type="submit" value="Actualizar")
 
                     td.table-cell(data-header="Eliminar")            
-                      form(data-orderId=order.id action=`/admin/ordenes/${order.id}?_method=DELETE` method="POST" class="link-container delete-form" )
+                      form(data-orderId = order.id action=`/admin/ordenes/${order.id}?_method=DELETE` method="POST" class="link-container delete-form" )
                         button(type="submit" class="btn btn-delete")  
                           img(src="/public/img/res/borrar.webp")
                   //- tr
@@ -125,7 +125,7 @@ block contenido
                     td.table-cell(data-header="Acción")  
                       a.btn.btn-go-article(href=`/admin/accesorios/${order.accesorie}`) Ver Articulo
                     td.table-cell(data-header="Estado") 
-                      form.update-state-form(action=`/admin/ordenes/${order._id}?_method=PUT` method="POST")
+                      form.update-state-form(data-orderId = order._id action=`/admin/ordenes/${order._id}?_method=PUT` method="POST")
                         .radio-group
                           if order.state == "pendient"
                             label(style=`color: #007bff`)    
@@ -147,28 +147,11 @@ block contenido
                             input( type="radio" name = "state" value="completed") 
                             | Completada
 
-                        //- select.select-input(name="state")
-                        //-   if order.state == "pendient"
-                        //-     option(selected value = "pendient") Pendiente
-                        //-     option(value = "aproved") Aprobada
-                        //-     option(value = "completed") Completada
-                        //-   if order.state == "aproved"
-                        //-     option(value = "pendient") Pendiente
-                        //-     option(selected value = "aproved") Aprobada
-                        //-     option(value = "completed") Completada
-                        //-   if order.state == "completed"
-                        //-     option(value = "pendient") Pendiente
-                        //-     option(value = "aproved") Aprobada
-                        //-     option(selected value = "completed") Completada
                         input.btn.btn-update(type="submit" value="Actualizar")
                     td.table-cell(data-header="Eliminar")            
                       form(data-orderId=order.id action=`/admin/ordenes/${order.id}?_method=DELETE` method="POST" class="delete-form" )
                         button(type="submit" class="btn btn-delete")  
-                          img(src="/public/img/res/borrar.webp") 
-                  //- tr
-                  //- td(colspan = "7")  
-                  //- form(action=`/admin/ordenes/${order._id}?_method=PUT` method="POST" class="form-mark-as-sold")
-                  //- input.btn.btn-mark-as-sold(type="submit" value="Marcar como vendido") 
+                          img(src="/public/img/res/borrar.webp")  
     .modal-back  
       .modal 
         .modal-header 

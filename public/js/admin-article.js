@@ -64,7 +64,7 @@ function handleForm(url, action) {
 
     if (gallery.getAttribute("id")) finalUrl = `${url}${gallery.getAttribute("id")}`;
 
-    console.log("Woo", url, finalUrl);
+    // console.log("Woo", url, finalUrl);
     fetch(finalUrl, {
         method: action,
         body: formData,
