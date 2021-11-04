@@ -156,7 +156,7 @@ const isValidPhone = (phone = "") => {
 const validatePrice = (price) => {
   if (isEmpty(price)) {
     throw new Error("El precio no debe estar vacío");
-  } else if (isNumeric(price)) {
+  } else if (!isNumeric(price)) {
     throw new Error("El precio debe ser un número");
   }
 
