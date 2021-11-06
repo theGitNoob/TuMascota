@@ -43,7 +43,7 @@ const validateUsername = async (username = "", req) => {
     throw new Error("El nombre de usuario es obligatorio");
   }
 
-  if (username.includes("")) {
+  if (username.includes(" ")) {
     throw new Error("El nombre de usuario no debe tener espacios en blancos");
   }
 
