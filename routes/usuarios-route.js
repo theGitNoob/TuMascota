@@ -127,8 +127,9 @@ router
           text: "Por favor siga el siguiente enlace",
           html: getForgetHtml(link),
         };
-        transporter.sendMail(message, (error) => {
-          if (error) console.error(error);
+
+        transporter.sendMail(message).catch((err) => {
+          console.error(err);
         });
 
         return res.end();

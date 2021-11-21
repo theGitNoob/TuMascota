@@ -75,8 +75,9 @@ const registerUser = async (req, res, next) => {
 
     await newUser.save();
 
-    transporter.sendMail(message).catch((err) => {});
-    // await transporter.sendMail(message).catch((err) => {});
+    transporter.sendMail(message).catch((err) => {
+      console.error(err);
+    });
 
     return res.status(200).end();
   } catch (err) {
@@ -125,7 +126,10 @@ const sendEmail = async (req, res, next) => {
       html: getConfirmHtml(link),
     };
 
-    transporter.sendMail(message, (err) => {});
+    transporter.sendMail(message).catch((err) => {
+      console.error(err);
+    });
+
     res.end();
   } catch (error) {
     next(error);
